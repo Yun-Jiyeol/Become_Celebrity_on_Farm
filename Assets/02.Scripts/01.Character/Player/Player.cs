@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Scripts")]
     public PlayerController playerController;
     public PlayerStat stat;
     public CheckFieldOnMouse checkFieldOnMouse;
+    public AutoGetItem autoGetItem;
 
+    [Header("Others")]
     public GameObject mouseFollower;
 
     public Camera MainCamera; // 임시 카메라(GameManager나 CameraManager에서 받아올 것)
@@ -17,6 +20,7 @@ public class Player : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         stat = GetComponent<PlayerStat>();
         checkFieldOnMouse = GetComponent<CheckFieldOnMouse>();
+        autoGetItem = GetComponentInChildren<AutoGetItem>(); 
     }
 
     private void Start()
