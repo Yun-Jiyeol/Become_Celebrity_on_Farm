@@ -16,4 +16,5 @@ public class PlayerStat : MonoBehaviour
     public float Defence;
 
     public float GetItemRange;
+    public float ActiveRange;
 }

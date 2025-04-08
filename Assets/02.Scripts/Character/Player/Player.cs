@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public PlayerController playerController;
     public PlayerStat stat;
+    public Camera MainCamera; // 임시 카메라(GameManager나 CameraManager에서 받아올 것)
 
     private void Awake()
     {
