@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public PlayerController playerController;
     public PlayerStat stat;
     public CheckFieldOnMouse checkFieldOnMouse;
-    public AutoGetItem autoGetItem;
+    public PlayerAutoGetItem autoGetItem;
 
     [Header("Others")]
     public GameObject mouseFollower;
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         stat = GetComponent<PlayerStat>();
         checkFieldOnMouse = GetComponent<CheckFieldOnMouse>();
-        autoGetItem = GetComponentInChildren<AutoGetItem>(); 
+        autoGetItem = GetComponentInChildren<PlayerAutoGetItem>(); 
     }
 
     private void Start()
