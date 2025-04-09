@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.player = gameObject;
         playerController.speed = stat.Speed;
     }
 

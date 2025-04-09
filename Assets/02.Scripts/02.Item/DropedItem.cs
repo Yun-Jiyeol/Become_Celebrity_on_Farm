@@ -87,8 +87,17 @@ public class DropedItem : MonoBehaviour, IInteract
             yield return null;
         }
 
-        sortingOrderGroup.UpdateSortingOrderGroup();
-        //플레이어 위치로 이동
+        yield return new WaitForSeconds(0.1f);
+
+        while(Vector2.Distance(GameManager.Instance.player.transform.position, transform.position) > 0.1f)
+        {
+            Vector3 dir = GameManager.Instance.player.transform.position - transform.position;
+            transform.position += dir.normalized * 3f * Time.deltaTime;
+            sortingOrderGroup.UpdateSortingOrderGroup();
+            yield return null;
+        }
+
+        Destroy(gameObject);
         //인벤토리에 넣기
     }
 }
