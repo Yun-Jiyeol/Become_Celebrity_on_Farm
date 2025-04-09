@@ -17,7 +17,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
     string path = "02.Scripts/02.Item/Datas/ItemDatas.csv";
     StreamReader reader;
 
-    public List<ItemsData> itemsDatas;
+    public Dictionary<string, ItemsData> itemsDatas = new Dictionary<string, ItemsData>();
 
     [System.Serializable]
     public class ItemsData
@@ -84,7 +84,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
                 Item_sprite = Resources.Load<Sprite>(splitData[10])
             };
 
-            itemsDatas.Add(itemsData);
+            itemsDatas.Add(itemsData.Item_name , itemsData);
         }
     }
 }

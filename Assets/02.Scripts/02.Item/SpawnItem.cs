@@ -17,11 +17,11 @@ public class SpawnItem : MonoBehaviour
         GameObject go = FindOffItems();
         if(go == null)
         {
-            go = Instantiate(DropedItem, this.transform);
-            DropedItems.Add(gameObject);
+            go = Instantiate(DropedItem, transform);
+            DropedItems.Add(go);
         }
 
-        gameObject.SetActive(true);
+        go.SetActive(true);
         return go;
     }
 
@@ -31,7 +31,10 @@ public class SpawnItem : MonoBehaviour
 
         foreach(GameObject Items in DropedItems)
         {
-            if (!Items.activeSelf) return Items;
+            if (!Items.activeSelf)
+            {
+                return Items;
+            }
         }
         return null;
     }

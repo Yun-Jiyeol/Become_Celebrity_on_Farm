@@ -93,12 +93,20 @@ public class DropedItem : MonoBehaviour, IInteract
         while(Vector2.Distance(GameManager.Instance.player.transform.position, transform.position) > 0.1f)
         {
             Vector3 dir = GameManager.Instance.player.transform.position - transform.position;
-            transform.position += dir.normalized * 3f * Time.deltaTime;
+            transform.position += dir.normalized * 7f * Time.deltaTime;
             sortingOrderGroup.UpdateSortingOrderGroup();
             yield return null;
         }
 
-        Destroy(gameObject);
+
+        offObject();
         //인벤토리에 넣기
+    }
+
+    void offObject()
+    {
+        collider2D.enabled = false;
+        rig.velocity = Vector2.zero;
+        gameObject.SetActive(false);
     }
 }
