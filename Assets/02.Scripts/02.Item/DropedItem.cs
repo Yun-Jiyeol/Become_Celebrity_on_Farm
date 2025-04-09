@@ -66,7 +66,6 @@ public class DropedItem : MonoBehaviour, IInteract
 
     public void Interact()
     {
-        Debug.Log("123");
         if (coroutine != null)
         {
             StopCoroutine(coroutine);

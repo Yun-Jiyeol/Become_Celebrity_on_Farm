@@ -20,8 +20,6 @@ public class PlayerAutoGetItem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Triggered with: " + collision.gameObject.tag); // 어떤 오브젝트와 충돌했는지 확인
-
         if (collision.transform.tag == "Player") //임시
         {
             collision.GetComponent<IInteract>().Interact();
