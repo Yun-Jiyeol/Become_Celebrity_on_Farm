@@ -34,7 +34,6 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
         public float Damage;
         public string Buff; //버프는 종류를 따로 함수화 할 것
 
-        //직접 Unity내에서 입력
         public Sprite Item_sprite;
     }
 
@@ -80,7 +79,8 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
                 Hp = float.TryParse(splitData[6], out float hp) ? hp : 0,
                 Stress = float.TryParse(splitData[7], out float stress) ? stress : 0,
                 Damage = float.TryParse(splitData[8], out float damage) ? damage : 0,
-                Buff = splitData[9]
+                Buff = splitData[9],
+                Item_sprite = Resources.Load<Sprite>(splitData[10])
             };
 
             itemsDatas.Add(itemsData);
