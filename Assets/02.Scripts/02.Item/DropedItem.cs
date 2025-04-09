@@ -13,6 +13,7 @@ public class DropedItem : MonoBehaviour, IInteract
     public Rigidbody2D rig;
     public SpriteRenderer spriteRenderer;
     public Animator animator;
+    public SortingOrderGroup sortingOrderGroup;
 
     Sprite _sprite;
     Coroutine coroutine;
@@ -46,6 +47,7 @@ public class DropedItem : MonoBehaviour, IInteract
 
         while (Vector2.Distance(startPosition,transform.position) < 2f)
         {
+            sortingOrderGroup.UpdateSortingOrderGroup();
             yield return null;
         }
 
@@ -64,7 +66,8 @@ public class DropedItem : MonoBehaviour, IInteract
 
     public void Interact()
     {
-        if(coroutine != null)
+        Debug.Log("123");
+        if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
@@ -85,6 +88,7 @@ public class DropedItem : MonoBehaviour, IInteract
             yield return null;
         }
 
+        sortingOrderGroup.UpdateSortingOrderGroup();
         //플레이어 위치로 이동
         //인벤토리에 넣기
     }

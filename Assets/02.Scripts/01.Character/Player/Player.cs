@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public PlayerStat stat;
     public CheckFieldOnMouse checkFieldOnMouse;
     public PlayerAutoGetItem autoGetItem;
+    public SortingOrderGroup sortingOrderGroup;
 
     [Header("Others")]
     public GameObject mouseFollower;
@@ -20,11 +21,17 @@ public class Player : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         stat = GetComponent<PlayerStat>();
         checkFieldOnMouse = GetComponent<CheckFieldOnMouse>();
-        autoGetItem = GetComponentInChildren<PlayerAutoGetItem>(); 
+        autoGetItem = GetComponentInChildren<PlayerAutoGetItem>();
+        sortingOrderGroup = GetComponent<SortingOrderGroup>();
     }
 
     private void Start()
     {
         playerController.speed = stat.Speed;
+    }
+
+    private void LateUpdate()
+    {
+        sortingOrderGroup.UpdateSortingOrderGroup();
     }
 }
