@@ -43,6 +43,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
     }
     private void Start()
     {
+        InventoryManager.Instance.itemDataReader = this;
         SettingData();
     }
 

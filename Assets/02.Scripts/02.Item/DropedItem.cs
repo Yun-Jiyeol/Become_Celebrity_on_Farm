@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
+using static ItemDataReader;
+using static UnityEditor.Progress;
 
 public class DropedItem : MonoBehaviour, IInteract
 {
-    //아이템 데이터
+    ItemsData item;
     Vector3 startPosition;
     public int amount; //갯수
 
@@ -23,15 +25,14 @@ public class DropedItem : MonoBehaviour, IInteract
         _sprite = spriteRenderer.sprite;
     }
 
-    public void SpawnedDropItem(int _amunt, Vector3 _position)//+ 아이템 데이터
+    public void SpawnedDropItem(int _amunt, Vector3 _position, ItemsData itemData)
     {
+        item = itemData;
         amount = _amunt;
         startPosition = _position;
         collider2D.enabled = false;
         transform.position = _position;
         transform.localScale = new Vector3(0.5f, 0.5f, 1);
-
-        //아이템 데이터의 아이콘 가져오기
 
         rig.gravityScale = 1;
         coroutine = StartCoroutine(DropItem());
@@ -51,12 +52,12 @@ public class DropedItem : MonoBehaviour, IInteract
             yield return null;
         }
 
+        spriteRenderer.sprite = item.Item_sprite;
         animator.SetBool("Idle", true);
         rig.gravityScale = 0;
         rig.velocity = Vector2.zero;
         collider2D.enabled = true;
 
-        //sprite를 아이템 Icon으로 변경
         while (transform.localScale.x <= 1f)
         {
             transform.localScale += new Vector3(1,1,0) * Time.deltaTime * 2f;
