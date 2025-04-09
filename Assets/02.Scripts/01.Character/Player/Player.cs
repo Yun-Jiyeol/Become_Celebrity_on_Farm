@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [Header("Scripts")]
     public PlayerController playerController;
-    public PlayerStat stat;
+    public PlayerStats stat;
     public CheckFieldOnMouse checkFieldOnMouse;
     public PlayerAutoGetItem autoGetItem;
     public SortingOrderGroup sortingOrderGroup;
@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
-        stat = GetComponent<PlayerStat>();
+        stat = GetComponent<PlayerStats>();
         checkFieldOnMouse = GetComponent<CheckFieldOnMouse>();
         autoGetItem = GetComponentInChildren<PlayerAutoGetItem>();
         sortingOrderGroup = GetComponent<SortingOrderGroup>();
