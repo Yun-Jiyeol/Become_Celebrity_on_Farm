@@ -7,15 +7,27 @@ public class CharacterChoice : MonoBehaviour
 {
     public Button MaleBtn, FemaleBtn;
     public Button OKBtn, BackBtn;
+    public Image Male, Female;
 
-    // Start is called before the first frame update
-    void Start()
+    private string selectedCharacter = null;
+    public void Setup()
+    {
+        MaleBtn.onClick.AddListener(() => SelectedCharacter("Male"));
+        FemaleBtn.onClick.AddListener(() => SelectedCharacter("Female"));
+        OKBtn.onClick.AddListener(OnOK);
+        BackBtn.onClick.AddListener(OnBackBtn);
+    }
+
+    void SelectedCharacter(string Character)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnOK()
+    {
+
+    }
+    void OnBackBtn()
     {
         
     }
