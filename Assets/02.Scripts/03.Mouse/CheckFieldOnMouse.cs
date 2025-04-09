@@ -20,7 +20,7 @@ public class CheckFieldOnMouse : MonoBehaviour
 
     public void settActiveRange()
     {
-        ActiveRange = gameObject.GetComponent<Player>().stat.ActiveRange;
+        ActiveRange = gameObject.GetComponent<Player>().stat.ActiveRange * 3;
     }
 
     private void Update()
