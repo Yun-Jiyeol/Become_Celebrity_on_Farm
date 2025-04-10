@@ -36,8 +36,16 @@ public class ChatManager : MonoBehaviour
         }
     }
 
+    IEnumerator ScrollToBottomNextFrame()
+    {
+        yield return null; // 한 프레임 대기
+        LayoutRebuilder.ForceRebuildLayoutImmediate(chatContentParent.GetComponent<RectTransform>());
+        scrollRect.verticalNormalizedPosition = 0f;
+    }
+
     void SpawnRandomChat()
     {
+
 
         if (chatData.user.Count == 0 || tempChatMessages.Count == 0) return;
 
@@ -58,6 +66,8 @@ public class ChatManager : MonoBehaviour
 
         Canvas.ForceUpdateCanvases();
         scrollRect.verticalNormalizedPosition = 0f;
+
+        StartCoroutine(ScrollToBottomNextFrame());
 
 
 
