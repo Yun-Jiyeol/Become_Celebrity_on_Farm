@@ -361,6 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42d73d9110e4fc42b5392b2dd2926a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerHave: []
 --- !u!1 &364834758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,7 +1133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1959709411
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1176,7 +1177,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
 --- !u!4 &1959709412
 Transform:
@@ -1207,7 +1208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: "\uB098\uBB34"
-  spawnAmount: 1
+  spawnAmount: 50
 --- !u!1 &2127155690
 GameObject:
   m_ObjectHideFlags: 0

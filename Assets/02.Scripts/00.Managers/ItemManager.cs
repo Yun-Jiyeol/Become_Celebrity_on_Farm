@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class ItemManager : MonoBehaviour
 {
-    private static InventoryManager instance = null;
+    private static ItemManager instance = null;
 
     public ItemDataReader itemDataReader;
     public SpawnItem spawnItem;
@@ -22,7 +22,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public static InventoryManager Instance
+    public static ItemManager Instance
     {
         get
         {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     int inventorySize;
+    public List<ItemDataReader.ItemsData> PlayerHave;
 
     private void Start()
     {
@@ -16,7 +17,12 @@ public class Inventory : MonoBehaviour
         inventorySize = gameObject.GetComponent<Player>().stat.InventorySize;
     }
 
-    public void GetItem()
+    public void GetItem(ItemDataReader.ItemsData getItem, int amount)
+    {
+
+    }
+
+    public void ThrowItem()
     {
 
     }

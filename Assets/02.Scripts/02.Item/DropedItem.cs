@@ -103,7 +103,7 @@ public class DropedItem : MonoBehaviour, IInteract
         //인벤토리에 넣기
     }
 
-    void offObject()
+    public void offObject()
     {
         collider2D.enabled = false;
         rig.velocity = Vector2.zero;

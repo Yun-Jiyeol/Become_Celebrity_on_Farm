@@ -9,10 +9,31 @@ public class SpawnItem : MonoBehaviour
 
     private void Start()
     {
-        InventoryManager.Instance.spawnItem = this;
+        ItemManager.Instance.spawnItem = this;
     }
 
-    public GameObject SpawnDropedItems()
+    public void DropItem(ItemDataReader.ItemsData dropItem, int spawnAmount, Vector3 spawnposition)
+    {
+        while (spawnAmount > 0)
+        {
+            int spawninthisturn = spawnAmount;
+
+            if (dropItem.Item_Overlap < spawninthisturn)
+            {
+                spawninthisturn = dropItem.Item_Overlap;
+                spawnAmount -= dropItem.Item_Overlap;
+            }
+            else
+            {
+                spawnAmount = 0;
+            }
+
+            GameObject go = SpawnDropedItems();
+            go.GetComponent<DropedItem>().SpawnedDropItem(spawninthisturn, spawnposition, dropItem);
+        }
+    }
+
+    GameObject SpawnDropedItems()
     {
         GameObject go = FindOffItems();
         if(go == null)
@@ -37,5 +58,16 @@ public class SpawnItem : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void OffAllItems()
+    {
+        foreach (GameObject Items in DropedItems)
+        {
+            if (Items.activeSelf)
+            {
+                Items.GetComponent<DropedItem>().offObject();
+            }
+        }
     }
 }
