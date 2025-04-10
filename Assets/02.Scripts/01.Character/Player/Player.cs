@@ -12,10 +12,7 @@ public class Player : MonoBehaviour
     public SortingOrderGroup sortingOrderGroup;
     public Inventory inventory;
     public Animator animator;
-
-    [Header("Others")]
-    public GameObject mouseFollower;
-    public Camera MainCamera;
+    public SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
@@ -26,13 +23,13 @@ public class Player : MonoBehaviour
         sortingOrderGroup = GetComponent<SortingOrderGroup>();
         inventory = GetComponent<Inventory>();
         animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
     {
         GameManager.Instance.player = gameObject;
         playerController.speed = stat.Speed;
-        MainCamera = GameManager.Instance.camera;
     }
 
     private void LateUpdate()

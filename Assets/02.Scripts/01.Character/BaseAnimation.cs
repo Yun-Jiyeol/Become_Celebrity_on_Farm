@@ -5,4 +5,6 @@ using UnityEngine;
 public class BaseAnimation : MonoBehaviour
 {
     protected Animator animator;
+
+
 }
