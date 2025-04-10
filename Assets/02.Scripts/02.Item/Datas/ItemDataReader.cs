@@ -54,6 +54,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
 
     public void SettingData()
     {
+        int i = 0;
         while (true)
         {
             string data = reader.ReadLine();

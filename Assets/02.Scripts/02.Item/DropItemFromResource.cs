@@ -9,7 +9,7 @@ public class DropItemFromResource : MonoBehaviour
 
     private void Start()
     {
-        Invoke("DropItem", 3f);
+        InvokeRepeating("DropItem",0, 3f);
     }
 
     public void DropItem()

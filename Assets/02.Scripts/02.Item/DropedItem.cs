@@ -25,10 +25,10 @@ public class DropedItem : MonoBehaviour, IInteract
         _sprite = spriteRenderer.sprite;
     }
 
-    public void SpawnedDropItem(int _amunt, Vector3 _position, ItemsData itemData)
+    public void SpawnedDropItem(int _amount, Vector3 _position, ItemsData itemData)
     {
         item = itemData;
-        amount = _amunt;
+        amount = _amount;
         startPosition = _position;
         collider2D.enabled = false;
         transform.position = _position;
@@ -99,8 +99,8 @@ public class DropedItem : MonoBehaviour, IInteract
         }
 
 
+        GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(item, amount);
         offObject();
-        //인벤토리에 넣기
     }
 
     public void offObject()
