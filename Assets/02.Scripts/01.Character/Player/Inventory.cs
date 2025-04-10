@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     [System.Serializable]
     public class Inven
     {
-        public ItemDataReader.ItemsData ItemData;
+        public int ItemData_num;
         public int amount;
     }
 
@@ -32,8 +32,7 @@ public class Inventory : MonoBehaviour
         {
             for (int i = 0; i < PlayerHave.Count; i++)
             {
-                Debug.Log(PlayerHave[i].ItemData.Item_name);
-                if (PlayerHave[i].ItemData.Item_name == getItem.Item_name)
+                if (PlayerHave[i].ItemData_num == getItem.Item_num)
                 {
                     int canadd = getItem.Item_Overlap - PlayerHave[i].amount;
                     if (amount > canadd)
@@ -60,7 +59,7 @@ public class Inventory : MonoBehaviour
             }
 
             Inven inven = new Inven();
-            inven.ItemData = getItem;
+            inven.ItemData_num = getItem.Item_num;
 
             if (amount > getItem.Item_Overlap)
             {

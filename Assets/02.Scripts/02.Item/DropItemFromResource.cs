@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DropItemFromResource : MonoBehaviour
 {
-    public string ItemName;
+    public int ItemNum;
     public int spawnAmount;
 
     private void Start()
@@ -14,6 +14,6 @@ public class DropItemFromResource : MonoBehaviour
 
     public void DropItem()
     {
-        ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[ItemName], spawnAmount,gameObject.transform.position);
+        ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[ItemNum], spawnAmount,gameObject.transform.position);
     }
 }
