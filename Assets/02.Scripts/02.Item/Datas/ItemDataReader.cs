@@ -17,11 +17,12 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
     string path = "02.Scripts/02.Item/Datas/ItemDatas.csv";
     StreamReader reader;
 
-    public List<ItemsData> itemsDatas;
+    public Dictionary<int, ItemsData> itemsDatas = new Dictionary<int, ItemsData>();
 
     [System.Serializable]
     public class ItemsData
     {
+        public int Item_num;
         public string Item_name;
         public string Item_Explain;
         public ItemType Item_Type;
@@ -43,6 +44,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
     }
     private void Start()
     {
+        ItemManager.Instance.itemDataReader = this;
         SettingData();
     }
 
@@ -53,6 +55,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
 
     public void SettingData()
     {
+        int i = 0;
         while (true)
         {
             string data = reader.ReadLine();
@@ -70,6 +73,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
 
             ItemsData itemsData = new ItemsData
             {
+                Item_num = i,
                 Item_name = splitData[0],
                 Item_Explain = splitData[1],
                 Item_Type = (ItemType)Enum.Parse(typeof(ItemType), splitData[2]),
@@ -83,7 +87,8 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
                 Item_sprite = Resources.Load<Sprite>(splitData[10])
             };
 
-            itemsDatas.Add(itemsData);
+            itemsDatas.Add(itemsData.Item_num, itemsData);
+            i++;
         }
     }
 }

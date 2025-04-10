@@ -20,12 +20,12 @@ public class BaseController : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-
+        Movement();
     }
 
     protected virtual void Update()
     {
-        Movement();
+
     }
 
     void Movement()

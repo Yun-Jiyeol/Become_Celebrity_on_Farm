@@ -15,6 +15,7 @@ public class PlayerStats : MonoBehaviour
 
     public float GetItemRange;
     public float ActiveRange;
+    public int InventorySize;
 
     [Header("Select")]
     public float Mana;
