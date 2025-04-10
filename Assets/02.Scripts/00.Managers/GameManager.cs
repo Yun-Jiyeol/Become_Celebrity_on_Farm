@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance = null;
 
     public GameObject player;
+    public Camera camera;
 
     private void Awake()
     {
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        camera = Camera.main;
     }
 
     public static GameManager Instance

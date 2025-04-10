@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     {
         GameManager.Instance.player = gameObject;
         playerController.speed = stat.Speed;
+        MainCamera = GameManager.Instance.camera;
     }
 
     private void LateUpdate()
