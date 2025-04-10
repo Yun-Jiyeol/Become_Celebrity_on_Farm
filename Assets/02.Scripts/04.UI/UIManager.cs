@@ -3,6 +3,13 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
+    [Header("UI Prefabs")]
+    public GameObject characterChoiceUIPrefab;
+
+    [Header("Parent")]
+    public Transform uiRoot; //Äµ¹ö½º ¹ØÀÇ ÆÐ³Î µî
+
     void Awake()
     {
         if (Instance == null)
@@ -16,5 +23,12 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+
+    public void ShowCharacterChoiceUI()
+    {
+        GameObject ui = Instantiate(characterChoiceUIPrefab, uiRoot);
+        CharacterChoice choice = ui.GetComponent<CharacterChoice>();
+        choice.Setup();
     }
 }
