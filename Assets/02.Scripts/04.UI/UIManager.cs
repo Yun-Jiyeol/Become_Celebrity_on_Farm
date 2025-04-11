@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class UIManager : MonoBehaviour
     {
         if (inventoryUI == null)
         {
-            Debug.LogWarning("인벤토리 UI가 연결 안됨");
+            Debug.LogWarning("InventoryUI가 연결되지 않음.");
             return;
         }
 
