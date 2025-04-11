@@ -112,7 +112,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
                 Stress = float.TryParse(splitData[8], out float stress) ? stress : 0,
                 Damage = float.TryParse(splitData[9], out float damage) ? damage : 0,
                 Buff = splitData[10],
-                Item_sprite = Resources.Load<Sprite>(splitData[11])
+                Item_sprite = ResourceManager.Instance.splits[splitData[11]]
             };
 
             itemsDatas.Add(itemsData.Item_num, itemsData);
