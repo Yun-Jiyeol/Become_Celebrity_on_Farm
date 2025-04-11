@@ -27,6 +27,7 @@ public class ChatManager : MonoBehaviour
         StartCoroutine(SpawnChatRoutine());
     }
 
+    // 채팅 생성 루틴
     IEnumerator SpawnChatRoutine()
     {
         while (true)
@@ -36,25 +37,25 @@ public class ChatManager : MonoBehaviour
         }
     }
 
+    // 채팅 메시지 추가 후 스크롤을 아래로 내리는 함수
     IEnumerator ScrollToBottomNextFrame()
     {
         yield return null; // 한 프레임 대기
         LayoutRebuilder.ForceRebuildLayoutImmediate(chatContentParent.GetComponent<RectTransform>());
-        scrollRect.verticalNormalizedPosition = 0f;
+        scrollRect.verticalNormalizedPosition = 0f;  // 스크롤을 가장 아래로
     }
 
+    // 랜덤한 채팅 메시지 생성
     void SpawnRandomChat()
     {
-
-
         if (chatData.user.Count == 0 || tempChatMessages.Count == 0) return;
 
         string randomUser = chatData.user[Random.Range(0, chatData.user.Count)];
-
         int randomIndex = Random.Range(0, tempChatMessages.Count);
         string randomMessage = tempChatMessages[randomIndex];
         tempChatMessages.RemoveAt(randomIndex); // 복사본에서만 제거!
 
+        // 새 채팅 메시지 객체 생성
         GameObject newChat = Instantiate(chatMessagePrefab, chatContentParent);
         TMP_Text userText = newChat.transform.Find("User").GetComponent<TMP_Text>();
         TMP_Text messageText = newChat.transform.Find("User_Chat").GetComponent<TMP_Text>();
@@ -64,15 +65,14 @@ public class ChatManager : MonoBehaviour
 
         todayChatList.Add(newChat);
 
-        Canvas.ForceUpdateCanvases();
-        scrollRect.verticalNormalizedPosition = 0f;
+        // Layout 갱신 강제
+        LayoutRebuilder.ForceRebuildLayoutImmediate(chatContentParent.GetComponent<RectTransform>());
 
+        // 채팅 목록 스크롤을 아래로
         StartCoroutine(ScrollToBottomNextFrame());
-
-
-
     }
 
+    // 새로운 날을 시작할 때 채팅 초기화
     public void ResetChatForNewDay()
     {
         foreach (var chat in todayChatList)
