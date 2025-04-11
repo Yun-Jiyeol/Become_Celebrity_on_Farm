@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -5,10 +6,12 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [Header("UI Prefabs")]
-    public GameObject characterChoiceUIPrefab;
+    public List<GameObject> uiPrefabs;
 
-    [Header("Parent")]
+    [Header("UO Root")]
     public Transform uiRoot; //캔버스 밑의 패널 등
+
+    private Dictionary<string, UIBase> uiInstances = new Dictionary<string, UIBase>();
 
     void Awake()
     {
@@ -23,14 +26,50 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        // 미리 UI를 전부 생성
+        foreach (GameObject prefab in uiPrefabs)
+        {
+            GameObject go = Instantiate(prefab, uiRoot);
+            go.SetActive(false);
+            UIBase ui = go.GetComponent<UIBase>();
+            if (ui != null)
+            {
+                uiInstances.Add(prefab.name, ui);
+            }
+        }
+    }
+    public T Show<T>() where T : UIBase
+    {
+        foreach (var ui in uiInstances.Values)
+        {
+            if (ui is T)
+            {
+                ui.Show();
+                return ui as T;
+            }
+        }
+
+        Debug.LogWarning($"UI of type {typeof(T)} not found.");
+        return null;
+    }
+    public void Hide<T>() where T : UIBase
+    {
+        foreach (var ui in uiInstances.Values)
+        {
+            if (ui is T)
+            {
+                ui.Hide();
+                return;
+            }
+        }
     }
 
-    public void ShowCharacterChoiceUI()
-    {
-        GameObject ui = Instantiate(characterChoiceUIPrefab, uiRoot);
-        CharacterChoice choice = ui.GetComponent<CharacterChoice>();
-        choice.Setup();
-    }
-    //모든 팝업에 대한 쇼 함수 만들기.
-    //유아이의 베이스가 되는 클래스 만들기. uibase라던가 popupuibase라던가
+    //public void ShowCharacterChoiceUI()
+    //{
+    //    GameObject ui = Instantiate(characterChoiceUIPrefab, uiRoot);
+    //    CharacterChoice choice = ui.GetComponent<CharacterChoice>();
+    //    choice.Setup();
+    //}
+    
 }
