@@ -281,6 +281,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: 
+  FarmName: 
+  CharacterType: 
   Hp: 0
   MaxHp: 0
   Speed: 10
@@ -326,8 +328,6 @@ MonoBehaviour:
   inventory: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  mouseFollower: {fileID: 0}
-  MainCamera: {fileID: 0}
 --- !u!114 &159205587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9093c2f5c025c0844ac5a6806e0c0006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMouseObject: {fileID: 0}
 --- !u!114 &159205588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1215,8 +1214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aaf0c4235724844e9374db5fa5c9828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemNum: 3
-  spawnAmount: 50
+  ItemNum: 1
+  spawnAmount: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

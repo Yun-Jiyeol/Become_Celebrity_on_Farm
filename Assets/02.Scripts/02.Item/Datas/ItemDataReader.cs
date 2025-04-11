@@ -7,8 +7,37 @@ using UnityEngine;
 
 public enum ItemType
 {
-    Tool,
+    Sword,
+
+    Axe,
+    Pickaxe,
+
+    Sickle,
+    Hoe,
+    Watering,
+    Seed,
+
+    Bow,
+    Arrow,
+    BowBarrel,
+
+    Staff,
+    Cane,
+
+    Helmet,
+    Armor,
+    Pants,
+    Shoes,
+    Glove,
+    Cloak,
+
+    Neckless,
+    Ring,
+
+    Wallet,
     Food,
+
+    Interia,
     Except
 }
 
@@ -55,7 +84,6 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
 
     public void SettingData()
     {
-        int i = 0;
         while (true)
         {
             string data = reader.ReadLine();
@@ -73,22 +101,21 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
 
             ItemsData itemsData = new ItemsData
             {
-                Item_num = i,
-                Item_name = splitData[0],
-                Item_Explain = splitData[1],
-                Item_Type = (ItemType)Enum.Parse(typeof(ItemType), splitData[2]),
-                Item_Price = float.TryParse(splitData[3], out float price) ? price : 0,
-                Item_Overlap = int.TryParse(splitData[4], out int overlap) ? overlap : 0,
-                Stamina = float.TryParse(splitData[5], out float stamina) ? stamina : 0,
-                Hp = float.TryParse(splitData[6], out float hp) ? hp : 0,
-                Stress = float.TryParse(splitData[7], out float stress) ? stress : 0,
-                Damage = float.TryParse(splitData[8], out float damage) ? damage : 0,
-                Buff = splitData[9],
-                Item_sprite = Resources.Load<Sprite>(splitData[10])
+                Item_num = int.Parse(splitData[0]),
+                Item_name = splitData[1],
+                Item_Explain = splitData[2],
+                Item_Type = (ItemType)Enum.Parse(typeof(ItemType), splitData[3]),
+                Item_Price = float.TryParse(splitData[4], out float price) ? price : 0,
+                Item_Overlap = int.TryParse(splitData[5], out int overlap) ? overlap : 0,
+                Stamina = float.TryParse(splitData[6], out float stamina) ? stamina : 0,
+                Hp = float.TryParse(splitData[7], out float hp) ? hp : 0,
+                Stress = float.TryParse(splitData[8], out float stress) ? stress : 0,
+                Damage = float.TryParse(splitData[9], out float damage) ? damage : 0,
+                Buff = splitData[10],
+                Item_sprite = Resources.Load<Sprite>(splitData[11])
             };
 
             itemsDatas.Add(itemsData.Item_num, itemsData);
-            i++;
         }
     }
 }
