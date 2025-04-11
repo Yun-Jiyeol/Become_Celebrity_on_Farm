@@ -77,14 +77,7 @@ public class CharacterChoice : MonoBehaviour
             return;
         }
 
-        PlayerStats.CharacterType = selectedCharacter;
-        PlayerStats.Name = nameInputField.text;
-        PlayerStats.FarmName = farmnameInputField.text;
-        //값을 직접 받지 말고 변환시켜주는 메서드를 만들기.
-
-        Debug.Log($"선택된 캐릭터: {PlayerStats.CharacterType}");
-        Debug.Log($"이름: {PlayerStats.Name}");
-        Debug.Log($"농장 이름: {PlayerStats.FarmName}");
+        PlayerStats.SetCharacterInfo(selectedCharacter, nameInputField.text, farmnameInputField.text);
 
         //게임씬 이동 로직 추가하기.
     }

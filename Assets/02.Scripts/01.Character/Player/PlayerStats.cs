@@ -21,4 +21,13 @@ public class PlayerStats : MonoBehaviour
     public float Mana;
     public float MaxMana;
     public float Defence;
+
+    public void SetCharacterInfo(string characterType, string name, string farmName) //캐릭터 설정 데이터 변환용 메서드
+    {
+        CharacterType = characterType;
+        Name = name;
+        FarmName = farmName;
+
+        Debug.Log($"[PlayerStats] 캐릭터 설정완료 - {CharacterType}, {Name}, {FarmName}");
+    }
 }
