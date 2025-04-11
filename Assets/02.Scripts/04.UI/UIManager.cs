@@ -31,4 +31,6 @@ public class UIManager : MonoBehaviour
         CharacterChoice choice = ui.GetComponent<CharacterChoice>();
         choice.Setup();
     }
+    //모든 팝업에 대한 쇼 함수 만들기.
+    //유아이의 베이스가 되는 클래스 만들기. uibase라던가 popupuibase라던가
 }
