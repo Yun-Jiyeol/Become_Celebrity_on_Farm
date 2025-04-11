@@ -64,12 +64,4 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
-    //public void ShowCharacterChoiceUI()
-    //{
-    //    GameObject ui = Instantiate(characterChoiceUIPrefab, uiRoot);
-    //    CharacterChoice choice = ui.GetComponent<CharacterChoice>();
-    //    choice.Setup();
-    //}
-    
 }
