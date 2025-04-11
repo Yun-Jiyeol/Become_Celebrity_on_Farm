@@ -25,4 +25,14 @@ public class PlayerAnimation : BaseAnimation
         HoeParameterHash = Animator.StringToHash(HoeParameterName);
         WateringParameterHash = Animator.StringToHash(WateringParameterName);
     }
+
+    private void FixedUpdate()
+    {
+        Dir = gameObject.GetComponent<Player>().playerController.dir;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
 }
