@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CharacterChoice : MonoBehaviour
+public class CharacterChoice : PopupUIBase
 {
     PlayerStats PlayerStats;
 
@@ -85,6 +85,6 @@ public class CharacterChoice : MonoBehaviour
     public void OnBackBtn()
     {
         Debug.Log("Back ¹öÆ° Å¬¸¯µÊ.");
-        Destroy(gameObject);
+        Hide();
     }
 }
