@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class CheckFieldOnMouse : MonoBehaviour
 {
-    public GameObject OnMouseObject;
     GameObject MouseFollower;
-
     private float ActiveRange;
     Camera camera;
 
     private void Start()
     {
-        camera = gameObject.GetComponent<Player>().MainCamera.GetComponent<Camera>();
-        MouseFollower = gameObject.GetComponent<Player>().mouseFollower;
+        camera = GameManager.Instance.camera;
+        MouseFollower = Instantiate(GameManager.Instance.MouseFollower);
 
         settActiveRange();
     }

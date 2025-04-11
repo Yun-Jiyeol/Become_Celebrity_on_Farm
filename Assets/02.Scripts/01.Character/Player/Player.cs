@@ -11,11 +11,8 @@ public class Player : MonoBehaviour
     public PlayerAutoGetItem autoGetItem;
     public SortingOrderGroup sortingOrderGroup;
     public Inventory inventory;
-
-    [Header("Others")]
-    public GameObject mouseFollower;
-
-    public Camera MainCamera; // 임시 카메라(GameManager나 CameraManager에서 받아올 것)
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
@@ -25,13 +22,14 @@ public class Player : MonoBehaviour
         autoGetItem = GetComponentInChildren<PlayerAutoGetItem>();
         sortingOrderGroup = GetComponent<SortingOrderGroup>();
         inventory = GetComponent<Inventory>();
+        animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
     {
         GameManager.Instance.player = gameObject;
         playerController.speed = stat.Speed;
-        MainCamera = GameManager.Instance.camera;
     }
 
     private void LateUpdate()
