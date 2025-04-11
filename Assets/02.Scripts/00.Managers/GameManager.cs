@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
     public Camera camera;
+    public GameObject MouseFollower;
 
     private void Awake()
     {

@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerAnimation : BaseAnimation
+{
+    string HoeParameterName = "Hoe";
+    string WateringParameterName = "Watering";
+
+    public int HoeParameterHash { get; private set; }
+    public int WateringParameterHash { get; private set; }
+
+    private void Start()
+    {
+        animator = gameObject.GetComponent<Player>().animator;
+        spriteRenderer = gameObject.GetComponent<Player>().spriteRenderer;
+
+        Initalize();
+    }
+
+    protected override void Initalize()
+    {
+        base.Initalize();
+
+        HoeParameterHash = Animator.StringToHash(HoeParameterName);
+        WateringParameterHash = Animator.StringToHash(WateringParameterName);
+    }
+
+    private void FixedUpdate()
+    {
+        Dir = gameObject.GetComponent<Player>().playerController.dir;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
+}

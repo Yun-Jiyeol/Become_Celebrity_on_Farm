@@ -9,7 +9,7 @@ public class BaseController : MonoBehaviour
     protected Rigidbody rigidbody;
 
     [Header("Move")]
-    protected Vector2 dir;
+    public Vector2 dir;
     public float speed;
 
     protected virtual void Start()
