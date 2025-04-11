@@ -289,7 +289,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: '@Walk'
+    m_ConditionEvent: Walk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -1220185187093463331}
   m_DstState: {fileID: 0}
@@ -473,7 +473,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: '@Walk'
+  - m_Name: Walk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -745,7 +745,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: '@Walk'
+    m_ConditionEvent: Walk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -483061038036106336}
   m_DstState: {fileID: 0}
@@ -846,16 +846,16 @@ AnimatorStateMachine:
   - {fileID: 1482795498742583624}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -4810993045483070105}
-    second: []
-  - first: {fileID: -1075346390223134307}
-    second: []
-  - first: {fileID: -1220185187093463331}
-    second:
-    - {fileID: 5470430795118066348}
   - first: {fileID: -483061038036106336}
     second:
     - {fileID: -1390540970912870790}
+  - first: {fileID: -1220185187093463331}
+    second:
+    - {fileID: 5470430795118066348}
+  - first: {fileID: -1075346390223134307}
+    second: []
+  - first: {fileID: -4810993045483070105}
+    second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -80, y: -20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
