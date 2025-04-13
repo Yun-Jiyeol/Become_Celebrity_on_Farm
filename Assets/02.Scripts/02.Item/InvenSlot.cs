@@ -9,6 +9,12 @@ public class InvenSlot : MonoBehaviour
     public int slotnum;
     public Image image;
     public TextMeshProUGUI textMeshPro;
+    public GameObject ChooseObject;
+
+    private void Awake()
+    {
+        ChooseObject.SetActive(false);
+    }
 
     private void Start()
     {

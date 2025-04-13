@@ -41,4 +41,19 @@ public class TestManager : MonoBehaviour
             item.SettingSlotUI();
         }
     }
+
+    public void ShowChooseUI(int num)
+    {
+        for (int i = 0; i < SlotItem.Length; i++)
+        {
+            if(i == num - 1)
+            {
+                SlotItem[i].ChooseObject.SetActive(true);
+            }
+            else
+            {
+                SlotItem[i].ChooseObject.SetActive(false);
+            }
+        }
+    }
 }
