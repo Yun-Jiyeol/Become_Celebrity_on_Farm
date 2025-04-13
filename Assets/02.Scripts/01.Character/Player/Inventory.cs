@@ -25,10 +25,12 @@ public class Inventory : MonoBehaviour
     {
         inventorySize = gameObject.GetComponent<Player>().stat.InventorySize;
         
-        for(int i = 0; i< inventorySize; i ++)
+        while(PlayerHave.Count < inventorySize)
         {
             PlayerHave.Add(new Inven { });
         }
+
+        TestManager.Instance.SettingInven();
     }
 
     public void GetItem(ItemDataReader.ItemsData getItem, int amount)

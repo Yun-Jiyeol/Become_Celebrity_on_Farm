@@ -599,6 +599,7 @@ MonoBehaviour:
   autoGetItem: {fileID: 0}
   sortingOrderGroup: {fileID: 0}
   inventory: {fileID: 0}
+  playerAnimation: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
 --- !u!114 &159205587
@@ -637,7 +638,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42d73d9110e4fc42b5392b2dd2926a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerHave: []
+  PlayerHave:
+  - ItemData_num: 8
+    amount: 1
+  - ItemData_num: 9
+    amount: 1
 --- !u!114 &159205590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,6 +655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41cda16c5f8bc064ba896cafe65faa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1001 &299920623
 PrefabInstance:
   m_ObjectHideFlags: 0

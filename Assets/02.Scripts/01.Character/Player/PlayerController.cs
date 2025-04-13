@@ -34,6 +34,20 @@ public class PlayerController : BaseController
                 itemsDatas[GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[PlayerChoosNum - 1].ItemData_num].Item_Type;
 
             Debug.Log(chooseItemType);
+
+            switch (chooseItemType)
+            {
+                case ItemType.Pickaxe:
+                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
+                    break;
+                case ItemType.Watering:
+                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
