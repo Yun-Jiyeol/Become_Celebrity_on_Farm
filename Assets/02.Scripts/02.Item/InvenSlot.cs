@@ -27,7 +27,7 @@ public class InvenSlot : MonoBehaviour
 
         Inventory.Inven checkItem = GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[slotnum - 1];
 
-        if (checkItem == null)
+        if (checkItem.ItemData_num == 0)
         {
             image.sprite = null;
             textMeshPro.text = string.Empty;

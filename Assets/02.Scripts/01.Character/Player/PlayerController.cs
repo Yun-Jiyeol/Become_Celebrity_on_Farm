@@ -28,7 +28,12 @@ public class PlayerController : BaseController
     {
         if (inputValue.isPressed)
         {
+            if (GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[PlayerChoosNum - 1].ItemData_num == 0) return;
 
+            ItemType chooseItemType = ItemManager.Instance.itemDataReader.
+                itemsDatas[GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[PlayerChoosNum - 1].ItemData_num].Item_Type;
+
+            Debug.Log(chooseItemType);
         }
     }
 
