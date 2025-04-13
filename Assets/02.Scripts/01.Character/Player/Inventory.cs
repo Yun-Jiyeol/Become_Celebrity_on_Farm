@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
 
     public void GetItem(ItemDataReader.ItemsData getItem, int amount)
     {
-        if(PlayerHave.Count > 0)
+        if(PlayerHave.Count > 0) //가지고 있는 아이템에 더 추가될 때
         {
             for (int i = 0; i < PlayerHave.Count; i++)
             {
@@ -45,12 +45,13 @@ public class Inventory : MonoBehaviour
                         PlayerHave[i].amount += amount;
                         amount = 0;
                     }
+                    TestManager.Instance.SettingInven();
                     if (amount <= 0) return;
                 }
             }
         }
 
-        while (amount > 0)
+        while (amount > 0) //새로운 아이템이 더 추가될 때
         {
             if(PlayerHave.Count == inventorySize)
             {
@@ -75,6 +76,7 @@ public class Inventory : MonoBehaviour
             }
 
             PlayerHave.Add(inven);
+            TestManager.Instance.SettingInven();
         }
     }
 

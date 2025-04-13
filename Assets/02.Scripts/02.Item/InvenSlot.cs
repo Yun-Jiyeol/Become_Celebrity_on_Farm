@@ -7,33 +7,29 @@ using UnityEngine.UI;
 public class InvenSlot : MonoBehaviour
 {
     public int slotnum;
-    private Image image;
-    private TextMeshProUGUI textMeshPro;
-
-
-    private void Awake()
-    {
-        image = GetComponentInChildren<Image>();
-        textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
-    }
+    public Image image;
+    public TextMeshProUGUI textMeshPro;
 
     private void Start()
     {
         TestManager.Instance.SlotItem[slotnum-1] = this;
     }
 
-    public void SettingSlotUI(int ItemDataNum = 0, int amount = 0)
+    public void SettingSlotUI()
     {
-        if(amount == 0)
+        if (GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave.Count <= slotnum - 1) return;
+
+        Inventory.Inven checkItem = GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[slotnum - 1];
+
+        if (checkItem == null)
         {
-            image.gameObject.SetActive(false);
+            image.sprite = null;
             textMeshPro.text = string.Empty;
         }
         else
         {
-            image.gameObject.SetActive(true);
-            image.sprite = ItemManager.Instance.itemDataReader.itemsDatas[ItemDataNum].Item_sprite;
-            textMeshPro.text = $"{amount}";
+            image.sprite = ItemManager.Instance.itemDataReader.itemsDatas[checkItem.ItemData_num].Item_sprite;
+            textMeshPro.text = checkItem.amount.ToString();
         }
     }
 }

@@ -33,4 +33,12 @@ public class TestManager : MonoBehaviour
             return instance;
         }
     }
+
+    public void SettingInven()
+    {
+        foreach(InvenSlot item in SlotItem)
+        {
+            item.SettingSlotUI();
+        }
+    }
 }
