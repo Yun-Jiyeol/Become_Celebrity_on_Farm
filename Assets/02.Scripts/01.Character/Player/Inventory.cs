@@ -29,8 +29,6 @@ public class Inventory : MonoBehaviour
         {
             PlayerHave.Add(new Inven { });
         }
-
-        TestManager.Instance.SettingInven();
     }
 
     public void GetItem(ItemDataReader.ItemsData getItem, int amount)
