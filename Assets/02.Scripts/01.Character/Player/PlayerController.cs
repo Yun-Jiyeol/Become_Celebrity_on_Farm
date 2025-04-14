@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,7 +10,7 @@ public class PlayerController : BaseController
     public bool isAction = false;
 
     public int PlayerChoosNum = 1;
-    private int nownum = 0;
+    private int nownum = 1;
 
     void OnMove(InputValue inputValue)
     {
@@ -21,10 +22,40 @@ public class PlayerController : BaseController
 
     void OnClick(InputValue inputValue)
     {
+        if (isAction) return;
+
         if (inputValue.isPressed)
         {
+            if (GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0) return;
 
+            ItemType chooseItemType = ItemManager.Instance.itemDataReader.
+                itemsDatas[GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
+
+            Debug.Log(chooseItemType);
+
+            switch (chooseItemType)
+            {
+                case ItemType.Pickaxe:
+                    dir = Vector2.zero;
+                    isAction = true;
+                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
+                    break;
+                case ItemType.Watering:
+                    dir = Vector2.zero;
+                    isAction = true;
+                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+
+    public void EndAction()
+    {
+        isAction = false;
     }
 
     void OnInventory(InputValue inputValue)
