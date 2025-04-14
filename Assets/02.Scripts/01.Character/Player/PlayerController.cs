@@ -93,6 +93,23 @@ public class PlayerController : BaseController
                         };
                     }
                     break;
+                case ItemType.Seed:
+                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    CheckAngle();
+                    isAction = true;
+                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, "Plow", "Seeded"))
+                    {
+                        CanSpawn = true;
+                        readyInteract = new SpawnInteract
+                        {
+                            _name = "Seed",
+                            _sprite = TestManager.Instance.WaterGround,
+                            _Tag = "Seeded"
+                        };
+                    }
+                    break;
                 default:
                     break;
             }
