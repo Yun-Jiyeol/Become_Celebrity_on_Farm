@@ -7,14 +7,28 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : BaseController
 {
+    private PlayerAnimation playerAnimation;
     public bool isAction = false;
 
     public int PlayerChoosNum = 1;
     private int nownum = 1;
 
-    void OnMove(InputValue inputValue)
+    protected override void Start()
+    {
+        base.Start();
+
+        playerAnimation = GetComponent<PlayerAnimation>();  
+    }
+
+    protected override void FixedUpdate()
     {
         if (isAction) return;
+
+        base.FixedUpdate();
+    }
+
+    void OnMove(InputValue inputValue)
+    {
         if (UIManager.Instance.InventoryIsOpen()) return;
 
         dir = inputValue.Get<Vector2>();
@@ -36,13 +50,15 @@ public class PlayerController : BaseController
             switch (chooseItemType)
             {
                 case ItemType.Pickaxe:
-                    dir = Vector2.zero;
+                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    CheckAngle();
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
                     break;
                 case ItemType.Watering:
-                    dir = Vector2.zero;
+                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    CheckAngle();
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
@@ -55,7 +71,31 @@ public class PlayerController : BaseController
 
     public void EndAction()
     {
+        dir = Vector2.zero;
         isAction = false;
+    }
+
+    void CheckAngle()
+    {
+        Vector3 tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+        float angleDegrees = Mathf.Atan2(tartgetPosition.x - gameObject.transform.position.x, tartgetPosition.y - gameObject.transform.position.y) * Mathf.Rad2Deg;
+
+        if (angleDegrees >= -135 && angleDegrees < -45)
+        {
+            dir = new Vector2(-1, 0);
+        }
+        else if (angleDegrees >= -45 && angleDegrees < 45)
+        {
+            dir = new Vector2(0, 1);
+        }
+        else if (angleDegrees >= 45 && angleDegrees < 135)
+        {
+            dir = new Vector2(1, 0);
+        }
+        else
+        {
+            dir = new Vector2(0, -1);
+        }
     }
 
     void OnInventory(InputValue inputValue)
