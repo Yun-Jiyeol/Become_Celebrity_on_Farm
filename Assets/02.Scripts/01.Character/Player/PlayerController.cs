@@ -7,19 +7,10 @@ using UnityEngine.InputSystem;
 public class PlayerController : BaseController
 {
     public bool isAction = false;
-    public int PlayerChoosNum = 1;
-    private int nownum = 1;
-
-    protected override void Start()
-    {
-        base.Start();
-
-        TestManager.Instance.ShowChooseUI(PlayerChoosNum);
-    }
-
     void OnMove(InputValue inputValue)
     {
-        if(isAction) return;
+        if (isAction) return;
+        if (UIManager.Instance.InventoryIsOpen()) return;
 
         dir = inputValue.Get<Vector2>();
     }
@@ -28,86 +19,24 @@ public class PlayerController : BaseController
     {
         if (inputValue.isPressed)
         {
-            if (GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[PlayerChoosNum - 1].ItemData_num == 0) return;
 
-            ItemType chooseItemType = ItemManager.Instance.itemDataReader.
-                itemsDatas[GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[PlayerChoosNum - 1].ItemData_num].Item_Type;
-
-            Debug.Log(chooseItemType);
-
-            switch (chooseItemType)
-            {
-                case ItemType.Pickaxe:
-                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
-                    break;
-                case ItemType.Watering:
-                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
-                    break;
-                default:
-                    break;
-            }
         }
     }
-
-    protected override void Update()
+    void OnInventory(InputValue inputValue)
     {
-        base.Update();
+        if (inputValue.isPressed)
+        {
+            Debug.Log("E키 눌림");
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ToggleInventoryUI();
 
-        if (Input.GetKeyDown("1"))
-        {
-            PlayerChoosNum = 1;
-        }
-        else if (Input.GetKeyDown("2"))
-        {
-            PlayerChoosNum = 2;
-        }
-        else if (Input.GetKeyDown("3"))
-        {
-            PlayerChoosNum = 3;
-        }
-        else if (Input.GetKeyDown("4"))
-        {
-            PlayerChoosNum = 4;
-        }
-        else if (Input.GetKeyDown("5"))
-        {
-            PlayerChoosNum = 5;
-        }
-        else if (Input.GetKeyDown("6"))
-        {
-            PlayerChoosNum = 6;
-        }
-        else if (Input.GetKeyDown("7"))
-        {
-            PlayerChoosNum = 7;
-        }
-        else if (Input.GetKeyDown("8"))
-        {
-            PlayerChoosNum = 8;
-        }
-        else if (Input.GetKeyDown("9"))
-        {
-            PlayerChoosNum = 9;
-        }
-        else if (Input.GetKeyDown("0"))
-        {
-            PlayerChoosNum = 10;
-        }
-        else if (Input.GetKeyDown("-"))
-        {
-            PlayerChoosNum = 11;
-        }
-        else if (Input.GetKeyDown("="))
-        {
-            PlayerChoosNum = 12;
-        }
-
-        if (PlayerChoosNum != nownum)
-        {
-            nownum = PlayerChoosNum;
-            TestManager.Instance.ShowChooseUI(PlayerChoosNum);
+                // 인벤토리가 켜졌다면 강제 멈춤
+                if (UIManager.Instance.InventoryIsOpen())
+                {
+                    dir = Vector2.zero;
+                }
+            }
         }
     }
 }
