@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -8,10 +9,15 @@ public class UIManager : MonoBehaviour
     [Header("UI Prefabs")]
     public List<GameObject> uiPrefabs;
 
-    [Header("UO Root")]
+    [Header("UI Root")]
     public Transform uiRoot; //캔버스 밑의 패널 등
 
+
     private Dictionary<string, UIBase> uiInstances = new Dictionary<string, UIBase>();
+
+    [Header("Ingame UI")]
+    public GameObject inventoryUI; // <- 인벤토리 UI 연결
+
 
     void Awake()
     {
@@ -63,5 +69,24 @@ public class UIManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    // 인벤토리 열고 닫기 Toggle
+    public void ToggleInventoryUI()
+    {
+        if (inventoryUI == null)
+        {
+            Debug.LogWarning("InventoryUI가 연결되지 않음.");
+            return;
+        }
+
+        bool isActive = inventoryUI.activeSelf;
+        inventoryUI.SetActive(!isActive);
+    }
+
+    // 인벤토리 열려있는지 확인용
+    public bool InventoryIsOpen()
+    {
+        return inventoryUI != null && inventoryUI.activeSelf;
     }
 }
