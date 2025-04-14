@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-/// <summary>
-/// 인벤토리 전체 UI 관리 스크립트 (30칸 전부 관리)
-/// </summary>
+
+// 인벤토리 전체 UI 관리 스크립트 (30칸 전부 관리)
 public class InventoryUIManager : MonoBehaviour
 {
     public static InventoryUIManager Instance;
@@ -15,6 +16,15 @@ public class InventoryUIManager : MonoBehaviour
     public List<Inventory.Inven> warehouseInven = new List<Inventory.Inven>();
 
     public InventorySlotUI selectedSlot;
+
+    public GameObject mouseFollowItemObj;      // 마우스 따라다닐 UI
+    public Image mouseFollowIcon;              // 아이콘 이미지
+    public TextMeshProUGUI mouseFollowAmount;  // 개수 표시
+
+    // 임시 보관
+    private int tempItemData_num;  
+    private int tempItemAmount;
+
     private void Awake()
     {
         Instance = this;
@@ -28,7 +38,14 @@ public class InventoryUIManager : MonoBehaviour
                                    ///(근데 Invoke 안 쓰니까 데이터가 처리되는 도중에 Refresh 해버려서 Null오류나서 우선 Invoke해뒀습니다.)
         //RefreshUI(); 
     }
-
+    private void Update()
+    {
+        if (mouseFollowItemObj.activeSelf)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mouseFollowItemObj.transform.position = mousePos + new Vector3(5, -5, 0); // 마우스 오른쪽 아래
+        }
+    }
     // 전체 인벤토리 UI 새로고침
     // (플레이어 인벤토리 12칸 + 창고 인벤토리 18칸)
     public void RefreshUI()
@@ -45,54 +62,88 @@ public class InventoryUIManager : MonoBehaviour
 
     public void OnSlotClick(InventorySlotUI clickedSlot)
     {
-        // 첫 클릭 = 선택
+        // 첫 클릭 → 아이템 들기
         if (selectedSlot == null)
         {
-            if (clickedSlot.GetData() == null || clickedSlot.GetData().amount <= 0)
+            var data = clickedSlot.GetData();
+            if (data == null || data.amount <= 0)
                 return;
 
             selectedSlot = clickedSlot;
-        }
-        else
-        {
-            // 같은 슬롯 재클릭 = 선택 해제
-            if (selectedSlot == clickedSlot)
-            {
-                selectedSlot = null;
-                return;
-            }
 
-            // 이동 처리
-            SwapOrMergeItem(selectedSlot, clickedSlot);
+            // 마우스 따라다닐 아이템 세팅
+            var itemData = ItemManager.Instance.itemDataReader.itemsDatas[data.ItemData_num];
+            mouseFollowIcon.sprite = itemData.Item_sprite;
+            mouseFollowAmount.text = data.amount.ToString();
+            mouseFollowItemObj.SetActive(true);
 
-            selectedSlot = null;
+            // 선택 슬롯 데이터 따로 보관
+            tempItemData_num = data.ItemData_num;
+            tempItemAmount = data.amount;
+
+            // 슬롯 비우기
+            data.ItemData_num = 0;
+            data.amount = 0;
+
             RefreshUI();
+            return;
         }
+
+        // 두번째 클릭
+        bool success = SwapOrMergeItem(selectedSlot, clickedSlot);
+
+        if (!success)
+        {
+            // 못넣었으면 원래 자리로 복구
+            selectedSlot.GetData().ItemData_num = tempItemData_num;
+            selectedSlot.GetData().amount = tempItemAmount;
+        }
+
+        selectedSlot = null;
+        mouseFollowItemObj.SetActive(false);
+        RefreshUI();
     }
-    private void SwapOrMergeItem(InventorySlotUI from, InventorySlotUI to)
+    private bool SwapOrMergeItem(InventorySlotUI from, InventorySlotUI to)
     {
         var fromData = from.GetData();
         var toData = to.GetData();
 
-        // 같은 아이템이면 머지
-        if (fromData.ItemData_num == toData.ItemData_num && fromData.ItemData_num != 0)
+        // 같은 아이템 = Merge
+        if (toData.ItemData_num == tempItemData_num && tempItemData_num != 0)
         {
-            var itemData = ItemManager.Instance.itemDataReader.itemsDatas[fromData.ItemData_num];
+            var itemData = ItemManager.Instance.itemDataReader.itemsDatas[tempItemData_num];
 
             int canAdd = itemData.Item_Overlap - toData.amount;
-            int moveAmount = Mathf.Min(canAdd, fromData.amount);
+            int moveAmount = Mathf.Min(canAdd, tempItemAmount);
 
             toData.amount += moveAmount;
-            fromData.amount -= moveAmount;
+            tempItemAmount -= moveAmount;
 
-            if (fromData.amount <= 0)
-                fromData.ItemData_num = 0;
+            return tempItemAmount <= 0;
         }
+        // 빈 슬롯 = 그냥 넣기
+        else if (toData.amount <= 0)
+        {
+            toData.ItemData_num = tempItemData_num;
+            toData.amount = tempItemAmount;
+            return true;
+        }
+        // 다른 아이템 = 자리 Swap
         else
         {
-            // 다른 아이템이면 스왑
-            (fromData.ItemData_num, toData.ItemData_num) = (toData.ItemData_num, fromData.ItemData_num);
-            (fromData.amount, toData.amount) = (toData.amount, fromData.amount);
+            // Swap 처리
+            int tempNum = toData.ItemData_num;
+            int tempAmount = toData.amount;
+
+            // toData = 들고있던거 넣기
+            toData.ItemData_num = tempItemData_num;
+            toData.amount = tempItemAmount;
+
+            // fromData = 원래 toData 데이터 넣기
+            fromData.ItemData_num = tempNum;
+            fromData.amount = tempAmount;
+
+            return true;
         }
     }
 }
