@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public PlayerAutoGetItem autoGetItem;
     public SortingOrderGroup sortingOrderGroup;
     public Inventory inventory;
+    public PlayerAnimation playerAnimation;
+
     public Animator animator;
     public SpriteRenderer spriteRenderer;
 
@@ -22,6 +24,8 @@ public class Player : MonoBehaviour
         autoGetItem = GetComponentInChildren<PlayerAutoGetItem>();
         sortingOrderGroup = GetComponent<SortingOrderGroup>();
         inventory = GetComponent<Inventory>();
+        playerAnimation = GetComponent<PlayerAnimation>();
+
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
