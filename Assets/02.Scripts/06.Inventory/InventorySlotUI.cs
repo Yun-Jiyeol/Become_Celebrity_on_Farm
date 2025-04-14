@@ -2,20 +2,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// 인벤토리 슬롯 UI 관리 스크립트 (1칸 단위)
-/// </summary>
+// 인벤토리 슬롯 UI 관리 스크립트 (1칸 단위)
 public class InventorySlotUI : MonoBehaviour
 {
-    public int slotIndex;         // 몇 번째 슬롯인지 (0 ~ 29)
-    public Image itemIcon;        // 아이템 아이콘 이미지
+    public int slotIndex;                    // 몇 번째 슬롯인지 (0 ~ 29)
+    public Image itemIcon;                   // 아이템 아이콘 이미지
     public TextMeshProUGUI amountText;       // 아이템 수량 텍스트
 
-    private Inventory.Inven invenData;  // 해당 슬롯의 데이터(아이템 정보)
+    private Inventory.Inven invenData;  // 해당 슬롯의 데이터
 
-    /// <summary>
-    /// 슬롯에 데이터 셋팅 + UI 갱신
-    /// </summary>
+    // 슬롯에 데이터 셋팅 + UI 갱신
     public void SetData(Inventory.Inven data)
     {
         invenData = data;
@@ -40,11 +36,13 @@ public class InventorySlotUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 현재 슬롯에 있는 데이터 반환
-    /// </summary>
+    // 현재 슬롯에 있는 데이터 반환
     public Inventory.Inven GetData()
     {
         return invenData;
+    }
+    public void OnClickSlot()
+    {
+        InventoryUIManager.Instance.OnSlotClick(this);
     }
 }
