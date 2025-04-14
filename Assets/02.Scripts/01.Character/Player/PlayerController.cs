@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : BaseController
 {
     private PlayerAnimation playerAnimation;
+    Vector3 tartgetPosition = new Vector3();
     public bool isAction = false;
 
     public int PlayerChoosNum = 1;
@@ -55,6 +56,10 @@ public class PlayerController : BaseController
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
+                    if(GameManager.Instance.InteractPosition(tartgetPosition, null, null))
+                    {
+                        SpawnObject("PlowGround", TestManager.Instance.HoeGround, "Plow");
+                    }
                     break;
                 case ItemType.Watering:
                     if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
@@ -62,6 +67,10 @@ public class PlayerController : BaseController
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, "Plow", "Watered"))
+                    {
+                        SpawnObject("WaterGround", TestManager.Instance.WaterGround, "Watered");
+                    }
                     break;
                 default:
                     break;
@@ -77,7 +86,7 @@ public class PlayerController : BaseController
 
     void CheckAngle()
     {
-        Vector3 tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+        tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
         float angleDegrees = Mathf.Atan2(tartgetPosition.x - gameObject.transform.position.x, tartgetPosition.y - gameObject.transform.position.y) * Mathf.Rad2Deg;
 
         if (angleDegrees >= -135 && angleDegrees < -45)
@@ -96,6 +105,17 @@ public class PlayerController : BaseController
         {
             dir = new Vector2(0, -1);
         }
+    }
+
+    void SpawnObject(string name, Sprite _sprite, string Tag)
+    {
+        GameObject go = new GameObject(name);
+        go.transform.parent = GameManager.Instance.gameObject.transform;
+        go.transform.position = tartgetPosition;
+        go.AddComponent<SpriteRenderer>().sprite = _sprite;
+        go.transform.tag = Tag;
+
+        GameManager.Instance.CanInteractionObjects.Add(go);
     }
 
     void OnInventory(InputValue inputValue)

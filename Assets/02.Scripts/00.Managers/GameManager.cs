@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public Camera camera;
     public GameObject MouseFollower;
+
+    public List<GameObject> CanInteractionObjects = new  List<GameObject>();
 
     private void Awake()
     {
@@ -35,5 +38,35 @@ public class GameManager : MonoBehaviour
             }
             return instance;
         }
+    }
+
+    public bool InteractPosition(Vector3 position, string TargetType, string nopeType)
+    {
+        if (TargetType == null)
+        {
+            foreach (GameObject go in CanInteractionObjects)
+            {
+                if (go.transform.position == position)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        bool isOkay = false;
+
+        foreach(GameObject go in CanInteractionObjects)
+        {
+            if(go.transform.position == position)
+            {
+                if(go.transform.tag == nopeType) return false;
+                if (go.transform.tag == TargetType)
+                {
+                    isOkay = true;
+                }
+            }
+        }
+        return isOkay;
     }
 }
