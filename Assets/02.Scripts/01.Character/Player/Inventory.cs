@@ -1,20 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ItemDataReader;
 
 public class Inventory : MonoBehaviour
 {
-    int inventorySize;
-
+    public int inventorySize = 12;  // 플레이어 인벤토리 크기
     public List<Inven> PlayerHave;
+
     [System.Serializable]
     public class Inven
     {
         public int ItemData_num;
         public int amount;
     }
-
 
     private void Start()
     {
@@ -23,46 +20,55 @@ public class Inventory : MonoBehaviour
 
     public void SettingInventorySize()
     {
-        inventorySize = gameObject.GetComponent<Player>().stat.InventorySize;
-        
-        while(PlayerHave.Count < inventorySize)
+        while (PlayerHave.Count < inventorySize)
         {
-            PlayerHave.Add(new Inven { });
+            PlayerHave.Add(new Inven());
         }
     }
 
+    // 아이템 획득 처리
     public void GetItem(ItemDataReader.ItemsData getItem, int amount)
     {
-        if(PlayerHave.Count > 0) //가지고 있는 아이템에 더 추가될 때
-        {
-            for (int i = 0; i < PlayerHave.Count; i++)
-            {
-                if (PlayerHave[i].ItemData_num == getItem.Item_num || PlayerHave[i].ItemData_num == 0)
-                {
-                    PlayerHave[i].ItemData_num = getItem.Item_num;
-                    int canadd = getItem.Item_Overlap - PlayerHave[i].amount;
+        // 플레이어 인벤토리에 넣기 시도
+        amount = AddItemToInventory(PlayerHave, getItem, amount);
 
-                    if (amount > canadd)
-                    {
-                        PlayerHave[i].amount += canadd;
-                        amount -= canadd;
-                    }
-                    else
-                    {
-                        PlayerHave[i].amount += amount;
-                        amount = 0;
-                    }
-                    //TestManager.Instance.SettingInven();
-                    InventoryUIManager.Instance.RefreshUI();
-                    if (amount <= 0) return;
-                }
-            }
+        // 못 넣은게 남아있으면 → 창고에 넣기 시도
+        if (amount > 0)
+            amount = InventoryUIManager.Instance.AddItemToWarehouse(getItem, amount);
+
+        // 그래도 남아있으면 → 바닥에 드랍
+        if (amount > 0)
             ThrowItem(getItem, amount);
+
+        // UI 새로고침
+        InventoryUIManager.Instance.RefreshUI();
+    }
+
+    // 인벤토리 추가 공용 로직
+    private int AddItemToInventory(List<Inven> invenList, ItemDataReader.ItemsData getItem, int amount)
+    {
+        for (int i = 0; i < invenList.Count; i++)
+        {
+            if (invenList[i].ItemData_num == getItem.Item_num || invenList[i].ItemData_num == 0)
+            {
+                invenList[i].ItemData_num = getItem.Item_num;
+
+                int canAdd = getItem.Item_Overlap - invenList[i].amount;
+                int moveAmount = Mathf.Min(canAdd, amount);
+
+                invenList[i].amount += moveAmount;
+                amount -= moveAmount;
+
+                if (amount <= 0)
+                    return 0;
+            }
         }
+
+        return amount; // 못 넣은 갯수 리턴
     }
 
     public void ThrowItem(ItemDataReader.ItemsData getItem, int amount)
     {
-        ItemManager.Instance.spawnItem.DropItem(getItem,amount,gameObject.transform.position);
+        ItemManager.Instance.spawnItem.DropItem(getItem, amount, transform.position);
     }
 }

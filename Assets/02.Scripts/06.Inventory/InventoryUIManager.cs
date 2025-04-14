@@ -146,5 +146,33 @@ public class InventoryUIManager : MonoBehaviour
             return true;
         }
     }
+    // 창고 인벤토리에 아이템 추가
+    public int AddItemToWarehouse(ItemDataReader.ItemsData getItem, int amount)
+    {
+        return AddItemToInventory(warehouseInven, getItem, amount);
+    }
+
+    // 공용 아이템 추가 로직
+    private int AddItemToInventory(List<Inventory.Inven> invenList, ItemDataReader.ItemsData getItem, int amount)
+    {
+        for (int i = 0; i < invenList.Count; i++)
+        {
+            if (invenList[i].ItemData_num == getItem.Item_num || invenList[i].ItemData_num == 0)
+            {
+                invenList[i].ItemData_num = getItem.Item_num;
+
+                int canAdd = getItem.Item_Overlap - invenList[i].amount;
+                int moveAmount = Mathf.Min(canAdd, amount);
+
+                invenList[i].amount += moveAmount;
+                amount -= moveAmount;
+
+                if (amount <= 0)
+                    return 0;
+            }
+        }
+
+        return amount;
+    }
 }
 
