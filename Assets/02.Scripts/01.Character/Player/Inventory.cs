@@ -53,6 +53,7 @@ public class Inventory : MonoBehaviour
                         amount = 0;
                     }
                     //TestManager.Instance.SettingInven();
+                    InventoryUIManager.Instance.RefreshUI();
                     if (amount <= 0) return;
                 }
             }
