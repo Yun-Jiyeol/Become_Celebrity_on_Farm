@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndAction : MonoBehaviour
+public class AnimationTriggers : MonoBehaviour
 {
+    public void SpawnAction()
+    {
+        GameManager.Instance.player.GetComponent<PlayerController>().SpawnObject();
+    }
+
     public void EndingInteractionAction()
     {
         GameManager.Instance.player.GetComponent<PlayerController>().EndAction();

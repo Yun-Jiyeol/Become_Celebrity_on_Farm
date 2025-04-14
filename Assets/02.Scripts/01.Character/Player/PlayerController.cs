@@ -14,6 +14,15 @@ public class PlayerController : BaseController
     public int PlayerChoosNum = 1;
     private int nownum = 1;
 
+    private SpawnInteract readyInteract = new SpawnInteract();
+    private bool CanSpawn = false;
+    public class SpawnInteract
+    {
+        public string _name;
+        public Sprite _sprite;
+        public string _Tag;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -58,7 +67,13 @@ public class PlayerController : BaseController
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
                     if(GameManager.Instance.InteractPosition(tartgetPosition, null, null))
                     {
-                        SpawnObject("PlowGround", TestManager.Instance.HoeGround, "Plow");
+                        CanSpawn = true;
+                        readyInteract = new SpawnInteract
+                        {
+                            _name = "PlowGround",
+                            _sprite = TestManager.Instance.HoeGround,
+                            _Tag = "Plow"
+                        };
                     }
                     break;
                 case ItemType.Watering:
@@ -69,7 +84,13 @@ public class PlayerController : BaseController
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
                     if (GameManager.Instance.InteractPosition(tartgetPosition, "Plow", "Watered"))
                     {
-                        SpawnObject("WaterGround", TestManager.Instance.WaterGround, "Watered");
+                        CanSpawn = true;
+                        readyInteract = new SpawnInteract
+                        {
+                            _name = "WaterGround",
+                            _sprite = TestManager.Instance.WaterGround,
+                            _Tag = "Watered"
+                        };
                     }
                     break;
                 default:
@@ -107,13 +128,16 @@ public class PlayerController : BaseController
         }
     }
 
-    void SpawnObject(string name, Sprite _sprite, string Tag)
+    public void SpawnObject()
     {
-        GameObject go = new GameObject(name);
+        if (!CanSpawn) return;
+
+        CanSpawn = false;
+        GameObject go = new GameObject(readyInteract._name);
         go.transform.parent = GameManager.Instance.gameObject.transform;
         go.transform.position = tartgetPosition;
-        go.AddComponent<SpriteRenderer>().sprite = _sprite;
-        go.transform.tag = Tag;
+        go.AddComponent<SpriteRenderer>().sprite = readyInteract._sprite;
+        go.transform.tag = readyInteract._Tag;
 
         GameManager.Instance.CanInteractionObjects.Add(go);
     }
