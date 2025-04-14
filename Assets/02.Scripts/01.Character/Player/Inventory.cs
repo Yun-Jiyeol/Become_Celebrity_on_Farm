@@ -52,7 +52,7 @@ public class Inventory : MonoBehaviour
                         PlayerHave[i].amount += amount;
                         amount = 0;
                     }
-                    TestManager.Instance.SettingInven();
+                    //TestManager.Instance.SettingInven();
                     if (amount <= 0) return;
                 }
             }
