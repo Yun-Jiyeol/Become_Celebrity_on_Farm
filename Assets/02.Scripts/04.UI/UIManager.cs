@@ -45,7 +45,8 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-    public T Show<T>() where T : UIBase
+
+    public T Show<T>() where T : UIBase //타입 T에 해당하는 ui를 찾아서 화면에 보여줌. 제네릭T 함수는 uibase를 상속한 아무 타입이나 받을 수 있음
     {
         foreach (var ui in uiInstances.Values)
         {
@@ -56,10 +57,10 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        Debug.LogWarning($"UI of type {typeof(T)} not found.");
+        Debug.LogWarning($"[UIManager] {typeof(T)} 타입의 UI를 찾을 수 없음.");
         return null;
     }
-    public void Hide<T>() where T : UIBase
+    public void Hide<T>() where T : UIBase //타입 T에 해당하는 ui를 찾아서 화면에서 숨김
     {
         foreach (var ui in uiInstances.Values)
         {
@@ -88,5 +89,22 @@ public class UIManager : MonoBehaviour
     public bool InventoryIsOpen()
     {
         return inventoryUI != null && inventoryUI.activeSelf;
+    }
+
+    private void Start()
+    {
+        //플레이어 스탯 바 ui 연결
+        var player = FindObjectOfType<PlayerStats>();
+        if (player == null)
+        {
+            Debug.LogError("PlayerStats 못찾음!");
+            return;
+        }
+
+        var hpBar = UIManager.Instance.Show<UIHpBar>();
+        var energyBar = UIManager.Instance.Show<UIEnergyBar>();
+
+        if (hpBar != null) hpBar.Init(player);
+        if (energyBar != null) energyBar.Init(player);
     }
 }
