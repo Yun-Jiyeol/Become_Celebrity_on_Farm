@@ -610,11 +610,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6267c48c52fcc6f4d8646425fb478dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatData: {fileID: 11400000, guid: 7a3f11864d55ea64c947b214a30ffacb, type: 2}
+  userCsvFileName: user
+  chatCsvFileName: chat
   chatMessagePrefab: {fileID: 6349857370169782060, guid: 9c7c33914d9028d4db6b018813871f56, type: 3}
   chatContentParent: {fileID: 1337588174}
   scrollRect: {fileID: 865093435}
   spawnInterval: 2
+  currentDay: Mon
+  currentWeather: Sunny
 --- !u!4 &529433445
 Transform:
   m_ObjectHideFlags: 0
@@ -1674,7 +1677,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 839354609}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999931
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1918,7 +1921,7 @@ GameObject:
   - component: {fileID: 1277313658}
   - component: {fileID: 1277313657}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Ending_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2230,6 +2233,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5644509857169074868, guid: 9c7c33914d9028d4db6b018813871f56, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6349857370169782060, guid: 9c7c33914d9028d4db6b018813871f56, type: 3}
       propertyPath: m_Name
       value: ChatMessage
@@ -2252,6 +2259,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7617672944044188925, guid: 9c7c33914d9028d4db6b018813871f56, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9199451842152842899, guid: 9c7c33914d9028d4db6b018813871f56, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
