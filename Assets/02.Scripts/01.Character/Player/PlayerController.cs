@@ -56,8 +56,6 @@ public class PlayerController : BaseController
             ItemType chooseItemType = ItemManager.Instance.itemDataReader.
                 itemsDatas[GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
 
-            Debug.Log(chooseItemType);
-
             switch (chooseItemType)
             {
                 case ItemType.Hoe:
@@ -109,6 +107,8 @@ public class PlayerController : BaseController
                             GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "SeededGround");
                         }
                     }
+                    break;
+                case ItemType.Sickle:
                     break;
                 default:
                     break;
