@@ -11,7 +11,13 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     public GameObject MouseFollower;
 
-    public List<GameObject> CanInteractionObjects = new  List<GameObject>();
+    public Dictionary<string, List<GameObject>> CanInteractionObjects = new Dictionary<string, List<GameObject>>
+    {
+        { "PlowGround", new List<GameObject>() },
+        { "WateredGround", new List<GameObject>() },
+        { "SeededGround", new List<GameObject>() },
+        { "ExceptObject", new List<GameObject>() }
+    };
 
     private void Awake()
     {
@@ -40,33 +46,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool InteractPosition(Vector3 position, string TargetType, string nopeType)
+    public bool InteractPosition(Vector3 position, string[] TargetGameObjects, string TargetType, string[] nopeGameObjects , string[] nopeType)
     {
-        if (TargetType == null)
+        for (int i = 0; i < nopeGameObjects.Length; i++)
         {
-            foreach (GameObject go in CanInteractionObjects)
+            foreach (GameObject go in CanInteractionObjects[nopeGameObjects[i]])
             {
                 if (go.transform.position == position)
                 {
-                    return false;
+                    foreach(string type in nopeType)
+                    {
+                        if(go.transform.tag == type)
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
-            return true;
         }
 
-        bool isOkay = false;
-
-        foreach(GameObject go in CanInteractionObjects)
+        if(TargetType == null) return true;
+        
+        foreach(string list in TargetGameObjects)
         {
-            if(go.transform.position == position)
+            foreach(GameObject go in CanInteractionObjects[list])
             {
-                if(go.transform.tag == nopeType) return false;
-                if (go.transform.tag == TargetType)
+                if(go.transform.position == position && go.transform.tag == TargetType)
                 {
-                    isOkay = true;
+                    return true;
                 }
             }
         }
-        return isOkay;
+        return false;
     }
 }

@@ -21,6 +21,7 @@ public class PlayerController : BaseController
         public string _name;
         public Sprite _sprite;
         public string _Tag;
+        public string _AddList;
     }
 
     protected override void Start()
@@ -65,14 +66,16 @@ public class PlayerController : BaseController
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
-                    if(GameManager.Instance.InteractPosition(tartgetPosition, null, null))
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, null, null, 
+                        new string[] { "PlowGround", "SeededGround", "ExceptObject" }, new string[] { "Plow", "Seeded" }))
                     {
                         CanSpawn = true;
                         readyInteract = new SpawnInteract
                         {
                             _name = "PlowGround",
                             _sprite = TestManager.Instance.HoeGround,
-                            _Tag = "Plow"
+                            _Tag = "Plow",
+                            _AddList = "PlowGround"
                         };
                     }
                     break;
@@ -82,33 +85,20 @@ public class PlayerController : BaseController
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
-                    if (GameManager.Instance.InteractPosition(tartgetPosition, "Plow", "Watered"))
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow",
+                        new string[] { "WateredGround" }, new string[] { "Watered" }))
                     {
                         CanSpawn = true;
                         readyInteract = new SpawnInteract
                         {
                             _name = "WaterGround",
                             _sprite = TestManager.Instance.WaterGround,
-                            _Tag = "Watered"
+                            _Tag = "Watered",
+                            _AddList = "WateredGround"
                         };
                     }
                     break;
                 case ItemType.Seed:
-                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-                    CheckAngle();
-                    isAction = true;
-                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
-                    if (GameManager.Instance.InteractPosition(tartgetPosition, "Plow", "Seeded"))
-                    {
-                        CanSpawn = true;
-                        readyInteract = new SpawnInteract
-                        {
-                            _name = "Seed",
-                            _sprite = TestManager.Instance.WaterGround,
-                            _Tag = "Seeded"
-                        };
-                    }
                     break;
                 default:
                     break;
@@ -156,7 +146,7 @@ public class PlayerController : BaseController
         go.AddComponent<SpriteRenderer>().sprite = readyInteract._sprite;
         go.transform.tag = readyInteract._Tag;
 
-        GameManager.Instance.CanInteractionObjects.Add(go);
+        GameManager.Instance.CanInteractionObjects[readyInteract._AddList].Add(go);
     }
 
     void OnInventory(InputValue inputValue)
