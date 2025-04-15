@@ -103,6 +103,23 @@ public class InventoryUIManager : MonoBehaviour
         mouseFollowItemObj.SetActive(false);
         RefreshUI();
     }
+    public void OnClickTrashButton()
+    {
+        if (selectedSlot == null || tempItemAmount <= 0)
+        {
+            Debug.Log("삭제할 아이템이 없음.");
+            return;
+        }
+
+        // 그냥 들고 있는 데이터만 날림
+        tempItemData_num = 0;
+        tempItemAmount = 0;
+
+        selectedSlot = null;
+        mouseFollowItemObj.SetActive(false);
+
+        RefreshUI();
+    }
     private bool SwapOrMergeItem(InventorySlotUI from, InventorySlotUI to)
     {
         var fromData = from.GetData();
