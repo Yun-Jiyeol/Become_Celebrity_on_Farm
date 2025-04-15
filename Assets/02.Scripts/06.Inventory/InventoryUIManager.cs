@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static ItemDataReader;
 
 
 // 인벤토리 전체 UI 관리 스크립트 (30칸 전부 관리)
@@ -9,9 +10,12 @@ public class InventoryUIManager : MonoBehaviour
 {
     public static InventoryUIManager Instance;
     public Inventory playerInventory; // 플레이어 Inventory 스크립트 참조
+    public RectTransform invenRect;
+    public Transform playerTransform;
 
     // 슬롯 UI 배열 (총 30칸)
     public InventorySlotUI[] slots;
+
     // 창고용 인벤토리 데이터 (13번째 칸부터 30번째 칸까지 사용)
     public List<Inventory.Inven> warehouseInven = new List<Inventory.Inven>();
 
@@ -34,9 +38,8 @@ public class InventoryUIManager : MonoBehaviour
         while (warehouseInven.Count < 18)
             warehouseInven.Add(new Inventory.Inven());
 
-        Invoke("RefreshUI", 0.1f); // 인벤토리 열릴 때 초기화
-                                   ///(근데 Invoke 안 쓰니까 데이터가 처리되는 도중에 Refresh 해버려서 Null오류나서 우선 Invoke해뒀습니다.)
-        //RefreshUI(); 
+        //Invoke("RefreshUI", 0.1f); // 인벤토리 열릴 때 초기화
+        RefreshUI();
     }
     private void Update()
     {
@@ -45,7 +48,19 @@ public class InventoryUIManager : MonoBehaviour
             Vector3 mousePos = Input.mousePosition;
             mouseFollowItemObj.transform.position = mousePos + new Vector3(5, -5, 0); // 마우스 오른쪽 아래
         }
+
+        // 아이템 들고 있는 상태 + 마우스 왼클릭
+        if (selectedSlot != null && Input.GetMouseButtonDown(0))
+        {
+            // 인벤토리 RectTransform 안에 마우스 있는지 검사
+            if (!RectTransformUtility.RectangleContainsScreenPoint(invenRect, Input.mousePosition))
+            {
+                // 밖에서 눌렀으니까 아이템 드롭
+                DropSelectedItem();
+            }
+        }
     }
+
     // 전체 인벤토리 UI 새로고침
     // (플레이어 인벤토리 12칸 + 창고 인벤토리 18칸)
     public void RefreshUI()
@@ -163,6 +178,7 @@ public class InventoryUIManager : MonoBehaviour
             return true;
         }
     }
+
     // 창고 인벤토리에 아이템 추가
     public int AddItemToWarehouse(ItemDataReader.ItemsData getItem, int amount)
     {
@@ -190,6 +206,28 @@ public class InventoryUIManager : MonoBehaviour
         }
 
         return amount;
+    }
+    private void DropSelectedItem()
+    {
+        if (tempItemData_num == 0 || tempItemAmount <= 0)
+        {
+            Debug.Log("들고 있는 아이템 정보 없음");
+            return;
+        }
+
+        var itemData = ItemManager.Instance.itemDataReader.itemsDatas[tempItemData_num];
+        Debug.Log($"드랍 시도: {itemData.Item_name}, 수량: {tempItemAmount}");
+
+        // 드랍
+        ItemManager.Instance.spawnItem.DropItem(itemData, tempItemAmount, playerTransform.position);
+
+        // 초기화
+        tempItemData_num = 0;
+        tempItemAmount = 0;
+        selectedSlot = null;
+        mouseFollowItemObj.SetActive(false);
+
+        RefreshUI();
     }
 }
 
