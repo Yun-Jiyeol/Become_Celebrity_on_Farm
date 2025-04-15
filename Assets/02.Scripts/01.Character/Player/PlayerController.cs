@@ -100,10 +100,11 @@ public class PlayerController : BaseController
                     break;
                 case ItemType.Seed:
                     if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
                     if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow", new string[] { "SeededGround" }, new string[] { "Seeded" }))
                     {
                         GameObject ConnectedObejct = TestManager.Instance.FindObject(GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
-                        if(ConnectedObejct != null)
+                        if (ConnectedObejct != null)
                         {
                             GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "SeededGround");
                         }
