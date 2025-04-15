@@ -60,6 +60,7 @@ public class PlayerController : BaseController
             {
                 case ItemType.Hoe:
                     if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
                     CheckAngle();
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
@@ -79,6 +80,7 @@ public class PlayerController : BaseController
                     break;
                 case ItemType.Watering:
                     if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
                     CheckAngle();
                     isAction = true;
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
@@ -109,6 +111,14 @@ public class PlayerController : BaseController
                     }
                     break;
                 case ItemType.Sickle:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    isAction = true;
+
+
+                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.SickleParameterHash);
+                    GameManager.Instance.InteractSector(new string[] { "SeededGround" }, new string[] { "EndGrow" }, 5f, 30, 120, false);
                     break;
                 default:
                     break;
@@ -124,7 +134,6 @@ public class PlayerController : BaseController
 
     void CheckAngle()
     {
-        tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
         float angleDegrees = Mathf.Atan2(tartgetPosition.x - gameObject.transform.position.x, tartgetPosition.y - gameObject.transform.position.y) * Mathf.Rad2Deg;
 
         if (angleDegrees >= -135 && angleDegrees < -45)

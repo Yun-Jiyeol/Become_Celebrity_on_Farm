@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
+using UnityEngine.UIElements;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class GameManager : MonoBehaviour
@@ -78,6 +79,34 @@ public class GameManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, float MinAngle, float MaxAngle, bool isOne)
+    {
+        foreach (string list in TargetGameObjects)
+        {
+            foreach (GameObject go in CanInteractionObjects[list])
+            {
+                if(Vector3.Distance(go.transform.position, player.transform.position) <= Distance)
+                {
+                    float angleDegrees = Mathf.Atan2(go.transform.position.x - player.transform.position.x, go.transform.position.y - player.transform.position.y) * Mathf.Rad2Deg;
+                    if(angleDegrees > MinAngle &&  angleDegrees < MaxAngle)
+                    {
+                        foreach(string tag in TargetTags)
+                        {
+                            if(go.transform.tag == tag)
+                            {
+                                go.GetComponent<IInteract>().Interact();
+                                if (isOne)
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void SpawnSomethine(string name, Vector3 position, Sprite sprite, string tag, string List)
