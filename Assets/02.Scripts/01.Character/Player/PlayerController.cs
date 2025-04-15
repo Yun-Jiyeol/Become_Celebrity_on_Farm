@@ -60,7 +60,7 @@ public class PlayerController : BaseController
 
             switch (chooseItemType)
             {
-                case ItemType.Pickaxe:
+                case ItemType.Hoe:
                     if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     CheckAngle();
                     isAction = true;
