@@ -31,7 +31,10 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
     public void GetDamage(float amount)
     {
         HP += amount;
-        if(HP > MaxHP)
+        Debug.Log(HP);
+        CheckGrow();
+
+        if (HP >= MaxHP)
         {
             HP = MaxHP;
             isEndGrow = true;
