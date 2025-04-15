@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // 인벤토리 슬롯 UI 관리 스크립트 (1칸 단위)
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public int slotIndex;                    // 몇 번째 슬롯인지 (0 ~ 29)
     public Image itemIcon;                   // 아이템 아이콘 이미지
@@ -44,5 +45,23 @@ public class InventorySlotUI : MonoBehaviour
     public void OnClickSlot()
     {
         InventoryUIManager.Instance.OnSlotClick(this);
+    }
+
+    // 마우스 올라갔을 때 Tooltip 표시 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (invenData != null && invenData.amount > 0)
+        {
+            if (ItemManager.Instance.itemDataReader.itemsDatas.TryGetValue(invenData.ItemData_num, out var itemData))
+            {
+                TooltipManager.Instance.ShowTooltip(itemData, Input.mousePosition);
+            }
+        }
+    }
+
+    // 마우스 빠져나갔을 때 Tooltip 숨기기
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        TooltipManager.Instance.HideTooltip();
     }
 }
