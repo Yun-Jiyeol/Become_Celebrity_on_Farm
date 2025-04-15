@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BaseAnimation : MonoBehaviour
 {
-    protected Animator animator;
-    protected SpriteRenderer spriteRenderer;
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     protected string DirectionParameterName = "Direction";
     protected string WalkParameterName = "Walk";
