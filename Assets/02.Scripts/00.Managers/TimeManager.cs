@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
 
 public class TimeManager : MonoBehaviour
@@ -8,15 +7,19 @@ public class TimeManager : MonoBehaviour
 
     public int currentHour = 6;
     public int currentMinute = 0;
-
     public int currentDay = 0; // 0 = 월요일
-    private readonly string[] weekdays = { "월", "화", "수", "목", "금", "토", "일" };
+
+    private readonly string[] weekdays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
     public string CurrentWeekday => weekdays[currentDay % 7];
 
     private bool isSleeping = false;
     private bool isFainted = false;
 
-    private float timeTick = 1f; // 1초마다 게임 시간 1분 경과
+    [Header("Time Settings")]
+    [Tooltip("현실 몇 초마다 게임 시간 10분이 흐를지 설정")]
+    public float realSecondsPerGameTenMinutes = 10f;
+
+    private float timeTick => realSecondsPerGameTenMinutes;
 
     private void Awake()
     {
@@ -33,9 +36,8 @@ public class TimeManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(timeTick);
-
-            AdvanceTime(1); // 1분 경과
+            yield return new WaitForSeconds(timeTick); // 현실 10초
+            AdvanceTime(10); // 게임 10분 경과
         }
     }
 
@@ -45,20 +47,18 @@ public class TimeManager : MonoBehaviour
 
         if (currentMinute >= 60)
         {
-            currentMinute = 0;
+            currentMinute -= 60;
             currentHour++;
 
-            // 디버그용 출력
-            Debug.Log($"[시간 경과] {CurrentWeekday} {currentHour}시");
+            //Debug.Log($"[시간 경과] {CurrentWeekday} {currentHour}시 {currentMinute:D2}분");
 
             if (currentHour >= 24)
             {
                 currentHour = 0;
                 currentDay++;
-                Debug.Log($"[새로운 날!] {CurrentWeekday}요일, {currentDay}일차");
+                //Debug.Log($"[새로운 날!] {CurrentWeekday}요일, {currentDay}일차");
             }
 
-            // 잠 안 자고 새벽 넘기면 쓰러짐
             if (currentHour >= 0 && currentHour < 6 && !isSleeping && !isFainted)
             {
                 Faint();
@@ -70,7 +70,6 @@ public class TimeManager : MonoBehaviour
 
     private void CheckSleep()
     {
-        // 밤 12시 되면 강제로 잠듦
         if (currentHour == 24 || (currentHour == 0 && currentMinute == 0))
         {
             if (!isSleeping)
@@ -83,14 +82,20 @@ public class TimeManager : MonoBehaviour
     private void Sleep()
     {
         isSleeping = true;
-        Debug.Log("[자동 수면] 너무 늦었어요. 자동으로 잠듭니다.");
+        //Debug.Log("[자동 수면] 너무 늦었어요. 자동으로 잠듭니다.");
         // TODO: 회복, 다음날로 넘기기, 상태 초기화 등
     }
 
     private void Faint()
     {
         isFainted = true;
-        Debug.Log("[피로로 쓰러졌습니다!] 무리하지 마세요...");
+        //Debug.Log("[피로로 쓰러졌습니다!] 무리하지 마세요...");
         // TODO: 패널티 적용, 병원 이동, 회복 시간 등
+    }
+
+    // 외부에서 시간 확인할 수 있도록 프로퍼티 추가 (UI 연동 시 사용하기 편하게)
+    public string GetFormattedTime()
+    {
+        return $"{CurrentWeekday} {currentHour:D2}:{currentMinute:D2}";
     }
 }
