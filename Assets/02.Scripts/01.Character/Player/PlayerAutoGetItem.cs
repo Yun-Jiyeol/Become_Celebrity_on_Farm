@@ -20,7 +20,7 @@ public class PlayerAutoGetItem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Player") //임시
+        if (collision.transform.tag == "DropedItem") //임시
         {
             collision.GetComponent<IInteract>().Interact();
         }

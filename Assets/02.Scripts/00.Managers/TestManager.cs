@@ -11,6 +11,14 @@ public class TestManager : MonoBehaviour
     public Sprite HoeGround;
     public Sprite WaterGround;
 
+    public List<ConnectionBetweenItemObject> connectionBetweenItemObjects;
+    [System.Serializable]
+    public class ConnectionBetweenItemObject
+    {
+        public int ItemData_Num;
+        public GameObject Object;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -57,5 +65,17 @@ public class TestManager : MonoBehaviour
                 SlotItem[i].ChooseObject.SetActive(false);
             }
         }
+    }
+
+    public GameObject FindObject(int num)
+    {
+        for(int i = 0; i< connectionBetweenItemObjects.Count; i++)
+        {
+            if (connectionBetweenItemObjects[i].ItemData_Num == num)
+            {
+                return connectionBetweenItemObjects[i].Object;
+            }
+        }
+        return null;
     }
 }

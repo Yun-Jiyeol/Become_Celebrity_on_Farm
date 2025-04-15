@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class GameManager : MonoBehaviour
@@ -64,7 +65,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
         if(TargetType == null) return true;
         
         foreach(string list in TargetGameObjects)
@@ -78,5 +78,26 @@ public class GameManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void SpawnSomethine(string name, Vector3 position, Sprite sprite, string tag, string List)
+    {
+        GameObject go = new GameObject(name);
+        go.transform.parent = GameManager.Instance.gameObject.transform;
+        go.transform.position = position;
+        go.transform.localScale = Vector3.one * 0.625f;
+        go.AddComponent<SpriteRenderer>().sprite = sprite;
+        go.transform.tag = tag;
+
+        CanInteractionObjects[List].Add(go);
+    }
+
+    public void SpawnSomething(Vector3 position, GameObject _go, string List)
+    {
+        GameObject go = Instantiate(_go);
+        go.transform.parent = GameManager.Instance.gameObject.transform;
+        go.transform.position = position;
+
+        CanInteractionObjects[List].Add(go);
     }
 }

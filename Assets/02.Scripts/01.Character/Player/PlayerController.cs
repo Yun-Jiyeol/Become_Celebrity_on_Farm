@@ -67,7 +67,7 @@ public class PlayerController : BaseController
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
                     if (GameManager.Instance.InteractPosition(tartgetPosition, null, null, 
-                        new string[] { "PlowGround", "SeededGround", "ExceptObject" }, new string[] { "Plow", "Seeded" }))
+                        new string[] { "PlowGround", "SeededGround", "ExceptObject" }, new string[] { "Plow", "Seeded" })) //순서는 좌표, 찾아볼 List이름들, 찾아볼 Tag, 없어야 할 List들, 없어야 할 Tag
                     {
                         CanSpawn = true;
                         readyInteract = new SpawnInteract
@@ -99,6 +99,15 @@ public class PlayerController : BaseController
                     }
                     break;
                 case ItemType.Seed:
+                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow", new string[] { "SeededGround" }, new string[] { "Seeded" }))
+                    {
+                        GameObject ConnectedObejct = TestManager.Instance.FindObject(GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                        if(ConnectedObejct != null)
+                        {
+                            GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "SeededGround");
+                        }
+                    }
                     break;
                 default:
                     break;
@@ -138,33 +147,9 @@ public class PlayerController : BaseController
     public void SpawnObject()
     {
         if (!CanSpawn) return;
-
         CanSpawn = false;
-        GameObject go = new GameObject(readyInteract._name);
-        go.transform.parent = GameManager.Instance.gameObject.transform;
-        go.transform.position = tartgetPosition;
-        go.AddComponent<SpriteRenderer>().sprite = readyInteract._sprite;
-        go.transform.tag = readyInteract._Tag;
 
-        GameManager.Instance.CanInteractionObjects[readyInteract._AddList].Add(go);
-    }
-
-    void OnInventory(InputValue inputValue)
-    {
-        if (inputValue.isPressed)
-        {
-            Debug.Log("E키 눌림");
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.ToggleInventoryUI();
-
-                // 인벤토리가 켜졌다면 강제 멈춤
-                if (UIManager.Instance.InventoryIsOpen())
-                {
-                    dir = Vector2.zero;
-                }
-            }
-        }
+        GameManager.Instance.SpawnSomethine(readyInteract._name, tartgetPosition, readyInteract._sprite, readyInteract._Tag, readyInteract._AddList);
     }
 
     void OnOneSlot(InputValue inputValue)
