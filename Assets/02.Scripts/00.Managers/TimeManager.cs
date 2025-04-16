@@ -21,14 +21,22 @@ public class TimeManager : MonoBehaviour
 
     private float timeTick => realSecondsPerGameTenMinutes;
 
+    private Season season; // Season 스크립트와 연결
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        season = FindObjectOfType<Season>(); // Scene에 Season 스크립트 찾기
     }
 
     private void Start()
     {
+        if (season != null)
+        {
+            season.SetCurrentDay(currentDay); // Season에 현재 일수를 넘겨줌
+        }
         StartCoroutine(TimeFlow());
     }
 
@@ -38,6 +46,11 @@ public class TimeManager : MonoBehaviour
         {
             yield return new WaitForSeconds(timeTick); // 현실 10초
             AdvanceTime(10); // 게임 10분 경과
+
+            if (season != null)
+            {
+                season.UpdateSeason(); // 계절 갱신
+            }
         }
     }
 
@@ -50,12 +63,13 @@ public class TimeManager : MonoBehaviour
             currentMinute -= 60;
             currentHour++;
 
-            //Debug.Log($"[시간 경과] {CurrentWeekday} {currentHour}시 {currentMinute:D2}분");
+            Debug.Log($"[시간 경과] {CurrentWeekday} {currentHour}시 {currentMinute:D2}분");
 
             if (currentHour >= 24)
             {
                 currentHour = 0;
                 currentDay++;
+                season.SetCurrentDay(currentDay); // Season에 일수 갱신
                 //Debug.Log($"[새로운 날!] {CurrentWeekday}요일, {currentDay}일차");
             }
 
