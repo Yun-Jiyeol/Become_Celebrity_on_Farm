@@ -37,7 +37,15 @@ public class UIManager : MonoBehaviour
         foreach (GameObject prefab in uiPrefabs)
         {
             GameObject go = Instantiate(prefab, uiRoot);
+            RectTransform rect = go.GetComponent<RectTransform>();
+            if(rect != null)
+            {
+                rect.anchoredPosition = Vector2.zero; // UI의 위치를 캔버스 중앙으로 설정
+                rect.localScale = Vector3.one; // UI의 크기를 원래대로 설정
+            }
+
             go.SetActive(false);
+
             UIBase ui = go.GetComponent<UIBase>();
             if (ui != null)
             {
@@ -91,20 +99,38 @@ public class UIManager : MonoBehaviour
         return inventoryUI != null && inventoryUI.activeSelf;
     }
 
-    private void Start()
-    {
-        //플레이어 스탯 바 ui 연결
-        var player = FindObjectOfType<PlayerStats>();
-        if (player == null)
-        {
-            Debug.LogError("PlayerStats 못찾음!");
-            return;
-        }
+    //private void Start()
+    //{
+    //    var player = FindObjectOfType<PlayerStats>();
+    //    if (player == null)
+    //    {
+    //        Debug.LogError("[UI연결] PlayerStats를 씬에서 찾지 못했습니다.");
+    //        return;
+    //    }
 
-        var hpBar = UIManager.Instance.Show<UIHpBar>();
-        var energyBar = UIManager.Instance.Show<UIEnergyBar>();
+    //    Debug.Log("[UI연결] PlayerStats 찾음!");
 
-        if (hpBar != null) hpBar.Init(player);
-        if (energyBar != null) energyBar.Init(player);
-    }
+    //    var hpBar = UIManager.Instance.Show<UIHpBar>();
+    //    if (hpBar == null)
+    //    {
+    //        Debug.LogError("[UI연결] UIHpBar를 UIManager에서 찾지 못했습니다.");
+    //    }
+    //    else
+    //    {
+    //        hpBar.Init(player);
+    //        Debug.Log("[UI연결] HP Bar 초기화 완료");
+    //    }
+
+    //    var energyBar = UIManager.Instance.Show<UIEnergyBar>();
+    //    if (energyBar == null)
+    //    {
+    //        Debug.LogError("[UI연결] UIEnergyBar를 UIManager에서 찾지 못했습니다.");
+    //    }
+    //    else
+    //    {
+    //        energyBar.Init(player);
+    //        Debug.Log("[UI연결] Energy Bar 초기화 완료");
+    //    }
+    //}
+
 }
