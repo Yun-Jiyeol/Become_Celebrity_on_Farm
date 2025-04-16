@@ -127,12 +127,12 @@ public class GameManager : MonoBehaviour
                         {
                             if (go.transform.tag == tag)
                             {
-                                SaveforInteract.Add(go);
                                 if (isOne)
                                 {
-                                    Debug.Log("123");
+                                    go.GetComponent<IInteract>().Interact();
                                     return;
                                 }
+                                SaveforInteract.Add(go);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
     public void SpawnSomethine(string name, Vector3 position, Sprite sprite, string tag, string List)
     {
         GameObject go = new GameObject(name);
-        go.transform.parent = GameManager.Instance.gameObject.transform;
+        go.transform.parent = gameObject.transform;
         go.transform.position = position;
         go.transform.localScale = Vector3.one * 0.625f;
         go.AddComponent<SpriteRenderer>().sprite = sprite;
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
     public void SpawnSomething(Vector3 position, GameObject _go, string List)
     {
         GameObject go = Instantiate(_go);
-        go.transform.parent = GameManager.Instance.gameObject.transform;
+        go.transform.parent = gameObject.transform;
         go.transform.position = position;
 
         CanInteractionObjects[List].Add(go);
