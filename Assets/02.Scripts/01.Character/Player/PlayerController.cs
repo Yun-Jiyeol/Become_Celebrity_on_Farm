@@ -64,22 +64,23 @@ public class PlayerController : BaseController
 
         if (inputValue.isPressed)
         {
-            if (GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0) return;
+            if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0) return;
 
             ItemType chooseItemType = ItemManager.Instance.itemDataReader.
-                itemsDatas[GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
+                itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
 
             switch (chooseItemType)
             {
                 case ItemType.Hoe:
-                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-                    tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
                     CheckAngle();
                     isAction = true;
-                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.HoeParameterHash);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
+                    //순서는 좌표, 찾아볼 List이름들, 찾아볼 Tag, 없어야 할 List들, 없어야 할 Tag
                     if (GameManager.Instance.InteractPosition(tartgetPosition, null, null, 
-                        new string[] { "PlowGround", "SeededGround", "ExceptObject" }, new string[] { "Plow", "Seeded" })) //순서는 좌표, 찾아볼 List이름들, 찾아볼 Tag, 없어야 할 List들, 없어야 할 Tag
+                        new string[] { "PlowGround", "SeededGround", "ExceptObject" }, new string[] { "Plow", "Seeded" }))
                     {
                         CanSpawn = true;
                         readyInteract = new SpawnInteract
@@ -92,12 +93,12 @@ public class PlayerController : BaseController
                     }
                     break;
                 case ItemType.Watering:
-                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-                    tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
                     CheckAngle();
                     isAction = true;
-                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.WateringParameterHash);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         gameObject.GetComponent<Player>().playerAnimation.WateringParameterHash);
                     if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow",
                         new string[] { "WateredGround" }, new string[] { "Watered" }))
                     {
@@ -112,11 +113,11 @@ public class PlayerController : BaseController
                     }
                     break;
                 case ItemType.Seed:
-                    if (!GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-                    tartgetPosition = GameManager.Instance.player.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow", new string[] { "SeededGround" }, new string[] { "Seeded" }))
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow", new string[] { "SeededGround" }, new string[] { "Seeded", "EndGrow" }))
                     {
-                        GameObject ConnectedObejct = TestManager.Instance.FindObject(GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                        GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                         if (ConnectedObejct != null)
                         {
                             GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "SeededGround");
@@ -127,8 +128,8 @@ public class PlayerController : BaseController
                     tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
                     CheckAngle();
                     isAction = true;
-                    GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         GameManager.Instance.player.GetComponent<Player>().playerAnimation.SickleParameterHash);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
 
                     int DirectionSave = 0;
                     if(dir == new Vector2(-1, 0))
@@ -162,7 +163,22 @@ public class PlayerController : BaseController
             }
         }
     }
+    void OnInventory(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        {
+            Debug.Log("E키 눌림");
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ToggleInventoryUI();
 
+                if (UIManager.Instance.InventoryIsOpen())
+                {
+                    dir = Vector2.zero;
+                }
+            }
+        }
+    }
     public void EndAction()
     {
         dir = Vector2.zero;
@@ -270,7 +286,7 @@ public class PlayerController : BaseController
         if (PlayerChoosNum != nownum)
         {
             nownum = PlayerChoosNum;
-            TestManager.Instance.ShowChooseUI(PlayerChoosNum);
+            //TestManager.Instance.ShowChooseUI(PlayerChoosNum);
         }
     }
 }
