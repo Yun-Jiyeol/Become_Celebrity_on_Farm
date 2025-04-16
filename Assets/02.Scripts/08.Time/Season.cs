@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Season : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Season : MonoBehaviour
 
     private int currentDay = 0; // TimeManager와 연동할 예정
     private readonly string[] seasonNames = { "봄", "여름", "가을", "겨울" };
+
+    private SeasonType lastSeason = SeasonType.Spring;
+
+    public event Action<SeasonType> OnSeasonChanged; // 계절 변경 이벤트 추가
 
     public SeasonType CurrentSeason
     {
@@ -28,10 +33,16 @@ public class Season : MonoBehaviour
     public void SetCurrentDay(int day)
     {
         currentDay = day;
+        UpdateSeason(); //날짜가 바뀌면 시즌 업데이트 호출
     }
 
     public void UpdateSeason()
     {
-        // 계절 업데이트를 호출할 수 있음. (필요시 추가 로직 삽입)
+        SeasonType current = CurrentSeason;
+        if (current != lastSeason)
+        {
+            lastSeason = current;
+            OnSeasonChanged?.Invoke(current); //계절이 바뀌었으면 이벤트 발동
+        }
     }
 }
