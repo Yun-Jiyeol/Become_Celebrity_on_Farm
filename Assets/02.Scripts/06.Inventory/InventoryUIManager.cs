@@ -73,6 +73,8 @@ public class InventoryUIManager : MonoBehaviour
                 slots[i].SetData(warehouseInven[i - 12]);
         }
 
+        QuickSlotUIManager.Instance?.RefreshQuickSlot();
+
     }
 
     public void OnSlotClick(InventorySlotUI clickedSlot)
