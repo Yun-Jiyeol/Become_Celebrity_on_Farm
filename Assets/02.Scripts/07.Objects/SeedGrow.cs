@@ -14,26 +14,12 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 {
     public float HP { get; set; }
     public float MaxHP { get; set; }
+
     public List<StepGrow> steps;
     public int SpawnItemNum;
     public int SpawnItemAmount;
 
-    bool isEndGrow = false;
-    public bool isDestroyAfterHarvest;
-    public int AfterHarvest= 0;
-
-    private void Start()
-    {
-        HP = 0;
-        MaxHP = steps[steps.Count - 1].Hp;
-
-        InvokeRepeating("TestGrow", 3, 3);
-    }
-
-    void TestGrow()
-    {
-        GetDamage(10);
-    }
+    protected bool isEndGrow = false;
 
     public void GetDamage(float amount)
     {
@@ -69,18 +55,11 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 
     public void Interact()
     {
-        if(!isEndGrow) return;
+        calledInteract();
+    }
 
-        ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
-        if (isDestroyAfterHarvest)
-        {
-            GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
-            Destroy(gameObject);
-        }
-        else
-        {
-            GetDamage(-AfterHarvest);
-            transform.tag = "Seeded";
-        }
+    protected virtual void calledInteract()
+    {
+        if (!isEndGrow) return;
     }
 }
