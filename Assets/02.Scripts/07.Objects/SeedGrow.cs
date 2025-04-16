@@ -26,6 +26,13 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
     {
         HP = 0;
         MaxHP = steps[steps.Count - 1].Hp;
+
+        InvokeRepeating("TestGrow", 3, 3);
+    }
+
+    void TestGrow()
+    {
+        GetDamage(10);
     }
 
     public void GetDamage(float amount)
@@ -68,6 +75,7 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
         if (isDestroyAfterHarvest)
         {
+            GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
             Destroy(gameObject);
         }
         else

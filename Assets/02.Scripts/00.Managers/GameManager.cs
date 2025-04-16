@@ -81,8 +81,10 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, float MinAngle, float MaxAngle, bool isOne)
+    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isOne)
     {
+        List<GameObject> SaveforInteract = new List<GameObject>();
+
         foreach (string list in TargetGameObjects)
         {
             foreach (GameObject go in CanInteractionObjects[list])
@@ -90,21 +92,59 @@ public class GameManager : MonoBehaviour
                 if(Vector3.Distance(go.transform.position, player.transform.position) <= Distance)
                 {
                     float angleDegrees = Mathf.Atan2(go.transform.position.x - player.transform.position.x, go.transform.position.y - player.transform.position.y) * Mathf.Rad2Deg;
-                    if(angleDegrees > MinAngle &&  angleDegrees < MaxAngle)
+                    bool isin = false;
+                    switch (dir)
                     {
-                        foreach(string tag in TargetTags)
-                        {
-                            if(go.transform.tag == tag)
+                        case 0:
+                            if(angleDegrees <= 60 && angleDegrees >= -60)
                             {
-                                go.GetComponent<IInteract>().Interact();
+                                isin = true;
+                            }
+                            break;
+                        case 1:
+                            if (angleDegrees <= 150 && angleDegrees >= 30)
+                            {
+                                isin = true;
+                            }
+                            break;
+                        case 2:
+                            if (angleDegrees <= -120 || angleDegrees >= 120)
+                            {
+                                isin = true;
+                            }
+                            break;
+                        case 3:
+                            if (angleDegrees <= -30 && angleDegrees >= -150)
+                            {
+                                isin = true;
+                            }
+                            break;
+                    }
+
+                    if(isin)
+                    {
+                        foreach (string tag in TargetTags)
+                        {
+                            if (go.transform.tag == tag)
+                            {
+                                SaveforInteract.Add(go);
                                 if (isOne)
                                 {
+                                    Debug.Log("123");
                                     return;
                                 }
                             }
                         }
                     }
                 }
+            }
+        }
+
+        if(SaveforInteract.Count != 0)
+        {
+            foreach(GameObject go in SaveforInteract)
+            {
+                go.GetComponent<IInteract>().Interact();
             }
         }
     }

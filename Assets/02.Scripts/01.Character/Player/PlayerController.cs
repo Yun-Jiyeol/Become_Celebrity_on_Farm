@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,7 @@ public class PlayerController : BaseController
     public int PlayerChoosNum = 1;
     private int nownum = 1;
 
+    [Header("Interact")]
     private SpawnInteract readyInteract = new SpawnInteract();
     private bool CanSpawn = false;
     public class SpawnInteract
@@ -23,6 +25,17 @@ public class PlayerController : BaseController
         public string _Tag;
         public string _AddList;
     }
+
+    private RangeInteract readyRangeInteract = new RangeInteract();
+    public class RangeInteract
+    {
+        public string[] _Find;
+        public string[] _Tag;
+        public float _Range;
+        public int _Dir;
+        public bool _isAll;
+    }
+
 
     protected override void Start()
     {
@@ -114,11 +127,35 @@ public class PlayerController : BaseController
                     tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
                     CheckAngle();
                     isAction = true;
-
-
                     GameManager.Instance.player.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          GameManager.Instance.player.GetComponent<Player>().playerAnimation.SickleParameterHash);
-                    GameManager.Instance.InteractSector(new string[] { "SeededGround" }, new string[] { "EndGrow" }, 5f, 30, 120, false);
+
+                    int DirectionSave = 0;
+                    if(dir == new Vector2(-1, 0))
+                    {
+                        DirectionSave = 3;
+                    }
+                    else if (dir == new Vector2(1, 0))
+                    {
+                        DirectionSave = 1;
+                    }
+                    else if (dir == new Vector2(0, 1))
+                    {
+                        DirectionSave = 0;
+                    }
+                    else
+                    {
+                        DirectionSave = 2;
+                    }
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Find = new string[] { "SeededGround" },
+                        _Tag = new string[] { "EndGrow" },
+                        _Range = 5f,
+                        _Dir = DirectionSave,
+                        _isAll = false
+                    };
+
                     break;
                 default:
                     break;
@@ -152,6 +189,11 @@ public class PlayerController : BaseController
         {
             dir = new Vector2(0, -1);
         }
+    }
+
+    public void RangeInteractObject()
+    {
+        GameManager.Instance.InteractSector(readyRangeInteract._Find, readyRangeInteract._Tag, readyRangeInteract._Range, readyRangeInteract._Dir, readyRangeInteract._isAll);
     }
 
     public void SpawnObject()

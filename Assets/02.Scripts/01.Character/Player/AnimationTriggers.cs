@@ -9,6 +9,11 @@ public class AnimationTriggers : MonoBehaviour
         GameManager.Instance.player.GetComponent<PlayerController>().SpawnObject();
     }
 
+    public void RangeInteractionAction()
+    {
+        GameManager.Instance.player.GetComponent<PlayerController>().RangeInteractObject();
+    }
+
     public void EndingInteractionAction()
     {
         GameManager.Instance.player.GetComponent<PlayerController>().EndAction();
