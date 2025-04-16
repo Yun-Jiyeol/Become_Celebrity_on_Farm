@@ -115,7 +115,7 @@ public class PlayerController : BaseController
                 case ItemType.Seed:
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow", new string[] { "SeededGround" }, new string[] { "Seeded" }))
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow", new string[] { "SeededGround" }, new string[] { "Seeded", "EndGrow" }))
                     {
                         GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                         if (ConnectedObejct != null)
