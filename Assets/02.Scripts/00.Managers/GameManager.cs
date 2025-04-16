@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UIElements;
@@ -13,11 +14,14 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     public GameObject MouseFollower;
 
+    private GameObject LastGameObject;
+
     public Dictionary<string, List<GameObject>> CanInteractionObjects = new Dictionary<string, List<GameObject>>
     {
         { "PlowGround", new List<GameObject>() },
         { "WateredGround", new List<GameObject>() },
         { "SeededGround", new List<GameObject>() },
+        { "TreeGround", new List<GameObject>() },
         { "ExceptObject", new List<GameObject>() }
     };
 
@@ -48,37 +52,53 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool InteractPosition(Vector3 position, string[] TargetGameObjects, string TargetType, string[] nopeGameObjects , string[] nopeType)
+    public bool InteractPosition(Vector3 position, string[] TargetGameObjects, string[] TargetType, string[] nopeGameObjects , string[] nopeType)
     {
-        for (int i = 0; i < nopeGameObjects.Length; i++)
+        if(nopeGameObjects != null)
         {
-            foreach (GameObject go in CanInteractionObjects[nopeGameObjects[i]])
+            for (int i = 0; i < nopeGameObjects.Length; i++)
             {
-                if (go.transform.position == position)
+                foreach (GameObject go in CanInteractionObjects[nopeGameObjects[i]])
                 {
-                    foreach(string type in nopeType)
+                    if (go.transform.position == position)
                     {
-                        if(go.transform.tag == type)
+                        foreach (string type in nopeType)
                         {
-                            return false;
+                            if (go.transform.tag == type)
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
             }
         }
+
         if(TargetType == null) return true;
         
         foreach(string list in TargetGameObjects)
         {
             foreach(GameObject go in CanInteractionObjects[list])
             {
-                if(go.transform.position == position && go.transform.tag == TargetType)
+                if(go.transform.position == position)
                 {
-                    return true;
+                    foreach(string type in TargetType)
+                    {
+                        if(go.transform.tag == type)
+                        {
+                            LastGameObject = go;
+                            return true;
+                        }
+                    }
                 }
             }
         }
         return false;
+    }
+
+    public void TryHandInteract()
+    {
+        LastGameObject.GetComponent<SeedGrow>().HandInteract();
     }
 
     public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isOne)

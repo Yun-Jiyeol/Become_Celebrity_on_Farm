@@ -6,6 +6,7 @@ public class Trees : SeedGrow
 {
     public bool isFruitTree;
     public int AdditionalGrow = 0;
+    private int MaxAddiitionalGrow;
     public int EndGrow;
 
     public int WoodItemNum = 1;
@@ -16,13 +17,14 @@ public class Trees : SeedGrow
         InvokeRepeating("TestGrow", 3, 3);
 
         MaxHP = steps[EndGrow].Hp;
+        MaxAddiitionalGrow = steps[steps.Count - 1].Hp - (int)MaxHP;
     }
 
     void TestGrow()
     {
         if (isEndGrow)
         {
-            AdditionalGrow += 10;
+            AdditionalGrow = Mathf.Min(MaxAddiitionalGrow, AdditionalGrow + 10);
         }
         GetDamage(10);
         CheckGrow();
@@ -57,11 +59,12 @@ public class Trees : SeedGrow
         GetDamage(-10);
         if(HP <= 0)
         {
-            if (isEndGrow)
+            if (AdditionalGrow >= MaxAddiitionalGrow)
             {
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
             }
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
+            GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
             Destroy(gameObject);
         }
     }
@@ -70,7 +73,9 @@ public class Trees : SeedGrow
     {
         base.HandInteract();
 
-        if (isEndGrow)
+        if (!isFruitTree) return;
+
+        if (AdditionalGrow >= MaxAddiitionalGrow)
         {
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
             AdditionalGrow = 0;
