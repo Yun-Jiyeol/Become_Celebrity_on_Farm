@@ -18,6 +18,7 @@ public enum ItemType
     Hoe,
     Watering,
     Seed,
+    TreeSeed,
 
     Bow,
     Arrow,

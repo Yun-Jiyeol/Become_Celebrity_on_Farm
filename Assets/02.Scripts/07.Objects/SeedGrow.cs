@@ -21,10 +21,16 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 
     protected bool isEndGrow = false;
 
+    protected virtual void Start()
+    {
+        HP = 0;
+        MaxHP = steps[steps.Count - 1].Hp;
+    }
+
+
     public void GetDamage(float amount)
     {
         HP += amount;
-        CheckGrow();
 
         if (HP >= MaxHP)
         {
@@ -34,7 +40,7 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         }
     }
 
-    void CheckGrow()
+    public virtual void CheckGrow()
     {
         string growstep = steps[0].SpriteName;
 
@@ -59,6 +65,11 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
     }
 
     protected virtual void calledInteract()
+    {
+
+    }
+
+    public virtual void HandInteract()
     {
         if (!isEndGrow) return;
     }

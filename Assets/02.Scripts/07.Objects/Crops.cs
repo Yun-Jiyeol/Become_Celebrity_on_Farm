@@ -7,22 +7,26 @@ public class Crops : SeedGrow
     public bool isDestroyAfterHarvest;
     public int AfterHarvest = 0;
 
-    private void Start()
+    protected override void Start()
     {
-        HP = 0;
-        MaxHP = steps[steps.Count - 1].Hp;
-
+        base.Start();
         InvokeRepeating("TestGrow", 3, 3);
     }
 
     void TestGrow()
     {
         GetDamage(10);
+        CheckGrow();
+    }
+
+    public override void CheckGrow()
+    {
+        base.CheckGrow();
     }
 
     protected override void calledInteract()
     {
-        base.calledInteract();
+        if (!isEndGrow) return;
 
         ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
         if (isDestroyAfterHarvest)
@@ -33,7 +37,15 @@ public class Crops : SeedGrow
         else
         {
             GetDamage(-AfterHarvest);
+            CheckGrow();
             transform.tag = "Seeded";
         }
+    }
+
+    public override void HandInteract()
+    {
+        base.HandInteract();
+
+        calledInteract();
     }
 }
