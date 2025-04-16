@@ -10,6 +10,8 @@ public class QuickSlotUIManager : MonoBehaviour
     [Header("ÇÏ´Ü Äü½½·Ô UI")]
     public InventorySlotUI[] quickSlots;
 
+    private int selectedIndex = -1;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -37,6 +39,17 @@ public class QuickSlotUIManager : MonoBehaviour
                 quickSlots[i].SetData(playerInventory.PlayerHave[i]);
             }
         }
+    }
+    public void SelectSlot(int index)
+    {
+        if (index < 0 || index >= quickSlots.Length) return;
+
+        for (int i = 0; i < quickSlots.Length; i++)
+        {
+            quickSlots[i].SetSelected(i == index);
+        }
+
+        selectedIndex = index;
     }
 }
 
