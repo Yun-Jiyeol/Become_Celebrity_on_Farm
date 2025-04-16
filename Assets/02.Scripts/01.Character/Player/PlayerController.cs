@@ -167,7 +167,7 @@ public class PlayerController : BaseController
     {
         if (inputValue.isPressed)
         {
-            Debug.Log("EÅ° ´­¸²");
+            
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.ToggleInventoryUI();
@@ -286,7 +286,7 @@ public class PlayerController : BaseController
         if (PlayerChoosNum != nownum)
         {
             nownum = PlayerChoosNum;
-            //TestManager.Instance.ShowChooseUI(PlayerChoosNum);
+            QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
         }
     }
 }
