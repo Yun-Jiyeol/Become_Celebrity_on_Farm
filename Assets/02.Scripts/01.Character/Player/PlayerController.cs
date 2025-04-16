@@ -285,7 +285,7 @@ public class PlayerController : BaseController
         if (PlayerChoosNum != nownum)
         {
             nownum = PlayerChoosNum;
-            TestManager.Instance.ShowChooseUI(PlayerChoosNum);
+            //TestManager.Instance.ShowChooseUI(PlayerChoosNum);
         }
     }
 }
