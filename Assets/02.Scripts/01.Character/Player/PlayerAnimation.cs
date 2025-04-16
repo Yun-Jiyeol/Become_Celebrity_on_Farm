@@ -6,9 +6,11 @@ public class PlayerAnimation : BaseAnimation
 {
     string HoeParameterName = "Hoe";
     string WateringParameterName = "Watering";
+    string SickleParameterName = "Sickle";
 
     public int HoeParameterHash { get; private set; }
     public int WateringParameterHash { get; private set; }
+    public int SickleParameterHash { get; private set; }
 
     private void Start()
     {
@@ -24,6 +26,7 @@ public class PlayerAnimation : BaseAnimation
 
         HoeParameterHash = Animator.StringToHash(HoeParameterName);
         WateringParameterHash = Animator.StringToHash(WateringParameterName);
+        SickleParameterHash = Animator.StringToHash(SickleParameterName);
     }
 
     private void FixedUpdate()
