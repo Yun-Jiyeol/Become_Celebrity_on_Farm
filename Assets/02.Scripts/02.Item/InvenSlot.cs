@@ -13,7 +13,8 @@ public class InvenSlot : MonoBehaviour
 
     private void Awake()
     {
-        ChooseObject.SetActive(false);
+        if (slotnum == 1) ChooseObject.SetActive(true);
+        else ChooseObject.SetActive(false);
     }
 
     private void Start()

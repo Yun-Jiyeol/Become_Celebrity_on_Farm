@@ -11,6 +11,8 @@ public enum ItemType
 
     Axe,
     Pickaxe,
+    Shovel,
+    FishingRod,
 
     Sickle,
     Hoe,
