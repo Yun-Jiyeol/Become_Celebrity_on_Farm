@@ -14,6 +14,7 @@ public class PlayerController : BaseController
 
     public int PlayerChoosNum = 1;
     private int nownum = 1;
+    int DirectionSave = 0;
 
     [Header("Interact")]
     private SpawnInteract readyInteract = new SpawnInteract();
@@ -119,7 +120,7 @@ public class PlayerController : BaseController
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
 
-                    int DirectionSave = 0;
+                    DirectionSave = 0;
                     if (dir == new Vector2(-1, 0))
                     {
                         DirectionSave = 3;
@@ -141,6 +142,39 @@ public class PlayerController : BaseController
                         _Find = new string[] { "SeededGround" },
                         _Tag = new string[] { "EndGrow" },
                         _Range = 5f,
+                        _Dir = DirectionSave,
+                        _isAll = true
+                    };
+                    break;
+                case ItemType.Axe:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
+                         gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
+
+                    DirectionSave = 0;
+                    if (dir == new Vector2(-1, 0))
+                    {
+                        DirectionSave = 3;
+                    }
+                    else if (dir == new Vector2(1, 0))
+                    {
+                        DirectionSave = 1;
+                    }
+                    else if (dir == new Vector2(0, 1))
+                    {
+                        DirectionSave = 0;
+                    }
+                    else
+                    {
+                        DirectionSave = 2;
+                    }
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Find = new string[] { "TreeGround" },
+                        _Tag = new string[] { "Tree", "EndGrow" },
+                        _Range = 2f,
                         _Dir = DirectionSave,
                         _isAll = false
                     };

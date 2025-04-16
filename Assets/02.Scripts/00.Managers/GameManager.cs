@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         LastGameObject.GetComponent<SeedGrow>().HandInteract();
     }
 
-    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isOne)
+    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isAll)
     {
         List<GameObject> SaveforInteract = new List<GameObject>();
 
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
                         {
                             if (go.transform.tag == tag)
                             {
-                                if (isOne)
+                                if (!isAll)
                                 {
                                     go.GetComponent<IInteract>().Interact();
                                     return;

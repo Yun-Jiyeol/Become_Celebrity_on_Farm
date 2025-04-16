@@ -56,7 +56,7 @@ public class Trees : SeedGrow
 
         //플레이어의 도끼? 공격력를 받아와 데미지 계산하는 로직을 추가
 
-        GetDamage(-10);
+        GetDamage(-30);
         if(HP <= 0)
         {
             if (AdditionalGrow >= MaxAddiitionalGrow)
