@@ -162,7 +162,22 @@ public class PlayerController : BaseController
             }
         }
     }
+    void OnInventory(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        {
+            Debug.Log("EÅ° ´­¸²");
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ToggleInventoryUI();
 
+                if (UIManager.Instance.InventoryIsOpen())
+                {
+                    dir = Vector2.zero;
+                }
+            }
+        }
+    }
     public void EndAction()
     {
         dir = Vector2.zero;
