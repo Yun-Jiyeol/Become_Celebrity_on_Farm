@@ -17,11 +17,7 @@ public class Season : MonoBehaviour
     {
         get
         {
-<<<<<<< Updated upstream
-            int seasonLength = 28; 
-=======
-            int seasonLength = 28; // 각 계절은 30일
->>>>>>> Stashed changes
+            int seasonLength = 28;
             int seasonIndex = (currentDay / seasonLength) % 4;
             return (SeasonType)seasonIndex;
         }
