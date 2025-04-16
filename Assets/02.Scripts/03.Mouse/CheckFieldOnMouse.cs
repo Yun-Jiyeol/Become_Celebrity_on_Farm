@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CheckFieldOnMouse : MonoBehaviour
 {
-    GameObject MouseFollower;
+    public GameObject MouseFollower;
     private float ActiveRange;
     Camera camera;
 
