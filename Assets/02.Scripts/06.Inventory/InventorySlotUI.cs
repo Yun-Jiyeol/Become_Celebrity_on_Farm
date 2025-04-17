@@ -12,6 +12,8 @@ public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private Inventory.Inven invenData;  // 해당 슬롯의 데이터
 
+    public GameObject chooseIndicator; // Choose 오브젝트
+
     // 슬롯에 데이터 셋팅 + UI 갱신
     public void SetData(Inventory.Inven data)
     {
@@ -63,5 +65,10 @@ public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerExit(PointerEventData eventData)
     {
         TooltipManager.Instance.HideTooltip();
+    }
+    public void SetSelected(bool selected)
+    {
+        if (chooseIndicator != null)
+            chooseIndicator.SetActive(selected);
     }
 }
