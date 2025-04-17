@@ -32,6 +32,17 @@ public class TestManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        InvokeRepeating("LateStart", 15f, 15f);
+    }
+
+    void LateStart()
+    {
+        GameManager.Instance.OneDayAfter();
+    }
+
+
     public static TestManager Instance
     {
         get

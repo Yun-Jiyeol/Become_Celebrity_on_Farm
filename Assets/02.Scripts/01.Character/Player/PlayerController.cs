@@ -23,6 +23,7 @@ public class PlayerController : BaseController
     {
         public string _name;
         public Sprite _sprite;
+        public int _order;
         public string _Tag;
         public string _AddList;
     }
@@ -88,6 +89,7 @@ public class PlayerController : BaseController
                         {
                             _name = "PlowGround",
                             _sprite = TestManager.Instance.HoeGround,
+                            _order = 1,
                             _Tag = "Plow",
                             _AddList = "PlowGround"
                         };
@@ -108,6 +110,7 @@ public class PlayerController : BaseController
                         {
                             _name = "WaterGround",
                             _sprite = TestManager.Instance.WaterGround,
+                            _order = 2,
                             _Tag = "Watered",
                             _AddList = "WateredGround"
                         };
@@ -277,7 +280,7 @@ public class PlayerController : BaseController
         if (!CanSpawn) return;
         CanSpawn = false;
 
-        GameManager.Instance.SpawnSomethine(readyInteract._name, tartgetPosition, readyInteract._sprite, readyInteract._Tag, readyInteract._AddList);
+        GameManager.Instance.SpawnSomething(readyInteract._name, tartgetPosition, readyInteract._sprite, readyInteract._order, readyInteract._Tag, readyInteract._AddList);
     }
 
     void OnOneSlot(InputValue inputValue)

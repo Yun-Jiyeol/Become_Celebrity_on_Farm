@@ -59,6 +59,11 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];
     }
 
+    public virtual void Grow(float grow)
+    {
+
+    }
+
     public void Interact()
     {
         calledInteract();
