@@ -14,6 +14,7 @@ public class Trees : SeedGrow
     public int WoodItemNum = 1;
     public int WoodItemAmount = 1;
     public string StumpName;
+    public float StumpHp;
 
     private void Awake()
     {
@@ -76,7 +77,7 @@ public class Trees : SeedGrow
         {
             if (isEndGrow)
             {
-                if (AdditionalGrow >= MaxAddiitionalGrow)
+                if (AdditionalGrow >= MaxAddiitionalGrow && isFruitTree)
                 {
                     ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
                 }
@@ -88,7 +89,7 @@ public class Trees : SeedGrow
                 go.transform.localScale = Vector3.one * 0.625f;
                 go.AddComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[StumpName];
                 TreeStump stump = go.AddComponent<TreeStump>();
-                stump.Init(30);
+                stump.Init(StumpHp);
                 BoxCollider2D collider = go.AddComponent<BoxCollider2D>();
                 collider.offset = new Vector2(0,0.4f);
                 collider.size = new Vector2(1, 1);
