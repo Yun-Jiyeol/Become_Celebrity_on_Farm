@@ -34,12 +34,12 @@ public class GoldManager : MonoBehaviour
         OnGoldChanged?.Invoke(player.GetGold()); //시작시 ui에 초기 골드값 전달
     }
 
-    public int GetGold()
+    public int GetGold() //외부에서 현재 골드 값을 가져올수 있게 해주는 함수
     {
         return player != null ? player.GetGold() : 0;
     }
 
-    public void AddGold(int amount) //골드 amount만큼 증가, 변경 이벤트 발생
+    public void AddGold(int amount) //PlayerStats의 골드를 증가시킴.
     {
         if (player == null) return;
 
@@ -47,7 +47,7 @@ public class GoldManager : MonoBehaviour
         OnGoldChanged?.Invoke(player.GetGold());
     }
 
-    public bool SpendGold(int amount) //골드 amount만큼 사용
+    public bool SpendGold(int amount) //충분한 골드가 있다면 골드 차감.
     {
         if (player == null) return false;
 
