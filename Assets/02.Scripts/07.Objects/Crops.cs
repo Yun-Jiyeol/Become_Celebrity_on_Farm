@@ -10,12 +10,11 @@ public class Crops : SeedGrow
     protected override void Start()
     {
         base.Start();
-        InvokeRepeating("TestGrow", 3, 3);
     }
 
-    void TestGrow()
+    public override void Grow(float grow)
     {
-        GetDamage(10);
+        GetDamage(grow);
         CheckGrow();
     }
 

@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class Trees : SeedGrow
 {
     public bool isFruitTree;
-    public int AdditionalGrow = 0;
+    public float AdditionalGrow = 0;
     private int MaxAddiitionalGrow;
     private BoxCollider2D treecollider = new BoxCollider2D();
     public int EndGrow;
@@ -24,20 +24,19 @@ public class Trees : SeedGrow
     protected override void Start()
     {
         base.Start();
-        InvokeRepeating("TestGrow", 3, 3);
 
         MaxHP = steps[EndGrow].Hp;
         MaxAddiitionalGrow = steps[steps.Count - 1].Hp - (int)MaxHP;
         treecollider.enabled = false;
     }
 
-    void TestGrow()
+    public override void Grow(float grow)
     {
         if (isEndGrow)
         {
-            AdditionalGrow = Mathf.Min(MaxAddiitionalGrow, AdditionalGrow + 10);
+            AdditionalGrow = Mathf.Min(MaxAddiitionalGrow, AdditionalGrow + grow);
         }
-        GetDamage(10);
+        GetDamage(grow);
         CheckGrow();
     }
 

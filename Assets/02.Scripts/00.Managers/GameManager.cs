@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI.Table;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class GameManager : MonoBehaviour
@@ -171,13 +173,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpawnSomethine(string name, Vector3 position, Sprite sprite, string tag, string List)
+    public void SpawnSomething(string name, Vector3 position, Sprite sprite,int Order,string tag, string List)
     {
         GameObject go = new GameObject(name);
         go.transform.parent = gameObject.transform;
         go.transform.position = position;
         go.transform.localScale = Vector3.one;
-        go.AddComponent<SpriteRenderer>().sprite = sprite;
+        SpriteRenderer GOSprite = go.AddComponent<SpriteRenderer>();
+        GOSprite.sprite = sprite;
+        GOSprite.sortingOrder = Order;
         go.transform.tag = tag;
 
         CanInteractionObjects[List].Add(go);
@@ -190,5 +194,59 @@ public class GameManager : MonoBehaviour
         go.transform.position = position;
 
         CanInteractionObjects[List].Add(go);
+    }
+
+    public void OneDayAfter()
+    {
+        if (CanInteractionObjects["TreeGround"] != null)
+        {
+            foreach (GameObject tree in CanInteractionObjects["TreeGround"])
+            {
+                if(tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
+                {
+                    tree.GetComponent<SeedGrow>().Grow(10);
+                }
+            }
+        }
+
+
+        if (CanInteractionObjects["SeededGround"] != null)
+        {
+            foreach (GameObject Seed in CanInteractionObjects["SeededGround"])
+            {
+                if (Seed.transform.tag == "Seeded")
+                {
+                    bool isWatered = false;
+
+                    foreach (GameObject WaterGround in CanInteractionObjects["WateredGround"])
+                    {
+                        if(WaterGround.transform.position == Seed.transform.position)
+                        {
+                            isWatered = true;
+                        }
+                    }
+
+                    if (isWatered)
+                    {
+                        Seed.GetComponent<SeedGrow>().Grow(10);
+                    }
+                    else
+                    {
+                        //½â´Â °ÔÀÌÁö +1
+                    }
+                }
+            }
+        }
+
+        List<GameObject> SaveforInteract = new List<GameObject>();
+
+        if (CanInteractionObjects["WateredGround"] != null)
+        {
+            foreach (GameObject WaterGround in CanInteractionObjects["WateredGround"])
+            {
+                Destroy(WaterGround);
+            }
+            CanInteractionObjects["WateredGround"].Clear();
+        }
     }
 }
