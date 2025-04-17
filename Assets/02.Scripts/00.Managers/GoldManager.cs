@@ -58,8 +58,8 @@ public class GoldManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("골드가 부족합니다.");
-            return result;
+            Debug.Log("골드가 부족합니다.");           
         }
+        return result;
     }
 }
