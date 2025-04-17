@@ -28,7 +28,10 @@ public class Crops : SeedGrow
     {
         if (!isEndGrow) return;
 
-        ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+        if(SpawnItemAmount != 0)
+        {
+            ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+        }
         if (isDestroyAfterHarvest)
         {
             GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);

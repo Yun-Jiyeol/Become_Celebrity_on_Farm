@@ -21,10 +21,8 @@ public class IOnStart : MonoBehaviour
 
     void LateStart()
     {
-        Debug.Log("1");
         if (basicSeed != null)
         {
-            Debug.Log("123");
             basicSeed.HP = basicSeed.MaxHP;
             basicSeed.CheckGrow();
         }
