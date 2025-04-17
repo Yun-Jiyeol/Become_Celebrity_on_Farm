@@ -14,32 +14,23 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 {
     public float HP { get; set; }
     public float MaxHP { get; set; }
+
     public List<StepGrow> steps;
     public int SpawnItemNum;
     public int SpawnItemAmount;
 
-    bool isEndGrow = false;
-    public bool isDestroyAfterHarvest;
-    public int AfterHarvest= 0;
+    protected bool isEndGrow = false;
 
-    private void Start()
+    protected virtual void Start()
     {
         HP = 0;
         MaxHP = steps[steps.Count - 1].Hp;
-
-        InvokeRepeating("TestGrow", 3, 3);
     }
 
-    void TestGrow()
-    {
-        GetDamage(10);
-    }
 
     public void GetDamage(float amount)
     {
         HP += amount;
-        Debug.Log(HP);
-        CheckGrow();
 
         if (HP >= MaxHP)
         {
@@ -49,7 +40,7 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         }
     }
 
-    void CheckGrow()
+    public virtual void CheckGrow()
     {
         string growstep = steps[0].SpriteName;
 
@@ -68,20 +59,23 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];
     }
 
+    public virtual void Grow(float grow)
+    {
+
+    }
+
     public void Interact()
     {
-        if(!isEndGrow) return;
+        calledInteract();
+    }
 
-        ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
-        if (isDestroyAfterHarvest)
-        {
-            GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
-            Destroy(gameObject);
-        }
-        else
-        {
-            GetDamage(-AfterHarvest);
-            transform.tag = "Seeded";
-        }
+    protected virtual void calledInteract()
+    {
+
+    }
+
+    public virtual void HandInteract()
+    {
+        if (!isEndGrow) return;
     }
 }

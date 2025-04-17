@@ -14,8 +14,8 @@ public class BaseController : MonoBehaviour
 
     protected virtual void Start()
     {
-        collider = GetComponent<Collider>();
-        rigidbody = GetComponent<Rigidbody>();
+        collider = gameObject.GetComponent<Collider>();
+        rigidbody = gameObject.GetComponent<Rigidbody>();
     }
 
     protected virtual void FixedUpdate()
