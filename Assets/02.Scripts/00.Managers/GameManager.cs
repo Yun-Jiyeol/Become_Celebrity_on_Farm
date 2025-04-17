@@ -223,6 +223,9 @@ public class GameManager : MonoBehaviour
                         if(WaterGround.transform.position == Seed.transform.position)
                         {
                             isWatered = true;
+                            CanInteractionObjects["WateredGround"].Remove(WaterGround);
+                            Destroy(WaterGround);
+                            break;
                         }
                     }
 
