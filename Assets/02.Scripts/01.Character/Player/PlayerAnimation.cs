@@ -8,11 +8,13 @@ public class PlayerAnimation : BaseAnimation
     string WateringParameterName = "Watering";
     string SickleParameterName = "Sickle";
     string AxeParameterName = "Axe";
+    string PickaxeParameterName = "Pickaxe";
 
     public int HoeParameterHash { get; private set; }
     public int WateringParameterHash { get; private set; }
     public int SickleParameterHash { get; private set; }
     public int AxeParameterHash { get; private set; }
+    public int PickaxeParameterHash { get; private set; }
 
     private void Start()
     {
@@ -30,6 +32,7 @@ public class PlayerAnimation : BaseAnimation
         WateringParameterHash = Animator.StringToHash(WateringParameterName);
         SickleParameterHash = Animator.StringToHash(SickleParameterName);
         AxeParameterHash = Animator.StringToHash(AxeParameterName);
+        PickaxeParameterHash = Animator.StringToHash(PickaxeParameterName);
     }
 
     private void FixedUpdate()

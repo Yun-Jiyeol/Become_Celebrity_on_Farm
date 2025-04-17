@@ -116,27 +116,9 @@ public class PlayerController : BaseController
                 case ItemType.Sickle:
                     tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
                     CheckAngle();
+                    SaveDirextionInfo();
                     isAction = true;
-                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
-
-                    DirectionSave = 0;
-                    if (dir == new Vector2(-1, 0))
-                    {
-                        DirectionSave = 3;
-                    }
-                    else if (dir == new Vector2(1, 0))
-                    {
-                        DirectionSave = 1;
-                    }
-                    else if (dir == new Vector2(0, 1))
-                    {
-                        DirectionSave = 0;
-                    }
-                    else
-                    {
-                        DirectionSave = 2;
-                    }
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
                         _Find = new string[] { "SeededGround" },
@@ -149,31 +131,28 @@ public class PlayerController : BaseController
                 case ItemType.Axe:
                     tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
                     CheckAngle();
+                    SaveDirextionInfo();
                     isAction = true;
-                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
-
-                    DirectionSave = 0;
-                    if (dir == new Vector2(-1, 0))
-                    {
-                        DirectionSave = 3;
-                    }
-                    else if (dir == new Vector2(1, 0))
-                    {
-                        DirectionSave = 1;
-                    }
-                    else if (dir == new Vector2(0, 1))
-                    {
-                        DirectionSave = 0;
-                    }
-                    else
-                    {
-                        DirectionSave = 2;
-                    }
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
                         _Find = new string[] { "TreeGround" },
                         _Tag = new string[] { "Tree", "EndGrow" },
+                        _Range = 2f,
+                        _Dir = DirectionSave,
+                        _isAll = false
+                    };
+                    break;
+                case ItemType.Pickaxe:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Find = new string[] { "StoneGround" },
+                        _Tag = new string[] { "Stone" },
                         _Range = 2f,
                         _Dir = DirectionSave,
                         _isAll = false
@@ -210,6 +189,27 @@ public class PlayerController : BaseController
                     TryHandInteract();
                     break;
             }
+        }
+    }
+
+    void SaveDirextionInfo()
+    {
+        DirectionSave = 0;
+        if (dir == new Vector2(-1, 0))
+        {
+            DirectionSave = 3;
+        }
+        else if (dir == new Vector2(1, 0))
+        {
+            DirectionSave = 1;
+        }
+        else if (dir == new Vector2(0, 1))
+        {
+            DirectionSave = 0;
+        }
+        else
+        {
+            DirectionSave = 2;
         }
     }
 

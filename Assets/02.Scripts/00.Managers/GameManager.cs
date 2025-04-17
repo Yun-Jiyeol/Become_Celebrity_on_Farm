@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
         { "WateredGround", new List<GameObject>() },
         { "SeededGround", new List<GameObject>() },
         { "TreeGround", new List<GameObject>() },
+        { "StoneGround", new List<GameObject>() },
         { "ExceptObject", new List<GameObject>() }
     };
 
@@ -107,6 +108,7 @@ public class GameManager : MonoBehaviour
 
         foreach (string list in TargetGameObjects)
         {
+            if (CanInteractionObjects[list].Count == 0) return;
             foreach (GameObject go in CanInteractionObjects[list])
             {
                 if(Vector3.Distance(go.transform.position, player.transform.position) <= Distance)
