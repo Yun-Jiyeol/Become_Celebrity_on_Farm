@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
         GameObject go = new GameObject(name);
         go.transform.parent = gameObject.transform;
         go.transform.position = position;
-        go.transform.localScale = Vector3.one * 0.625f;
+        go.transform.localScale = Vector3.one;
         go.AddComponent<SpriteRenderer>().sprite = sprite;
         go.transform.tag = tag;
 

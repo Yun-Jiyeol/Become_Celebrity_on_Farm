@@ -86,7 +86,7 @@ public class Trees : SeedGrow
                 GameObject go = new GameObject("TreeStump"); //³ª¹« ¹ØµÕ ¼ÒÈ¯¼ú
                 go.transform.parent = gameObject.transform;
                 go.transform.tag = "Tree";
-                go.transform.localScale = Vector3.one * 0.625f;
+                go.transform.localScale = Vector3.one;
                 go.AddComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[StumpName];
                 TreeStump stump = go.AddComponent<TreeStump>();
                 stump.Init(StumpHp);
