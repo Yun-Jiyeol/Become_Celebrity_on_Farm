@@ -6,7 +6,7 @@ public class GoldUI : UIBase
 {
     [SerializeField] private TextMeshProUGUI goldText;
 
-    private void Start()
+    private void Start() //게임 시작시 골드 이벤트 구독, 현재 골드로 ui초기화
     {
         if(GoldManager.Instance != null)
         {
@@ -15,7 +15,7 @@ public class GoldUI : UIBase
         }
     }
 
-    private void OnDestroy()
+    private void OnDestroy() //오브젝트가 제거될때 이벤트 구독 해제
     {
         if(GoldManager.Instance != null)
         {
@@ -23,7 +23,7 @@ public class GoldUI : UIBase
         }
     }
 
-    private void UpdateUI(int gold)
+    private void UpdateUI(int gold) //골드 값을 받아 텍스트에 반영
     {
         goldText.text = gold.ToString("0000000");
     }
