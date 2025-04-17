@@ -1,16 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Trees : SeedGrow
 {
     public bool isFruitTree;
     public int AdditionalGrow = 0;
     private int MaxAddiitionalGrow;
+    private BoxCollider2D treecollider = new BoxCollider2D();
     public int EndGrow;
 
     public int WoodItemNum = 1;
     public int WoodItemAmount = 1;
+    public string StumpName;
+
+    private void Awake()
+    {
+        treecollider = gameObject.GetComponent<BoxCollider2D>();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -18,6 +27,7 @@ public class Trees : SeedGrow
 
         MaxHP = steps[EndGrow].Hp;
         MaxAddiitionalGrow = steps[steps.Count - 1].Hp - (int)MaxHP;
+        treecollider.enabled = false;
     }
 
     void TestGrow()
@@ -38,6 +48,11 @@ public class Trees : SeedGrow
         {
             if (HP + AdditionalGrow >= steps[i].Hp)
             {
+                if(i >= 2)
+                {
+                    treecollider.enabled = true;
+                }
+
                 WoodItemAmount = Mathf.Min(i + 1, EndGrow + 1);
                 growstep = steps[i].SpriteName;
             }
@@ -59,13 +74,35 @@ public class Trees : SeedGrow
         GetDamage(-30);
         if(HP <= 0)
         {
-            if (AdditionalGrow >= MaxAddiitionalGrow)
+            if (isEndGrow)
             {
-                ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+                if (AdditionalGrow >= MaxAddiitionalGrow)
+                {
+                    ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+                }
+                ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
+
+                GameObject go = new GameObject("TreeStump"); //³ª¹« ¹ØµÕ ¼ÒÈ¯¼ú
+                go.transform.parent = gameObject.transform;
+                go.transform.tag = "Tree";
+                go.transform.localScale = Vector3.one * 0.625f;
+                go.AddComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[StumpName];
+                TreeStump stump = go.AddComponent<TreeStump>();
+                stump.Init(30);
+                BoxCollider2D collider = go.AddComponent<BoxCollider2D>();
+                collider.offset = new Vector2(0,0.4f);
+                collider.size = new Vector2(1, 1);
+                GameManager.Instance.SpawnSomething(gameObject.transform.position, go, "TreeGround");
+
+                GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
+                Destroy(gameObject);
             }
-            ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
-            GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
-            Destroy(gameObject);
+            else
+            {
+                ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
+                GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 
