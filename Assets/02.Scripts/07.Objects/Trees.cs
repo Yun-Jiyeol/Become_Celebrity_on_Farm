@@ -43,6 +43,7 @@ public class Trees : SeedGrow
     public override void CheckGrow()
     {
         string growstep = steps[0].SpriteName;
+        bool needChangeOnSeason = false;
 
         for (int i = 0; i < steps.Count; i++)
         {
@@ -55,11 +56,17 @@ public class Trees : SeedGrow
 
                 WoodItemAmount = Mathf.Min(i + 1, EndGrow + 1);
                 growstep = steps[i].SpriteName;
+                needChangeOnSeason = steps[i].isChangeOnSeason;
             }
             else
             {
                 break;
             }
+        }
+
+        if (needChangeOnSeason)
+        {
+            growstep = GameManager.Instance.nowSeason.ToString() + "_" + growstep;
         }
 
         gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];

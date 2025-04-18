@@ -7,6 +7,7 @@ using UnityEngine;
 public class StepGrow
 {
     public int Hp;
+    public bool isChangeOnSeason;
     public string SpriteName;
 }
 
@@ -42,21 +43,7 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 
     public virtual void CheckGrow()
     {
-        string growstep = steps[0].SpriteName;
 
-        for (int i = 0; i < steps.Count; i++)
-        {
-            if(HP >= steps[i].Hp)
-            {
-                growstep = steps[i].SpriteName;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];
     }
 
     public virtual void Grow(float grow)

@@ -252,4 +252,19 @@ public class GameManager : MonoBehaviour
             CanInteractionObjects["WateredGround"].Clear();
         }
     }
+
+    public Season.SeasonType nowSeason;
+    public void OneSeasonAfter()
+    {
+        if (CanInteractionObjects["TreeGround"] != null)
+        {
+            foreach (GameObject tree in CanInteractionObjects["TreeGround"])
+            {
+                if (tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
+                {
+                    tree.GetComponent<SeedGrow>().CheckGrow();
+                }
+            }
+        }
+    }
 }

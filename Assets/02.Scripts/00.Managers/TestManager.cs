@@ -34,12 +34,16 @@ public class TestManager : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("LateStart", 15f, 15f);
+        InvokeRepeating("SeasonAfter", 15f, 15f);
     }
 
-    void LateStart()
+    void DayAfter()
     {
         GameManager.Instance.OneDayAfter();
+    }
+    void SeasonAfter()
+    {
+        GameManager.Instance.OneSeasonAfter();
     }
 
 
