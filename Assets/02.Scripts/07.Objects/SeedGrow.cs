@@ -11,12 +11,21 @@ public class StepGrow
     public string SpriteName;
 }
 
+[System.Serializable]
+public class SeedGrowOnSeason
+{
+    public Season.SeasonType SeasonType;
+    public string SeasonName;
+}
+
 public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 {
     public float HP { get; set; }
     public float MaxHP { get; set; }
 
     public List<StepGrow> steps;
+    public List<SeedGrowOnSeason> settingSeason;
+    public List<Season.SeasonType> canGrowSeason;
     public int SpawnItemNum;
     public int SpawnItemAmount;
 
@@ -41,7 +50,12 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         }
     }
 
-    public virtual void CheckGrow()
+    public virtual void OnSettingSeason()
+    {
+
+    }
+
+    protected virtual void CheckGrow()
     {
 
     }

@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
             {
                 if (tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
                 {
-                    tree.GetComponent<SeedGrow>().CheckGrow();
+                    tree.GetComponent<SeedGrow>().OnSettingSeason();
                 }
             }
         }

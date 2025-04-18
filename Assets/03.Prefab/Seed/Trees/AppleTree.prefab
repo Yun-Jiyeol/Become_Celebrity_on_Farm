@@ -101,17 +101,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steps:
   - Hp: 0
-    SpriteName: Apple Tree_0
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_0
   - Hp: 10
-    SpriteName: Apple Tree_1
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_1
   - Hp: 20
-    SpriteName: Apple Tree_2
+    isChangeOnSeason: 1
+    SpriteName: AppleTree_2
   - Hp: 30
-    SpriteName: Apple Tree_5
+    isChangeOnSeason: 1
+    SpriteName: AppleTree_3
   - Hp: 40
-    SpriteName: Apple Tree_6
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_4
   - Hp: 50
-    SpriteName: Apple Tree_7
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_5
+  settingSeason:
+  - SeasonType: 0
+    SeasonName: Spring
+  - SeasonType: 1
+    SeasonName: Summer
+  - SeasonType: 2
+    SeasonName: Summer
+  - SeasonType: 3
+    SeasonName: Winter
+  canGrowSeason: 0100000002000000
   SpawnItemNum: 72
   SpawnItemAmount: 4
   isFruitTree: 1
@@ -119,7 +135,7 @@ MonoBehaviour:
   EndGrow: 3
   WoodItemNum: 1
   WoodItemAmount: 1
-  StumpName: Apple Tree_9
+  StumpName: AppleTree_6
   StumpHp: 30
 --- !u!114 &7812671940707609629
 MonoBehaviour:

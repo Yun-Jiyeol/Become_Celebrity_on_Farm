@@ -8,7 +8,9 @@ public class Trees : SeedGrow
     public bool isFruitTree;
     public float AdditionalGrow = 0;
     private int MaxAddiitionalGrow;
+    private string NowSeasonName;
     private BoxCollider2D treecollider = new BoxCollider2D();
+    private bool canGrow;
     public int EndGrow;
 
     public int WoodItemNum = 1;
@@ -32,6 +34,13 @@ public class Trees : SeedGrow
 
     public override void Grow(float grow)
     {
+        if (!canGrow)
+        {
+            AdditionalGrow = 0;
+            CheckGrow();
+            return;
+        }
+
         if (isEndGrow)
         {
             AdditionalGrow = Mathf.Min(MaxAddiitionalGrow, AdditionalGrow + grow);
@@ -40,7 +49,30 @@ public class Trees : SeedGrow
         CheckGrow();
     }
 
-    public override void CheckGrow()
+    public override void OnSettingSeason()
+    {
+        for (int i = 0; i < settingSeason.Count; i++)
+        {
+            if (settingSeason[i].SeasonType == GameManager.Instance.nowSeason)
+            {
+                NowSeasonName = settingSeason[i].SeasonName;
+                break;
+            }
+        }
+
+        canGrow = false;
+
+        foreach (Season.SeasonType cangrowseason in canGrowSeason)
+        {
+            if (cangrowseason == GameManager.Instance.nowSeason)
+            {
+                canGrow = true;
+                break;  
+            }
+        }
+    }
+
+    protected override void CheckGrow()
     {
         string growstep = steps[0].SpriteName;
         bool needChangeOnSeason = false;
@@ -66,9 +98,10 @@ public class Trees : SeedGrow
 
         if (needChangeOnSeason)
         {
-            growstep = GameManager.Instance.nowSeason.ToString() + "_" + growstep;
+            growstep = NowSeasonName + "_" + growstep;
         }
 
+        Debug.Log(growstep);
         gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];
     }
 

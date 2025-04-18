@@ -18,7 +18,12 @@ public class Crops : SeedGrow
         CheckGrow();
     }
 
-    public override void CheckGrow()
+    public override void OnSettingSeason()
+    {
+
+    }
+
+    protected override void CheckGrow()
     {
         string growstep = steps[0].SpriteName;
 
