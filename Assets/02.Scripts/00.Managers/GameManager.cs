@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public Camera camera;
     public GameObject MouseFollower;
+    public GameObject PlayerRange;
 
     private GameObject LastGameObject;
 
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
         { "StoneGround", new List<GameObject>() },
         { "ExceptObject", new List<GameObject>() }
     };
+
+    public List<GameObject> TagOnMouse;
 
     private void Awake()
     {
@@ -274,6 +277,82 @@ public class GameManager : MonoBehaviour
                 if (CanInteractionObjects["SeededGround"][i].transform.tag == "Seeded" || CanInteractionObjects["SeededGround"][i].transform.tag == "EndGrow")
                 {
                     CanInteractionObjects["SeededGround"][i].GetComponent<SeedGrow>().OnSettingSeason();
+                }
+            }
+        }
+    }
+
+    public bool TagIsInMouse(string[] _tag)
+    {
+        foreach(string tag in _tag)
+        {
+            if(TagOnMouse.Count == 0) return false;
+
+            for(int i =0;  i< TagOnMouse.Count; i++)
+            {
+                if(tag == TagOnMouse[i].transform.tag) return true;
+            }
+        }
+        return false;
+    }
+    public bool TagIsNotInMouse(string[] _tag)
+    {
+        foreach (string tag in _tag)
+        {
+            if (TagOnMouse.Count == 0) return true;
+
+            for (int i = 0; i < TagOnMouse.Count; i++)
+            {
+                if (tag == TagOnMouse[i].transform.tag) return false;
+            }
+        }
+        return true;
+    }
+    public void TagIsInRange(string[] _tag, int _dir, bool isAll)
+    {
+        if (TagOnMouse.Count == 0) return;
+
+        for (int i = 0; i < TagOnMouse.Count; i++)
+        {
+            foreach(string tag in _tag)
+            {
+                if (TagOnMouse[i].transform.tag == tag)
+                {
+                    float angleDegrees = Mathf.Atan2(TagOnMouse[i].transform.position.x - player.transform.position.x, TagOnMouse[i].transform.position.y - player.transform.position.y) * Mathf.Rad2Deg;
+                    bool isin = false;
+                    switch (_dir)
+                    {
+                        case 0:
+                            if (angleDegrees <= 60 && angleDegrees >= -60)
+                            {
+                                isin = true;
+                            }
+                            break;
+                        case 1:
+                            if (angleDegrees <= 150 && angleDegrees >= 30)
+                            {
+                                isin = true;
+                            }
+                            break;
+                        case 2:
+                            if (angleDegrees <= -120 || angleDegrees >= 120)
+                            {
+                                isin = true;
+                            }
+                            break;
+                        case 3:
+                            if (angleDegrees <= -30 && angleDegrees >= -150)
+                            {
+                                isin = true;
+                            }
+                            break;
+                    }
+
+                    if (isin)
+                    {
+                        TagOnMouse[i].GetComponent<IInteract>().Interact();
+                        if (!isAll) return;
+                    }
                 }
             }
         }

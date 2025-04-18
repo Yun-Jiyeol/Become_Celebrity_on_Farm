@@ -8,6 +8,7 @@ public class ItemManager : MonoBehaviour
 
     public ItemDataReader itemDataReader;
     public SpawnItem spawnItem;
+    public SpawnGround spawnGround;
 
     private void Awake()
     {
@@ -20,6 +21,10 @@ public class ItemManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        itemDataReader = GetComponent<ItemDataReader>();
+        spawnItem = GetComponentInChildren<SpawnItem>();
+        spawnGround = GetComponentInChildren<SpawnGround>();
     }
 
     public static ItemManager Instance
