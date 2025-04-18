@@ -25,6 +25,7 @@ public class MapTransition : MonoBehaviour
     {
         string[] nameParts = gameObject.name.Split('_');
         targetPlace = (MapType)System.Enum.Parse(typeof(MapType), nameParts[3]);
-        spawnPointName = "Spawn" + nameParts[3];
+        spawnPointName = "Spawn" + nameParts[1];
+        Debug.Log($"targetPlace: {targetPlace}\nspawnPointName: {spawnPointName}");
     }
 }

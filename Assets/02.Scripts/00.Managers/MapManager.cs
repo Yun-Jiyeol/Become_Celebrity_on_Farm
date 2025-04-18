@@ -5,7 +5,9 @@ public enum MapType
 {
     Home,
     Farm,
-    Road,   // temp. 정확한 이름 필요
+    Road,
+    //UpwardRoad,
+    //DownwardRoad,
     Village
 }
 
@@ -56,9 +58,10 @@ public class MapManager : MonoBehaviour
 
     [Header("SpawnPoints")]     // * 스폰포인트 깨끗하게 처리할 방법 강구
     [SerializeField] private Transform SpawnHome;
-    [SerializeField] private Transform SpawnFarm;
-    [SerializeField] private Transform SpawnUpwardRoad;
-    [SerializeField] private Transform SpawnDownwardRoad;
+    [SerializeField] private Transform SpawnFarmUpward;
+    [SerializeField] private Transform SpawnFarmDownward;
+    [SerializeField] private Transform SpawnRoadUpward;
+    [SerializeField] private Transform SpawnRoadDownward;
     [SerializeField] private Transform SpawnVillage;
 
     // 현재 MapType. 디폴트 = 집
@@ -91,17 +94,18 @@ public class MapManager : MonoBehaviour
     {
         // MapInfo 생성
         MapInfo homeInfo = new(home);
-        homeInfo.AddSpawnPoint("SpawnHome", SpawnHome);
+        homeInfo.AddSpawnPoint("SpawnFarm", SpawnHome);
 
         MapInfo farmInfo = new(farm);
-        farmInfo.AddSpawnPoint("SpawnFarm", SpawnFarm);
+        farmInfo.AddSpawnPoint("SpawnHome", SpawnFarmUpward);
+        farmInfo.AddSpawnPoint("SpawnRoad", SpawnFarmDownward);
 
         MapInfo roadInfo = new(road);
-        roadInfo.AddSpawnPoint("SpawnUpwardRoad", SpawnUpwardRoad);
-        roadInfo.AddSpawnPoint("SpawnDownwardRoad", SpawnDownwardRoad);
+        roadInfo.AddSpawnPoint("SpawnFarm", SpawnRoadUpward);
+        roadInfo.AddSpawnPoint("SpawnVillage", SpawnRoadDownward);
 
         MapInfo villageInfo = new(village);
-        villageInfo.AddSpawnPoint("SpawnVillage", SpawnVillage);
+        villageInfo.AddSpawnPoint("SpawnRoad", SpawnVillage);
 
        // Dictionary에 MapInfo 추가
         places = new Dictionary<MapType, MapInfo>()
