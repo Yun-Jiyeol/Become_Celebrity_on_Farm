@@ -20,7 +20,21 @@ public class Crops : SeedGrow
 
     public override void CheckGrow()
     {
-        base.CheckGrow();
+        string growstep = steps[0].SpriteName;
+
+        for (int i = 0; i < steps.Count; i++)
+        {
+            if (HP >= steps[i].Hp)
+            {
+                growstep = steps[i].SpriteName;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];
     }
 
     protected override void calledInteract()

@@ -126,7 +126,7 @@ public class PlayerController : BaseController
                     {
                         _Find = new string[] { "SeededGround" },
                         _Tag = new string[] { "EndGrow" },
-                        _Range = 5f,
+                        _Range = 2.5f,
                         _Dir = DirectionSave,
                         _isAll = true
                     };
@@ -141,7 +141,7 @@ public class PlayerController : BaseController
                     {
                         _Find = new string[] { "TreeGround" },
                         _Tag = new string[] { "Tree", "EndGrow" },
-                        _Range = 2f,
+                        _Range = 2.5f,
                         _Dir = DirectionSave,
                         _isAll = false
                     };
@@ -156,7 +156,7 @@ public class PlayerController : BaseController
                     {
                         _Find = new string[] { "StoneGround" },
                         _Tag = new string[] { "Stone" },
-                        _Range = 2f,
+                        _Range = 2.5f,
                         _Dir = DirectionSave,
                         _isAll = false
                     };

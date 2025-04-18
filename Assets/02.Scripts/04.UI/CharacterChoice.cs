@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CharacterChoice : PopupUIBase
+public class CharacterChoice : UIBase
 {
     PlayerStats PlayerStats;
 

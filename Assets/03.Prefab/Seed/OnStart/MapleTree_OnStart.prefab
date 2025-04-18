@@ -102,13 +102,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steps:
   - Hp: 0
-    SpriteName: Maple Tree_0
+    isChangeOnSeason: 0
+    SpriteName: MapleTree_0
   - Hp: 10
-    SpriteName: Maple Tree_1
+    isChangeOnSeason: 0
+    SpriteName: MapleTree_1
   - Hp: 20
-    SpriteName: Maple Tree_2
+    isChangeOnSeason: 1
+    SpriteName: MapleTree_2
   - Hp: 30
-    SpriteName: Maple Tree_7
+    isChangeOnSeason: 1
+    SpriteName: MapleTree_3
   SpawnItemNum: 0
   SpawnItemAmount: 0
   isFruitTree: 0
@@ -116,7 +120,7 @@ MonoBehaviour:
   EndGrow: 3
   WoodItemNum: 1
   WoodItemAmount: 1
-  StumpName: Maple Tree_14
+  StumpName: MapleTree_4
   StumpHp: 30
 --- !u!114 &7005697429537915934
 MonoBehaviour:

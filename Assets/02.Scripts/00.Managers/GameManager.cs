@@ -223,6 +223,9 @@ public class GameManager : MonoBehaviour
                         if(WaterGround.transform.position == Seed.transform.position)
                         {
                             isWatered = true;
+                            CanInteractionObjects["WateredGround"].Remove(WaterGround);
+                            Destroy(WaterGround);
+                            break;
                         }
                     }
 
@@ -247,6 +250,21 @@ public class GameManager : MonoBehaviour
                 Destroy(WaterGround);
             }
             CanInteractionObjects["WateredGround"].Clear();
+        }
+    }
+
+    public Season.SeasonType nowSeason;
+    public void OneSeasonAfter()
+    {
+        if (CanInteractionObjects["TreeGround"] != null)
+        {
+            foreach (GameObject tree in CanInteractionObjects["TreeGround"])
+            {
+                if (tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
+                {
+                    tree.GetComponent<SeedGrow>().CheckGrow();
+                }
+            }
         }
     }
 }
