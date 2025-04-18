@@ -6,8 +6,6 @@ public enum MapType
     Home,
     Farm,
     Road,
-    //UpwardRoad,
-    //DownwardRoad,
     Village
 }
 
@@ -56,7 +54,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject road;
     [SerializeField] private GameObject village;
 
-    [Header("SpawnPoints")]     // * 스폰포인트 깨끗하게 처리할 방법 강구
+    [Header("SpawnPoints")]
     [SerializeField] private Transform SpawnHome;
     [SerializeField] private Transform SpawnFarmUpward;
     [SerializeField] private Transform SpawnFarmDownward;
