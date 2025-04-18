@@ -23,8 +23,8 @@ public class IOnStart : MonoBehaviour
     {
         if (basicSeed != null)
         {
-            basicSeed.HP = basicSeed.MaxHP;
-            //basicSeed.CheckGrow();
+            basicSeed.GetDamage(basicSeed.MaxHP);
+            basicSeed.CheckGrow();
         }
     }
 }

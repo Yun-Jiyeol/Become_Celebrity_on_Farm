@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI.Table;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class GameManager : MonoBehaviour
@@ -13,11 +16,15 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     public GameObject MouseFollower;
 
+    private GameObject LastGameObject;
+
     public Dictionary<string, List<GameObject>> CanInteractionObjects = new Dictionary<string, List<GameObject>>
     {
         { "PlowGround", new List<GameObject>() },
         { "WateredGround", new List<GameObject>() },
         { "SeededGround", new List<GameObject>() },
+        { "TreeGround", new List<GameObject>() },
+        { "StoneGround", new List<GameObject>() },
         { "ExceptObject", new List<GameObject>() }
     };
 
@@ -48,45 +55,62 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool InteractPosition(Vector3 position, string[] TargetGameObjects, string TargetType, string[] nopeGameObjects , string[] nopeType)
+    public bool InteractPosition(Vector3 position, string[] TargetGameObjects, string[] TargetType, string[] nopeGameObjects , string[] nopeType)
     {
-        for (int i = 0; i < nopeGameObjects.Length; i++)
+        if(nopeGameObjects != null)
         {
-            foreach (GameObject go in CanInteractionObjects[nopeGameObjects[i]])
+            for (int i = 0; i < nopeGameObjects.Length; i++)
             {
-                if (go.transform.position == position)
+                foreach (GameObject go in CanInteractionObjects[nopeGameObjects[i]])
                 {
-                    foreach(string type in nopeType)
+                    if (go.transform.position == position)
                     {
-                        if(go.transform.tag == type)
+                        foreach (string type in nopeType)
                         {
-                            return false;
+                            if (go.transform.tag == type)
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
             }
         }
+
         if(TargetType == null) return true;
         
         foreach(string list in TargetGameObjects)
         {
             foreach(GameObject go in CanInteractionObjects[list])
             {
-                if(go.transform.position == position && go.transform.tag == TargetType)
+                if(go.transform.position == position)
                 {
-                    return true;
+                    foreach(string type in TargetType)
+                    {
+                        if(go.transform.tag == type)
+                        {
+                            LastGameObject = go;
+                            return true;
+                        }
+                    }
                 }
             }
         }
         return false;
     }
 
-    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isOne)
+    public void TryHandInteract()
+    {
+        LastGameObject.GetComponent<SeedGrow>().HandInteract();
+    }
+
+    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isAll)
     {
         List<GameObject> SaveforInteract = new List<GameObject>();
 
         foreach (string list in TargetGameObjects)
         {
+            if (CanInteractionObjects[list].Count == 0) return;
             foreach (GameObject go in CanInteractionObjects[list])
             {
                 if(Vector3.Distance(go.transform.position, player.transform.position) <= Distance)
@@ -127,7 +151,7 @@ public class GameManager : MonoBehaviour
                         {
                             if (go.transform.tag == tag)
                             {
-                                if (isOne)
+                                if (!isAll)
                                 {
                                     go.GetComponent<IInteract>().Interact();
                                     return;
@@ -149,13 +173,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpawnSomethine(string name, Vector3 position, Sprite sprite, string tag, string List)
+    public void SpawnSomething(string name, Vector3 position, Sprite sprite,int Order,string tag, string List)
     {
         GameObject go = new GameObject(name);
         go.transform.parent = gameObject.transform;
         go.transform.position = position;
-        go.transform.localScale = Vector3.one * 0.625f;
-        go.AddComponent<SpriteRenderer>().sprite = sprite;
+        go.transform.localScale = Vector3.one;
+        SpriteRenderer GOSprite = go.AddComponent<SpriteRenderer>();
+        GOSprite.sprite = sprite;
+        GOSprite.sortingOrder = Order;
         go.transform.tag = tag;
 
         CanInteractionObjects[List].Add(go);
@@ -168,5 +194,77 @@ public class GameManager : MonoBehaviour
         go.transform.position = position;
 
         CanInteractionObjects[List].Add(go);
+    }
+
+    public void OneDayAfter()
+    {
+        if (CanInteractionObjects["TreeGround"] != null)
+        {
+            foreach (GameObject tree in CanInteractionObjects["TreeGround"])
+            {
+                if(tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
+                {
+                    tree.GetComponent<SeedGrow>().Grow(10);
+                }
+            }
+        }
+
+
+        if (CanInteractionObjects["SeededGround"] != null)
+        {
+            foreach (GameObject Seed in CanInteractionObjects["SeededGround"])
+            {
+                if (Seed.transform.tag == "Seeded")
+                {
+                    bool isWatered = false;
+
+                    foreach (GameObject WaterGround in CanInteractionObjects["WateredGround"])
+                    {
+                        if(WaterGround.transform.position == Seed.transform.position)
+                        {
+                            isWatered = true;
+                            CanInteractionObjects["WateredGround"].Remove(WaterGround);
+                            Destroy(WaterGround);
+                            break;
+                        }
+                    }
+
+                    if (isWatered)
+                    {
+                        Seed.GetComponent<SeedGrow>().Grow(10);
+                    }
+                    else
+                    {
+                        //½â´Â °ÔÀÌÁö +1
+                    }
+                }
+            }
+        }
+
+        List<GameObject> SaveforInteract = new List<GameObject>();
+
+        if (CanInteractionObjects["WateredGround"] != null)
+        {
+            foreach (GameObject WaterGround in CanInteractionObjects["WateredGround"])
+            {
+                Destroy(WaterGround);
+            }
+            CanInteractionObjects["WateredGround"].Clear();
+        }
+    }
+
+    public Season.SeasonType nowSeason;
+    public void OneSeasonAfter()
+    {
+        if (CanInteractionObjects["TreeGround"] != null)
+        {
+            foreach (GameObject tree in CanInteractionObjects["TreeGround"])
+            {
+                if (tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
+                {
+                    tree.GetComponent<SeedGrow>().CheckGrow();
+                }
+            }
+        }
     }
 }

@@ -32,6 +32,21 @@ public class TestManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        InvokeRepeating("SeasonAfter", 15f, 15f);
+    }
+
+    void DayAfter()
+    {
+        GameManager.Instance.OneDayAfter();
+    }
+    void SeasonAfter()
+    {
+        GameManager.Instance.OneSeasonAfter();
+    }
+
+
     public static TestManager Instance
     {
         get

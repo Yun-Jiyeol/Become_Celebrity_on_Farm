@@ -14,6 +14,7 @@ public class PlayerController : BaseController
 
     public int PlayerChoosNum = 1;
     private int nownum = 1;
+    int DirectionSave = 0;
 
     [Header("Interact")]
     private SpawnInteract readyInteract = new SpawnInteract();
@@ -22,6 +23,7 @@ public class PlayerController : BaseController
     {
         public string _name;
         public Sprite _sprite;
+        public int _order;
         public string _Tag;
         public string _AddList;
     }
@@ -80,13 +82,14 @@ public class PlayerController : BaseController
                          gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
                     //순서는 좌표, 찾아볼 List이름들, 찾아볼 Tag, 없어야 할 List들, 없어야 할 Tag
                     if (GameManager.Instance.InteractPosition(tartgetPosition, null, null, 
-                        new string[] { "PlowGround", "SeededGround", "ExceptObject" }, new string[] { "Plow", "Seeded" }))
+                        new string[] { "PlowGround", "TreeGround", "ExceptObject" }, new string[] { "Plow", "Tree" }))
                     {
                         CanSpawn = true;
                         readyInteract = new SpawnInteract
                         {
                             _name = "PlowGround",
                             _sprite = TestManager.Instance.HoeGround,
+                            _order = 1,
                             _Tag = "Plow",
                             _AddList = "PlowGround"
                         };
@@ -99,7 +102,7 @@ public class PlayerController : BaseController
                     isAction = true;
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
                          gameObject.GetComponent<Player>().playerAnimation.WateringParameterHash);
-                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow",
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, new string[] { "Plow" } ,
                         new string[] { "WateredGround" }, new string[] { "Watered" }))
                     {
                         CanSpawn = true;
@@ -107,15 +110,62 @@ public class PlayerController : BaseController
                         {
                             _name = "WaterGround",
                             _sprite = TestManager.Instance.WaterGround,
+                            _order = 2,
                             _Tag = "Watered",
                             _AddList = "WateredGround"
                         };
                     }
                     break;
+                case ItemType.Sickle:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Find = new string[] { "SeededGround" },
+                        _Tag = new string[] { "EndGrow" },
+                        _Range = 2.5f,
+                        _Dir = DirectionSave,
+                        _isAll = true
+                    };
+                    break;
+                case ItemType.Axe:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Find = new string[] { "TreeGround" },
+                        _Tag = new string[] { "Tree", "EndGrow" },
+                        _Range = 2.5f,
+                        _Dir = DirectionSave,
+                        _isAll = false
+                    };
+                    break;
+                case ItemType.Pickaxe:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Find = new string[] { "StoneGround" },
+                        _Tag = new string[] { "Stone" },
+                        _Range = 2.5f,
+                        _Dir = DirectionSave,
+                        _isAll = false
+                    };
+                    break;
                 case ItemType.Seed:
+                    TryHandInteract();
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, "Plow", new string[] { "SeededGround" }, new string[] { "Seeded", "EndGrow" }))
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, new string[] { "Plow" } , new string[] { "SeededGround" }, new string[] { "Seeded", "EndGrow" }))
                     {
                         GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                         if (ConnectedObejct != null)
@@ -124,45 +174,58 @@ public class PlayerController : BaseController
                         }
                     }
                     break;
-                case ItemType.Sickle:
-                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
-                    CheckAngle();
-                    isAction = true;
-                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-                         gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
-
-                    int DirectionSave = 0;
-                    if(dir == new Vector2(-1, 0))
+                case ItemType.TreeSeed:
+                    TryHandInteract();
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+                    if (GameManager.Instance.InteractPosition(tartgetPosition, null, null,
+                        new string[] { "PlowGround", "TreeGround", "ExceptObject" }, new string[] { "Plow", "Tree", "EndGrow" }))
                     {
-                        DirectionSave = 3;
+                        GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                        if (ConnectedObejct != null)
+                        {
+                            GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "TreeGround");
+                        }
                     }
-                    else if (dir == new Vector2(1, 0))
-                    {
-                        DirectionSave = 1;
-                    }
-                    else if (dir == new Vector2(0, 1))
-                    {
-                        DirectionSave = 0;
-                    }
-                    else
-                    {
-                        DirectionSave = 2;
-                    }
-                    readyRangeInteract = new RangeInteract()
-                    {
-                        _Find = new string[] { "SeededGround" },
-                        _Tag = new string[] { "EndGrow" },
-                        _Range = 5f,
-                        _Dir = DirectionSave,
-                        _isAll = false
-                    };
-
-                    break;
+                        break;
                 default:
+                    TryHandInteract();
                     break;
             }
         }
     }
+
+    void SaveDirextionInfo()
+    {
+        DirectionSave = 0;
+        if (dir == new Vector2(-1, 0))
+        {
+            DirectionSave = 3;
+        }
+        else if (dir == new Vector2(1, 0))
+        {
+            DirectionSave = 1;
+        }
+        else if (dir == new Vector2(0, 1))
+        {
+            DirectionSave = 0;
+        }
+        else
+        {
+            DirectionSave = 2;
+        }
+    }
+
+    void TryHandInteract()
+    {
+        if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "SeededGround", "TreeGround"}, new string[] { "EndGrow", "Tree" },
+            null, null))
+        {
+            GameManager.Instance.TryHandInteract();
+        }
+    }
+
+
     void OnInventory(InputValue inputValue)
     {
         if (inputValue.isPressed)
@@ -217,7 +280,7 @@ public class PlayerController : BaseController
         if (!CanSpawn) return;
         CanSpawn = false;
 
-        GameManager.Instance.SpawnSomethine(readyInteract._name, tartgetPosition, readyInteract._sprite, readyInteract._Tag, readyInteract._AddList);
+        GameManager.Instance.SpawnSomething(readyInteract._name, tartgetPosition, readyInteract._sprite, readyInteract._order, readyInteract._Tag, readyInteract._AddList);
     }
 
     void OnOneSlot(InputValue inputValue)
