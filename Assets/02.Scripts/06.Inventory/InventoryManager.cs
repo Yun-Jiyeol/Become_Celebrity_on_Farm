@@ -27,6 +27,25 @@ public class InventoryManager : MonoBehaviour
         {
             pages[i].SetActive(i == index);
         }
+
+        // 페이지 3번(index == 3)이면 SlotText랑 Trash 비활성화
+        bool hideExtras = (index == 3);
+
+        // 인벤토리 UI 내부에서 오브젝트 찾기
+        GameObject inventoryUI = GameObject.Find("InventoryUI");
+
+        if (inventoryUI != null)
+        {
+            Transform itemslotText = inventoryUI.transform.Find("ItemSlotTxt");
+            Transform trash = inventoryUI.transform.Find("Trash");
+
+            if (itemslotText != null) itemslotText.gameObject.SetActive(!hideExtras);
+            if (trash != null) trash.gameObject.SetActive(!hideExtras);
+        }
+        else
+        {
+            Debug.LogWarning("InventoryUI 오브젝트를 찾을 수 없습니다.");
+        }
     }
 }
 
