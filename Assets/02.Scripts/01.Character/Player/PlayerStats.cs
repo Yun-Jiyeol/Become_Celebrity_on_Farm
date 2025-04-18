@@ -22,6 +22,37 @@ public class PlayerStats : MonoBehaviour
     public float MaxMana;
     public float Defence;
 
+    //플레이어가 보유한 골드
+    [Header("Currency")]
+    [SerializeField] private int gold = 0;
+
+    /// 현재 골드 반환
+    public int GetGold()
+    {
+        return gold;
+    }
+
+    /// 골드 증가
+    public void AddGold(int amount)
+    {
+        gold += Mathf.Max(0, amount); // 음수 입력 방지
+    }
+
+    /// 골드 감소 . 충분할 때만 ture반환
+    public bool SpendGold(int amount)
+    {
+        if(gold >= amount)
+        {
+            gold -= amount;
+            return true;
+        }
+        else
+        {
+            Debug.Log("골드가 부족합니다.");
+            return false;
+        }
+    }
+
     public void SetCharacterInfo(string characterType, string name, string farmName) //캐릭터 설정 데이터 변환용 메서드
     {
         CharacterType = characterType;
@@ -30,4 +61,5 @@ public class PlayerStats : MonoBehaviour
 
         Debug.Log($"[PlayerStats] 캐릭터 설정완료 - {CharacterType}, {Name}, {FarmName}");
     }
+
 }
