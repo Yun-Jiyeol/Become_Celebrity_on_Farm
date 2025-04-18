@@ -30,6 +30,7 @@ public class Trees : SeedGrow
         MaxHP = steps[EndGrow].Hp;
         MaxAddiitionalGrow = steps[steps.Count - 1].Hp - (int)MaxHP;
         treecollider.enabled = false;
+        OnSettingSeason();
     }
 
     public override void Grow(float grow)

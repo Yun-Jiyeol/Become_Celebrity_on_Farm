@@ -212,15 +212,15 @@ public class GameManager : MonoBehaviour
 
         if (CanInteractionObjects["SeededGround"] != null)
         {
-            foreach (GameObject Seed in CanInteractionObjects["SeededGround"])
+            for (int i = 0; i < CanInteractionObjects["SeededGround"].Count; i++)
             {
-                if (Seed.transform.tag == "Seeded")
+                if (CanInteractionObjects["SeededGround"][i].transform.tag == "Seeded")
                 {
                     bool isWatered = false;
 
                     foreach (GameObject WaterGround in CanInteractionObjects["WateredGround"])
                     {
-                        if(WaterGround.transform.position == Seed.transform.position)
+                        if(WaterGround.transform.position == CanInteractionObjects["SeededGround"][i].transform.position)
                         {
                             isWatered = true;
                             CanInteractionObjects["WateredGround"].Remove(WaterGround);
@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
 
                     if (isWatered)
                     {
-                        Seed.GetComponent<SeedGrow>().Grow(10);
+                        CanInteractionObjects["SeededGround"][i].GetComponent<SeedGrow>().Grow(10);
                     }
                     else
                     {
@@ -263,6 +263,17 @@ public class GameManager : MonoBehaviour
                 if (tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
                 {
                     tree.GetComponent<SeedGrow>().OnSettingSeason();
+                }
+            }
+        }
+
+        if (CanInteractionObjects["SeededGround"] != null)
+        {
+            for (int i = 0; i< CanInteractionObjects["SeededGround"].Count; i++)
+            {
+                if (CanInteractionObjects["SeededGround"][i].transform.tag == "Seeded" || CanInteractionObjects["SeededGround"][i].transform.tag == "EndGrow")
+                {
+                    CanInteractionObjects["SeededGround"][i].GetComponent<SeedGrow>().OnSettingSeason();
                 }
             }
         }

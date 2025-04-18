@@ -24,7 +24,6 @@ public class IOnStart : MonoBehaviour
         if (basicSeed != null)
         {
             basicSeed.GetDamage(basicSeed.MaxHP);
-            basicSeed.OnSettingSeason();
         }
     }
 }

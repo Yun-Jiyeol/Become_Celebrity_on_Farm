@@ -6,10 +6,12 @@ public class Crops : SeedGrow
 {
     public bool isDestroyAfterHarvest;
     public int AfterHarvest = 0;
+    bool canGrow = false;
 
     protected override void Start()
     {
         base.Start();
+        OnSettingSeason();
     }
 
     public override void Grow(float grow)
@@ -20,11 +22,25 @@ public class Crops : SeedGrow
 
     public override void OnSettingSeason()
     {
+        canGrow = false;
 
+        foreach (Season.SeasonType cangrowseason in canGrowSeason)
+        {
+            if (cangrowseason == GameManager.Instance.nowSeason)
+            {
+                canGrow = true;
+                break;
+            }
+        }
     }
 
     protected override void CheckGrow()
     {
+        if (!canGrow)
+        {
+            DestroyThis();
+        }
+
         string growstep = steps[0].SpriteName;
 
         for (int i = 0; i < steps.Count; i++)
@@ -52,8 +68,7 @@ public class Crops : SeedGrow
         }
         if (isDestroyAfterHarvest)
         {
-            GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
-            Destroy(gameObject);
+            DestroyThis();
         }
         else
         {
@@ -68,5 +83,11 @@ public class Crops : SeedGrow
         base.HandInteract();
 
         calledInteract();
+    }
+
+    void DestroyThis()
+    {
+        GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
+        Destroy(gameObject);
     }
 }
