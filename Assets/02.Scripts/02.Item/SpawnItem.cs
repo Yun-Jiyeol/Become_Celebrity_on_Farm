@@ -22,12 +22,12 @@ public class SpawnItem : ObjectPolling
                 spawnAmount = 0;
             }
 
-            GameObject go = SpawnDropedItems();
+            GameObject go = SpawnOrFindThings();
             go.GetComponent<DropedItem>().SpawnedDropItem(spawninthisturn, spawnposition, dropItem);
         }
     }
 
-    GameObject SpawnDropedItems()
+    protected override GameObject SpawnOrFindThings()
     {
         GameObject go = FindOffthings();
         if(go == null)

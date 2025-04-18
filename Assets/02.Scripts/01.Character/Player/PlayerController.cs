@@ -88,7 +88,7 @@ public class PlayerController : BaseController
                         isAction = true;
                         gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
 
-                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone" }))
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
                         {
                             CanSpawn = true;
                             Groundtype = ChangedGround.Plow;
@@ -115,12 +115,16 @@ public class PlayerController : BaseController
                         TryHandInteract();
                         if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                         tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-                        if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, new string[] { "Plow" }, new string[] { "SeededGround" }, new string[] { "Seeded", "EndGrow" }))
+                        
+                        if (GameManager.Instance.TagIsInMouse(new string[] { "Plow" }))
                         {
-                            GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
-                            if (ConnectedObejct != null)
+                            if (GameManager.Instance.TagIsNotInMouse(new string[] { "Seeded", "EndGrow" }))
                             {
-                                GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "SeededGround");
+                                GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                                if (ConnectedObejct != null)
+                                {
+                                    GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct);
+                                }
                             }
                         }
                         break;
@@ -128,13 +132,13 @@ public class PlayerController : BaseController
                         TryHandInteract();
                         if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                         tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-                        if (GameManager.Instance.InteractPosition(tartgetPosition, null, null,
-                            new string[] { "PlowGround", "TreeGround", "ExceptObject" }, new string[] { "Plow", "Tree", "EndGrow" }))
+
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow" }))
                         {
                             GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                             if (ConnectedObejct != null)
                             {
-                                GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "TreeGround");
+                                GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct);
                             }
                         }
                         break;
@@ -390,6 +394,8 @@ public class PlayerController : BaseController
                 case ItemType.Except:
                 case ItemType.Hoe:
                 case ItemType.Watering:
+                case ItemType.Seed:
+                case ItemType.TreeSeed:
                     TryChangeType(PlayerInteractType.Point);
                     break;
 

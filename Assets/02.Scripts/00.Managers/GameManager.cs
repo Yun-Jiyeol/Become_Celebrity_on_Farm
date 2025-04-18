@@ -190,13 +190,11 @@ public class GameManager : MonoBehaviour
         CanInteractionObjects[List].Add(go);
     }
 
-    public void SpawnSomething(Vector3 position, GameObject _go, string List)
+    public void SpawnSomething(Vector3 position, GameObject _go)
     {
         GameObject go = Instantiate(_go);
         go.transform.parent = gameObject.transform;
         go.transform.position = position;
-
-        CanInteractionObjects[List].Add(go);
     }
 
     public void OneDayAfter()

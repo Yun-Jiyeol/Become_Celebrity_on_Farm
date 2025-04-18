@@ -133,7 +133,7 @@ public class Trees : SeedGrow
                 BoxCollider2D collider = go.AddComponent<BoxCollider2D>();
                 collider.offset = new Vector2(0,0.4f);
                 collider.size = new Vector2(1, 1);
-                GameManager.Instance.SpawnSomething(gameObject.transform.position, go, "TreeGround");
+                GameManager.Instance.SpawnSomething(gameObject.transform.position, go);
 
                 GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
                 Destroy(gameObject);
