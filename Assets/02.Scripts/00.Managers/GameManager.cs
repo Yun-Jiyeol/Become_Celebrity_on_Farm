@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     public void TryHandInteract()
     {
-        LastGameObject.GetComponent<SeedGrow>().HandInteract();
+        //LastGameObject.GetComponent<SeedGrow>().HandInteract();
     }
 
     public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isAll)
@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour
             {
                 if(tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
                 {
-                    tree.GetComponent<SeedGrow>().Grow(10);
+                    //tree.GetComponent<SeedGrow>().Grow(10);
                 }
             }
         }
@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
 
                     if (isWatered)
                     {
-                        Seed.GetComponent<SeedGrow>().Grow(10);
+                        //Seed.GetComponent<SeedGrow>().Grow(10);
                     }
                     else
                     {
@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
             {
                 if (tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
                 {
-                    tree.GetComponent<SeedGrow>().CheckGrow();
+                    //tree.GetComponent<SeedGrow>().CheckGrow();
                 }
             }
         }
