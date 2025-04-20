@@ -67,6 +67,7 @@ public class SpawnGround : ObjectPolling
             BoxCollider2D boxC = go.AddComponent<BoxCollider2D>();
             boxC.isTrigger = true;
             boxC.size = new Vector2(1,1);
+            go.AddComponent<SaveOnGM>().OffThisCollider = true;
             Things.Add(go);
         }
 

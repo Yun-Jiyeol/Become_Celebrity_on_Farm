@@ -35,6 +35,10 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
     {
         HP = 0;
         MaxHP = steps[steps.Count - 1].Hp;
+        if(MaxHP == HP)
+        {
+            isEndGrow = true;
+        }
     }
 
 

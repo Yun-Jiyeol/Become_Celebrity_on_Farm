@@ -92,6 +92,8 @@ public class GameManager : MonoBehaviour
     {
         if (TagOnMouse.Count == 0) return;
 
+        List< IInteract > saveInteract = new List< IInteract >();
+
         for (int i = 0; i < TagOnMouse.Count; i++)
         {
             foreach(string tag in _tag)
@@ -130,11 +132,33 @@ public class GameManager : MonoBehaviour
 
                     if (isin)
                     {
-                        TagOnMouse[i].GetComponent<IInteract>().Interact();
-                        if (!isAll) return;
+                        if (TagOnMouse[i].TryGetComponent<IInteract>(out IInteract temp))
+                        {
+                            saveInteract.Add(temp);
+                            if (!isAll)
+                            {
+                                temp.Interact();
+                                return;
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        foreach (var i in saveInteract)
+        {
+            i.Interact();
+        }
+    }
+
+    public void TurnOnAllColliders()
+    {
+        if(OnActive == null) return;
+
+        foreach(GameObject go in OnActive)
+        {
+            go.GetComponent<SaveOnGM>().OnCollider();
         }
     }
 }

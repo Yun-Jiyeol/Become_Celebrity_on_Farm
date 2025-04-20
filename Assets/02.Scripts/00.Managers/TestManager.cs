@@ -11,6 +11,8 @@ public class TestManager : MonoBehaviour
     public Sprite HoeGround;
     public Sprite WaterGround;
 
+    public Season.SeasonType nowSeason;
+
     public List<ConnectionBetweenItemObject> connectionBetweenItemObjects;
     [System.Serializable]
     public class ConnectionBetweenItemObject

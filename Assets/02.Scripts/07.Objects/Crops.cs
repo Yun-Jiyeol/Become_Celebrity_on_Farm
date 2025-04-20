@@ -26,11 +26,11 @@ public class Crops : SeedGrow
 
         foreach (Season.SeasonType cangrowseason in canGrowSeason)
         {
-            //if (cangrowseason == GameManager.Instance.nowSeason)
-            //{
-            //    canGrow = true;
-            //    break;
-            //}
+            if (cangrowseason == TestManager.Instance.nowSeason)
+            {
+                canGrow = true;
+                break;
+            }
         }
     }
 
@@ -87,7 +87,6 @@ public class Crops : SeedGrow
 
     void DestroyThis()
     {
-        //GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
         Destroy(gameObject);
     }
 }
