@@ -40,11 +40,11 @@ public class TestManager : MonoBehaviour
 
     void DayAfter()
     {
-        GameManager.Instance.OneDayAfter();
+        //GameManager.Instance.OneDayAfter();
     }
     void SeasonAfter()
     {
-        GameManager.Instance.OneSeasonAfter();
+        //GameManager.Instance.OneSeasonAfter();
     }
 
 

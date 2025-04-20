@@ -52,25 +52,25 @@ public class Trees : SeedGrow
 
     public override void OnSettingSeason()
     {
-        for (int i = 0; i < settingSeason.Count; i++)
-        {
-            if (settingSeason[i].SeasonType == GameManager.Instance.nowSeason)
-            {
-                NowSeasonName = settingSeason[i].SeasonName;
-                break;
-            }
-        }
+        //for (int i = 0; i < settingSeason.Count; i++)
+        //{
+        //    if (settingSeason[i].SeasonType == GameManager.Instance.nowSeason)
+        //    {
+        //        NowSeasonName = settingSeason[i].SeasonName;
+        //        break;
+        //    }
+        //}
 
-        canGrow = false;
+        //canGrow = false;
 
-        foreach (Season.SeasonType cangrowseason in canGrowSeason)
-        {
-            if (cangrowseason == GameManager.Instance.nowSeason)
-            {
-                canGrow = true;
-                break;  
-            }
-        }
+        //foreach (Season.SeasonType cangrowseason in canGrowSeason)
+        //{
+        //    if (cangrowseason == GameManager.Instance.nowSeason)
+        //    {
+        //        canGrow = true;
+        //        break;  
+        //    }
+        //}
     }
 
     protected override void CheckGrow()
@@ -135,13 +135,11 @@ public class Trees : SeedGrow
                 collider.size = new Vector2(1, 1);
                 GameManager.Instance.SpawnSomething(gameObject.transform.position, go);
 
-                GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
                 Destroy(gameObject);
             }
             else
             {
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
-                GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
                 Destroy(gameObject);
             }
         }
