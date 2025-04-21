@@ -7,38 +7,29 @@ public class Weather : MonoBehaviour
     {
         Sunny,
         Rain,
-        Snow
+        Snow,
+        FlowerRain
     }
 
     private Dictionary<int, WeatherType> dailyWeather = new Dictionary<int, WeatherType>();
     private Season season;
 
-    // 눈 스프라이트 관련 변수 추가
-    public GameObject snowSpritePrefab;
-    public int snowSpriteCount = 5;
-
-    // 오늘 날짜 (예시로 0일차로 가정, 나중에 TimeManager와 연동 가능)
     public int currentDay = 0;
 
     private void Awake()
     {
         season = FindObjectOfType<Season>();
-
         if (season != null)
         {
-            GenerateWeatherForSeason(season.CurrentSeason);
-            season.OnSeasonChanged += GenerateWeatherForSeason;
+            RandomSeason(season.CurrentSeason);
+            season.OnSeasonChanged += RandomSeason;
         }
     }
 
     private void Start()
     {
         WeatherType todayWeather = GetWeather(currentDay);
-
-        if (todayWeather == WeatherType.Snow)
-        {
-            CreateSnowSprites(); // 눈 내리는 효과 실행
-        }
+        Debug.Log($"오늘의 날씨: {todayWeather}");
     }
 
     public WeatherType GetWeather(int day)
@@ -47,79 +38,49 @@ public class Weather : MonoBehaviour
         {
             return weather;
         }
-
         return WeatherType.Sunny;
     }
 
-    public void GenerateWeatherForSeason(Season.SeasonType seasonType)
+    public void RandomSeason(Season.SeasonType seasonType)
     {
-        int startDay = GetSeasonStartDay(seasonType);
-        dailyWeather = new Dictionary<int, WeatherType>(dailyWeather);
+        int startDay = (int)seasonType * 28;
+        dailyWeather = new Dictionary<int, WeatherType>();
 
-        switch (seasonType)
+        List<int> availableDays = new List<int>();
+        for (int i = 0; i < 28; i++)
+            availableDays.Add(startDay + i);
+
+        if (seasonType == Season.SeasonType.Spring)
         {
-            case Season.SeasonType.Spring:
-                SetRandomWeather(startDay, 28, 5, WeatherType.Rain);
-                break;
-            case Season.SeasonType.Summer:
-                SetRandomWeather(startDay, 28, 8, WeatherType.Rain);
-                break;
-            case Season.SeasonType.Fall:
-                SetRandomWeather(startDay, 28, 5, WeatherType.Rain);
-                break;
-            case Season.SeasonType.Winter:
-                SetRandomWeather(startDay, 28, 7, WeatherType.Snow);
-                break;
+            AddRandomWeather(ref availableDays, 7, WeatherType.FlowerRain);
+            AddRandomWeather(ref availableDays, 5, WeatherType.Rain);
         }
+        else if (seasonType == Season.SeasonType.Summer)
+        {
+            AddRandomWeather(ref availableDays, 8, WeatherType.Rain);
+        }
+        else if (seasonType == Season.SeasonType.Fall)
+        {
+            AddRandomWeather(ref availableDays, 5, WeatherType.Rain);
+        }
+        else if (seasonType == Season.SeasonType.Winter)
+        {
+            AddRandomWeather(ref availableDays, 7, WeatherType.Snow);
+        }
+
+        // 나머지는 Sunny 처리
+        foreach (int day in availableDays)
+            dailyWeather[day] = WeatherType.Sunny;
     }
 
-    private void SetRandomWeather(int startDay, int range, int count, WeatherType type)
+    private void AddRandomWeather(ref List<int> pool, int count, WeatherType type)
     {
-        List<int> randomDays = GetRandomDays(startDay, range, count);
-
-        foreach (int day in randomDays)
+        for (int i = 0; i < count && pool.Count > 0; i++)
         {
-            dailyWeather[day] = type;
-        }
-    }
-
-    private int GetSeasonStartDay(Season.SeasonType seasonType)
-    {
-        return (int)seasonType * 28;
-    }
-
-    private List<int> GetRandomDays(int startDay, int range, int count)
-    {
-        List<int> allDays = new List<int>();
-        for (int i = 0; i < range; i++)
-        {
-            allDays.Add(startDay + i);
-        }
-
-        List<int> result = new List<int>();
-        for (int i = 0; i < count && allDays.Count > 0; i++)
-        {
-            int randomIndex = Random.Range(0, allDays.Count);
-            result.Add(allDays[randomIndex]);
-            allDays.RemoveAt(randomIndex);
-        }
-
-        return result;
-    }
-
-    //눈 스프라이트 계단식 출력 함수
-    private void CreateSnowSprites()
-    {
-        if (snowSpritePrefab == null)
-        {
-            Debug.LogWarning("Snow Sprite Prefab이 연결되지 않았습니다!");
-            return;
-        }
-
-        for (int i = 0; i < snowSpriteCount; i++)
-        {
-            Vector3 pos = new Vector3(i * 1.0f, -i * 0.5f, 0); // 계단식 위치
-            Instantiate(snowSpritePrefab, pos, Quaternion.identity, transform);
+            int index = Random.Range(0, pool.Count); //날짜 중 하나 랜덤 픽
+            int selectedDay = pool[index];//해당 날짜 선택
+            dailyWeather[selectedDay] = type;//해당 날짜에 날씨 지정
+            pool.RemoveAt(index);//중복 방지
         }
     }
 }
