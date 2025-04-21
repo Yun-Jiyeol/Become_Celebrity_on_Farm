@@ -23,7 +23,6 @@ public class TreeStump : MonoBehaviour, IHaveHP, IInteract
         if (HP <= 0)
         {
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
-            GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
             Destroy(gameObject);
         }
     }

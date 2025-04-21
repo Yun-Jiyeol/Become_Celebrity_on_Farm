@@ -8,7 +8,9 @@ public class Trees : SeedGrow
     public bool isFruitTree;
     public float AdditionalGrow = 0;
     private int MaxAddiitionalGrow;
+    private string NowSeasonName;
     private BoxCollider2D treecollider = new BoxCollider2D();
+    private bool canGrow;
     public int EndGrow;
 
     public int WoodItemNum = 1;
@@ -28,10 +30,19 @@ public class Trees : SeedGrow
         MaxHP = steps[EndGrow].Hp;
         MaxAddiitionalGrow = steps[steps.Count - 1].Hp - (int)MaxHP;
         treecollider.enabled = false;
+        OnSettingSeason();
+        CheckGrow();
     }
 
     public override void Grow(float grow)
     {
+        if (!canGrow)
+        {
+            AdditionalGrow = 0;
+            CheckGrow();
+            return;
+        }
+
         if (isEndGrow)
         {
             AdditionalGrow = Mathf.Min(MaxAddiitionalGrow, AdditionalGrow + grow);
@@ -40,7 +51,30 @@ public class Trees : SeedGrow
         CheckGrow();
     }
 
-    public override void CheckGrow()
+    public override void OnSettingSeason()
+    {
+        for (int i = 0; i < settingSeason.Count; i++)
+        {
+            if (settingSeason[i].SeasonType == TestManager.Instance.nowSeason)
+            {
+                NowSeasonName = settingSeason[i].SeasonName;
+                break;
+            }
+        }
+
+        canGrow = false;
+
+        foreach (Season.SeasonType cangrowseason in canGrowSeason)
+        {
+            if (cangrowseason == TestManager.Instance.nowSeason)
+            {
+                canGrow = true;
+                break;
+            }
+        }
+    }
+
+    protected override void CheckGrow()
     {
         string growstep = steps[0].SpriteName;
         bool needChangeOnSeason = false;
@@ -66,9 +100,10 @@ public class Trees : SeedGrow
 
         if (needChangeOnSeason)
         {
-            growstep = GameManager.Instance.nowSeason.ToString() + "_" + growstep;
+            growstep = NowSeasonName + "_" + growstep;
         }
 
+        Debug.Log(growstep);
         gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];
     }
 
@@ -78,7 +113,7 @@ public class Trees : SeedGrow
 
         //플레이어의 도끼? 공격력를 받아와 데미지 계산하는 로직을 추가
 
-        GetDamage(-30);
+        GetDamage(-10);
         if(HP <= 0)
         {
             if (isEndGrow)
@@ -99,17 +134,19 @@ public class Trees : SeedGrow
                 BoxCollider2D collider = go.AddComponent<BoxCollider2D>();
                 collider.offset = new Vector2(0,0.4f);
                 collider.size = new Vector2(1, 1);
-                GameManager.Instance.SpawnSomething(gameObject.transform.position, go, "TreeGround");
+                GameManager.Instance.SpawnSomething(gameObject.transform.position, go);
 
-                GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
                 Destroy(gameObject);
             }
             else
             {
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
-                GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
                 Destroy(gameObject);
             }
+        }
+        else
+        {
+            StartCoroutine(DamageCoroutine());
         }
     }
 
@@ -125,5 +162,10 @@ public class Trees : SeedGrow
             AdditionalGrow = 0;
             CheckGrow();
         }
+    }
+
+    IEnumerator DamageCoroutine()
+    {
+        yield return null;
     }
 }

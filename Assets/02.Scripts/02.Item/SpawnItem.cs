@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnItem : MonoBehaviour
+public class SpawnItem : ObjectPolling
 {
     public GameObject DropedItem;
-    List<GameObject> DropedItems = new List<GameObject>();
-
-    private void Start()
-    {
-        ItemManager.Instance.spawnItem = this;
-    }
 
     public void DropItem(ItemDataReader.ItemsData dropItem, int spawnAmount, Vector3 spawnposition)
     {
@@ -28,46 +22,21 @@ public class SpawnItem : MonoBehaviour
                 spawnAmount = 0;
             }
 
-            GameObject go = SpawnDropedItems();
+            GameObject go = SpawnOrFindThings();
             go.GetComponent<DropedItem>().SpawnedDropItem(spawninthisturn, spawnposition, dropItem);
         }
     }
 
-    GameObject SpawnDropedItems()
+    protected override GameObject SpawnOrFindThings()
     {
-        GameObject go = FindOffItems();
+        GameObject go = FindOffthings();
         if(go == null)
         {
             go = Instantiate(DropedItem, transform);
-            DropedItems.Add(go);
+            Things.Add(go);
         }
 
         go.SetActive(true);
         return go;
-    }
-
-    GameObject FindOffItems()
-    {
-        if(DropedItems.Count == 0) return null;
-
-        foreach(GameObject Items in DropedItems)
-        {
-            if (!Items.activeSelf)
-            {
-                return Items;
-            }
-        }
-        return null;
-    }
-
-    public void OffAllItems()
-    {
-        foreach (GameObject Items in DropedItems)
-        {
-            if (Items.activeSelf)
-            {
-                Items.GetComponent<DropedItem>().offObject();
-            }
-        }
     }
 }
