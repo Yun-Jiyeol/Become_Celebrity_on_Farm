@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum MapType
 {
@@ -15,9 +16,9 @@ public enum MapType
 [System.Serializable]
 public class MapInfo
 {
-    // 해당 맵 오브젝트
+    // 맵 오브젝트
     public GameObject place;
-    // 입구와 스폰포인트 연결
+    // 딕셔너리로 입구와 스폰포인트 관리
     public Dictionary<GameObject, Transform> portals = new Dictionary<GameObject, Transform>();
 
     public MapInfo(GameObject place)
@@ -60,11 +61,14 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform roadRight;
     [SerializeField] private Transform villageLeft;
 
-    Dictionary<MapType, MapInfo> maps;
-    MapType currentMap = MapType.Home;
-
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
+
+    [Header("Camera")]
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
+
+    Dictionary<MapType, MapInfo> maps;
+    MapType currentMap = MapType.Home;
 
 
     void Awake()
@@ -83,12 +87,13 @@ public class MapManager : MonoBehaviour
         SetMap();
         UnloadAllMap();
 
+        // 디폴트 = 집에서 스폰
         home.SetActive(true);
         player.transform.position = homeCenter.position;
     }
 
     /// <summary>
-    /// 시작할 때 맵 세팅
+    /// 맵 세팅 시작. 장소 추가될 때마다 맵 생성 필요
     /// </summary>
     void SetMap()
     {
@@ -118,10 +123,15 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어가 이동할 때 목적지 맵 활성화
+    /// 플레이어가 이동할 때 타겟 맵 활성화
     /// </summary>
     public void LoadMap(MapType targetType, GameObject entrance)
     {
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        
+        virtualCamera.enabled = false;
+        input.enabled = false;
+
         StartCoroutine(fader.Fade(() =>
         {
             // 1. 현재 맵 비활성화
@@ -134,11 +144,18 @@ public class MapManager : MonoBehaviour
                 SetPlayerPosition(entrance);
                 currentMap = targetType;
             }
-        }));
+            virtualCamera.enabled = true;
+        },
+
+        () =>
+        {
+            input.enabled = true;
+        }
+        ));
     }
 
     /// <summary>
-    /// 플레이어가 이동할 때 원래 있던 맵 비활성화
+    /// 현재 맵 비활성화
     /// </summary>
     void UnloadMap(MapType currentMap)
     {
@@ -160,9 +177,8 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
-    /// entrance에 따른 플레이어 스폰위치 설정
+    /// entrance에 따른 플레이어 스폰 위치 설정
     /// </summary>
-    /// <param name="entrance"></param>
     void SetPlayerPosition(GameObject entrance)
     {
         if (maps.TryGetValue(currentMap, out MapInfo currentMapInfo))

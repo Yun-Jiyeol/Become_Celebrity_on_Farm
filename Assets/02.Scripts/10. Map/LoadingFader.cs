@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using System;
 
 public class LoadingFader : MonoBehaviour
 {
@@ -12,62 +14,32 @@ public class LoadingFader : MonoBehaviour
         fader.gameObject.SetActive(false);
     }
 
-    public IEnumerator Fade(System.Action action)
+    /// <summary>
+    /// Fade Out, Fade In
+    /// </summary>
+    /// <param name="onLoad"> 맵 로드 </param>
+    /// <param name="onAfterFade"> Fader 중복 호출 막기 위한 PlayerInput 제어 </param>
+    /// <returns></returns>
+    public IEnumerator Fade(Action onLoad, Action onAfterFade)
     {
         fader.gameObject.SetActive(true);
-        yield return StartCoroutine(FadeOut());
+        
+        yield return fader.DOFade(1f, 1f)
+            .SetUpdate(true)
+            .SetEase(Ease.Linear)
+            .WaitForCompletion();
+        
+        onLoad?.Invoke();
 
-        action?.Invoke();
+        yield return fader.DOFade(0f, 1f)
+            .SetUpdate(true)
+            .SetEase(Ease.Linear)
+            .WaitForCompletion();
 
-        yield return StartCoroutine(FadeIn());
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        onAfterFade?.Invoke();
+        
         fader.gameObject.SetActive(false);
-    }
-
-
-    /// <summary>
-    /// 알파값 0에서 255로
-    /// </summary>
-    IEnumerator FadeOut()
-    {
-        float elapsed = 0f;
-        float duration = 3f;
-        Color faderColor = fader.color;
-
-        Time.timeScale = 0f; // !! 코루틴이 안 될 것
-
-        while (elapsed <= duration)
-        {
-            float t = elapsed / duration;
-            faderColor.a = Mathf.Lerp(0f, 1f, t);
-            fader.color = faderColor;
-            elapsed += Time.unscaledDeltaTime;
-        }
-
-        Time.timeScale = 1f;
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// 알파값 255에서 0으로
-    /// </summary>
-    IEnumerator FadeIn()
-    {
-        float elapsed = 0f;
-        float duration = 3f;
-
-        Color faderColor = fader.color;
-
-        while (elapsed <= duration)
-        {
-            float t = elapsed / duration;
-            faderColor.a = Mathf.Lerp(1f, 0f, t);
-            fader.color = faderColor;
-            elapsed += Time.unscaledDeltaTime;
-        }
-
-        Time.timeScale = 1f;
-
-        yield return null;
     }
 }
