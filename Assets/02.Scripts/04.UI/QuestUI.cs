@@ -17,8 +17,9 @@ public class QuestUI : UIBase
         QuestBtn.onClick.AddListener(OnQuestBtn);
         CloseBtn.onClick.AddListener(OnCloseBtn);
 
-        Quest?.SetActive(false);
+        Quest.gameObject.SetActive(false);
         QuestBtn.gameObject.SetActive(true);
+        CloseBtn.gameObject.SetActive(true);
     }
 
     public void Awake()
