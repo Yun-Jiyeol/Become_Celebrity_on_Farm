@@ -135,6 +135,7 @@ public class PlayerController : BaseController
                                 go.transform.parent = GameManager.Instance.transform;
                                 go.transform.position = tartgetPosition;
                             }
+                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                         }
                     }
                     break;
@@ -152,6 +153,7 @@ public class PlayerController : BaseController
                             go.transform.parent = GameManager.Instance.transform;
                             go.transform.position = tartgetPosition;
                         }
+                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1,1);
                     }
                     break;
                 default:
