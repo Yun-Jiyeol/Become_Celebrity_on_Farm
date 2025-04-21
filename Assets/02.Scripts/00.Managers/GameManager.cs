@@ -55,13 +55,6 @@ public class GameManager : MonoBehaviour
         //LastGameObject.GetComponent<SeedGrow>().HandInteract();
     }
 
-    public void SpawnSomething(Vector3 position, GameObject _go)
-    {
-        GameObject go = Instantiate(_go);
-        go.transform.parent = gameObject.transform;
-        go.transform.position = position;
-    }
-
     public bool TagIsInMouse(string[] _tag)
     {
         foreach(string tag in _tag)

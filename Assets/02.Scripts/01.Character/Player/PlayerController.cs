@@ -6,6 +6,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public enum PlayerInteractType
 {
@@ -129,7 +130,9 @@ public class PlayerController : BaseController
                             GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                             if (ConnectedObejct != null)
                             {
-                                GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct);
+                                GameObject go = Instantiate(ConnectedObejct);
+                                go.transform.parent = GameManager.Instance.transform;
+                                go.transform.position = tartgetPosition;
                             }
                         }
                     }
@@ -144,7 +147,9 @@ public class PlayerController : BaseController
                         GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                         if (ConnectedObejct != null)
                         {
-                            GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct);
+                            GameObject go = Instantiate(ConnectedObejct);
+                            go.transform.parent = GameManager.Instance.transform;
+                            go.transform.position = tartgetPosition;
                         }
                     }
                     break;
