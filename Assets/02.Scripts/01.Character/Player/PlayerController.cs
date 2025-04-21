@@ -48,6 +48,7 @@ public class PlayerController : BaseController
         playerAnimation = GetComponent<PlayerAnimation>();
 
         PlayerInteractRange = Instantiate(GameManager.Instance.PlayerRange);
+        PlayerInteractRange.SetActive(false);
         Invoke("lateStart", 0.1f);
     }
 
@@ -142,7 +143,7 @@ public class PlayerController : BaseController
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
-                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow" }))
+                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow" , "Stone"}))
                     {
                         GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                         if (ConnectedObejct != null)
