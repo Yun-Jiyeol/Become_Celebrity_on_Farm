@@ -11,9 +11,13 @@ public class Weather : MonoBehaviour
         FlowerRain
     }
 
+    // 현재 날씨를 인스펙터에서 확인할 수 있도록 노출
+    [SerializeField]
+    private WeatherType currentWeather = WeatherType.Sunny;  // 기본 날씨를 Sunny로 설정
+
     private Dictionary<int, WeatherType> dailyWeather = new Dictionary<int, WeatherType>();
     private Season season;
-
+    
     public int currentDay = 0;
 
     private void Awake()
@@ -28,17 +32,29 @@ public class Weather : MonoBehaviour
 
     private void Start()
     {
+        // 인스펙터에서 수동으로 설정한 날씨를 바로 적용하도록 수정
         WeatherType todayWeather = GetWeather(currentDay);
         Debug.Log($"오늘의 날씨: {todayWeather}");
+
+        // 오늘의 날씨를 바로 적용
+        ApplyWeather(todayWeather);
     }
 
     public WeatherType GetWeather(int day)
     {
+        // 해당 날짜에 지정된 날씨 반환
         if (dailyWeather.TryGetValue(day, out WeatherType weather))
         {
             return weather;
         }
-        return WeatherType.Sunny;
+        return currentWeather;  // 기본 날씨 (수동으로 설정된 값 사용)
+    }
+
+    public void ApplyWeather(WeatherType weatherType)
+    {
+        // 날씨를 적용하는 로직
+        Debug.Log($"적용된 날씨: {weatherType}");
+        // 여기에 날씨에 맞는 파티클 효과 실행 코드 추가
     }
 
     public void RandomSeason(Season.SeasonType seasonType)
