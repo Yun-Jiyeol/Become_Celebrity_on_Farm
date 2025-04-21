@@ -20,6 +20,7 @@ public class SeedGrowOnSeason
 
 public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 {
+    [SerializeField]
     public float HP { get; set; }
     public float MaxHP { get; set; }
     public float StartHp = 0;

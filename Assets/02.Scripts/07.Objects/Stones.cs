@@ -30,6 +30,6 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
 
     public void Interact()
     {
-        GetDamage(-20);
+        GetDamage(-10);
     }
 }
