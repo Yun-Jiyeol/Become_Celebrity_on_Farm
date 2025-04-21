@@ -24,7 +24,6 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
         if (HP <= 0)
         {
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
-            //GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
             Destroy(gameObject);
         }
     }

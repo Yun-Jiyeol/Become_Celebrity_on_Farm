@@ -161,4 +161,48 @@ public class GameManager : MonoBehaviour
             go.GetComponent<SaveOnGM>().OnCollider();
         }
     }
+
+    public void OneDayAfter()
+    {
+        List<GameObject> forActivefalse = new List<GameObject>();
+        List<SeedGrow> forGrow = new List<SeedGrow>();
+
+        for(int i = 0; i< OnActive.Count; i++)
+        {
+            if(OnActive[i].TryGetComponent<SeedGrow>(out SeedGrow temp)) //자라는 식물일 시
+            {
+                forGrow.Add(temp);
+            }
+            else if(OnActive[i].transform.tag == "Watered") //물바닥 일 시
+            {
+                forActivefalse.Add(OnActive[i]);
+            }
+        }
+
+        if (forActivefalse.Count != 0)
+        {
+            foreach (GameObject go in forActivefalse)
+            {
+                go.SetActive(false);
+            }
+        }
+        if (forGrow.Count != 0)
+        {
+            foreach (SeedGrow sg in forGrow)
+            {
+                sg.Grow(10);
+            }
+        }
+    }
+
+    public void OneSeasonAfter()
+    {
+        for (int i = 0; i < OnActive.Count; i++)
+        {
+            if (OnActive[i].TryGetComponent<SeedGrow>(out SeedGrow temp)) //자라는 식물일 시
+            {
+                temp.OnSettingSeason();
+            }
+        }
+    }
 }

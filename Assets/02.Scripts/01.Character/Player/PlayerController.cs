@@ -392,7 +392,6 @@ public class PlayerController : BaseController
             }
             else
             {
-                Debug.Log(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                 chooseItemType = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
             }
 

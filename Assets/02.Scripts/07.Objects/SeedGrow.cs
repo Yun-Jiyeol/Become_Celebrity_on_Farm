@@ -22,6 +22,7 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 {
     public float HP { get; set; }
     public float MaxHP { get; set; }
+    public float StartHp = 0;
 
     public List<StepGrow> steps;
     public List<SeedGrowOnSeason> settingSeason;
@@ -33,7 +34,7 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 
     protected virtual void Start()
     {
-        HP = 0;
+        HP = StartHp;
         MaxHP = steps[steps.Count - 1].Hp;
         if(MaxHP == HP)
         {

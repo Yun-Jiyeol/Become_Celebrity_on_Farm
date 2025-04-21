@@ -7,6 +7,9 @@ public class Crops : SeedGrow
     public bool isDestroyAfterHarvest;
     public int AfterHarvest = 0;
     bool canGrow = false;
+    bool OnWater = false;
+    int rotsPoint = 0;
+    public int Maxrots;
 
     protected override void Start()
     {
@@ -16,7 +19,25 @@ public class Crops : SeedGrow
 
     public override void Grow(float grow)
     {
-        GetDamage(grow);
+        if (OnWater)
+        {
+            OnWater = false;
+            GetDamage(grow);
+        }
+        else
+        {
+            if (!isEndGrow)
+            {
+                //½â´Â´Ù
+                rotsPoint++;
+                Debug.Log(rotsPoint);
+                if (rotsPoint >= Maxrots)
+                {
+                    DestroyThis();
+                }
+            }
+        }
+
         CheckGrow();
     }
 
@@ -88,5 +109,14 @@ public class Crops : SeedGrow
     void DestroyThis()
     {
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.transform.tag == "Watered")
+        {
+            Debug.Log("Water");
+            OnWater = true;
+        }
     }
 }
