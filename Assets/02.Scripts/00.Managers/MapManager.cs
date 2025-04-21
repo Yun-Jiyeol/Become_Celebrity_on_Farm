@@ -10,30 +10,19 @@ public enum MapType
 }
 
 /// <summary>
-/// 맵 정보를 담은 클래스
+/// 맵 정보를 담을 클래스
 /// </summary>
 [System.Serializable]
 public class MapInfo
 {
-    // Field
-    private GameObject _place;
-    private Dictionary<string, Transform> _spawnPoints;
+    // 해당 맵 오브젝트
+    public GameObject place;
+    // 입구와 스폰포인트 연결
+    public Dictionary<GameObject, Transform> portals = new Dictionary<GameObject, Transform>();
 
-    // Property
-    public GameObject Place => _place;
-    public Dictionary<string, Transform> SpawnPoints => _spawnPoints;
-
-    // Constructor
     public MapInfo(GameObject place)
     {
-        _place = place;
-        _spawnPoints = new Dictionary<string, Transform>();
-    }
-
-    // Method
-    public void AddSpawnPoint(string name, Transform spawnPoint)
-    {
-        _spawnPoints.Add(name, spawnPoint);
+        this.place = place;
     }
 }
 
@@ -45,25 +34,37 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
 
-    // 쉬운 매핑 위한 Dictionary
-    private Dictionary<MapType, MapInfo> places;
+    [Header("Player")]
+    [SerializeField] private GameObject player;
 
-    [Header("Map Objects")]
+    [Header("Map")]
     [SerializeField] private GameObject home;
     [SerializeField] private GameObject farm;
     [SerializeField] private GameObject road;
     [SerializeField] private GameObject village;
 
-    [Header("SpawnPoints")]
-    [SerializeField] private Transform SpawnHome;
-    [SerializeField] private Transform SpawnFarmUpward;
-    [SerializeField] private Transform SpawnFarmDownward;
-    [SerializeField] private Transform SpawnRoadUpward;
-    [SerializeField] private Transform SpawnRoadDownward;
-    [SerializeField] private Transform SpawnVillage;
+    [Header("Entrance")]
+    [SerializeField] private GameObject fromHomeToFarm;
+    [SerializeField] private GameObject fromFarmToHome;
+    [SerializeField] private GameObject fromFarmToRoad;
+    [SerializeField] private GameObject fromRoadToFarm;
+    [SerializeField] private GameObject fromRoadToVillage;
+    [SerializeField] private GameObject fromVillageToRoad;
 
-    // 현재 MapType. 디폴트 = 집
+    [Header("SpawnPoint")]
+    [SerializeField] private Transform homeCenter;
+    [SerializeField] private Transform homeDown;
+    [SerializeField] private Transform farmCenter;
+    [SerializeField] private Transform farmDown;
+    [SerializeField] private Transform roadUp;
+    [SerializeField] private Transform roadRight;
+    [SerializeField] private Transform villageLeft;
+
+    Dictionary<MapType, MapInfo> maps;
     MapType currentMap = MapType.Home;
+
+    [Header("Fader")]
+    [SerializeField] private LoadingFader fader;
 
 
     void Awake()
@@ -81,69 +82,70 @@ public class MapManager : MonoBehaviour
     {
         SetMap();
         UnloadAllMap();
-        LoadMap(MapType.Home, "SpawnHome");
+
+        home.SetActive(true);
+        player.transform.position = homeCenter.position;
     }
 
-
     /// <summary>
-    /// 맵 정보 세팅
+    /// 시작할 때 맵 세팅
     /// </summary>
     void SetMap()
     {
-        // MapInfo 생성
+        // 맵 정보 세팅
         MapInfo homeInfo = new(home);
-        homeInfo.AddSpawnPoint("SpawnFarm", SpawnHome);
+        homeInfo.portals.Add(fromHomeToFarm, farmCenter);
 
         MapInfo farmInfo = new(farm);
-        farmInfo.AddSpawnPoint("SpawnHome", SpawnFarmUpward);
-        farmInfo.AddSpawnPoint("SpawnRoad", SpawnFarmDownward);
+        farmInfo.portals.Add(fromFarmToHome, homeDown);
+        farmInfo.portals.Add(fromFarmToRoad, roadUp);
 
         MapInfo roadInfo = new(road);
-        roadInfo.AddSpawnPoint("SpawnFarm", SpawnRoadUpward);
-        roadInfo.AddSpawnPoint("SpawnVillage", SpawnRoadDownward);
+        roadInfo.portals.Add(fromRoadToFarm, farmDown);
+        roadInfo.portals.Add(fromRoadToVillage, villageLeft);
 
         MapInfo villageInfo = new(village);
-        villageInfo.AddSpawnPoint("SpawnRoad", SpawnVillage);
+        villageInfo.portals.Add(fromVillageToRoad, roadRight);
 
-       // Dictionary에 MapInfo 추가
-        places = new Dictionary<MapType, MapInfo>()
+        // 매핑위한 딕셔너리 추가
+        maps = new Dictionary<MapType, MapInfo>()
         {
             { MapType.Home, homeInfo },
             { MapType.Farm, farmInfo },
             { MapType.Road, roadInfo },
-            { MapType.Village, villageInfo }
+            { MapType.Village, villageInfo },
         };
     }
 
     /// <summary>
-    /// 맵 활성화
+    /// 플레이어가 이동할 때 목적지 맵 활성화
     /// </summary>
-    /// <param name="targetType"> 플레이어가 다음에 갈 맵 </param>
-    /// <param name="spawnPointName"> 다음에 갈 맵에서 플레이어가 스폰될 위치 </param>
-    public void LoadMap(MapType targetType, string spawnPointName)
+    public void LoadMap(MapType targetType, GameObject entrance)
     {
-        // 1. 현재 맵 비활성화
-        UnloadMap(currentMap);
-
-        // 2. 타겟 맵 활성화
-        if (places.TryGetValue(targetType, out MapInfo targetMap))
+        StartCoroutine(fader.Fade(() =>
         {
-            targetMap.Place.SetActive(true);
-            SetPlayerPosition(targetType, spawnPointName);
-            currentMap = targetType;
+            // 1. 현재 맵 비활성화
+            UnloadMap(currentMap);
 
-            Debug.Log($"현재 장소: {targetType}");
-        }
+            // 2. 타겟 맵 활성화
+            if (maps.TryGetValue(targetType, out MapInfo targetMapInfo))
+            {
+                targetMapInfo.place.SetActive(true);
+                SetPlayerPosition(entrance);
+                currentMap = targetType;
+            }
+        }));
     }
 
     /// <summary>
-    /// 맵 비활성화
+    /// 플레이어가 이동할 때 원래 있던 맵 비활성화
     /// </summary>
-    /// <param name="currentMapType"> 플레이어가 현재 있는 맵 </param>
-    void UnloadMap(MapType currentMapType)
+    void UnloadMap(MapType currentMap)
     {
-        if (places.TryGetValue(currentMapType, out MapInfo targetMap))
-            targetMap.Place.SetActive(false);
+        if (maps.TryGetValue(currentMap, out MapInfo targetMap))
+        {
+            targetMap.place.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -151,23 +153,24 @@ public class MapManager : MonoBehaviour
     /// </summary>
     void UnloadAllMap()
     {
-        foreach (KeyValuePair<MapType, MapInfo> place in places)
+        foreach (KeyValuePair<MapType, MapInfo> map in maps)
         {
-            place.Value.Place.SetActive(false);
+            map.Value.place.SetActive(false);
         }
     }
 
     /// <summary>
-    /// 플레이어 스폰 위치 세팅
+    /// entrance에 따른 플레이어 스폰위치 설정
     /// </summary>
-    /// <param name="spawnPointName"></param>
-    void SetPlayerPosition(MapType targetType, string spawnPointName)
+    /// <param name="entrance"></param>
+    void SetPlayerPosition(GameObject entrance)
     {
-        GameObject player = GameObject.FindWithTag("Player");       // * 최적화 고려
-
-        if (places[targetType].SpawnPoints.TryGetValue(spawnPointName, out Transform transform))
+        if (maps.TryGetValue(currentMap, out MapInfo currentMapInfo))
         {
-            player.transform.position = transform.position;
+            if (currentMapInfo.portals.TryGetValue(entrance, out Transform spawnPoint))
+            {
+                player.transform.position = spawnPoint.position;
+            }
         }
     }
 }
