@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 8806899608787761887}
   - component: {fileID: 360533095076644593}
   - component: {fileID: 3239755987055460196}
+  - component: {fileID: 2891813997731157232}
   m_Layer: 0
   m_Name: ItemManager
   m_TagString: Untagged
@@ -139,6 +140,7 @@ MonoBehaviour:
   itemDataReader: {fileID: 0}
   spawnItem: {fileID: 0}
   spawnGround: {fileID: 0}
+  connectItem: {fileID: 0}
 --- !u!114 &3239755987055460196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,3 +153,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea506c08baa50b478a67d786909ad6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2891813997731157232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9214084757091487993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77f4819133b6f5549b5e6d5ce0169588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectionBetweenItemObjects:
+  - ItemData_Num: 58
+    Object: {fileID: 7169404573382010902, guid: 26f5876e025d4e54099a0bf99613af25, type: 3}
+  - ItemData_Num: 69
+    Object: {fileID: 7169404573382010902, guid: ab58357fb56bd7e4f9d09044411e802e, type: 3}
+  - ItemData_Num: 71
+    Object: {fileID: 7169404573382010902, guid: 5b46586171b0e1c4ea0cb7a6c1c31faf, type: 3}
+  - ItemData_Num: 73
+    Object: {fileID: 9026374066332191458, guid: c990e776598f190459a9310c99e33b21, type: 3}
+  - ItemData_Num: 75
+    Object: {fileID: 1798236993982743212, guid: 71d2d6a284b770341858d423f59f08ef, type: 3}
+  - ItemData_Num: 77
+    Object: {fileID: 1600703801528672407, guid: 2f4d80e0294c1154791e8ec4a18ced34, type: 3}
+  - ItemData_Num: 79
+    Object: {fileID: 8303586778779085335, guid: c77364da5f8e85245bb180ec3e8973f2, type: 3}
+  - ItemData_Num: 81
+    Object: {fileID: 9042521814373890244, guid: 5426604d1c49ba045bf875e010a45771, type: 3}
+  - ItemData_Num: 83
+    Object: {fileID: 1055779467131591001, guid: b2fe4ca4e46fff1408cc5c7e8f4e1947, type: 3}
+  - ItemData_Num: 85
+    Object: {fileID: 5755632474706058784, guid: 4764d13e9865ded48a95ff9569f278e2, type: 3}
+  - ItemData_Num: 87
+    Object: {fileID: 604339883509045948, guid: 89d282a09a1488845938839f13fe8108, type: 3}
+  - ItemData_Num: 89
+    Object: {fileID: 2386985503202999273, guid: b38c61cca927187418071137a3d76165, type: 3}
+  - ItemData_Num: 91
+    Object: {fileID: 8706541470979916788, guid: 4109df6c364bfef40a0528dce34c2319, type: 3}
+  - ItemData_Num: 93
+    Object: {fileID: 7654695399651013094, guid: 647815726f1fcbf49a0f6b3540754019, type: 3}
+  - ItemData_Num: 95
+    Object: {fileID: 1525115858263122369, guid: 6f0b5310fd1b0c940a1b0a35fee885ab, type: 3}
+  - ItemData_Num: 97
+    Object: {fileID: 3583215268474327277, guid: b2932503948060a4394d7c771ac350a7, type: 3}
+  - ItemData_Num: 99
+    Object: {fileID: 2411592893000596670, guid: 59dc583a8add6b14aa146820cf7f9c15, type: 3}
+  - ItemData_Num: 101
+    Object: {fileID: 4187821425121393200, guid: c7283bbcb9b9588469585a464a86f015, type: 3}
+  - ItemData_Num: 103
+    Object: {fileID: 2692995504865411628, guid: 89e75afc1a4ea8e4aa2a093fd613f70e, type: 3}
+  - ItemData_Num: 105
+    Object: {fileID: 4863735128952338035, guid: 355b92ccf69e63741b5189bf420df3c8, type: 3}
+  - ItemData_Num: 107
+    Object: {fileID: 392634090035250274, guid: d2a54b6f41d776344acf190c495cf100, type: 3}
+  - ItemData_Num: 109
+    Object: {fileID: 6937878187737878248, guid: 99dc4221b4ac1374d9e1040ed344cfde, type: 3}
+  - ItemData_Num: 111
+    Object: {fileID: 1137015659190202423, guid: 23d0315d9edaff041a27d1b79bcdf7af, type: 3}
+  - ItemData_Num: 113
+    Object: {fileID: 9158353076363288932, guid: 885225996ffe6344c9c313a3add6ec36, type: 3}
+  - ItemData_Num: 115
+    Object: {fileID: 8849567736678113508, guid: e71a777d169e8854c9af15c6be62f6eb, type: 3}
+  - ItemData_Num: 117
+    Object: {fileID: 7290302480539670341, guid: ae848910007af3b419478a7ee50b8cdf, type: 3}
+  - ItemData_Num: 119
+    Object: {fileID: 1917897311006730572, guid: a4bfdbcbfdf18fe4c84508a10c57a9f8, type: 3}
+  - ItemData_Num: 121
+    Object: {fileID: 3423087750717748947, guid: 97cbf987931f5bb4f8662ae6ce81405e, type: 3}
+  - ItemData_Num: 123
+    Object: {fileID: 6241703738548978995, guid: a49cb189f5da0d64081454a0702288ca, type: 3}
+  - ItemData_Num: 125
+    Object: {fileID: 6450719868604561983, guid: 9207894f0be8d2a47bd30add8d2b888c, type: 3}
