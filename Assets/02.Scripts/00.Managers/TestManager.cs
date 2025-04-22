@@ -8,9 +8,6 @@ public class TestManager : MonoBehaviour
 
     public InvenSlot[] SlotItem = new InvenSlot[12];
 
-    public Sprite HoeGround;
-    public Sprite WaterGround;
-
     public Season.SeasonType nowSeason;
 
     private void Awake()

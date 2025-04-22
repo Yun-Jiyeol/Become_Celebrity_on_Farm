@@ -384,8 +384,6 @@ public class PlayerController : BaseController
 
     void ChangeSlot(int num)
     {
-        if(isClick) return;
-
         PlayerChoosNum = num;
         if (PlayerChoosNum != nownum)
         {
