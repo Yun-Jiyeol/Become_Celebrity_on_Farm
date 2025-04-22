@@ -139,12 +139,12 @@ public class PlayerController : BaseController
                         }
                     }
                     break;
-                case ItemType.TreeSeed:
-                    TryHandInteract();
-                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+                ////case ItemType.TreeSeed:
+                //    TryHandInteract();
+                //    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                //    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
-                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow" , "Stone"}))
+                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
                     {
                         GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                         if (ConnectedObejct != null)
@@ -153,7 +153,7 @@ public class PlayerController : BaseController
                             go.transform.parent = GameManager.Instance.transform;
                             go.transform.position = tartgetPosition;
                         }
-                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1,1);
+                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                     }
                     break;
                 default:
@@ -187,7 +187,7 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
-                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
+                    //gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
                         _Tag = new string[] { "Tree", "EndGrow" },
@@ -200,7 +200,7 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
-                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
+                    //gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
                         _Tag = new string[] { "Stone" },
@@ -249,7 +249,7 @@ public class PlayerController : BaseController
     {
         if (inputValue.isPressed)
         {
-            
+
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.ToggleInventoryUI();
@@ -394,7 +394,7 @@ public class PlayerController : BaseController
             nownum = PlayerChoosNum;
             QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
 
-            if(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
+            if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
             {
                 chooseItemType = ItemType.Except;
             }
@@ -409,7 +409,7 @@ public class PlayerController : BaseController
                 case ItemType.Hoe:
                 case ItemType.Watering:
                 case ItemType.Seed:
-                case ItemType.TreeSeed:
+                //case ItemType.TreeSeed:
                     TryChangeType(PlayerInteractType.Point);
                     break;
 
