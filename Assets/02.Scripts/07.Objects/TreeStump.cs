@@ -7,13 +7,13 @@ public class TreeStump : MonoBehaviour, IHaveHP, IInteract
     public float HP { get; set; }
     public float MaxHP { get; set; }
 
+    string nowsprite;
     private int WoodItemNum = 1;
     private int WoodItemAmount = 3;
 
-    public void Init(float _hp)
+    private void Start()
     {
-        HP = _hp;
-        MaxHP = _hp;
+        nowsprite = gameObject.GetComponent<SpriteRenderer>().sprite.name;
     }
 
     public void GetDamage(float amount)
@@ -23,8 +23,11 @@ public class TreeStump : MonoBehaviour, IHaveHP, IInteract
         if (HP <= 0)
         {
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
-            GameManager.Instance.CanInteractionObjects["TreeGround"].Remove(gameObject);
             Destroy(gameObject);
+        }
+        else if(amount <= 0)
+        {
+            StartCoroutine(DamageCoroutine());
         }
     }
 
@@ -32,6 +35,15 @@ public class TreeStump : MonoBehaviour, IHaveHP, IInteract
     {
         //플레이어의 도끼? 공격력를 받아와 데미지 계산하는 로직을 추가
 
-        GetDamage(-30);
+        GetDamage(-10);
+    }
+    IEnumerator DamageCoroutine()
+    {
+        if (ResourceManager.Instance.splits["Damage_" + nowsprite] != null)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits["Damage_" + nowsprite];
+            yield return new WaitForSeconds(0.2f);
+        }
+        gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[nowsprite];
     }
 }

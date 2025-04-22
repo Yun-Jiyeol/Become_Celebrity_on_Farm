@@ -6,20 +6,62 @@ public class Crops : SeedGrow
 {
     public bool isDestroyAfterHarvest;
     public int AfterHarvest = 0;
+    bool canGrow = false;
+    bool OnWater = false;
+    int rotsPoint = 0;
+    public int Maxrots;
 
     protected override void Start()
     {
         base.Start();
+        OnSettingSeason();
     }
 
     public override void Grow(float grow)
     {
-        GetDamage(grow);
+        if (OnWater)
+        {
+            OnWater = false;
+            GetDamage(grow);
+        }
+        else
+        {
+            if (!isEndGrow)
+            {
+                //½â´Â´Ù
+                rotsPoint++;
+                Debug.Log(rotsPoint);
+                if (rotsPoint >= Maxrots)
+                {
+                    DestroyThis();
+                }
+            }
+        }
+
         CheckGrow();
     }
 
-    public override void CheckGrow()
+    public override void OnSettingSeason()
     {
+        canGrow = false;
+
+        foreach (Season.SeasonType cangrowseason in canGrowSeason)
+        {
+            if (cangrowseason == TestManager.Instance.nowSeason)
+            {
+                canGrow = true;
+                break;
+            }
+        }
+    }
+
+    protected override void CheckGrow()
+    {
+        if (!canGrow)
+        {
+            DestroyThis();
+        }
+
         string growstep = steps[0].SpriteName;
 
         for (int i = 0; i < steps.Count; i++)
@@ -47,8 +89,7 @@ public class Crops : SeedGrow
         }
         if (isDestroyAfterHarvest)
         {
-            GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
-            Destroy(gameObject);
+            DestroyThis();
         }
         else
         {
@@ -63,5 +104,19 @@ public class Crops : SeedGrow
         base.HandInteract();
 
         calledInteract();
+    }
+
+    void DestroyThis()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.transform.tag == "Watered")
+        {
+            Debug.Log("Water");
+            OnWater = true;
+        }
     }
 }

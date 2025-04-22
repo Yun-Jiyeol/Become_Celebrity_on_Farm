@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 26434269627708263}
   - component: {fileID: 2618962194763638083}
   - component: {fileID: 7812671940707609629}
-  - component: {fileID: 4529082101009505381}
+  - component: {fileID: 1968729902935564619}
   m_Layer: 0
   m_Name: AppleTree
   m_TagString: Tree
@@ -99,19 +99,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538271d12ad1f5644adf3df26dbab541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartHp: 0
   steps:
   - Hp: 0
-    SpriteName: Apple Tree_0
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_0
   - Hp: 10
-    SpriteName: Apple Tree_1
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_1
   - Hp: 20
-    SpriteName: Apple Tree_2
+    isChangeOnSeason: 1
+    SpriteName: AppleTree_2
   - Hp: 30
-    SpriteName: Apple Tree_5
+    isChangeOnSeason: 1
+    SpriteName: AppleTree_3
   - Hp: 40
-    SpriteName: Apple Tree_6
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_4
   - Hp: 50
-    SpriteName: Apple Tree_7
+    isChangeOnSeason: 0
+    SpriteName: AppleTree_5
+  settingSeason:
+  - SeasonType: 0
+    SeasonName: Spring
+  - SeasonType: 1
+    SeasonName: Summer
+  - SeasonType: 2
+    SeasonName: Summer
+  - SeasonType: 3
+    SeasonName: Winter
+  canGrowSeason: 0100000002000000
   SpawnItemNum: 72
   SpawnItemAmount: 4
   isFruitTree: 1
@@ -119,7 +136,7 @@ MonoBehaviour:
   EndGrow: 3
   WoodItemNum: 1
   WoodItemAmount: 1
-  StumpName: Apple Tree_9
+  StumpName: AppleTree_6
   StumpHp: 30
 --- !u!114 &7812671940707609629
 MonoBehaviour:
@@ -133,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366c0857ff261944caa89f2a1c913a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &4529082101009505381
-BoxCollider2D:
+--- !u!58 &1968729902935564619
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -165,16 +182,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.06}
-    oldSize: {x: 3.2, y: 4.8}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.6

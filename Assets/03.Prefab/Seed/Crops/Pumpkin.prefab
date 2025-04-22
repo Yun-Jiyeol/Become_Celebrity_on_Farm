@@ -98,21 +98,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be97a700bcb25fa49adc97f5d69cba08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartHp: 0
   steps:
   - Hp: 0
+    isChangeOnSeason: 0
     SpriteName: Pumpkin_0
   - Hp: 10
+    isChangeOnSeason: 0
     SpriteName: Pumpkin_1
   - Hp: 20
+    isChangeOnSeason: 0
     SpriteName: Pumpkin_2
   - Hp: 30
+    isChangeOnSeason: 0
     SpriteName: Pumpkin_3
   - Hp: 40
+    isChangeOnSeason: 0
     SpriteName: Pumpkin_4
+  settingSeason: []
+  canGrowSeason: 02000000
   SpawnItemNum: 68
   SpawnItemAmount: 1
   isDestroyAfterHarvest: 1
   AfterHarvest: 0
+  Maxrots: 3
 --- !u!114 &6118775443465542777
 MonoBehaviour:
   m_ObjectHideFlags: 0

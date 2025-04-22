@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 6177056777111022736}
   - component: {fileID: -7109248697665789146}
   - component: {fileID: 6118775443465542777}
+  - component: {fileID: 4220911471176052024}
+  - component: {fileID: 8928879883737824879}
+  - component: {fileID: 7004425955660412323}
   m_Layer: 0
   m_Name: SugarBeet
   m_TagString: Seeded
@@ -98,23 +101,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be97a700bcb25fa49adc97f5d69cba08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartHp: 0
   steps:
   - Hp: 0
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_0
   - Hp: 10
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_1
   - Hp: 20
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_2
   - Hp: 30
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_3
   - Hp: 40
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_4
   - Hp: 50
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_5
+  settingSeason: []
+  canGrowSeason: 02000000
   SpawnItemNum: 57
   SpawnItemAmount: 1
   isDestroyAfterHarvest: 1
   AfterHarvest: 0
+  Maxrots: 3
 --- !u!114 &6118775443465542777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +140,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366c0857ff261944caa89f2a1c913a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4220911471176052024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7169404573382010902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a5bb54ab0ef55439758ff14a02a87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OffThisCollider: 1
+  thisCollider: {fileID: 0}
+--- !u!58 &8928879883737824879
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7169404573382010902}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!50 &7004425955660412323
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7169404573382010902}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

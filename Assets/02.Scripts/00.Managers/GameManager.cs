@@ -15,18 +15,12 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public Camera camera;
     public GameObject MouseFollower;
+    public GameObject PlayerRange;
 
     private GameObject LastGameObject;
 
-    public Dictionary<string, List<GameObject>> CanInteractionObjects = new Dictionary<string, List<GameObject>>
-    {
-        { "PlowGround", new List<GameObject>() },
-        { "WateredGround", new List<GameObject>() },
-        { "SeededGround", new List<GameObject>() },
-        { "TreeGround", new List<GameObject>() },
-        { "StoneGround", new List<GameObject>() },
-        { "ExceptObject", new List<GameObject>() }
-    };
+    public List<GameObject> OnActive;
+    public List<GameObject> TagOnMouse;
 
     private void Awake()
     {
@@ -55,72 +49,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool InteractPosition(Vector3 position, string[] TargetGameObjects, string[] TargetType, string[] nopeGameObjects , string[] nopeType)
-    {
-        if(nopeGameObjects != null)
-        {
-            for (int i = 0; i < nopeGameObjects.Length; i++)
-            {
-                foreach (GameObject go in CanInteractionObjects[nopeGameObjects[i]])
-                {
-                    if (go.transform.position == position)
-                    {
-                        foreach (string type in nopeType)
-                        {
-                            if (go.transform.tag == type)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
-        if(TargetType == null) return true;
-        
-        foreach(string list in TargetGameObjects)
+    public void TryHandInteract()
+    {
+        //LastGameObject.GetComponent<SeedGrow>().HandInteract();
+    }
+
+    public bool TagIsInMouse(string[] _tag)
+    {
+        foreach(string tag in _tag)
         {
-            foreach(GameObject go in CanInteractionObjects[list])
+            if(TagOnMouse.Count == 0) return false;
+
+            for(int i =0;  i< TagOnMouse.Count; i++)
             {
-                if(go.transform.position == position)
-                {
-                    foreach(string type in TargetType)
-                    {
-                        if(go.transform.tag == type)
-                        {
-                            LastGameObject = go;
-                            return true;
-                        }
-                    }
-                }
+                if(tag == TagOnMouse[i].transform.tag) return true;
             }
         }
         return false;
     }
-
-    public void TryHandInteract()
+    public bool TagIsNotInMouse(string[] _tag)
     {
-        LastGameObject.GetComponent<SeedGrow>().HandInteract();
-    }
-
-    public void InteractSector(string[] TargetGameObjects, string[] TargetTags, float Distance, int dir, bool isAll)
-    {
-        List<GameObject> SaveforInteract = new List<GameObject>();
-
-        foreach (string list in TargetGameObjects)
+        foreach (string tag in _tag)
         {
-            if (CanInteractionObjects[list].Count == 0) return;
-            foreach (GameObject go in CanInteractionObjects[list])
+            if (TagOnMouse.Count == 0) return true;
+
+            for (int i = 0; i < TagOnMouse.Count; i++)
             {
-                if(Vector3.Distance(go.transform.position, player.transform.position) <= Distance)
+                if (tag == TagOnMouse[i].transform.tag) return false;
+            }
+        }
+        return true;
+    }
+    public void TagIsInRange(string[] _tag, int _dir, bool isAll)
+    {
+        if (TagOnMouse.Count == 0) return;
+
+        List< IInteract > saveInteract = new List< IInteract >();
+
+        for (int i = 0; i < TagOnMouse.Count; i++)
+        {
+            foreach(string tag in _tag)
+            {
+                if (TagOnMouse[i].transform.tag == tag)
                 {
-                    float angleDegrees = Mathf.Atan2(go.transform.position.x - player.transform.position.x, go.transform.position.y - player.transform.position.y) * Mathf.Rad2Deg;
+                    float angleDegrees = Mathf.Atan2(TagOnMouse[i].transform.position.x - player.transform.position.x, TagOnMouse[i].transform.position.y - player.transform.position.y) * Mathf.Rad2Deg;
                     bool isin = false;
-                    switch (dir)
+                    switch (_dir)
                     {
                         case 0:
-                            if(angleDegrees <= 60 && angleDegrees >= -60)
+                            if (angleDegrees <= 60 && angleDegrees >= -60)
                             {
                                 isin = true;
                             }
@@ -145,18 +123,15 @@ public class GameManager : MonoBehaviour
                             break;
                     }
 
-                    if(isin)
+                    if (isin)
                     {
-                        foreach (string tag in TargetTags)
+                        if (TagOnMouse[i].TryGetComponent<IInteract>(out IInteract temp))
                         {
-                            if (go.transform.tag == tag)
+                            saveInteract.Add(temp);
+                            if (!isAll)
                             {
-                                if (!isAll)
-                                {
-                                    go.GetComponent<IInteract>().Interact();
-                                    return;
-                                }
-                                SaveforInteract.Add(go);
+                                temp.Interact();
+                                return;
                             }
                         }
                     }
@@ -164,106 +139,62 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if(SaveforInteract.Count != 0)
+        foreach (var i in saveInteract)
         {
-            foreach(GameObject go in SaveforInteract)
-            {
-                go.GetComponent<IInteract>().Interact();
-            }
+            i.Interact();
         }
     }
 
-    public void SpawnSomething(string name, Vector3 position, Sprite sprite,int Order,string tag, string List)
+    public void TurnOnAllColliders()
     {
-        GameObject go = new GameObject(name);
-        go.transform.parent = gameObject.transform;
-        go.transform.position = position;
-        go.transform.localScale = Vector3.one;
-        SpriteRenderer GOSprite = go.AddComponent<SpriteRenderer>();
-        GOSprite.sprite = sprite;
-        GOSprite.sortingOrder = Order;
-        go.transform.tag = tag;
+        if(OnActive == null) return;
 
-        CanInteractionObjects[List].Add(go);
-    }
-
-    public void SpawnSomething(Vector3 position, GameObject _go, string List)
-    {
-        GameObject go = Instantiate(_go);
-        go.transform.parent = gameObject.transform;
-        go.transform.position = position;
-
-        CanInteractionObjects[List].Add(go);
+        foreach(GameObject go in OnActive)
+        {
+            go.GetComponent<SaveOnGM>().OnCollider();
+        }
     }
 
     public void OneDayAfter()
     {
-        if (CanInteractionObjects["TreeGround"] != null)
+        List<GameObject> forActivefalse = new List<GameObject>();
+        List<SeedGrow> forGrow = new List<SeedGrow>();
+
+        for(int i = 0; i< OnActive.Count; i++)
         {
-            foreach (GameObject tree in CanInteractionObjects["TreeGround"])
+            if(OnActive[i].TryGetComponent<SeedGrow>(out SeedGrow temp)) //자라는 식물일 시
             {
-                if(tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
-                {
-                    tree.GetComponent<SeedGrow>().Grow(10);
-                }
+                forGrow.Add(temp);
+            }
+            else if(OnActive[i].transform.tag == "Watered") //물바닥 일 시
+            {
+                forActivefalse.Add(OnActive[i]);
             }
         }
 
-
-        if (CanInteractionObjects["SeededGround"] != null)
+        if (forActivefalse.Count != 0)
         {
-            foreach (GameObject Seed in CanInteractionObjects["SeededGround"])
+            foreach (GameObject go in forActivefalse)
             {
-                if (Seed.transform.tag == "Seeded")
-                {
-                    bool isWatered = false;
-
-                    foreach (GameObject WaterGround in CanInteractionObjects["WateredGround"])
-                    {
-                        if(WaterGround.transform.position == Seed.transform.position)
-                        {
-                            isWatered = true;
-                            CanInteractionObjects["WateredGround"].Remove(WaterGround);
-                            Destroy(WaterGround);
-                            break;
-                        }
-                    }
-
-                    if (isWatered)
-                    {
-                        Seed.GetComponent<SeedGrow>().Grow(10);
-                    }
-                    else
-                    {
-                        //썩는 게이지 +1
-                    }
-                }
+                go.SetActive(false);
             }
         }
-
-        List<GameObject> SaveforInteract = new List<GameObject>();
-
-        if (CanInteractionObjects["WateredGround"] != null)
+        if (forGrow.Count != 0)
         {
-            foreach (GameObject WaterGround in CanInteractionObjects["WateredGround"])
+            foreach (SeedGrow sg in forGrow)
             {
-                Destroy(WaterGround);
+                sg.Grow(10);
             }
-            CanInteractionObjects["WateredGround"].Clear();
         }
     }
 
-    public Season.SeasonType nowSeason;
     public void OneSeasonAfter()
     {
-        if (CanInteractionObjects["TreeGround"] != null)
+        for (int i = 0; i < OnActive.Count; i++)
         {
-            foreach (GameObject tree in CanInteractionObjects["TreeGround"])
+            if (OnActive[i].TryGetComponent<SeedGrow>(out SeedGrow temp)) //자라는 식물일 시
             {
-                if (tree.transform.tag == "Tree" || tree.transform.tag == "EndGrow")
-                {
-                    tree.GetComponent<SeedGrow>().CheckGrow();
-                }
+                temp.OnSettingSeason();
             }
         }
     }
