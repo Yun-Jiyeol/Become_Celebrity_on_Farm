@@ -11,35 +11,42 @@ public class StepGrow
     public string SpriteName;
 }
 
+[System.Serializable]
+public class SeedGrowOnSeason
+{
+    public Season.SeasonType SeasonType;
+    public string SeasonName;
+}
+
 public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
 {
+    [SerializeField]
     public float HP { get; set; }
     public float MaxHP { get; set; }
+    public float StartHp = 0;
+
     public List<StepGrow> steps;
+    public List<SeedGrowOnSeason> settingSeason;
+    public List<Season.SeasonType> canGrowSeason;
     public int SpawnItemNum;
     public int SpawnItemAmount;
 
-    bool isEndGrow = false;
-    public bool isDestroyAfterHarvest;
-    public int AfterHarvest= 0;
+    protected bool isEndGrow = false;
 
-    private void Start()
+    protected virtual void Start()
     {
-        HP = 0;
+        HP = StartHp;
         MaxHP = steps[steps.Count - 1].Hp;
-
-        InvokeRepeating("TestGrow", 3, 3);
+        if(MaxHP == HP)
+        {
+            isEndGrow = true;
+        }
     }
 
-    void TestGrow()
-    {
-        GetDamage(10);
-    }
 
     public void GetDamage(float amount)
     {
         HP += amount;
-        CheckGrow();
 
         if (HP >= MaxHP)
         {
@@ -49,25 +56,33 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         }
     }
 
-    void CheckGrow()
+    public virtual void OnSettingSeason()
+    {
+
+    }
+
+    protected virtual void CheckGrow()
+    {
+
+    }
+
+    public virtual void Grow(float grow)
     {
 
     }
 
     public void Interact()
     {
-        if(!isEndGrow) return;
+        calledInteract();
+    }
 
-        ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
-        if (isDestroyAfterHarvest)
-        {
-            GameManager.Instance.CanInteractionObjects["SeededGround"].Remove(gameObject);
-            Destroy(gameObject);
-        }
-        else
-        {
-            GetDamage(-AfterHarvest);
-            transform.tag = "Seeded";
-        }
+    protected virtual void calledInteract()
+    {
+
+    }
+
+    public virtual void HandInteract()
+    {
+        if (!isEndGrow) return;
     }
 }

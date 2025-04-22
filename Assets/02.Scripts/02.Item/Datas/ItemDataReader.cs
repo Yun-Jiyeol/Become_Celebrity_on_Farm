@@ -75,7 +75,6 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
     }
     private void Start()
     {
-        ItemManager.Instance.itemDataReader = this;
         SettingData();
     }
 

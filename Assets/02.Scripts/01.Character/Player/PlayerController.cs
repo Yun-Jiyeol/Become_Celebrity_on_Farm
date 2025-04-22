@@ -3,8 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+
+public enum PlayerInteractType
+{
+    Point,
+    Range
+}
 
 public class PlayerController : BaseController
 {
@@ -13,27 +21,21 @@ public class PlayerController : BaseController
     public bool isAction = false;
 
     public int PlayerChoosNum = 1;
-    private int nownum = 1;
+    private int nownum;
     int DirectionSave = 0;
 
     [Header("Interact")]
-    private SpawnInteract readyInteract = new SpawnInteract();
     private bool CanSpawn = false;
-    public class SpawnInteract
-    {
-        public string _name;
-        public Sprite _sprite;
-        public int _order;
-        public string _Tag;
-        public string _AddList;
-    }
+    ChangedGround Groundtype = ChangedGround.Plow;
+    PlayerInteractType nowInteractType;
+    ItemType chooseItemType;
+    GameObject PlayerInteractRange;
+
 
     private RangeInteract readyRangeInteract = new RangeInteract();
     public class RangeInteract
     {
-        public string[] _Find;
         public string[] _Tag;
-        public float _Range;
         public int _Dir;
         public bool _isAll;
     }
@@ -43,7 +45,16 @@ public class PlayerController : BaseController
     {
         base.Start();
 
-        playerAnimation = GetComponent<PlayerAnimation>();  
+        playerAnimation = GetComponent<PlayerAnimation>();
+
+        PlayerInteractRange = Instantiate(GameManager.Instance.PlayerRange);
+        PlayerInteractRange.SetActive(false);
+        Invoke("lateStart", 0.1f);
+    }
+
+    void lateStart()
+    {
+        ChangeSlot(1);
     }
 
     protected override void FixedUpdate()
@@ -60,140 +71,148 @@ public class PlayerController : BaseController
         dir = inputValue.Get<Vector2>();
     }
 
-    //void OnClick(InputValue inputValue)
-    //{
-    //    if (isAction) return;
+    void OnClick(InputValue inputValue)
+    {
+        if (isAction) return;
 
-    //    if (inputValue.isPressed)
-    //    {
-    //        if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0) return;
+        if (inputValue.isPressed)
+        {
+            GameManager.Instance.TurnOnAllColliders();
+            Invoke("UseSomeThing", 0.1f);
+        }
+    }
 
-    //        ItemType chooseItemType = ItemManager.Instance.itemDataReader.
-    //            itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
+    void UseSomeThing()
+    {
+        if (nowInteractType == PlayerInteractType.Point)
+        {
+            switch (chooseItemType)
+            {
+                case ItemType.Hoe:
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
-    //        switch (chooseItemType)
-    //        {
-    //            case ItemType.Hoe:
-    //                if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-    //                tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-    //                CheckAngle();
-    //                isAction = true;
-    //                gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-    //                     gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
-    //                //순서는 좌표, 찾아볼 List이름들, 찾아볼 Tag, 없어야 할 List들, 없어야 할 Tag
-    //                if (GameManager.Instance.InteractPosition(tartgetPosition, null, null, 
-    //                    new string[] { "PlowGround", "TreeGround", "ExceptObject" }, new string[] { "Plow", "Tree" }))
-    //                {
-    //                    CanSpawn = true;
-    //                    readyInteract = new SpawnInteract
-    //                    {
-    //                        _name = "PlowGround",
-    //                        _sprite = TestManager.Instance.HoeGround,
-    //                        _order = 1,
-    //                        _Tag = "Plow",
-    //                        _AddList = "PlowGround"
-    //                    };
-    //                }
-    //                break;
-    //            case ItemType.Watering:
-    //                if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-    //                tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-    //                CheckAngle();
-    //                isAction = true;
-    //                gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(
-    //                     gameObject.GetComponent<Player>().playerAnimation.WateringParameterHash);
-    //                if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, new string[] { "Plow" } ,
-    //                    new string[] { "WateredGround" }, new string[] { "Watered" }))
-    //                {
-    //                    CanSpawn = true;
-    //                    readyInteract = new SpawnInteract
-    //                    {
-    //                        _name = "WaterGround",
-    //                        _sprite = TestManager.Instance.WaterGround,
-    //                        _order = 2,
-    //                        _Tag = "Watered",
-    //                        _AddList = "WateredGround"
-    //                    };
-    //                }
-    //                break;
-    //            case ItemType.Sickle:
-    //                tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
-    //                CheckAngle();
-    //                SaveDirextionInfo();
-    //                isAction = true;
-    //                gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
-    //                readyRangeInteract = new RangeInteract()
-    //                {
-    //                    _Find = new string[] { "SeededGround" },
-    //                    _Tag = new string[] { "EndGrow" },
-    //                    _Range = 2.5f,
-    //                    _Dir = DirectionSave,
-    //                    _isAll = true
-    //                };
-    //                break;
-    //            case ItemType.Axe:
-    //                tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
-    //                CheckAngle();
-    //                SaveDirextionInfo();
-    //                isAction = true;
-    //                gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
-    //                readyRangeInteract = new RangeInteract()
-    //                {
-    //                    _Find = new string[] { "TreeGround" },
-    //                    _Tag = new string[] { "Tree", "EndGrow" },
-    //                    _Range = 2.5f,
-    //                    _Dir = DirectionSave,
-    //                    _isAll = false
-    //                };
-    //                break;
-    //            case ItemType.Pickaxe:
-    //                tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
-    //                CheckAngle();
-    //                SaveDirextionInfo();
-    //                isAction = true;
-    //                gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
-    //                readyRangeInteract = new RangeInteract()
-    //                {
-    //                    _Find = new string[] { "StoneGround" },
-    //                    _Tag = new string[] { "Stone" },
-    //                    _Range = 2.5f,
-    //                    _Dir = DirectionSave,
-    //                    _isAll = false
-    //                };
-    //                break;
-    //            case ItemType.Seed:
-    //                TryHandInteract();
-    //                if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-    //                tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-    //                if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "PlowGround" }, new string[] { "Plow" } , new string[] { "SeededGround" }, new string[] { "Seeded", "EndGrow" }))
-    //                {
-    //                    GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
-    //                    if (ConnectedObejct != null)
-    //                    {
-    //                        GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "SeededGround");
-    //                    }
-    //                }
-    //                break;
-    //            case ItemType.TreeSeed:
-    //                TryHandInteract();
-    //                if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-    //                tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
-    //                if (GameManager.Instance.InteractPosition(tartgetPosition, null, null,
-    //                    new string[] { "PlowGround", "TreeGround", "ExceptObject" }, new string[] { "Plow", "Tree", "EndGrow" }))
-    //                {
-    //                    GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
-    //                    if (ConnectedObejct != null)
-    //                    {
-    //                        GameManager.Instance.SpawnSomething(tartgetPosition, ConnectedObejct, "TreeGround");
-    //                    }
-    //                }
-    //                    break;
-    //            default:
-    //                TryHandInteract();
-    //                break;
-    //        }
-    //    }
-    //}
+                    CheckAngle();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
+
+                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
+                    {
+                        CanSpawn = true;
+                        Groundtype = ChangedGround.Plow;
+                    }
+                    break;
+                case ItemType.Watering:
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+
+                    CheckAngle();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.WateringParameterHash);
+
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Plow" }))
+                    {
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Watered" }))
+                        {
+                            CanSpawn = true;
+                            Groundtype = ChangedGround.Watered;
+                        }
+                    }
+                    break;
+                case ItemType.Seed:
+                    TryHandInteract();
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Plow" }))
+                    {
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Seeded", "EndGrow" }))
+                        {
+                            GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                            if (ConnectedObejct != null)
+                            {
+                                GameObject go = Instantiate(ConnectedObejct);
+                                go.transform.parent = GameManager.Instance.transform;
+                                go.transform.position = tartgetPosition;
+                            }
+                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
+                        }
+                    }
+                    break;
+                case ItemType.TreeSeed:
+                    TryHandInteract();
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+
+                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow" , "Stone"}))
+                    {
+                        GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                        if (ConnectedObejct != null)
+                        {
+                            GameObject go = Instantiate(ConnectedObejct);
+                            go.transform.parent = GameManager.Instance.transform;
+                            go.transform.position = tartgetPosition;
+                        }
+                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1,1);
+                    }
+                    break;
+                default:
+                    TryHandInteract();
+                    break;
+            }
+        }
+        else if (nowInteractType == PlayerInteractType.Range)
+        {
+            PlayerInteractRange.SetActive(true);
+            PlayerInteractRange.transform.position = gameObject.transform.position;
+            PlayerInteractRange.transform.localScale = Vector3.one * 2.5f; //범위는 아이템에서 가져오기
+
+            switch (chooseItemType)
+            {
+                case ItemType.Sickle:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Tag = new string[] { "EndGrow" },
+                        _Dir = DirectionSave,
+                        _isAll = true
+                    };
+                    break;
+                case ItemType.Axe:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Tag = new string[] { "Tree", "EndGrow" },
+                        _Dir = DirectionSave,
+                        _isAll = false
+                    };
+                    break;
+                case ItemType.Pickaxe:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Tag = new string[] { "Stone" },
+                        _Dir = DirectionSave,
+                        _isAll = false
+                    };
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     void SaveDirextionInfo()
     {
@@ -218,11 +237,11 @@ public class PlayerController : BaseController
 
     void TryHandInteract()
     {
-        if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "SeededGround", "TreeGround"}, new string[] { "EndGrow", "Tree" },
-            null, null))
-        {
-            GameManager.Instance.TryHandInteract();
-        }
+        //if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "SeededGround", "TreeGround"}, new string[] { "EndGrow", "Tree" },
+        //    null, null))
+        //{
+        //    GameManager.Instance.TryHandInteract();
+        //}
     }
 
 
@@ -272,7 +291,7 @@ public class PlayerController : BaseController
 
     public void RangeInteractObject()
     {
-        GameManager.Instance.InteractSector(readyRangeInteract._Find, readyRangeInteract._Tag, readyRangeInteract._Range, readyRangeInteract._Dir, readyRangeInteract._isAll);
+        GameManager.Instance.TagIsInRange(readyRangeInteract._Tag, readyRangeInteract._Dir, readyRangeInteract._isAll);
     }
 
     public void SpawnObject()
@@ -280,8 +299,32 @@ public class PlayerController : BaseController
         if (!CanSpawn) return;
         CanSpawn = false;
 
-        GameManager.Instance.SpawnSomething(readyInteract._name, tartgetPosition, readyInteract._sprite, readyInteract._order, readyInteract._Tag, readyInteract._AddList);
+        ItemManager.Instance.spawnGround.SpawnGrounds(Groundtype, tartgetPosition);
     }
+
+    void TryChangeType(PlayerInteractType type)
+    {
+        if (nowInteractType == type) return;
+
+        switch (type)
+        {
+            case PlayerInteractType.Range:
+                nowInteractType = PlayerInteractType.Range;
+
+                PlayerInteractRange.gameObject.SetActive(true);
+                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
+                gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
+                break;
+
+            case PlayerInteractType.Point:
+                nowInteractType = PlayerInteractType.Point;
+
+                PlayerInteractRange.gameObject.SetActive(false);
+                gameObject.GetComponent<CheckFieldOnMouse>().enabled = true;
+                break;
+        }
+    }
+
 
     void OnOneSlot(InputValue inputValue)
     {
@@ -350,6 +393,32 @@ public class PlayerController : BaseController
         {
             nownum = PlayerChoosNum;
             QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
+
+            if(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
+            {
+                chooseItemType = ItemType.Except;
+            }
+            else
+            {
+                chooseItemType = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
+            }
+
+            switch (chooseItemType)
+            {
+                case ItemType.Except:
+                case ItemType.Hoe:
+                case ItemType.Watering:
+                case ItemType.Seed:
+                case ItemType.TreeSeed:
+                    TryChangeType(PlayerInteractType.Point);
+                    break;
+
+                case ItemType.Sickle:
+                case ItemType.Axe:
+                case ItemType.Pickaxe:
+                    TryChangeType(PlayerInteractType.Range);
+                    break;
+            }
         }
     }
 }

@@ -71,4 +71,30 @@ public class Inventory : MonoBehaviour
     {
         ItemManager.Instance.spawnItem.DropItem(getItem, amount, transform.position);
     }
+
+    public void TakeItem(ItemDataReader.ItemsData useItem, int amount) //양만큼 가지고 있을 때 실행 시키세요. 퀘스트 용, 제작 용
+    {
+        for(int i =0; i < PlayerHave.Count; i++)
+        {
+            if(PlayerHave[i].ItemData_num == useItem.Item_num)
+            {
+                int Takeamount = Mathf.Min(PlayerHave[i].amount, amount);
+                PlayerHave[i].amount -= Takeamount;
+                if (PlayerHave[i].amount == 0) PlayerHave[i].ItemData_num = 0;
+
+                amount -= Takeamount;
+                if(amount == 0) return;
+            }
+        }
+        InventoryUIManager.Instance.RefreshUI();
+    }
+
+    public void UseItem(int num, int amount) //1개 씩 사용하게 만들었습니다. 만약 여러개 쓸려면 변경이 필요할 겁니다.
+    {
+        if (PlayerHave[num].amount < amount) return;
+
+        PlayerHave[num].amount -= amount;
+        if (PlayerHave[num].amount == 0) PlayerHave[num].ItemData_num = 0;
+        InventoryUIManager.Instance.RefreshUI();
+    }
 }
