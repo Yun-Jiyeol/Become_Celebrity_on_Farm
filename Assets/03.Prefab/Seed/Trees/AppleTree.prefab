@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 26434269627708263}
   - component: {fileID: 2618962194763638083}
   - component: {fileID: 7812671940707609629}
-  - component: {fileID: 4529082101009505381}
-  - component: {fileID: 2909799115273211066}
+  - component: {fileID: 1968729902935564619}
   m_Layer: 0
   m_Name: AppleTree
   m_TagString: Tree
@@ -100,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538271d12ad1f5644adf3df26dbab541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartHp: 0
   steps:
   - Hp: 0
     isChangeOnSeason: 0
@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366c0857ff261944caa89f2a1c913a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &4529082101009505381
-BoxCollider2D:
+--- !u!58 &1968729902935564619
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -182,30 +182,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.06}
-    oldSize: {x: 3.2, y: 4.8}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &2909799115273211066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9026374066332191458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06a5bb54ab0ef55439758ff14a02a87d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OffThisCollider: 0
-  thisCollider: {fileID: 0}
+  m_Radius: 0.6

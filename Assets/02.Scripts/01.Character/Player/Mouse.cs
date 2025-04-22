@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Mouse : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        GameManager.Instance.TagOnMouse.Add(collision.gameObject);
+        if(!GameManager.Instance.TagOnMouse.Contains(collision.gameObject))
+        {
+            GameManager.Instance.TagOnMouse.Add(collision.gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

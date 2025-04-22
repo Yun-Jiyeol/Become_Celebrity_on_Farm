@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 2653221595431724143}
   - component: {fileID: 6491743666460489913}
   - component: {fileID: 8769861081973449845}
-  - component: {fileID: 1731635787392525082}
-  - component: {fileID: 3240399409460596926}
+  - component: {fileID: 5566778175551331098}
   m_Layer: 0
   m_Name: MapleTree_OnStart
   m_TagString: Tree
@@ -145,8 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366c0857ff261944caa89f2a1c913a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &1731635787392525082
-BoxCollider2D:
+--- !u!58 &5566778175551331098
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -177,30 +176,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.1}
-    oldSize: {x: 3.2, y: 4.8}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &3240399409460596926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7339980609531018466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06a5bb54ab0ef55439758ff14a02a87d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OffThisCollider: 0
-  thisCollider: {fileID: 0}
+  m_Radius: 0.6

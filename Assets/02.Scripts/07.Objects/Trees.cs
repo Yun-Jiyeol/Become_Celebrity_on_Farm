@@ -9,8 +9,9 @@ public class Trees : SeedGrow
     public float AdditionalGrow = 0;
     private int MaxAddiitionalGrow;
     private string NowSeasonName;
-    private BoxCollider2D treecollider = new BoxCollider2D();
     private bool canGrow;
+    string growstep;
+    string seasonstep;
     public int EndGrow;
 
     public int WoodItemNum = 1;
@@ -18,18 +19,12 @@ public class Trees : SeedGrow
     public string StumpName;
     public float StumpHp;
 
-    private void Awake()
-    {
-        treecollider = gameObject.GetComponent<BoxCollider2D>();
-    }
-
     protected override void Start()
     {
         base.Start();
 
         MaxHP = steps[EndGrow].Hp;
         MaxAddiitionalGrow = steps[steps.Count - 1].Hp - (int)MaxHP;
-        treecollider.enabled = false;
         OnSettingSeason();
         CheckGrow();
     }
@@ -76,18 +71,13 @@ public class Trees : SeedGrow
 
     protected override void CheckGrow()
     {
-        string growstep = steps[0].SpriteName;
+        growstep = steps[0].SpriteName;
         bool needChangeOnSeason = false;
 
         for (int i = 0; i < steps.Count; i++)
         {
             if (HP + AdditionalGrow >= steps[i].Hp)
             {
-                if(i >= 2)
-                {
-                    treecollider.enabled = true;
-                }
-
                 WoodItemAmount = Mathf.Min(i + 1, EndGrow + 1);
                 growstep = steps[i].SpriteName;
                 needChangeOnSeason = steps[i].isChangeOnSeason;
@@ -100,11 +90,14 @@ public class Trees : SeedGrow
 
         if (needChangeOnSeason)
         {
-            growstep = NowSeasonName + "_" + growstep;
+            seasonstep = NowSeasonName + "_" + growstep;
+        }
+        else
+        {
+            seasonstep =  growstep;
         }
 
-        Debug.Log(growstep);
-        gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[growstep];
+        gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[seasonstep];
     }
 
     protected override void calledInteract()
@@ -125,24 +118,22 @@ public class Trees : SeedGrow
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
 
                 GameObject go = new GameObject("TreeStump"); //³ª¹« ¹ØµÕ ¼ÒÈ¯¼ú
-                go.transform.parent = gameObject.transform;
+                go.transform.parent = GameManager.Instance.transform;
+                go.transform.position = gameObject.transform.position;
                 go.transform.tag = "Tree";
                 go.transform.localScale = Vector3.one;
                 go.AddComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[StumpName];
-                TreeStump stump = go.AddComponent<TreeStump>();
-                stump.Init(StumpHp);
                 BoxCollider2D collider = go.AddComponent<BoxCollider2D>();
-                collider.offset = new Vector2(0,0.4f);
+                collider.offset = new Vector2(0, 0.4f);
                 collider.size = new Vector2(1, 1);
-                GameManager.Instance.SpawnSomething(gameObject.transform.position, go);
-
-                Destroy(gameObject);
+                TreeStump stump = go.AddComponent<TreeStump>();
+                stump.GetDamage(StumpHp);
             }
             else
             {
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
-                Destroy(gameObject);
             }
+            Destroy(gameObject);
         }
         else
         {
@@ -166,6 +157,11 @@ public class Trees : SeedGrow
 
     IEnumerator DamageCoroutine()
     {
-        yield return null;
+        if(ResourceManager.Instance.splits["Damage_" + growstep] != null)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits["Damage_" + growstep];
+            yield return new WaitForSeconds(0.2f);
+        }
+        gameObject.GetComponent<SpriteRenderer>().sprite = ResourceManager.Instance.splits[seasonstep];
     }
 }
