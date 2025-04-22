@@ -67,7 +67,6 @@ public class InventoryUIManager : MonoBehaviour
     {
         var data = clickedSlot.GetData();
 
-        // 들고 있는 아이템이 없는 경우
         if (!HoldingItem())
         {
             if (data == null || data.amount <= 0) return;
@@ -80,28 +79,8 @@ public class InventoryUIManager : MonoBehaviour
             return;
         }
 
-        // 아이템 병합 또는 스왑 시도
-        bool success = SwapOrMergeItem(clickedSlot);
+        var toData = clickedSlot.GetData();
 
-        if (!success)
-        {
-            // 실패 시 → 새 슬롯에 들고 있는 아이템 넣기
-            data.ItemData_num = tempItemData_num;
-            data.amount = tempItemAmount;
-        }
-
-        selectedSlot = null;
-        tempItemData_num = 0;
-        tempItemAmount = 0;
-        mouseFollowItemObj.SetActive(false);
-        RefreshUI();
-    }
-
-    private bool SwapOrMergeItem(InventorySlotUI toSlot)
-    {
-        var toData = toSlot.GetData();
-
-        // 병합
         if (toData.ItemData_num == tempItemData_num && tempItemData_num != 0)
         {
             var itemData = ItemManager.Instance.itemDataReader.itemsDatas[tempItemData_num];
@@ -111,48 +90,61 @@ public class InventoryUIManager : MonoBehaviour
             toData.amount += moveAmount;
             tempItemAmount -= moveAmount;
 
-            return tempItemAmount <= 0;
+            if (tempItemAmount <= 0)
+            {
+                ClearHoldingItem();
+            }
         }
-
-        // 빈 슬롯
-        if (toData.amount <= 0)
+        else
         {
+            // 스왑
+            int tempNum = toData.ItemData_num;
+            int tempAmount = toData.amount;
+
             toData.ItemData_num = tempItemData_num;
             toData.amount = tempItemAmount;
-            return true;
+
+            if (selectedSlot != null)
+            {
+                var fromData = selectedSlot.GetData();
+                fromData.ItemData_num = tempNum;
+                fromData.amount = tempAmount;
+            }
+            else
+            {
+                // 분할 우클릭한 경우 원래 슬롯이 없음 → 스왑 불가
+                AddItemToInventoryFromMouse(tempNum, tempAmount);
+            }
+
+            ClearHoldingItem();
         }
 
-        // 스왑
-        if (selectedSlot == null) return false;
+        RefreshUI();
+    }
 
-        var fromData = selectedSlot.GetData();
-        int tempNum = toData.ItemData_num;
-        int tempAmount = toData.amount;
-
-        toData.ItemData_num = tempItemData_num;
-        toData.amount = tempItemAmount;
-
-        fromData.ItemData_num = tempNum;
-        fromData.amount = tempAmount;
-
-        return true;
+    private void AddItemToInventoryFromMouse(int itemNum, int amount)
+    {
+        var invenList = playerInventory.PlayerHave;
+        for (int i = 0; i < invenList.Count; i++)
+        {
+            if (invenList[i].ItemData_num == 0)
+            {
+                invenList[i].ItemData_num = itemNum;
+                invenList[i].amount = amount;
+                return;
+            }
+        }
+        Debug.LogWarning("빈 슬롯이 없어 아이템 복구 실패");
     }
 
     private void DropSelectedItem()
     {
-        if (!HoldingItem())
-        {
-            Debug.Log("들고 있는 아이템 정보 없음");
-            return;
-        }
+        if (!HoldingItem()) return;
 
         var itemData = ItemManager.Instance.itemDataReader.itemsDatas[tempItemData_num];
         ItemManager.Instance.spawnItem.DropItem(itemData, tempItemAmount, playerTransform.position);
 
-        tempItemData_num = 0;
-        tempItemAmount = 0;
-        selectedSlot = null;
-        mouseFollowItemObj.SetActive(false);
+        ClearHoldingItem();
         RefreshUI();
     }
 
@@ -160,10 +152,7 @@ public class InventoryUIManager : MonoBehaviour
     {
         if (!HoldingItem()) return;
 
-        tempItemData_num = 0;
-        tempItemAmount = 0;
-        selectedSlot = null;
-        mouseFollowItemObj.SetActive(false);
+        ClearHoldingItem();
         RefreshUI();
     }
 
@@ -175,8 +164,8 @@ public class InventoryUIManager : MonoBehaviour
         int half = data.amount / 2;
         data.amount -= half;
 
-        selectedSlot = clickedSlot;
         SetHoldingItem(data.ItemData_num, half);
+        selectedSlot = null; // 오른쪽 클릭은 원래 슬롯 유지 안 함
         RefreshUI();
     }
 
@@ -193,7 +182,15 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    public bool HoldingItem()
+    private void ClearHoldingItem()
+    {
+        tempItemData_num = 0;
+        tempItemAmount = 0;
+        selectedSlot = null;
+        mouseFollowItemObj.SetActive(false);
+    }
+
+    public bool HoldingItem() 
     {
         return tempItemAmount > 0 && tempItemData_num != 0;
     }
