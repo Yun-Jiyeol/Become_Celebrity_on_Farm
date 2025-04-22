@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // 인벤토리 슬롯 UI 관리 스크립트 (1칸 단위)
-public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public int slotIndex;                    // 몇 번째 슬롯인지 (0 ~ 29)
     public Image itemIcon;                   // 아이템 아이콘 이미지
@@ -70,5 +70,12 @@ public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (chooseIndicator != null)
             chooseIndicator.SetActive(selected);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            InventoryUIManager.Instance.OnSlotRightClick(this);
+        }
     }
 }
