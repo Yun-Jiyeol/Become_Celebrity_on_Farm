@@ -7,7 +7,8 @@ public enum MapType
     Home,
     Farm,
     Road,
-    Village
+    Village,
+    MineEntrance,
 }
 
 /// <summary>
@@ -43,23 +44,33 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject farm;
     [SerializeField] private GameObject road;
     [SerializeField] private GameObject village;
+    [SerializeField] private GameObject mineEntrance;
+
 
     [Header("Entrance")]
     [SerializeField] private GameObject fromHomeToFarm;
     [SerializeField] private GameObject fromFarmToHome;
     [SerializeField] private GameObject fromFarmToRoad;
+    [SerializeField] private GameObject fromFarmToMineEntrance;
     [SerializeField] private GameObject fromRoadToFarm;
     [SerializeField] private GameObject fromRoadToVillage;
     [SerializeField] private GameObject fromVillageToRoad;
+    [SerializeField] private GameObject fromMineEntranceToFarm;
+    [SerializeField] private GameObject fromMineEntranceToMine1;
+
 
     [Header("SpawnPoint")]
     [SerializeField] private Transform homeCenter;
     [SerializeField] private Transform homeDown;
     [SerializeField] private Transform farmCenter;
     [SerializeField] private Transform farmDown;
+    [SerializeField] private Transform farmRight;
     [SerializeField] private Transform roadUp;
     [SerializeField] private Transform roadRight;
     [SerializeField] private Transform villageLeft;
+    [SerializeField] private Transform mineEntranceDown;
+    [SerializeField] private Transform mineEntranceUp;
+
 
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
@@ -104,6 +115,7 @@ public class MapManager : MonoBehaviour
         MapInfo farmInfo = new(farm);
         farmInfo.portals.Add(fromFarmToHome, homeDown);
         farmInfo.portals.Add(fromFarmToRoad, roadUp);
+        farmInfo.portals.Add(fromFarmToMineEntrance, mineEntranceDown);
 
         MapInfo roadInfo = new(road);
         roadInfo.portals.Add(fromRoadToFarm, farmDown);
@@ -112,6 +124,11 @@ public class MapManager : MonoBehaviour
         MapInfo villageInfo = new(village);
         villageInfo.portals.Add(fromVillageToRoad, roadRight);
 
+        MapInfo mineEntranceInfo = new(mineEntrance);
+        mineEntranceInfo.portals.Add(fromMineEntranceToFarm, farmRight);
+        //mineEntranceInfo.portals.Add(fromMineEntranceToMine1, );
+
+
         // 매핑위한 딕셔너리 추가
         maps = new Dictionary<MapType, MapInfo>()
         {
@@ -119,6 +136,7 @@ public class MapManager : MonoBehaviour
             { MapType.Farm, farmInfo },
             { MapType.Road, roadInfo },
             { MapType.Village, villageInfo },
+            { MapType.MineEntrance, mineEntranceInfo },
         };
     }
 
