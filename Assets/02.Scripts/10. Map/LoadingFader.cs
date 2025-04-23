@@ -10,6 +10,8 @@ public class LoadingFader : MonoBehaviour
 
     void Start()
     {
+        DOTween.Init();
+
         fader = GetComponent<Image>();
         fader.gameObject.SetActive(false);
     }
