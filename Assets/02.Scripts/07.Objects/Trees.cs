@@ -40,6 +40,7 @@ public class Trees : SeedGrow
 
         if (isEndGrow)
         {
+            HP = steps[EndGrow].Hp;
             AdditionalGrow = Mathf.Min(MaxAddiitionalGrow, AdditionalGrow + grow);
         }
         GetDamage(grow);

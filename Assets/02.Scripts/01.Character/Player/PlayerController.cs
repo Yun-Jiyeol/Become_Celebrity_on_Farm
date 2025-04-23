@@ -127,7 +127,6 @@ public class PlayerController : BaseController
                     }
                     break;
                 case ItemType.Seed:
-                    TryHandInteract();
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
@@ -145,9 +144,9 @@ public class PlayerController : BaseController
                             gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                         }
                     }
+                    TryHandInteract();
                     break;
                 case ItemType.TreeSeed:
-                    TryHandInteract();
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
@@ -162,6 +161,7 @@ public class PlayerController : BaseController
                         }
                         gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                     }
+                    TryHandInteract();
                     break;
                 default:
                     TryHandInteract();

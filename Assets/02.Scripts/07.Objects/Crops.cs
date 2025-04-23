@@ -87,6 +87,7 @@ public class Crops : SeedGrow
         {
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
         }
+
         if (isDestroyAfterHarvest)
         {
             DestroyThis();
@@ -95,6 +96,7 @@ public class Crops : SeedGrow
         {
             GetDamage(-AfterHarvest);
             CheckGrow();
+            isEndGrow = false;
             transform.tag = "Seeded";
         }
     }
