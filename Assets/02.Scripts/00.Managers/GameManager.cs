@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
     public GameObject MouseFollower;
     public GameObject PlayerRange;
 
-    private GameObject LastGameObject;
-
     public List<GameObject> OnActive;
     public List<GameObject> TagOnMouse;
 
@@ -52,7 +50,17 @@ public class GameManager : MonoBehaviour
 
     public void TryHandInteract()
     {
-        //LastGameObject.GetComponent<SeedGrow>().HandInteract();
+        if(TagOnMouse != null)
+        {
+            foreach(GameObject go in TagOnMouse)
+            {
+                if(go.TryGetComponent<SeedGrow>(out SeedGrow SG))
+                {
+                    SG.HandInteract();
+                    return;
+                }
+            }
+        }
     }
 
     public bool TagIsInMouse(string[] _tag)

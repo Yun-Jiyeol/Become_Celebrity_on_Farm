@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5683074275192601428}
   - component: {fileID: 7005697429537915934}
   - component: {fileID: 740704648587431962}
+  - component: {fileID: 6741131456342163694}
   m_Layer: 0
   m_Name: MapleTree
   m_TagString: Tree
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1928865178, guid: 3e530e49b0b54af468d7a4e2333714a2, type: 3}
+  m_Sprite: {fileID: 537886544, guid: 3e530e49b0b54af468d7a4e2333714a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -179,3 +180,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.6
+--- !u!114 &6741131456342163694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501579128633906432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a5bb54ab0ef55439758ff14a02a87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OffThisCollider: 0
+  thisCollider: {fileID: 0}
