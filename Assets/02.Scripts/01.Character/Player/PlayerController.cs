@@ -257,11 +257,10 @@ public class PlayerController : BaseController
 
     void TryHandInteract()
     {
-        //if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "SeededGround", "TreeGround"}, new string[] { "EndGrow", "Tree" },
-        //    null, null))
-        //{
-        //    GameManager.Instance.TryHandInteract();
-        //}
+        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow" }))
+        {
+            GameManager.Instance.TryHandInteract();
+        }
     }
 
 
