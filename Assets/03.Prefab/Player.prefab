@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7318267750142134678}
   - component: {fileID: 6045311075263866768}
   - component: {fileID: 2696556466753752339}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AutoGetItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 1460517367038745852}
   - component: {fileID: 5684263675430241226}
   - component: {fileID: 8422281697035585293}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 4193973429057983282}
   - component: {fileID: 6195498405058595310}
   - component: {fileID: 5617835291384115681}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,10 +359,10 @@ MonoBehaviour:
   playerController: {fileID: 0}
   stat: {fileID: 0}
   checkFieldOnMouse: {fileID: 0}
-  autoGetItem: {fileID: 0}
   sortingOrderGroup: {fileID: 0}
   inventory: {fileID: 0}
   playerAnimation: {fileID: 0}
+  autoGetItem: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
 --- !u!114 &5426771852552084471
@@ -380,6 +380,7 @@ MonoBehaviour:
   dir: {x: 0, y: 0}
   speed: 0
   isAction: 0
+  isClick: 0
   PlayerChoosNum: 1
 --- !u!114 &4288322753646585984
 MonoBehaviour:
@@ -406,6 +407,7 @@ MonoBehaviour:
   Mana: 0
   MaxMana: 0
   Defence: 0
+  gold: 0
 --- !u!114 &6345333457444713724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,27 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySize: 12
-  PlayerHave:
-  - ItemData_num: 59
-    amount: 1
-  - ItemData_num: 60
-    amount: 1
-  - ItemData_num: 61
-    amount: 1
-  - ItemData_num: 62
-    amount: 1
-  - ItemData_num: 63
-    amount: 1
-  - ItemData_num: 64
-    amount: 1
-  - ItemData_num: 65
-    amount: 1
-  - ItemData_num: 66
-    amount: 1
-  - ItemData_num: 67
-    amount: 1
-  - ItemData_num: 58
-    amount: 1
+  PlayerHave: []
 --- !u!114 &5617835291384115681
 MonoBehaviour:
   m_ObjectHideFlags: 0
