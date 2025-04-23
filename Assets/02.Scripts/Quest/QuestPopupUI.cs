@@ -9,6 +9,7 @@ public class QuestPopupUI : MonoBehaviour
     [SerializeField] private Image questIcon;
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button declineButton;
+    [SerializeField] private Button closeButton;
 
     private QuestData currentQuest;
 
