@@ -11,13 +11,14 @@ public class Weather : MonoBehaviour
         FlowerRain
     }
 
-    // 현재 날씨를 인스펙터에서 확인할 수 있도록 노출
     [SerializeField]
-    private WeatherType currentWeather = WeatherType.Sunny;  // 기본 날씨를 Sunny로 설정
+    private WeatherType currentWeather = WeatherType.Sunny;
+
+    private WeatherType lastAppliedWeather = WeatherType.Sunny;
 
     private Dictionary<int, WeatherType> dailyWeather = new Dictionary<int, WeatherType>();
     private Season season;
-    
+
     public int currentDay = 0;
 
     private void Awake()
@@ -32,29 +33,50 @@ public class Weather : MonoBehaviour
 
     private void Start()
     {
-        // 인스펙터에서 수동으로 설정한 날씨를 바로 적용하도록 수정
         WeatherType todayWeather = GetWeather(currentDay);
         Debug.Log($"오늘의 날씨: {todayWeather}");
-
-        // 오늘의 날씨를 바로 적용
         ApplyWeather(todayWeather);
+    }
+
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (currentWeather != lastAppliedWeather)
+        {
+            ApplyWeather(currentWeather);
+            lastAppliedWeather = currentWeather;
+        }
+#endif
     }
 
     public WeatherType GetWeather(int day)
     {
-        // 해당 날짜에 지정된 날씨 반환
         if (dailyWeather.TryGetValue(day, out WeatherType weather))
         {
             return weather;
         }
-        return currentWeather;  // 기본 날씨 (수동으로 설정된 값 사용)
+        return currentWeather;
     }
 
     public void ApplyWeather(WeatherType weatherType)
     {
-        // 날씨를 적용하는 로직
+        Debug.Log($"[날씨 적용] {weatherType}");
+
+        // 파티클 효과 반영
+        EnvironmentEffect envEffect = FindObjectOfType<EnvironmentEffect>();
+        if (envEffect != null)
+        {
+            envEffect.ApplyEffect(weatherType);
+        }
         Debug.Log($"적용된 날씨: {weatherType}");
-        // 여기에 날씨에 맞는 파티클 효과 실행 코드 추가
+
+        // EnvironmentEffect 호출
+        EnvironmentEffect effect = FindObjectOfType<EnvironmentEffect>();
+        if (effect != null)
+        {
+            effect.ApplyEffect(weatherType);
+        }
+
     }
 
     public void RandomSeason(Season.SeasonType seasonType)
@@ -84,7 +106,6 @@ public class Weather : MonoBehaviour
             AddRandomWeather(ref availableDays, 7, WeatherType.Snow);
         }
 
-        // 나머지는 Sunny 처리
         foreach (int day in availableDays)
             dailyWeather[day] = WeatherType.Sunny;
     }
@@ -93,10 +114,10 @@ public class Weather : MonoBehaviour
     {
         for (int i = 0; i < count && pool.Count > 0; i++)
         {
-            int index = Random.Range(0, pool.Count); //날짜 중 하나 랜덤 픽
-            int selectedDay = pool[index];//해당 날짜 선택
-            dailyWeather[selectedDay] = type;//해당 날짜에 날씨 지정
-            pool.RemoveAt(index);//중복 방지
+            int index = Random.Range(0, pool.Count);
+            int selectedDay = pool[index];
+            dailyWeather[selectedDay] = type;
+            pool.RemoveAt(index);
         }
     }
 }

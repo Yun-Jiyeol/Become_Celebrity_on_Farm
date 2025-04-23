@@ -139,10 +139,10 @@ public class PlayerController : BaseController
                         }
                     }
                     break;
-                //case ItemType.TreeSeed:
-                    TryHandInteract();
-                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
-                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+                ////case ItemType.TreeSeed:
+                //    TryHandInteract();
+                //    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                //    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
                     if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
                     {
