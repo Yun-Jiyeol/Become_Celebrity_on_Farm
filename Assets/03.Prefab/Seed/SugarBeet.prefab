@@ -80,7 +80,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.6, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -98,23 +98,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d5d1c19c54a1c4d86fa57310b98872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartHp: 0
   steps:
   - Hp: 0
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_0
   - Hp: 10
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_1
   - Hp: 20
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_2
   - Hp: 30
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_3
   - Hp: 40
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_4
   - Hp: 50
+    isChangeOnSeason: 0
     SpriteName: SugarBeet_5
+  settingSeason: []
+  canGrowSeason: 
   SpawnItemNum: 57
   SpawnItemAmount: 1
-  isDestroyAfterHarvest: 1
-  AfterHarvest: 0
 --- !u!114 &6118775443465542777
 MonoBehaviour:
   m_ObjectHideFlags: 0
