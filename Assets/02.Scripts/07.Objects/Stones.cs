@@ -9,8 +9,14 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
     public float MaxHP { get; set; }
 
     string nowsprite;
-    public int SpawnItemNum;
-    public int SpawnItemAmount;
+
+    public DropItem[] dropitems;
+    [System.Serializable]
+    public class DropItem
+    {
+        public int SpawnItemNum;
+        public int SpawnItemAmount;
+    }
 
     private void Awake()
     {
@@ -25,12 +31,15 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
 
         if (HP <= 0)
         {
-            ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+            for(int i =0; i < dropitems.Length; i++)
+            {
+                ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[dropitems[i].SpawnItemNum], dropitems[i].SpawnItemAmount, gameObject.transform.position);
+            }
             Destroy(gameObject);
         }
         else if (amount <= 0)
         {
-            StartCoroutine(DamageCoroutine());
+            //StartCoroutine(DamageCoroutine());
         }
     }
 

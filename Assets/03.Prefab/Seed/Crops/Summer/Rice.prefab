@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7169404573382010902
+--- !u!1 &6450719868604561983
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,27 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1725929271797056018}
-  - component: {fileID: 6177056777111022736}
-  - component: {fileID: 5270014435087769439}
-  - component: {fileID: 6118775443465542777}
+  - component: {fileID: 4731469013983474367}
+  - component: {fileID: 129621886928403247}
+  - component: {fileID: 5814150463130736361}
+  - component: {fileID: 4949041933160607251}
+  - component: {fileID: 3418600412244143700}
+  - component: {fileID: 9049107841258392727}
+  - component: {fileID: -8140749835202700655}
   m_Layer: 0
-  m_Name: Pumpkin
+  m_Name: Rice
   m_TagString: Seeded
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1725929271797056018
+--- !u!4 &4731469013983474367
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7169404573382010902}
+  m_GameObject: {fileID: 6450719868604561983}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -34,13 +37,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6177056777111022736
+--- !u!212 &129621886928403247
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7169404573382010902}
+  m_GameObject: {fileID: 6450719868604561983}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -75,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1764450991, guid: feea6dd2dfbc8994c862e128ca1bd125, type: 3}
+  m_Sprite: {fileID: -2141604981, guid: 256c5f28f8b97e9439f56ffae5361ddc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,13 +89,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &5270014435087769439
+--- !u!114 &5814150463130736361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7169404573382010902}
+  m_GameObject: {fileID: 6450719868604561983}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be97a700bcb25fa49adc97f5d69cba08, type: 3}
@@ -102,35 +105,114 @@ MonoBehaviour:
   steps:
   - Hp: 0
     isChangeOnSeason: 0
-    SpriteName: Pumpkin_0
+    SpriteName: Rice_0
   - Hp: 10
     isChangeOnSeason: 0
-    SpriteName: Pumpkin_1
+    SpriteName: Rice_1
   - Hp: 20
     isChangeOnSeason: 0
-    SpriteName: Pumpkin_2
+    SpriteName: Rice_2
   - Hp: 30
     isChangeOnSeason: 0
-    SpriteName: Pumpkin_3
+    SpriteName: Rice_3
   - Hp: 40
     isChangeOnSeason: 0
-    SpriteName: Pumpkin_4
+    SpriteName: Rice_4
+  - Hp: 50
+    isChangeOnSeason: 0
+    SpriteName: Rice_5
   settingSeason: []
-  canGrowSeason: 02000000
-  SpawnItemNum: 68
+  canGrowSeason: 01000000
+  SpawnItemNum: 124
   SpawnItemAmount: 1
   isDestroyAfterHarvest: 1
   AfterHarvest: 0
   Maxrots: 3
---- !u!114 &6118775443465542777
+--- !u!114 &4949041933160607251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7169404573382010902}
+  m_GameObject: {fileID: 6450719868604561983}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 366c0857ff261944caa89f2a1c913a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3418600412244143700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450719868604561983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a5bb54ab0ef55439758ff14a02a87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OffThisCollider: 0
+  thisCollider: {fileID: 0}
+--- !u!58 &9049107841258392727
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450719868604561983}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!50 &-8140749835202700655
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450719868604561983}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
