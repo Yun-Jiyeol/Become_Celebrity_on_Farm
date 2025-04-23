@@ -9,6 +9,7 @@ public enum MapType
     Road,
     Village,
     MineEntrance,
+    Mine,
 }
 
 /// <summary>
@@ -45,7 +46,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject road;
     [SerializeField] private GameObject village;
     [SerializeField] private GameObject mineEntrance;
-
+    [SerializeField] private GameObject mine;
 
     [Header("Entrance")]
     [SerializeField] private GameObject fromHomeToFarm;
@@ -55,9 +56,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject fromRoadToFarm;
     [SerializeField] private GameObject fromRoadToVillage;
     [SerializeField] private GameObject fromVillageToRoad;
-    [SerializeField] private GameObject fromMineEntranceToFarm;
-    [SerializeField] private GameObject fromMineEntranceToMine1;
-
+    [SerializeField] private GameObject fromMEToFarm;
+    [SerializeField] private GameObject fromMEToMine;
+    [SerializeField] private GameObject fromMineToME;     // temp
 
     [Header("SpawnPoint")]
     [SerializeField] private Transform homeCenter;
@@ -68,9 +69,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform roadUp;
     [SerializeField] private Transform roadRight;
     [SerializeField] private Transform villageLeft;
-    [SerializeField] private Transform mineEntranceDown;
-    [SerializeField] private Transform mineEntranceUp;
-
+    [SerializeField] private Transform mEDown;
+    [SerializeField] private Transform mEUp;
+    [SerializeField] private Transform mineCenter;
 
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
@@ -115,7 +116,7 @@ public class MapManager : MonoBehaviour
         MapInfo farmInfo = new(farm);
         farmInfo.portals.Add(fromFarmToHome, homeDown);
         farmInfo.portals.Add(fromFarmToRoad, roadUp);
-        farmInfo.portals.Add(fromFarmToMineEntrance, mineEntranceDown);
+        farmInfo.portals.Add(fromFarmToMineEntrance, mEDown);
 
         MapInfo roadInfo = new(road);
         roadInfo.portals.Add(fromRoadToFarm, farmDown);
@@ -125,8 +126,11 @@ public class MapManager : MonoBehaviour
         villageInfo.portals.Add(fromVillageToRoad, roadRight);
 
         MapInfo mineEntranceInfo = new(mineEntrance);
-        mineEntranceInfo.portals.Add(fromMineEntranceToFarm, farmRight);
-        //mineEntranceInfo.portals.Add(fromMineEntranceToMine1, );
+        mineEntranceInfo.portals.Add(fromMEToFarm, farmRight);
+        mineEntranceInfo.portals.Add(fromMEToMine, mineCenter);
+
+        MapInfo mineInfo = new(mine);
+        mineInfo.portals.Add(fromMineToME, mEUp);
 
 
         // 매핑위한 딕셔너리 추가
@@ -137,6 +141,7 @@ public class MapManager : MonoBehaviour
             { MapType.Road, roadInfo },
             { MapType.Village, villageInfo },
             { MapType.MineEntrance, mineEntranceInfo },
+            { MapType.Mine, mineInfo },
         };
     }
 
