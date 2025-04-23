@@ -10,6 +10,7 @@ public enum MapType
     Village,
     MineEntrance,
     Mine,
+    Beach,
 }
 
 /// <summary>
@@ -40,6 +41,8 @@ public class MapManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] private GameObject player;
 
+
+    // 추후 리스트로 변경하기
     [Header("Map")]
     [SerializeField] private GameObject home;
     [SerializeField] private GameObject farm;
@@ -47,6 +50,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject village;
     [SerializeField] private GameObject mineEntrance;
     [SerializeField] private GameObject mine;
+    [SerializeField] private GameObject beach;
 
     [Header("Entrance")]
     [SerializeField] private GameObject fromHomeToFarm;
@@ -59,6 +63,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject fromMEToFarm;
     [SerializeField] private GameObject fromMEToMine;
     [SerializeField] private GameObject fromMineToME;     // temp
+    [SerializeField] private GameObject fromRoadToMBeach;
+    [SerializeField] private GameObject fromBeachToRoad;
+
 
     [Header("SpawnPoint")]
     [SerializeField] private Transform homeCenter;
@@ -72,6 +79,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform mEDown;
     [SerializeField] private Transform mEUp;
     [SerializeField] private Transform mineCenter;
+
 
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
@@ -132,6 +140,9 @@ public class MapManager : MonoBehaviour
         MapInfo mineInfo = new(mine);
         mineInfo.portals.Add(fromMineToME, mEUp);
 
+        MapInfo beachInfo = new(beach);
+        //mineInfo.portals.Add();
+
 
         // 매핑위한 딕셔너리 추가
         maps = new Dictionary<MapType, MapInfo>()
@@ -142,6 +153,7 @@ public class MapManager : MonoBehaviour
             { MapType.Village, villageInfo },
             { MapType.MineEntrance, mineEntranceInfo },
             { MapType.Mine, mineInfo },
+            { MapType.Beach, beachInfo },
         };
     }
 
