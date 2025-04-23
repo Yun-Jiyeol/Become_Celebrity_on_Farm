@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1544756002215884781}
   - component: {fileID: 4010944997623805658}
   - component: {fileID: 6990131983717983826}
+  - component: {fileID: -4557291694610077099}
   m_Layer: 0
   m_Name: CherryTree
   m_TagString: Tree
@@ -115,10 +116,10 @@ MonoBehaviour:
     SpriteName: CherryTree_3
   - Hp: 40
     isChangeOnSeason: 0
-    SpriteName: ApricotTree_4
+    SpriteName: CherryTree_4
   - Hp: 50
     isChangeOnSeason: 0
-    SpriteName: ApricotTree_5
+    SpriteName: CherryTree_5
   settingSeason:
   - SeasonType: 0
     SeasonName: Spring
@@ -185,3 +186,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.6
+--- !u!114 &-4557291694610077099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3646798712323920016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a5bb54ab0ef55439758ff14a02a87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OffThisCollider: 0
+  thisCollider: {fileID: 0}

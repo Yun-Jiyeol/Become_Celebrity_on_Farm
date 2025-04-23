@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2081366467489055679}
   - component: {fileID: 962113803311612743}
   - component: {fileID: 1761138566843957048}
+  - component: {fileID: 3741313464182075041}
   m_Layer: 0
   m_Name: BananaTree
   m_TagString: Tree
@@ -133,7 +134,7 @@ MonoBehaviour:
   EndGrow: 2
   WoodItemNum: 1
   WoodItemAmount: 1
-  StumpName: BananaTree_6
+  StumpName: BananaTree_5
   StumpHp: 30
 --- !u!114 &962113803311612743
 MonoBehaviour:
@@ -182,3 +183,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.6
+--- !u!114 &3741313464182075041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7424891769529483516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a5bb54ab0ef55439758ff14a02a87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OffThisCollider: 0
+  thisCollider: {fileID: 0}
