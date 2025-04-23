@@ -25,14 +25,14 @@ public class CheckFieldOnMouse : MonoBehaviour
     {
         Vector2 MousePosition = Input.mousePosition;
         MousePosition = camera.ScreenToWorldPoint(MousePosition);
-        Vector3 RoundPosition = new Vector2(Mathf.RoundToInt(MousePosition.x), Mathf.RoundToInt(MousePosition.y));
+        Vector3 RoundPosition = new Vector2(Mathf.RoundToInt(MousePosition.x / 1.6f), Mathf.RoundToInt(MousePosition.y / 1.6f));
 
         if (Vector2.Distance(MousePosition, transform.position) <= ActiveRange)
         {
             MouseFollower.SetActive(true);
             if(MouseFollower.transform.position != RoundPosition)
             {
-                MouseFollower.transform.position = RoundPosition;
+                MouseFollower.transform.position = RoundPosition * 1.6f;
             }
         }
         else
