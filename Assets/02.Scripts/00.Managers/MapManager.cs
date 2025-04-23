@@ -63,7 +63,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject fromMEToFarm;
     [SerializeField] private GameObject fromMEToMine;
     [SerializeField] private GameObject fromMineToME;     // temp
-    [SerializeField] private GameObject fromRoadToMBeach;
+    [SerializeField] private GameObject fromRoadToBeach;
     [SerializeField] private GameObject fromBeachToRoad;
 
 
@@ -75,10 +75,12 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform farmRight;
     [SerializeField] private Transform roadUp;
     [SerializeField] private Transform roadRight;
+    [SerializeField] private Transform roadDown;
     [SerializeField] private Transform villageLeft;
     [SerializeField] private Transform mEDown;
     [SerializeField] private Transform mEUp;
     [SerializeField] private Transform mineCenter;
+    [SerializeField] private Transform beachUp;
 
 
     [Header("Fader")]
@@ -129,6 +131,7 @@ public class MapManager : MonoBehaviour
         MapInfo roadInfo = new(road);
         roadInfo.portals.Add(fromRoadToFarm, farmDown);
         roadInfo.portals.Add(fromRoadToVillage, villageLeft);
+        roadInfo.portals.Add(fromRoadToBeach, beachUp);
 
         MapInfo villageInfo = new(village);
         villageInfo.portals.Add(fromVillageToRoad, roadRight);
@@ -141,7 +144,7 @@ public class MapManager : MonoBehaviour
         mineInfo.portals.Add(fromMineToME, mEUp);
 
         MapInfo beachInfo = new(beach);
-        //mineInfo.portals.Add();
+        beachInfo.portals.Add(fromBeachToRoad, roadDown);
 
 
         // 매핑위한 딕셔너리 추가
