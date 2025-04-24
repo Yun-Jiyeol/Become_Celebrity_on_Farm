@@ -176,7 +176,7 @@ public class PlayerController : BaseController
         {
             PlayerInteractRange.SetActive(true);
             PlayerInteractRange.transform.position = gameObject.transform.position;
-            PlayerInteractRange.transform.localScale = Vector3.one * 2.5f; //범위는 아이템에서 가져오기
+            PlayerInteractRange.transform.localScale = Vector3.one * 2.5f * gameObject.GetComponent<Player>().stat.ActiveRange; //범위는 아이템에서 가져오기
 
             switch (chooseItemType)
             {
@@ -399,8 +399,9 @@ public class PlayerController : BaseController
         {
             nownum = PlayerChoosNum;
             QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
+            gameObject.GetComponent<Player>().stat.ActiveRange = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Range;
 
-            if(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
+            if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
             {
                 chooseItemType = ItemType.Except;
             }
