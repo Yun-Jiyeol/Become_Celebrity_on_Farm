@@ -19,6 +19,8 @@ public class QuestPhone : MonoBehaviour
     {
         Debug.Log("[QuestPhone] À¯Æ©ºê ¹öÆ° Å¬¸¯µÊ");
 
+        HideNotification();
+
         if (QuestManager.Instance != null)
         {
             QuestManager.Instance.OnQuestButtonClicked();

@@ -10,7 +10,7 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private QuestPhone phone;
     [SerializeField] private QuestSlotUI questSlot; // 최대 3개 슬롯
 
-    private float questInterval = 120f; // 실제 시간 2분
+    private float questInterval = 20f; // 실제 시간 2분 120f
     private float timer;
     private QuestData pendingQuest;
 
