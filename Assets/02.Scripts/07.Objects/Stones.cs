@@ -25,7 +25,7 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
     {
         HP = _hp;
         MaxHP = _hp;
-        nowsprite = Itemspritename + "_" + NowObjectname;
+        nowsprite = Itemspritename + NowObjectname;
     }
 
     public void GetDamage(float amount)
