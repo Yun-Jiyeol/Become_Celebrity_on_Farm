@@ -30,6 +30,10 @@ public class QuestPopupUI : MonoBehaviour
         descriptionText.text = quest.questDescription;
         //questIcon.sprite = quest.questIcon;
 
+        acceptButton.gameObject.SetActive(true);
+        declineButton.gameObject.SetActive(true);
+        closeButton.gameObject.SetActive(false);
+
         gameObject.SetActive(true);
     }
 
@@ -52,6 +56,18 @@ public class QuestPopupUI : MonoBehaviour
 
     private void OnClose()
     {
-        Hide();
+        gameObject.SetActive(false);
+    }
+
+    public void ShowNoQuest()
+    {
+        titleText.text = "알림";
+        descriptionText.text = "아직 퀘스트가 도착하지 않았습니다!";
+
+        acceptButton.gameObject.SetActive(false);
+        declineButton.gameObject.SetActive(false);
+        closeButton.gameObject.SetActive(true);
+
+        gameObject.SetActive(true);
     }
 }

@@ -11,7 +11,8 @@ public class QuestSlotUI : MonoBehaviour
     private List<GameObject> activeSlots = new List<GameObject>();
     private const int maxSlots = 3;
 
-    public bool HasQuest => activeSlots.Count >= maxSlots;
+    public bool HasEmptySlot => activeSlots.Count < maxSlots;
+
 
     public void Assign(QuestData quest)
     {

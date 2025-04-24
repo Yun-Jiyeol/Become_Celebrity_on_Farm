@@ -5,14 +5,15 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
 
-    [SerializeField] private List<QuestData> allQuestPool; // 퀘스트 풀
+    [SerializeField] private List<QuestData> allQuestPool = new List<QuestData>();// 퀘스트 풀
     [SerializeField] private QuestPopupUI popupUI;
     [SerializeField] private QuestPhone phone;
-    [SerializeField] private List<QuestSlotUI> questSlots; // 최대 3개 슬롯
+    [SerializeField] private QuestSlotUI questSlot; // 최대 3개 슬롯
 
     private float questInterval = 120f; // 실제 시간 2분
     private float timer;
     private QuestData pendingQuest;
+
 
     private void Awake()
     {
@@ -31,10 +32,10 @@ public class QuestManager : MonoBehaviour
 
     void TryGenerateQuest()
     {
-        if (pendingQuest == null)
+        if (pendingQuest == null && questSlot.HasEmptySlot)
         {
             pendingQuest = GetRandomQuest();
-            phone.ShowNotification(); // 퀘스트 (폰) 알림
+            phone.ShowNotification();
         }
     }
 
@@ -44,18 +45,17 @@ public class QuestManager : MonoBehaviour
         {
             popupUI.Show(pendingQuest); // 수락/거절 UI 열기
         }
+        else
+        {
+            popupUI.ShowNoQuest(); // 퀘스트 없을 때 메시지
+        }
     }
 
     public void AcceptQuest()
     {
-        foreach (var slot in questSlots)
-        {
-            if (!slot.HasQuest)
-            {
-                slot.Assign(pendingQuest);
-                break;
-            }
-        }
+        if (!questSlot.HasEmptySlot) return;
+
+        questSlot.Assign(pendingQuest);
         pendingQuest = null;
         phone.HideNotification();
     }
@@ -68,6 +68,7 @@ public class QuestManager : MonoBehaviour
 
     QuestData GetRandomQuest()
     {
-        return allQuestPool[UnityEngine.Random.Range(0, allQuestPool.Count)];
+        Debug.Log($"[QuestManager] 퀘스트 풀 개수: {allQuestPool.Count}");
+        return allQuestPool[Random.Range(0, allQuestPool.Count)];
     }
 }

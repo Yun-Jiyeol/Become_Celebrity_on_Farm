@@ -6,7 +6,6 @@ public class QuestSlotElement : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI descriptionText;
-    [SerializeField] private Image icon;
 
     public void SetData(QuestData quest)
     {
