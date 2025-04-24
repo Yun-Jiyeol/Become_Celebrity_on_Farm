@@ -12,15 +12,8 @@ public class QuestPhone : MonoBehaviour
         HideNotification();
     }
 
-    public void ShowNotification()
-    {
-        notificationIcon.SetActive(true);
-    }
-
-    public void HideNotification()
-    {
-        notificationIcon.SetActive(false);
-    }
+    public void ShowNotification() => notificationIcon.SetActive(true);
+    public void HideNotification() => notificationIcon.SetActive(false);  
 
     private void OnPhoneClicked()
     {
