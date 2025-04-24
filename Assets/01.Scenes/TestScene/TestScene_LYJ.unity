@@ -1793,10 +1793,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 646696322}
     m_Modifications:
-    - target: {fileID: 759619441839231198, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_Name
-      value: Slot2
-      objectReference: {fileID: 0}
     - target: {fileID: 1071640103968001316, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -1877,50 +1873,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1729588370808438189, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_Name
-      value: Slot1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2138367765653688775, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_Name
-      value: QuestTitle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4603036039582475676, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_Name
-      value: Slot3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5420284515992577512, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1855108283}
-    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnPhoneClicked
-      objectReference: {fileID: 0}
-    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: QuestPhone, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 6577295343022182041, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
       propertyPath: m_Name
       value: Quest
@@ -1928,70 +1880,24 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7384147696490389692, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1586542657}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
 --- !u!224 &1543381776 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1071640103968001316, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
   m_PrefabInstance: {fileID: 1543381775}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1543381777 stripped
+--- !u!114 &1586542657 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4019860637450184169, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7869003685193167764, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
   m_PrefabInstance: {fileID: 1543381775}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1543381778 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4238006968643472398, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-  m_PrefabInstance: {fileID: 1543381775}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1543381779 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2397090503908613163, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-  m_PrefabInstance: {fileID: 1543381775}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1586542653 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7384147696490389692, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-  m_PrefabInstance: {fileID: 1543381775}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1586542657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586542653}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da4109838c00c264b90ede019d692f22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotTexts:
-  - {fileID: 1543381779}
-  - {fileID: 1543381778}
-  - {fileID: 1543381777}
 --- !u!1 &1617986758
 GameObject:
   m_ObjectHideFlags: 0
@@ -2834,14 +2740,6 @@ PrefabInstance:
       propertyPath: questSlot
       value: 
       objectReference: {fileID: 1586542657}
-    - target: {fileID: 3861961989566233483, guid: 4db31de1334b2fc4d94719eb79d78f6e, type: 3}
-      propertyPath: allQuestPool.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861961989566233483, guid: 4db31de1334b2fc4d94719eb79d78f6e, type: 3}
-      propertyPath: allQuestPool.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 77925efcd337c294abb77d86f381a20d, type: 2}
     - target: {fileID: 5260519168395113109, guid: 4db31de1334b2fc4d94719eb79d78f6e, type: 3}
       propertyPath: m_Name
       value: QuestManager

@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 6703171316828832146}
   - component: {fileID: 4238006968643472398}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: Slot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 9026226291310219629}
   - component: {fileID: 2397090503908613163}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Slot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -550,7 +550,7 @@ GameObject:
   - component: {fileID: 5125186604637819418}
   - component: {fileID: 2410129100966838793}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: QuestTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1317,7 +1317,7 @@ GameObject:
   - component: {fileID: 8687295872864189849}
   - component: {fileID: 4019860637450184169}
   m_Layer: 5
-  m_Name: Text (TMP) (3)
+  m_Name: Slot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1458,7 +1458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3142174736494799699
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1859,6 +1859,7 @@ GameObject:
   - component: {fileID: 4728422786259144335}
   - component: {fileID: 7070330957830308276}
   - component: {fileID: 8439015119329131792}
+  - component: {fileID: 7869003685193167764}
   m_Layer: 5
   m_Name: QuestList
   m_TagString: Untagged
@@ -1928,6 +1929,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7869003685193167764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7384147696490389692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da4109838c00c264b90ede019d692f22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotTexts:
+  - {fileID: 2397090503908613163}
+  - {fileID: 4238006968643472398}
+  - {fileID: 4019860637450184169}
 --- !u!1 &8032729161125552017
 GameObject:
   m_ObjectHideFlags: 0
