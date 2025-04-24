@@ -10,21 +10,22 @@ public class MapTransition : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 조건1
         if (!collision.CompareTag("Player")) return;
 
-        // 조건2
         if (targetType == MapType.Mine)
         {
-            MapManager.Instance.mineSelectUI.SetActive(true);
-            
-            
+            MapManager.Instance.mineSelectUI.SetMineEntrance(this);
+            MapManager.Instance.mineSelectUI.Show();
+         
+            if (GameManager.Instance.player.TryGetComponent(out PlayerController controller))
+                controller.enabled = false;
         }
         else
         {
             MapManager.Instance.LoadMap(targetType, this.gameObject);
-            Debug.Log("Collided");
         }
+
+        Debug.Log("Collided");
     }
 
     /// <summary>

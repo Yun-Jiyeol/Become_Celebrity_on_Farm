@@ -6,9 +6,9 @@ using UnityEngine.UI;
 /// MineEntranceUI에 붙일 스크립트
 /// 광산 종류 선택 담당
 /// </summary>
-public class MineEntranceUI : MonoBehaviour
+public class MineSelectUI : UIBase
 {
-    [SerializeField] private MapTransition mineEntrance;
+    MapTransition mineEntrance;
 
     [Header("UI")]
     [SerializeField] private Button stoneButton;
@@ -20,41 +20,48 @@ public class MineEntranceUI : MonoBehaviour
     {
         this.gameObject.SetActive(false);
 
+        // 여기에서 mineEntrance 찾기
+        //mineEntrance = FindObjectOfType<MapTransition>(); 이거 아닌 것 같음. 오브젝트 이름으로 찾아야 될듯
+
         stoneButton.onClick.AddListener(OnStoneButtonClick);
         copperButton.onClick.AddListener(OnCopperButtonClick);
         ironButton.onClick.AddListener(OnIronButtonClick);
         closeButton.onClick.AddListener(OnCloseButtonClick);
     }
 
-    public void OpenUI()
+    public override void Show()
     {
-        this.gameObject.SetActive(true);
+        base.Show();
+    }
+
+    public void SetMineEntrance(MapTransition entrance)
+    {
+        mineEntrance = entrance;
     }
 
     void OnStoneButtonClick()
     {
         mineEntrance.LoadSelectedMine(MapType.StoneMine);
         this.gameObject.SetActive(false);
-        Time.timeScale = 1f;
     }
 
     void OnCopperButtonClick()
     {
         mineEntrance.LoadSelectedMine(MapType.CopperMine);
         this.gameObject.SetActive(false);
-        Time.timeScale = 1f;
     }
 
     void OnIronButtonClick()
     {
         mineEntrance.LoadSelectedMine(MapType.IronMine);
         this.gameObject.SetActive(false);
-        Time.timeScale = 1f;
     }
 
     void OnCloseButtonClick()
     {
         this.gameObject.SetActive(false);
-        Time.timeScale = 1f;
+
+        if (GameManager.Instance.player.TryGetComponent(out PlayerController controller))
+            controller.enabled = true;
     }
 }

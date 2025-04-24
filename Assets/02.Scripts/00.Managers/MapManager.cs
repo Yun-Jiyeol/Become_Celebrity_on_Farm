@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public enum MapType
 {
@@ -43,10 +42,6 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
 
-    [Header("Player")]
-    [SerializeField] private GameObject player;
-
-
     // 추후 리스트로 변경하기
     [Header("Map")]
     [SerializeField] private GameObject home;
@@ -88,7 +83,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform beachUp;
 
     [Header("UI")]
-    public GameObject mineSelectUI;
+    public MineSelectUI mineSelectUI;
 
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
@@ -118,7 +113,7 @@ public class MapManager : MonoBehaviour
 
         // 디폴트 = 집에서 스폰
         home.SetActive(true);
-        player.transform.position = homeCenter.position;
+        GameManager.Instance.player.transform.position = homeCenter.position;
     }
 
     /// <summary>
@@ -172,10 +167,10 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void LoadMap(MapType targetType, GameObject entrance)
     {
-        PlayerInput input = player.GetComponent<PlayerInput>();
-        
+        if (GameManager.Instance.player.TryGetComponent(out PlayerController controller))
+            controller.enabled = false;
+
         virtualCamera.enabled = false;
-        input.enabled = false;
 
         StartCoroutine(fader.Fade(() =>
         {
@@ -194,7 +189,7 @@ public class MapManager : MonoBehaviour
 
         () =>
         {
-            input.enabled = true;
+            controller.enabled = true;
         }
         ));
     }
@@ -230,7 +225,7 @@ public class MapManager : MonoBehaviour
         {
             if (currentMapInfo.portals.TryGetValue(entrance, out Transform spawnPoint))
             {
-                player.transform.position = spawnPoint.position;
+                GameManager.Instance.player.transform.position = spawnPoint.position;
             }
         }
     }
