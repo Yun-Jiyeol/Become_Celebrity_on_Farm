@@ -32,7 +32,7 @@ public class PlayerController : BaseController
     PlayerInteractType nowInteractType;
     ItemType chooseItemType;
     GameObject PlayerInteractRange;
-
+    public float ItemDamage = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
     public class RangeInteract
@@ -400,6 +400,7 @@ public class PlayerController : BaseController
             nownum = PlayerChoosNum;
             QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
             gameObject.GetComponent<Player>().stat.ActiveRange = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Range;
+            ItemDamage = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Damage;
 
             if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
             {
