@@ -101,6 +101,8 @@ public class PlayerController : BaseController
 
                     CheckAngle();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
 
                     if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
@@ -115,6 +117,8 @@ public class PlayerController : BaseController
 
                     CheckAngle();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.WateringParameterHash);
 
                     if (GameManager.Instance.TagIsInMouse(new string[] { "Plow" }))
@@ -181,6 +185,8 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
@@ -194,6 +200,8 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
@@ -207,6 +215,8 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
@@ -283,6 +293,7 @@ public class PlayerController : BaseController
     public void EndAction()
     {
         dir = Vector2.zero;
+        gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash, 1f);
         isAction = false;
     }
 

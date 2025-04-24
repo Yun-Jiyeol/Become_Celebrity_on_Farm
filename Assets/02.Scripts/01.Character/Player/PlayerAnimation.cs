@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class PlayerAnimation : BaseAnimation
 {
+    string SpeedParameterName = "Speed";
     string HoeParameterName = "Hoe";
     string WateringParameterName = "Watering";
     string SickleParameterName = "Sickle";
     string PickaxeParameterName = "PickAxe";
     string AxeParameterName = "Axe";
 
+    public int SpeedParameterHash { get; private set; }
     public int HoeParameterHash { get; private set; }
     public int WateringParameterHash { get; private set; }
     public int SickleParameterHash { get; private set; }
@@ -28,6 +30,7 @@ public class PlayerAnimation : BaseAnimation
     {
         base.Initalize();
 
+        SpeedParameterHash = Animator.StringToHash(SpeedParameterName);
         HoeParameterHash = Animator.StringToHash(HoeParameterName);
         WateringParameterHash = Animator.StringToHash(WateringParameterName);
         SickleParameterHash = Animator.StringToHash(SickleParameterName);
