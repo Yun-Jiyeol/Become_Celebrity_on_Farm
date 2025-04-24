@@ -12,6 +12,5 @@ public class QuestSlotElement : MonoBehaviour
     {
         titleText.text = quest.questTitle;
         descriptionText.text = quest.questDescription;
-        icon.sprite = quest.questIcon;
     }
 }
