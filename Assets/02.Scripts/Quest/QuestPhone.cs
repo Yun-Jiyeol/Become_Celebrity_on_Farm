@@ -8,19 +8,17 @@ public class QuestPhone : MonoBehaviour
 
     private void Awake()
     {
-        phoneButton.onClick.AddListener(OnPhoneClicked);
         HideNotification();
     }
 
-    public void ShowNotification()
+    private void OnEnable()
     {
-        notificationIcon.SetActive(true);
+        phoneButton.onClick.RemoveAllListeners(); // 중복 방지
+        phoneButton.onClick.AddListener(OnPhoneClicked);
     }
 
-    public void HideNotification()
-    {
-        notificationIcon.SetActive(false);
-    }
+    public void ShowNotification() => notificationIcon.SetActive(true);
+    public void HideNotification() => notificationIcon.SetActive(false);  
 
     private void OnPhoneClicked()
     {
