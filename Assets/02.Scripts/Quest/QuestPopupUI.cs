@@ -6,7 +6,7 @@ public class QuestPopupUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI descriptionText;
-    [SerializeField] private Image questIcon;
+    //[SerializeField] private Image questIcon;
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button declineButton;
     [SerializeField] private Button closeButton;
@@ -17,6 +17,7 @@ public class QuestPopupUI : MonoBehaviour
     {
         acceptButton.onClick.AddListener(OnAccept);
         declineButton.onClick.AddListener(OnDecline);
+        closeButton.onClick.AddListener(OnClose);
 
         Hide();
     }
@@ -46,6 +47,11 @@ public class QuestPopupUI : MonoBehaviour
     private void OnDecline()
     {
         QuestManager.Instance.DeclineQuest();
+        Hide();
+    }
+
+    private void OnClose()
+    {
         Hide();
     }
 }
