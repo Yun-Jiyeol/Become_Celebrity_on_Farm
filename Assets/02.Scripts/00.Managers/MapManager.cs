@@ -11,6 +11,11 @@ public enum MapType
     MineEntrance,
     Mine,
     Beach,
+
+    // Mine
+    StoneMine,
+    CopperMine,
+    IronMine,
 }
 
 /// <summary>
@@ -82,6 +87,8 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform mineCenter;
     [SerializeField] private Transform beachUp;
 
+    [Header("UI")]
+    public GameObject mineSelectUI;
 
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
