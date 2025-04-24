@@ -8,18 +8,7 @@ public class TestManager : MonoBehaviour
 
     public InvenSlot[] SlotItem = new InvenSlot[12];
 
-    public Sprite HoeGround;
-    public Sprite WaterGround;
-
     public Season.SeasonType nowSeason;
-
-    public List<ConnectionBetweenItemObject> connectionBetweenItemObjects;
-    [System.Serializable]
-    public class ConnectionBetweenItemObject
-    {
-        public int ItemData_Num;
-        public GameObject Object;
-    }
 
     private void Awake()
     {
@@ -36,8 +25,8 @@ public class TestManager : MonoBehaviour
 
     private void Start()
     {
-        //InvokeRepeating("SeasonAfter", 15f, 15f);
-        //InvokeRepeating("DayAfter", 5f, 5f);
+        InvokeRepeating("SeasonAfter", 15f, 15f);
+        InvokeRepeating("DayAfter", 5f, 5f);
     }
 
     void DayAfter()
@@ -83,17 +72,5 @@ public class TestManager : MonoBehaviour
                 SlotItem[i].ChooseObject.SetActive(false);
             }
         }
-    }
-
-    public GameObject FindObject(int num)
-    {
-        for(int i = 0; i< connectionBetweenItemObjects.Count; i++)
-        {
-            if (connectionBetweenItemObjects[i].ItemData_Num == num)
-            {
-                return connectionBetweenItemObjects[i].Object;
-            }
-        }
-        return null;
     }
 }

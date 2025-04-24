@@ -9,6 +9,7 @@ public class ItemManager : MonoBehaviour
     public ItemDataReader itemDataReader;
     public SpawnItem spawnItem;
     public SpawnGround spawnGround;
+    public ConnectItem connectItem;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class ItemManager : MonoBehaviour
         itemDataReader = GetComponent<ItemDataReader>();
         spawnItem = GetComponentInChildren<SpawnItem>();
         spawnGround = GetComponentInChildren<SpawnGround>();
+        connectItem = GetComponentInChildren<ConnectItem>();
     }
 
     public static ItemManager Instance

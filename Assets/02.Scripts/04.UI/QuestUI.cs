@@ -7,7 +7,7 @@ public class QuestUI : UIBase
 {
     public Button QuestBtn;
     public Button CloseBtn;
-    public GameObject Quest;
+    public GameObject QuestList;
     public void SetUp()
     {
         //setup()중복 방지
@@ -17,7 +17,7 @@ public class QuestUI : UIBase
         QuestBtn.onClick.AddListener(OnQuestBtn);
         CloseBtn.onClick.AddListener(OnCloseBtn);
 
-        Quest.gameObject.SetActive(false);
+        QuestList.gameObject.SetActive(false);
         QuestBtn.gameObject.SetActive(true);
         CloseBtn.gameObject.SetActive(true);
     }
@@ -30,14 +30,14 @@ public class QuestUI : UIBase
     public override void Show()
     {
 
-        Quest?.SetActive(true);
+        QuestList?.SetActive(true);
         QuestBtn.gameObject.SetActive(false);
     }
 
     public override void Hide()
     {
 
-        Quest?.SetActive(false);
+        QuestList?.SetActive(false);
         QuestBtn.gameObject.SetActive(true);
 
     }

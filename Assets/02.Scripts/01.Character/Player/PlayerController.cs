@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 public enum PlayerInteractType
 {
     Point,
+    Charge,
     Range
 }
 
@@ -19,6 +20,7 @@ public class PlayerController : BaseController
     private PlayerAnimation playerAnimation;
     Vector3 tartgetPosition = new Vector3();
     public bool isAction = false;
+    public bool isClick = false;
 
     public int PlayerChoosNum = 1;
     private int nownum;
@@ -77,8 +79,13 @@ public class PlayerController : BaseController
 
         if (inputValue.isPressed)
         {
+            isClick = true;
             GameManager.Instance.TurnOnAllColliders();
             Invoke("UseSomeThing", 0.1f);
+        }
+        else if (!inputValue.isPressed)
+        {
+            isClick = false;
         }
     }
 
@@ -120,7 +127,6 @@ public class PlayerController : BaseController
                     }
                     break;
                 case ItemType.Seed:
-                    TryHandInteract();
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
@@ -128,7 +134,7 @@ public class PlayerController : BaseController
                     {
                         if (GameManager.Instance.TagIsNotInMouse(new string[] { "Seeded", "EndGrow" }))
                         {
-                            GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                            GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                             if (ConnectedObejct != null)
                             {
                                 GameObject go = Instantiate(ConnectedObejct);
@@ -138,23 +144,24 @@ public class PlayerController : BaseController
                             gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                         }
                     }
+                    TryHandInteract();
                     break;
                 case ItemType.TreeSeed:
-                    TryHandInteract();
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
-                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow" , "Stone"}))
+                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
                     {
-                        GameObject ConnectedObejct = TestManager.Instance.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                        GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                         if (ConnectedObejct != null)
                         {
                             GameObject go = Instantiate(ConnectedObejct);
                             go.transform.parent = GameManager.Instance.transform;
                             go.transform.position = tartgetPosition;
                         }
-                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1,1);
+                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                     }
+                    TryHandInteract();
                     break;
                 default:
                     TryHandInteract();
@@ -212,6 +219,19 @@ public class PlayerController : BaseController
                     break;
             }
         }
+        else if (nowInteractType == PlayerInteractType.Charge)
+        {
+            switch (chooseItemType)
+            {
+                case ItemType.FishingRod:
+                    int i = 0;
+                    Debug.Log(i++);
+                    break;
+                default:
+                    TryHandInteract();
+                    break;
+            }
+        }
     }
 
     void SaveDirextionInfo()
@@ -237,11 +257,10 @@ public class PlayerController : BaseController
 
     void TryHandInteract()
     {
-        //if (GameManager.Instance.InteractPosition(tartgetPosition, new string[] { "SeededGround", "TreeGround"}, new string[] { "EndGrow", "Tree" },
-        //    null, null))
-        //{
-        //    GameManager.Instance.TryHandInteract();
-        //}
+        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow" }))
+        {
+            GameManager.Instance.TryHandInteract();
+        }
     }
 
 
@@ -301,30 +320,6 @@ public class PlayerController : BaseController
 
         ItemManager.Instance.spawnGround.SpawnGrounds(Groundtype, tartgetPosition);
     }
-
-    void TryChangeType(PlayerInteractType type)
-    {
-        if (nowInteractType == type) return;
-
-        switch (type)
-        {
-            case PlayerInteractType.Range:
-                nowInteractType = PlayerInteractType.Range;
-
-                PlayerInteractRange.gameObject.SetActive(true);
-                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
-                gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
-                break;
-
-            case PlayerInteractType.Point:
-                nowInteractType = PlayerInteractType.Point;
-
-                PlayerInteractRange.gameObject.SetActive(false);
-                gameObject.GetComponent<CheckFieldOnMouse>().enabled = true;
-                break;
-        }
-    }
-
 
     void OnOneSlot(InputValue inputValue)
     {
@@ -418,7 +413,42 @@ public class PlayerController : BaseController
                 case ItemType.Pickaxe:
                     TryChangeType(PlayerInteractType.Range);
                     break;
+
+                case ItemType.FishingRod:
+                    TryChangeType(PlayerInteractType.Charge);
+                    break;
+
             }
+        }
+    }
+    void TryChangeType(PlayerInteractType type)
+    {
+        if (nowInteractType == type) return;
+
+        switch (type)
+        {
+            case PlayerInteractType.Range:
+                nowInteractType = PlayerInteractType.Range;
+
+                PlayerInteractRange.gameObject.SetActive(true);
+                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
+                gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
+                break;
+
+            case PlayerInteractType.Point:
+                nowInteractType = PlayerInteractType.Point;
+
+                PlayerInteractRange.gameObject.SetActive(false);
+                gameObject.GetComponent<CheckFieldOnMouse>().enabled = true;
+                break;
+
+            case PlayerInteractType.Charge:
+                nowInteractType = PlayerInteractType.Charge;
+
+                PlayerInteractRange.gameObject.SetActive(false);
+                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
+                gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
+                break;
         }
     }
 }
