@@ -79,6 +79,17 @@ public class InventoryUIManager : MonoBehaviour
             return;
         }
 
+        if (selectedSlot == clickedSlot)
+        {
+            var backData = selectedSlot.GetData();
+            backData.ItemData_num = tempItemData_num;
+            backData.amount = tempItemAmount;
+
+            ClearHoldingItem();
+            RefreshUI();
+            return;
+        }
+
         var toData = clickedSlot.GetData();
 
         if (toData.ItemData_num == tempItemData_num && tempItemData_num != 0)
