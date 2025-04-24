@@ -1423,11 +1423,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021645243}
   m_CullTransparentMesh: 1
---- !u!224 &1098934351 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1410525441244355739, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
-  m_PrefabInstance: {fileID: 1543381775}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1146128289
 GameObject:
   m_ObjectHideFlags: 0
@@ -1898,6 +1893,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1855108283}
+    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPhoneClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: QuestPhone, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468587208427349548, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6577295343022182041, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
       propertyPath: m_Name
       value: Quest
@@ -1915,6 +1938,39 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1071640103968001316, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
   m_PrefabInstance: {fileID: 1543381775}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1543381777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4019860637450184169, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+  m_PrefabInstance: {fileID: 1543381775}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1543381778 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4238006968643472398, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+  m_PrefabInstance: {fileID: 1543381775}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1543381779 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2397090503908613163, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
+  m_PrefabInstance: {fileID: 1543381775}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1586542653 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7384147696490389692, guid: 8a14e320fcee6b049a9b2abe8b37dd1f, type: 3}
@@ -1932,8 +1988,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4109838c00c264b90ede019d692f22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotParent: {fileID: 1098934351}
-  questSlotPrefab: {fileID: 1586542653}
+  slotTexts:
+  - {fileID: 1543381779}
+  - {fileID: 1543381778}
+  - {fileID: 1543381777}
 --- !u!1 &1617986758
 GameObject:
   m_ObjectHideFlags: 0

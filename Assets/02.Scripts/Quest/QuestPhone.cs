@@ -8,8 +8,13 @@ public class QuestPhone : MonoBehaviour
 
     private void Awake()
     {
-        phoneButton.onClick.AddListener(OnPhoneClicked);
         HideNotification();
+    }
+
+    private void OnEnable()
+    {
+        phoneButton.onClick.RemoveAllListeners(); // 중복 방지
+        phoneButton.onClick.AddListener(OnPhoneClicked);
     }
 
     public void ShowNotification() => notificationIcon.SetActive(true);
@@ -18,8 +23,6 @@ public class QuestPhone : MonoBehaviour
     private void OnPhoneClicked()
     {
         Debug.Log("[QuestPhone] 유튜브 버튼 클릭됨");
-
-        HideNotification();
 
         if (QuestManager.Instance != null)
         {

@@ -6,7 +6,6 @@ public class QuestPopupUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI descriptionText;
-    //[SerializeField] private Image questIcon;
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button declineButton;
     [SerializeField] private Button closeButton;
@@ -19,6 +18,9 @@ public class QuestPopupUI : MonoBehaviour
         declineButton.onClick.AddListener(OnDecline);
         closeButton.onClick.AddListener(OnClose);
 
+    }
+    private void Start()
+    {
         Hide();
     }
 
@@ -28,7 +30,6 @@ public class QuestPopupUI : MonoBehaviour
 
         titleText.text = quest.questTitle;
         descriptionText.text = quest.questDescription;
-        //questIcon.sprite = quest.questIcon;
 
         acceptButton.gameObject.SetActive(true);
         declineButton.gameObject.SetActive(true);
@@ -39,6 +40,8 @@ public class QuestPopupUI : MonoBehaviour
 
     public void Hide()
     {
+        titleText.text = "";
+        descriptionText.text = "";
         gameObject.SetActive(false);
     }
 
