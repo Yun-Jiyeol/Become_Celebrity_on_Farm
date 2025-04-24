@@ -61,13 +61,16 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
         public float Item_Price;
         public int Item_Overlap;
 
+        public Sprite Item_sprite;
+
         public float Stamina;
         public float Hp;
         public float Stress;
         public float Damage;
-        public string Buff; //버프는 종류를 따로 함수화 할 것
+        public float Range;
+        public float Speed;
 
-        public Sprite Item_sprite;
+        public string Buff; //버프는 종류를 따로 함수화 할 것
     }
 
     private void Awake()
@@ -109,12 +112,17 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
                 Item_Type = (ItemType)Enum.Parse(typeof(ItemType), splitData[3]),
                 Item_Price = float.TryParse(splitData[4], out float price) ? price : 0,
                 Item_Overlap = int.TryParse(splitData[5], out int overlap) ? overlap : 0,
-                Stamina = float.TryParse(splitData[6], out float stamina) ? stamina : 0,
-                Hp = float.TryParse(splitData[7], out float hp) ? hp : 0,
-                Stress = float.TryParse(splitData[8], out float stress) ? stress : 0,
-                Damage = float.TryParse(splitData[9], out float damage) ? damage : 0,
-                Buff = splitData[10],
-                Item_sprite = ResourceManager.Instance.splits[splitData[11]]
+
+                Item_sprite = ResourceManager.Instance.splits[splitData[6]],
+
+                Stamina = float.TryParse(splitData[7], out float stamina) ? stamina : 0,
+                Hp = float.TryParse(splitData[8], out float hp) ? hp : 0,
+                Stress = float.TryParse(splitData[9], out float stress) ? stress : 0,
+                Damage = float.TryParse(splitData[10], out float damage) ? damage : 0,
+                Range = float.TryParse(splitData[11], out float range) ? range : 0,
+                Speed = float.TryParse(splitData[12], out float speed) ? speed : 0,
+
+                Buff = splitData[13]
             };
 
             itemsDatas.Add(itemsData.Item_num, itemsData);
