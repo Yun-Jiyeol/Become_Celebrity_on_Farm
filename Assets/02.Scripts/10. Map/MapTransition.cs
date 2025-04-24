@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// 각각의 입구는 이 스크립트를 가짐
@@ -17,8 +18,8 @@ public class MapTransition : MonoBehaviour
             MapManager.Instance.mineSelectUI.SetMineEntrance(this);
             MapManager.Instance.mineSelectUI.Show();
          
-            if (GameManager.Instance.player.TryGetComponent(out PlayerController controller))
-                controller.enabled = false;
+            if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
+                input.enabled = false;
         }
         else
         {
@@ -34,6 +35,6 @@ public class MapTransition : MonoBehaviour
     /// <param name="selectedType"></param>
     public void LoadSelectedMine(MapType selectedType)
     {
-        MapManager.Instance.LoadMap(selectedType, this.gameObject);
+        MapManager.Instance.LoadMine(selectedType);
     }
 }
