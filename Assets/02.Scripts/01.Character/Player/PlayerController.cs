@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor.VersionControl;
@@ -74,6 +75,7 @@ public class PlayerController : BaseController
     void OnMove(InputValue inputValue)
     {
         if (UIManager.Instance.InventoryIsOpen()) return;
+        if (isAction == true) return;
 
         dir = inputValue.Get<Vector2>();
     }
@@ -241,9 +243,8 @@ public class PlayerController : BaseController
                 case ItemType.FishingRod:
                     tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
                     CheckAngle();
+                    Debug.Log(dir);
                     isAction = true;
-                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.FishingParameterHash);
-                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash,0);
 
                     FishingGauge.SetActive(true);
                     FishingGauge.transform.position = gameObject.transform.position;
@@ -251,6 +252,9 @@ public class PlayerController : BaseController
 
                     MouseInteract.SetActive(true);
                     MouseInteract.transform.position = new Vector3(gameObject.transform.position.x + dir.x * 2, gameObject.transform.position.y + dir.y * 2,0);
+
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.FishingParameterHash);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
 
                     StartCoroutine(FishingChargingCoroutine());
                     break;
@@ -262,6 +266,7 @@ public class PlayerController : BaseController
 
     IEnumerator FishingChargingCoroutine()
     {
+
         float Charge = 0f;
         float MaxCharge = 1f;
         int Mul = 1;
@@ -290,11 +295,48 @@ public class PlayerController : BaseController
 
         yield return new WaitForSeconds(0.1f);
 
-        if (!GameManager.Instance.TagIsInMouse(new string[] { "Fishable" }))
+        FishingGauge.SetActive(false);
+
+        if (GameManager.Instance.TagIsInMouse(new string[] { "Fishable" }))
+        {
+            StartCoroutine(IdleFishing());
+        }
+        else
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+            EndAction();
         }
     }
+
+    IEnumerator IdleFishing()
+    {
+        bool isHooked = false;
+        float HookedTime = UnityEngine.Random.Range(3f,7f);
+        float NowTime = 0f;
+
+        while (true)
+        {
+            NowTime += Time.deltaTime;
+            Debug.Log(NowTime);
+
+            if (NowTime > HookedTime)
+            {
+                gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 2);
+                break;
+            }
+
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                EndAction();
+                break;
+            }
+            yield return null;
+        }
+
+    }
+
+
 
     void SaveDirextionInfo()
     {
