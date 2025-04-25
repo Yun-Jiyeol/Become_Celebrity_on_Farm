@@ -7,7 +7,7 @@ using static Season;
 [System.Serializable]
 public class SeasonTile
 {
-    public SeasonType season;
+    public SeasonType type;
     public TileBase tile;
 }
 
@@ -15,8 +15,21 @@ public class SeasonTile
 public class SeasonTileList : ScriptableObject
 {
     public List<SeasonTile> seasonTiles;
-}
 
+#if UNITY_EDITOR
+    void OnEnable()
+    {
+        if (seasonTiles == null)
+        {
+            seasonTiles = new List<SeasonTile>();
+            foreach (SeasonType season in System.Enum.GetValues(typeof(SeasonType)))
+            {
+                seasonTiles.Add(new SeasonTile() { type = season, tile = null });
+            }
+        }
+    }
+#endif
+}
 
 
 /// <summary>
@@ -25,22 +38,5 @@ public class SeasonTileList : ScriptableObject
 
 public class SeasonTileChanger : MonoBehaviour
 {
-    Season season;
-    //List<>
-
-    //OnSeasonChanged
-
-    //void Initialized()
-    //{
-    //    // 시즌 구독
-    //    season.UpdateSeason() -= SeasonChanged;
-    //    season.UpdateSeason() += SeasonChanged;
-    //}
-
-    void SeasonChanged()
-    {
-
-    }
-
-
+   
 }
