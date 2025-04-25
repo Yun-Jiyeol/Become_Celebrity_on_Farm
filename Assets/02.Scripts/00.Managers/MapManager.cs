@@ -221,6 +221,21 @@ public class MapManager : MonoBehaviour
             {
                 targetMapInfo.place.SetActive(true);
                 SetPlayerPosition(entrance);
+
+                StuffSpawner spawner = targetMapInfo.place.GetComponentInChildren<StuffSpawner>();
+
+                if (spawner)
+                {
+                    Debug.Log("스포너 찾기 성공");
+                    for (int i = 0; i < 100; i++)
+                    {
+                        spawner.SpawnStuff();
+                    }
+                }
+                else
+                    Debug.Log("스포너 찾기 실패");
+
+
                 currentMap = targetType;
             }
             virtualCamera.enabled = true;
@@ -288,6 +303,19 @@ public class MapManager : MonoBehaviour
             {
                 targetMapInfo.place.SetActive(true);
                 GameManager.Instance.player.transform.position = targetMapInfo.spawnPoint.position;
+
+                StuffSpawner spawner = targetMapInfo.place.GetComponentInChildren<StuffSpawner>();
+
+                if (spawner)
+                {
+                    Debug.Log("스포너 찾기 성공");
+                    for (int i = 0; i < 30; i++)
+                    {
+                        spawner.SpawnStuff();
+                    }
+                }
+                else
+                    Debug.Log("스포너 찾기 실패");
 
                 currentMap = selectedType;
             }
