@@ -11,6 +11,7 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private QuestSlotUI questSlot; // 최대 3개 슬롯
     private List<QuestData> receivedQuests = new List<QuestData>(); //이미 수락한 퀘스트 목록
 
+
     private float questInterval = 10f; // 실제 시간 2분 120f
     private float timer;
     private QuestData pendingQuest;
@@ -73,6 +74,11 @@ public class QuestManager : MonoBehaviour
 
     public void DeclineQuest()
     {
+        if (pendingQuest != null)
+        {
+            receivedQuests.Add(pendingQuest); // 거절한 퀘스트도 저장
+        }
+
         pendingQuest = null;
         phone.HideNotification();
         popupUI.Hide();
@@ -99,5 +105,4 @@ public class QuestManager : MonoBehaviour
         Debug.Log($"[QuestManager] 퀘스트 풀 개수: {allQuestPool.Count}");
         return available[Random.Range(0, available.Count)];
     }
-
 }
