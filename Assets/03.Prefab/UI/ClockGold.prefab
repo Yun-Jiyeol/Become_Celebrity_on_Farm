@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 3791397574921490638}
   - component: {fileID: 2830236476082728662}
   - component: {fileID: 3532219002191642617}
+  - component: {fileID: 4795476636827047772}
   m_Layer: 5
   m_Name: TimeTxt
   m_TagString: Untagged
@@ -270,6 +271,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4795476636827047772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2830210104663646045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1fa0f4312c580243989d87eb1cdfe70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHour: 6
+  currentMinute: 0
+  currentDay: 0
+  realSecondsPerGameTenMinutes: 10
 --- !u!1 &4538725754007042783
 GameObject:
   m_ObjectHideFlags: 0
