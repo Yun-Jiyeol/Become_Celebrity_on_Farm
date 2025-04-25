@@ -1,53 +1,44 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class QuestSlotUI : MonoBehaviour
 {
-    [SerializeField] private Transform slotParent;             // 슬롯들이 들어갈 부모
-    [SerializeField] private GameObject questSlotPrefab;       // 슬롯 프리팹
+    [SerializeField] private List<TextMeshProUGUI> slotTexts; // 텍스트 슬롯들 (최대 3개)
+    private List<QuestData> acceptedQuests = new List<QuestData>();
 
-    private List<GameObject> activeSlots = new List<GameObject>();
-    private const int maxSlots = 3;
-
-    public bool HasQuest => activeSlots.Count >= maxSlots;
+    public bool HasEmptySlot => acceptedQuests.Count < slotTexts.Count;
 
     public void Assign(QuestData quest)
     {
-        AddQuestSlot(quest);
-    }
-
-    /// <summary>
-    /// 퀘스트 슬롯 초기화 (초기엔 비워둠)
-    /// </summary>
-    public void ClearSlots()
-    {
-        foreach (var slot in activeSlots)
+        if (!HasEmptySlot)
         {
-            Destroy(slot);
-        }
-        activeSlots.Clear();
-    }
-
-    /// <summary>
-    /// 새로운 퀘스트를 슬롯에 추가함 (최대 3개 제한)
-    /// </summary>
-    public void AddQuestSlot(QuestData quest)
-    {
-        if (activeSlots.Count >= maxSlots)
-        {
-            Debug.Log("[QuestSlotUI] 퀘스트 슬롯이 가득 찼습니다.");
+            Debug.LogWarning("퀘스트 슬롯이 가득 찼습니다.");
             return;
         }
 
-        GameObject newSlot = Instantiate(questSlotPrefab, slotParent);
-        QuestSlotElement element = newSlot.GetComponent<QuestSlotElement>();
-        if (element != null)
-        {
-            element.SetData(quest);
-        }
+        acceptedQuests.Add(quest);
+        UpdateUI();
+    }
 
-        activeSlots.Add(newSlot);
+    private void UpdateUI()
+    {
+        for (int i = 0; i < slotTexts.Count; i++)
+        {
+            if (i < acceptedQuests.Count)
+            {
+                slotTexts[i].text = $" {acceptedQuests[i].questTitle}";
+            }
+            else
+            {
+                slotTexts[i].text = ""; // 남은 슬롯은 비워둠
+            }
+        }
+    }
+
+    public void ClearAll()
+    {
+        acceptedQuests.Clear();
+        UpdateUI();
     }
 }

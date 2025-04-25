@@ -6,7 +6,6 @@ public class QuestData : ScriptableObject
     public string questTitle;           // 퀘스트 제목
     [TextArea]
     public string questDescription;     // 퀘스트 설명
-    public Sprite questIcon;            // 퀘스트 아이콘
 
     public int rewardGold;              // 보상 골드
     //public int rewardExp;               // 보상 경험치
