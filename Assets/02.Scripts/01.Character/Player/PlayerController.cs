@@ -234,8 +234,7 @@ public class PlayerController : BaseController
             switch (chooseItemType)
             {
                 case ItemType.FishingRod:
-                    int i = 0;
-                    Debug.Log(i++);
+
                     break;
                 default:
                     TryHandInteract();

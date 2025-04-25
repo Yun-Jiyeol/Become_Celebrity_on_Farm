@@ -48,7 +48,6 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
 
     public void Interact()
     {
-        Debug.Log((GameManager.Instance.player.GetComponent<Player>().stat.Attack + GameManager.Instance.player.GetComponent<Player>().playerController.ItemDamage));
         GetDamage(-(GameManager.Instance.player.GetComponent<Player>().stat.Attack + GameManager.Instance.player.GetComponent<Player>().playerController.ItemDamage));
     }
     IEnumerator DamageCoroutine()
