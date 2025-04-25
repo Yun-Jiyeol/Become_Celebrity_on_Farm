@@ -317,11 +317,11 @@ public class PlayerController : BaseController
         while (true)
         {
             NowTime += Time.deltaTime;
-            Debug.Log(NowTime);
 
             if (NowTime > HookedTime)
             {
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 2);
+                isHooked = true;
                 break;
             }
 
@@ -334,8 +334,36 @@ public class PlayerController : BaseController
             yield return null;
         }
 
+        if (isHooked)
+        {
+            NowTime = 0;
+
+            while (true)
+            {
+                NowTime += Time.deltaTime;
+
+                if (NowTime > 2)
+                {
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                    EndAction();
+                    break;
+                }
+
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
+                    MiniGame();
+                    break;
+                }
+                yield return null;
+            }
+        }
     }
 
+    void MiniGame()
+    {
+
+    }
 
 
     void SaveDirextionInfo()
