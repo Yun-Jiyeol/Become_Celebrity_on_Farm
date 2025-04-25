@@ -1,9 +1,11 @@
+using TMPro;
 using UnityEngine;
 using System.Collections;
 
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
+    public TMP_Text timeText;
 
     [Header("현재 시간 수동 설정 (테스트용)")]
     [Range(0, 23)] public int currentHour = 6;
@@ -41,6 +43,14 @@ public class TimeManager : MonoBehaviour
         StartCoroutine(TimeFlow());
     }
 
+    private void Update()
+    {
+        if (Instance != null && timeText != null)
+        {
+            timeText.text = GetFormattedTime();
+        }
+    }
+
     private IEnumerator TimeFlow()
     {
         while (true)
@@ -72,12 +82,11 @@ public class TimeManager : MonoBehaviour
                 currentDay++;
                 season.SetCurrentDay(currentDay);
 
-                ///하루가 지나면 날씨 자동 적용!
                 Weather weather = FindObjectOfType<Weather>();
                 if (weather != null)
                 {
                     var todayWeather = weather.GetWeather(currentDay);
-                    weather.ApplyWeather(todayWeather); // 날씨 및 파티클 반영
+                    weather.ApplyWeather(todayWeather);
                 }
             }
 
@@ -111,12 +120,17 @@ public class TimeManager : MonoBehaviour
         isFainted = true;
     }
 
+    // AM/PM 형식으로 변경된 시간 포맷
     public string GetFormattedTime()
     {
-        return $"{CurrentWeekday} {currentHour:D2}:{currentMinute:D2}";
+        int hour12 = currentHour % 12;
+        if (hour12 == 0) hour12 = 12;
+
+        string ampm = currentHour < 12 ? "AM" : "PM";
+
+        return $"{hour12:D2}:{currentMinute:D2} {ampm}";
     }
 
-    // 인스펙터에서 값 수정 시 호출됨 (에디터 전용)
     private void OnValidate()
     {
         currentHour = Mathf.Clamp(currentHour, 0, 23);
