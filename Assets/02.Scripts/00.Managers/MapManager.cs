@@ -11,6 +11,11 @@ public enum MapType
     MineEntrance,
     Mine,
     Beach,
+
+    // Mine
+    StoneMine,
+    CopperMine,
+    IronMine,
 }
 
 /// <summary>
@@ -21,12 +26,21 @@ public class MapInfo
 {
     // 맵 오브젝트
     public GameObject place;
+    public Transform spawnPoint;
+
     // 딕셔너리로 입구와 스폰포인트 관리
     public Dictionary<GameObject, Transform> portals = new Dictionary<GameObject, Transform>();
 
     public MapInfo(GameObject place)
     {
         this.place = place;
+    }
+
+    // 광산용. temp
+    public MapInfo(GameObject place, Transform spawnPoint)
+    {
+        this.place = place;
+        this.spawnPoint = spawnPoint;
     }
 }
 
@@ -38,10 +52,6 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
 
-    [Header("Player")]
-    [SerializeField] private GameObject player;
-
-
     // 추후 리스트로 변경하기
     [Header("Map")]
     [SerializeField] private GameObject home;
@@ -51,6 +61,12 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject mineEntrance;
     [SerializeField] private GameObject mine;
     [SerializeField] private GameObject beach;
+    
+    // temp
+    [SerializeField] private GameObject stoneMine;
+    [SerializeField] private GameObject copperMine;
+    [SerializeField] private GameObject ironMine;
+
 
     [Header("Entrance")]
     [SerializeField] private GameObject fromHomeToFarm;
@@ -65,6 +81,11 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject fromMineToME;     // temp
     [SerializeField] private GameObject fromRoadToBeach;
     [SerializeField] private GameObject fromBeachToRoad;
+    
+    // temp
+    [SerializeField] private GameObject fromStoneToME;
+    [SerializeField] private GameObject fromCopperToME;
+    [SerializeField] private GameObject fromIronToME;
 
 
     [Header("SpawnPoint")]
@@ -82,6 +103,14 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform mineCenter;
     [SerializeField] private Transform beachUp;
 
+    // temp
+    [SerializeField] private Transform stoneCenter;
+    [SerializeField] private Transform copperCenter;
+    [SerializeField] private Transform ironCenter;
+
+
+    [Header("UI")]
+    public MineSelectUI mineSelectUI;
 
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
@@ -111,7 +140,7 @@ public class MapManager : MonoBehaviour
 
         // 디폴트 = 집에서 스폰
         home.SetActive(true);
-        player.transform.position = homeCenter.position;
+        GameManager.Instance.player.transform.position = homeCenter.position;
     }
 
     /// <summary>
@@ -146,6 +175,14 @@ public class MapManager : MonoBehaviour
         MapInfo beachInfo = new(beach);
         beachInfo.portals.Add(fromBeachToRoad, roadDown);
 
+        // temp
+        MapInfo stoneMineInfo = new(stoneMine, stoneCenter);
+        stoneMineInfo.portals.Add(fromStoneToME, mEUp);
+        MapInfo copperMineInfo = new(copperMine, copperCenter);
+        copperMineInfo.portals.Add(fromCopperToME, mEUp);
+        MapInfo ironMineInfo = new(ironMine, ironCenter);
+        ironMineInfo.portals.Add(fromIronToME, mEUp);
+
 
         // 매핑위한 딕셔너리 추가
         maps = new Dictionary<MapType, MapInfo>()
@@ -157,6 +194,11 @@ public class MapManager : MonoBehaviour
             { MapType.MineEntrance, mineEntranceInfo },
             { MapType.Mine, mineInfo },
             { MapType.Beach, beachInfo },
+            
+            // temp
+            { MapType.StoneMine, stoneMineInfo },
+            { MapType.CopperMine, copperMineInfo },
+            { MapType.IronMine, ironMineInfo },
         };
     }
 
@@ -165,10 +207,9 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void LoadMap(MapType targetType, GameObject entrance)
     {
-        PlayerInput input = player.GetComponent<PlayerInput>();
-        
+        if(GameManager.Instance.player.TryGetComponent(out PlayerInput input))
+            input.enabled = false;
         virtualCamera.enabled = false;
-        input.enabled = false;
 
         StartCoroutine(fader.Fade(() =>
         {
@@ -180,6 +221,21 @@ public class MapManager : MonoBehaviour
             {
                 targetMapInfo.place.SetActive(true);
                 SetPlayerPosition(entrance);
+
+                StuffSpawner spawner = targetMapInfo.place.GetComponentInChildren<StuffSpawner>();
+
+                if (spawner)
+                {
+                    Debug.Log("스포너 찾기 성공");
+                    for (int i = 0; i < 100; i++)
+                    {
+                        spawner.SpawnStuff();
+                    }
+                }
+                else
+                    Debug.Log("스포너 찾기 실패");
+
+
                 currentMap = targetType;
             }
             virtualCamera.enabled = true;
@@ -223,8 +279,53 @@ public class MapManager : MonoBehaviour
         {
             if (currentMapInfo.portals.TryGetValue(entrance, out Transform spawnPoint))
             {
-                player.transform.position = spawnPoint.position;
+                GameManager.Instance.player.transform.position = spawnPoint.position;
             }
         }
+    }
+
+
+    // 광산용. temp
+    public void LoadMine(MapType selectedType)
+    {
+        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
+            input.enabled = false;
+
+        virtualCamera.enabled = false;
+
+        StartCoroutine(fader.Fade(() =>
+        {
+            // 1. 현재 맵 비활성화
+            UnloadMap(currentMap);
+
+            // 2. 타겟 맵 활성화
+            if (maps.TryGetValue(selectedType, out MapInfo targetMapInfo))
+            {
+                targetMapInfo.place.SetActive(true);
+                GameManager.Instance.player.transform.position = targetMapInfo.spawnPoint.position;
+
+                StuffSpawner spawner = targetMapInfo.place.GetComponentInChildren<StuffSpawner>();
+
+                if (spawner)
+                {
+                    Debug.Log("스포너 찾기 성공");
+                    for (int i = 0; i < 30; i++)
+                    {
+                        spawner.SpawnStuff();
+                    }
+                }
+                else
+                    Debug.Log("스포너 찾기 실패");
+
+                currentMap = selectedType;
+            }
+            virtualCamera.enabled = true;
+        },
+
+        () =>
+        {
+            input.enabled = true;
+        }
+        ));
     }
 }
