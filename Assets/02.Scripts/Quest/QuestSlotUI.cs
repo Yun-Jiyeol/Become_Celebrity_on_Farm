@@ -27,11 +27,18 @@ public class QuestSlotUI : MonoBehaviour
         {
             if (i < acceptedQuests.Count)
             {
-                slotTexts[i].text = $" {acceptedQuests[i].questTitle}";
+                QuestData quest = acceptedQuests[i];
+                string title = quest.questTitle;
+                string description = quest.questDescription;
+                string shortdescription = quest.shortDescription;
+                int currentProgress = 0; // 초기값 (추후 업데이트로 변경 가능)
+                int target = quest.objectiveAmount;
+
+                slotTexts[i].text = $"{i + 1}.{title}\n{shortdescription} ({currentProgress}/{target})";
             }
             else
             {
-                slotTexts[i].text = ""; // 남은 슬롯은 비워둠
+                slotTexts[i].text = "";
             }
         }
     }
