@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     public GameObject MouseFollower;
     public GameObject PlayerRange;
+    public GameObject FishingGauge;
 
     public List<GameObject> OnActive;
     public List<GameObject> TagOnMouse;

@@ -10,6 +10,8 @@ public class PlayerAnimation : BaseAnimation
     string SickleParameterName = "Sickle";
     string PickaxeParameterName = "PickAxe";
     string AxeParameterName = "Axe";
+    string FishingParameterName = "Fishing";
+    string FishingStateParameterName = "FishingState";
 
     public int SpeedParameterHash { get; private set; }
     public int HoeParameterHash { get; private set; }
@@ -17,6 +19,8 @@ public class PlayerAnimation : BaseAnimation
     public int SickleParameterHash { get; private set; }
     public int PickaxeParameterHash { get; private set; }
     public int AxeParameterHash { get; private set; }
+    public int FishingParameterHash { get; private set; }
+    public int FishingStateParameterHash { get; private set; }
 
     private void Start()
     {
@@ -36,6 +40,8 @@ public class PlayerAnimation : BaseAnimation
         SickleParameterHash = Animator.StringToHash(SickleParameterName);
         PickaxeParameterHash = Animator.StringToHash(PickaxeParameterName);
         AxeParameterHash = Animator.StringToHash(AxeParameterName);
+        FishingParameterHash = Animator.StringToHash(FishingParameterName);
+        FishingStateParameterHash = Animator.StringToHash(FishingStateParameterName);
     }
 
     private void FixedUpdate()

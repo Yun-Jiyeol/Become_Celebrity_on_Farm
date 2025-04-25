@@ -32,6 +32,8 @@ public class PlayerController : BaseController
     PlayerInteractType nowInteractType;
     ItemType chooseItemType;
     GameObject PlayerInteractRange;
+    GameObject MouseInteract;
+    GameObject FishingGauge;
     public float ItemDamage = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
@@ -51,6 +53,9 @@ public class PlayerController : BaseController
 
         PlayerInteractRange = Instantiate(GameManager.Instance.PlayerRange);
         PlayerInteractRange.SetActive(false);
+        MouseInteract = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower;
+        FishingGauge = Instantiate(GameManager.Instance.FishingGauge);
+        FishingGauge.SetActive(false);
         Invoke("lateStart", 0.1f);
     }
 
@@ -234,12 +239,60 @@ public class PlayerController : BaseController
             switch (chooseItemType)
             {
                 case ItemType.FishingRod:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.FishingParameterHash);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash,0);
 
+                    FishingGauge.SetActive(true);
+                    FishingGauge.transform.position = gameObject.transform.position;
+                    FishingGauge.GetComponent<FishingGauge>().MoveGauge(0f);
+
+                    MouseInteract.SetActive(true);
+                    MouseInteract.transform.position = new Vector3(gameObject.transform.position.x + dir.x * 2, gameObject.transform.position.y + dir.y * 2,0);
+
+                    StartCoroutine(FishingChargingCoroutine());
                     break;
                 default:
-                    TryHandInteract();
                     break;
             }
+        }
+    }
+
+    IEnumerator FishingChargingCoroutine()
+    {
+        float Charge = 0f;
+        float MaxCharge = 1f;
+        int Mul = 1;
+
+        while (true)
+        {
+            if (Charge > MaxCharge)
+            {
+                Mul = -1;
+            }
+            else if (Charge < 0)
+            {
+                Mul += 1;
+            }
+
+            Charge += Time.deltaTime * Mul;
+            FishingGauge.GetComponent<FishingGauge>().MoveGauge(Charge / MaxCharge);
+
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 1);
+                break;
+            }
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (!GameManager.Instance.TagIsInMouse(new string[] { "Fishable" }))
+        {
+            gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
         }
     }
 
@@ -393,6 +446,8 @@ public class PlayerController : BaseController
 
     void ChangeSlot(int num)
     {
+        if (isAction) return;
+
         PlayerChoosNum = num;
         if (PlayerChoosNum != nownum)
         {
@@ -443,7 +498,7 @@ public class PlayerController : BaseController
                 nowInteractType = PlayerInteractType.Range;
 
                 PlayerInteractRange.gameObject.SetActive(true);
-                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
+                MouseInteract.SetActive(false);
                 gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
                 break;
 
@@ -458,7 +513,7 @@ public class PlayerController : BaseController
                 nowInteractType = PlayerInteractType.Charge;
 
                 PlayerInteractRange.gameObject.SetActive(false);
-                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
+                MouseInteract.SetActive(false);
                 gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
                 break;
         }
