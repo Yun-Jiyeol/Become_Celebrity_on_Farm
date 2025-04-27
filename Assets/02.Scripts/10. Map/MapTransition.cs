@@ -13,6 +13,7 @@ public class MapTransition : MonoBehaviour
     {
         if (!collision.CompareTag("Player")) return;
 
+        // Mine은 UI에서 선택되기 때문에 다르게 처리
         if (targetType == MapType.Mine)
         {
             MapManager.Instance.mineSelectUI.SetMineEntrance(this);
@@ -32,9 +33,8 @@ public class MapTransition : MonoBehaviour
     /// <summary>
     /// MineEntrance에서 사용
     /// </summary>
-    /// <param name="selectedType"></param>
-    public void LoadSelectedMine(MapType selectedType)
+    public void SelectMine(MapType selectedType)
     {
-        MapManager.Instance.LoadMine(selectedType);
+        MapManager.Instance.LoadMap(selectedType, this.gameObject);
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class StuffSpawner : MonoBehaviour
 {
-    // 생각할 것: 계절?
+    // 생각할 것: 중복 스폰 막기
 
     // 스폰될 타일맵
     [SerializeField] private Tilemap tilemap;
