@@ -266,7 +266,6 @@ public class PlayerController : BaseController
 
     IEnumerator FishingChargingCoroutine()
     {
-
         float Charge = 0f;
         float MaxCharge = 1f;
         int Mul = 1;
@@ -352,7 +351,7 @@ public class PlayerController : BaseController
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
-                    MiniGame();
+                    GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(4);
                     break;
                 }
                 yield return null;
@@ -360,11 +359,18 @@ public class PlayerController : BaseController
         }
     }
 
-    void MiniGame()
+    public void EndFishing(bool isSuccess)
     {
-
+        if (isSuccess)
+        {
+            gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 4);
+        }
+        else
+        {
+            gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+        }
+        EndAction();
     }
-
 
     void SaveDirextionInfo()
     {

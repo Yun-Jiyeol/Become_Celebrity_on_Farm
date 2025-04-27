@@ -11,6 +11,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
+    public MinigameManager minigameManager;
 
     public GameObject player;
     public Camera camera;
