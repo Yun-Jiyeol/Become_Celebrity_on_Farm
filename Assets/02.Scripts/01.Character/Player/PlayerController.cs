@@ -251,7 +251,6 @@ public class PlayerController : BaseController
                 case ItemType.FishingRod:
                     tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
                     CheckAngle();
-                    Debug.Log(dir);
                     isAction = true;
 
                     FishingGauge.SetActive(true);
@@ -362,7 +361,6 @@ public class PlayerController : BaseController
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
                     LastItemNum = GameManager.Instance.minigameManager.fishingMinigame.CheckHookedFish((int)((1- percentage) * 5));
-                    Debug.Log(LastItemNum);
                     GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(4);
                     break;
                 }

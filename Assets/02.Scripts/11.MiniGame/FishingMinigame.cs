@@ -54,15 +54,12 @@ public class FishingMinigame : MonoBehaviour
             }
         }
 
-        Debug.Log(Sum);
         int ChoosedNum = Random.Range(0, Sum);
-        Debug.Log(ChoosedNum);
 
         for (int i = 0; i < Persentage.Count; i++)
         {
             if(ChoosedNum <= Persentage[i])
             {
-                Debug.Log(HookedItemNum[i]);
                 return HookedItemNum[i];
             }
             else
