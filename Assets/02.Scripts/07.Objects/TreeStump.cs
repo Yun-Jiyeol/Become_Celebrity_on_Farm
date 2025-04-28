@@ -35,7 +35,7 @@ public class TreeStump : MonoBehaviour, IHaveHP, IInteract
     {
         //플레이어의 도끼? 공격력를 받아와 데미지 계산하는 로직을 추가
 
-        GetDamage(-10);
+        GetDamage(-(GameManager.Instance.player.GetComponent<Player>().stat.Attack + GameManager.Instance.player.GetComponent<Player>().playerController.ItemDamage));
     }
     IEnumerator DamageCoroutine()
     {

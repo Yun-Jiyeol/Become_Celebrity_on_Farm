@@ -10,40 +10,42 @@ public enum MapType
     Village,
     MineEntrance,
     Mine,
-    Beach,
-
-    // Mine
     StoneMine,
     CopperMine,
     IronMine,
+    Beach,
+}
+
+
+/// <summary>
+/// 입구, 스폰포인트 묶을 클래스
+/// </summary>
+[System.Serializable]
+public class Portal
+{
+    public GameObject entrance;
+    public List<Transform> spawnPoints;
 }
 
 /// <summary>
 /// 맵 정보를 담을 클래스
 /// </summary>
 [System.Serializable]
-public class MapInfo
+public class Map
 {
-    // 맵 오브젝트
+    public MapType mapType;
     public GameObject place;
-    public Transform spawnPoint;
-
-    // 딕셔너리로 입구와 스폰포인트 관리
-    public Dictionary<GameObject, Transform> portals = new Dictionary<GameObject, Transform>();
-
-    public MapInfo(GameObject place)
-    {
-        this.place = place;
-    }
-
-    // 광산용. temp
-    public MapInfo(GameObject place, Transform spawnPoint)
-    {
-        this.place = place;
-        this.spawnPoint = spawnPoint;
-    }
+    public List<Portal> portals;
 }
 
+/// <summary>
+/// Map을 모아둘 클래스
+/// </summary>
+[System.Serializable]
+public class MapList
+{
+    public List<Map> maps;
+}
 
 /// <summary>
 /// 맵 로직 매니저
@@ -52,62 +54,8 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
 
-    // 추후 리스트로 변경하기
-    [Header("Map")]
-    [SerializeField] private GameObject home;
-    [SerializeField] private GameObject farm;
-    [SerializeField] private GameObject road;
-    [SerializeField] private GameObject village;
-    [SerializeField] private GameObject mineEntrance;
-    [SerializeField] private GameObject mine;
-    [SerializeField] private GameObject beach;
-    
-    // temp
-    [SerializeField] private GameObject stoneMine;
-    [SerializeField] private GameObject copperMine;
-    [SerializeField] private GameObject ironMine;
-
-
-    [Header("Entrance")]
-    [SerializeField] private GameObject fromHomeToFarm;
-    [SerializeField] private GameObject fromFarmToHome;
-    [SerializeField] private GameObject fromFarmToRoad;
-    [SerializeField] private GameObject fromFarmToMineEntrance;
-    [SerializeField] private GameObject fromRoadToFarm;
-    [SerializeField] private GameObject fromRoadToVillage;
-    [SerializeField] private GameObject fromVillageToRoad;
-    [SerializeField] private GameObject fromMEToFarm;
-    [SerializeField] private GameObject fromMEToMine;
-    [SerializeField] private GameObject fromMineToME;     // temp
-    [SerializeField] private GameObject fromRoadToBeach;
-    [SerializeField] private GameObject fromBeachToRoad;
-    
-    // temp
-    [SerializeField] private GameObject fromStoneToME;
-    [SerializeField] private GameObject fromCopperToME;
-    [SerializeField] private GameObject fromIronToME;
-
-
-    [Header("SpawnPoint")]
-    [SerializeField] private Transform homeCenter;
-    [SerializeField] private Transform homeDown;
-    [SerializeField] private Transform farmCenter;
-    [SerializeField] private Transform farmDown;
-    [SerializeField] private Transform farmRight;
-    [SerializeField] private Transform roadUp;
-    [SerializeField] private Transform roadRight;
-    [SerializeField] private Transform roadDown;
-    [SerializeField] private Transform villageLeft;
-    [SerializeField] private Transform mEDown;
-    [SerializeField] private Transform mEUp;
-    [SerializeField] private Transform mineCenter;
-    [SerializeField] private Transform beachUp;
-
-    // temp
-    [SerializeField] private Transform stoneCenter;
-    [SerializeField] private Transform copperCenter;
-    [SerializeField] private Transform ironCenter;
-
+    [Header("MapInfo")]
+    [SerializeField] private List<Map> maps;
 
     [Header("UI")]
     public MineSelectUI mineSelectUI;
@@ -118,8 +66,9 @@ public class MapManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
 
-    Dictionary<MapType, MapInfo> maps;
+    readonly Dictionary<MapType, Map> mapPair = new();
     MapType currentMap = MapType.Home;
+    MapType targetType;
 
 
     void Awake()
@@ -136,80 +85,37 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         SetMap();
-        UnloadAllMap();
 
-        // 디폴트 = 집에서 스폰
-        home.SetActive(true);
-        GameManager.Instance.player.transform.position = homeCenter.position;
+        UnloadAllMap();
+        if(mapPair.TryGetValue(MapType.Home, out Map homeMap))
+        {
+            homeMap.place.SetActive(true);
+        }
     }
 
+
     /// <summary>
-    /// 맵 세팅 시작. 장소 추가될 때마다 맵 생성 필요
+    /// MapType - Map 연결해서 딕셔너리에 저장
     /// </summary>
     void SetMap()
     {
-        // 맵 정보 세팅
-        MapInfo homeInfo = new(home);
-        homeInfo.portals.Add(fromHomeToFarm, farmCenter);
-
-        MapInfo farmInfo = new(farm);
-        farmInfo.portals.Add(fromFarmToHome, homeDown);
-        farmInfo.portals.Add(fromFarmToRoad, roadUp);
-        farmInfo.portals.Add(fromFarmToMineEntrance, mEDown);
-
-        MapInfo roadInfo = new(road);
-        roadInfo.portals.Add(fromRoadToFarm, farmDown);
-        roadInfo.portals.Add(fromRoadToVillage, villageLeft);
-        roadInfo.portals.Add(fromRoadToBeach, beachUp);
-
-        MapInfo villageInfo = new(village);
-        villageInfo.portals.Add(fromVillageToRoad, roadRight);
-
-        MapInfo mineEntranceInfo = new(mineEntrance);
-        mineEntranceInfo.portals.Add(fromMEToFarm, farmRight);
-        mineEntranceInfo.portals.Add(fromMEToMine, mineCenter);
-
-        MapInfo mineInfo = new(mine);
-        mineInfo.portals.Add(fromMineToME, mEUp);
-
-        MapInfo beachInfo = new(beach);
-        beachInfo.portals.Add(fromBeachToRoad, roadDown);
-
-        // temp
-        MapInfo stoneMineInfo = new(stoneMine, stoneCenter);
-        stoneMineInfo.portals.Add(fromStoneToME, mEUp);
-        MapInfo copperMineInfo = new(copperMine, copperCenter);
-        copperMineInfo.portals.Add(fromCopperToME, mEUp);
-        MapInfo ironMineInfo = new(ironMine, ironCenter);
-        ironMineInfo.portals.Add(fromIronToME, mEUp);
-
-
-        // 매핑위한 딕셔너리 추가
-        maps = new Dictionary<MapType, MapInfo>()
+        foreach (Map map in maps)
         {
-            { MapType.Home, homeInfo },
-            { MapType.Farm, farmInfo },
-            { MapType.Road, roadInfo },
-            { MapType.Village, villageInfo },
-            { MapType.MineEntrance, mineEntranceInfo },
-            { MapType.Mine, mineInfo },
-            { MapType.Beach, beachInfo },
-            
-            // temp
-            { MapType.StoneMine, stoneMineInfo },
-            { MapType.CopperMine, copperMineInfo },
-            { MapType.IronMine, ironMineInfo },
-        };
+            mapPair[map.mapType] = map;
+        }
     }
 
     /// <summary>
     /// 플레이어가 이동할 때 타겟 맵 활성화
     /// </summary>
-    public void LoadMap(MapType targetType, GameObject entrance)
+    public void LoadMap(MapType targetType, GameObject entrance = null)
     {
-        if(GameManager.Instance.player.TryGetComponent(out PlayerInput input))
+        // 0. Fade 동안 카메라 움직임, input 막기
+        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
+        {
             input.enabled = false;
-        virtualCamera.enabled = false;
+            virtualCamera.enabled = false;
+        }
 
         StartCoroutine(fader.Fade(() =>
         {
@@ -217,27 +123,28 @@ public class MapManager : MonoBehaviour
             UnloadMap(currentMap);
 
             // 2. 타겟 맵 활성화
-            if (maps.TryGetValue(targetType, out MapInfo targetMapInfo))
+            if (mapPair.TryGetValue(targetType, out Map targetMap))
             {
-                targetMapInfo.place.SetActive(true);
-                SetPlayerPosition(entrance);
+                // 2-1. 타겟 맵 활성화, 플레이어 스폰 위치로 이동
+                targetMap.place.SetActive(true);
+                SetPlayerPosition(targetMap, entrance);
 
-                StuffSpawner spawner = targetMapInfo.place.GetComponentInChildren<StuffSpawner>();
+                // 2-2. 채집 요소 스폰
+                StuffSpawner spawner = targetMap.place.GetComponentInChildren<StuffSpawner>();
 
                 if (spawner)
                 {
-                    Debug.Log("스포너 찾기 성공");
+                    //Debug.Log("스포너 찾기 성공");
                     for (int i = 0; i < 100; i++)
                     {
                         spawner.SpawnStuff();
                     }
                 }
-                else
-                    Debug.Log("스포너 찾기 실패");
-
-
-                currentMap = targetType;
+                //else
+                //    Debug.Log("스포너 찾기 실패");
             }
+
+            currentMap = targetType;
             virtualCamera.enabled = true;
         },
 
@@ -251,12 +158,10 @@ public class MapManager : MonoBehaviour
     /// <summary>
     /// 현재 맵 비활성화
     /// </summary>
-    void UnloadMap(MapType currentMap)
+    void UnloadMap(MapType currentType)
     {
-        if (maps.TryGetValue(currentMap, out MapInfo targetMap))
-        {
-            targetMap.place.SetActive(false);
-        }
+        if (mapPair.TryGetValue(currentType, out Map currentMap))
+            currentMap.place.SetActive(false);
     }
 
     /// <summary>
@@ -264,7 +169,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     void UnloadAllMap()
     {
-        foreach (KeyValuePair<MapType, MapInfo> map in maps)
+        foreach (KeyValuePair<MapType, Map> map in mapPair)
         {
             map.Value.place.SetActive(false);
         }
@@ -273,59 +178,65 @@ public class MapManager : MonoBehaviour
     /// <summary>
     /// entrance에 따른 플레이어 스폰 위치 설정
     /// </summary>
-    void SetPlayerPosition(GameObject entrance)
+    void SetPlayerPosition(Map targetMap, GameObject entrance = null)
     {
-        if (maps.TryGetValue(currentMap, out MapInfo currentMapInfo))
+        // 1. 해당 맵에서 입구가 없을 때. 스폰포인트만 있다면 리스트 첫 번째로 둘 것
+        if (entrance == null)
         {
-            if (currentMapInfo.portals.TryGetValue(entrance, out Transform spawnPoint))
+            GameManager.Instance.player.transform.position = targetMap.portals[0].spawnPoints[0].position;
+            return;
+        }
+        // 2. 해당 맵에서 입구가 있을 때
+        else
+        {
+            if (mapPair.TryGetValue(currentMap, out Map cur))
             {
-                GameManager.Instance.player.transform.position = spawnPoint.position;
+                foreach (Portal portal in cur.portals)
+                {
+                    if (portal.entrance == entrance)
+                    {
+                        // 2-1. 입구 1개 - 스폰포인트 1개
+                        if (portal.spawnPoints.Count == 1)
+                        {
+                            GameManager.Instance.player.transform.position = portal.spawnPoints[0].position;
+                        }
+                        // 2-2. 입구 1개 - 스폰포인트 n개
+                        else
+                        {
+                            foreach (KeyValuePair<MapType, Map> pair in mapPair)
+                            {
+                                if (pair.Value == targetMap)
+                                {
+                                    targetType = pair.Key;
+                                    break;
+                                }
+                            }
+
+                            int index = GetSpawnIndex(targetType);
+                            Debug.Log(index);
+                            GameManager.Instance.player.transform.position = portal.spawnPoints[index].position;
+                        }
+                    }
+                }
             }
         }
     }
 
-
-    // 광산용. temp
-    public void LoadMine(MapType selectedType)
+    /// <summary>
+    /// 입구 1개에 스폰포인트가 여러 개일 때 index 추출
+    /// </summary>
+    int GetSpawnIndex(MapType selectedType)
     {
-        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
-            input.enabled = false;
-
-        virtualCamera.enabled = false;
-
-        StartCoroutine(fader.Fade(() =>
+        switch (selectedType)
         {
-            // 1. 현재 맵 비활성화
-            UnloadMap(currentMap);
-
-            // 2. 타겟 맵 활성화
-            if (maps.TryGetValue(selectedType, out MapInfo targetMapInfo))
-            {
-                targetMapInfo.place.SetActive(true);
-                GameManager.Instance.player.transform.position = targetMapInfo.spawnPoint.position;
-
-                StuffSpawner spawner = targetMapInfo.place.GetComponentInChildren<StuffSpawner>();
-
-                if (spawner)
-                {
-                    Debug.Log("스포너 찾기 성공");
-                    for (int i = 0; i < 30; i++)
-                    {
-                        spawner.SpawnStuff();
-                    }
-                }
-                else
-                    Debug.Log("스포너 찾기 실패");
-
-                currentMap = selectedType;
-            }
-            virtualCamera.enabled = true;
-        },
-
-        () =>
-        {
-            input.enabled = true;
+            case MapType.StoneMine: 
+                return 0; 
+            case MapType.CopperMine: 
+                return 1;
+            case MapType.IronMine: 
+                return 2;
+            default: 
+                return 99;
         }
-        ));
     }
 }

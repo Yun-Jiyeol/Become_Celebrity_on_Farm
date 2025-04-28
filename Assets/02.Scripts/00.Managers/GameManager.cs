@@ -11,11 +11,13 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
+    public MinigameManager minigameManager;
 
     public GameObject player;
     public Camera camera;
     public GameObject MouseFollower;
     public GameObject PlayerRange;
+    public GameObject FishingGauge;
 
     public List<GameObject> OnActive;
     public List<GameObject> TagOnMouse;
