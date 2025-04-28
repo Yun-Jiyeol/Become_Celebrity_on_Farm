@@ -67,6 +67,7 @@ public class PlayerStats : MonoBehaviour
     {
         Hp = Mathf.Clamp(Hp + amount, 0, MaxHp);
         OnStatChanged?.Invoke();
+
     }
 
     public void ChangeMana(float amount)

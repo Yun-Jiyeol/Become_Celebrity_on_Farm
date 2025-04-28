@@ -28,10 +28,12 @@ public class PlayerStatTester : MonoBehaviour
     private void ChangeHp(float amount)
     {
         player.Hp = Mathf.Clamp(player.Hp + amount, 0, player.MaxHp);
+        Debug.Log($"[TEST] 현재 체력: {player.Hp} / {player.MaxHp}");
     }
 
     private void ChangeMana(float amount)
     {
         player.Mana = Mathf.Clamp(player.Mana + amount, 0, player.MaxMana);
+        Debug.Log($"[TEST] 현재 마나: {player.Mana} / {player.MaxMana}");
     }
 }
