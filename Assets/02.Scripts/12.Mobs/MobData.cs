@@ -31,6 +31,7 @@ public class MobData : MonoBehaviour
     public GameObject EarthSmallerB;
     public GameObject SlimeD;
 
+
     void Awake()
     {
         // StoneMine 기본 설정
