@@ -87,7 +87,10 @@ public class MapManager : MonoBehaviour
         SetMap();
 
         UnloadAllMap();
-        LoadMap(currentMap);
+        if(mapPair.TryGetValue(MapType.Home, out Map homeMap))
+        {
+            homeMap.place.SetActive(true);
+        }
     }
 
 
@@ -114,8 +117,8 @@ public class MapManager : MonoBehaviour
             virtualCamera.enabled = false;
         }
 
-        StartCoroutine(fader.Fade(() =>
-        {
+        //StartCoroutine(fader.Fade(() =>
+        //{
             // 1. 현재 맵 비활성화
             UnloadMap(currentMap);
 
@@ -143,13 +146,13 @@ public class MapManager : MonoBehaviour
 
             currentMap = targetType;
             virtualCamera.enabled = true;
-        },
+        //},
 
-        () =>
-        {
+        //() =>
+        //{
             input.enabled = true;
-        }
-        ));
+        //}
+        //));
     }
 
     /// <summary>
