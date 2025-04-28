@@ -36,6 +36,7 @@ public class Map
     public MapType mapType;
     public GameObject place;
     public List<Portal> portals;
+    public Transform defaultSpawn;
 }
 
 /// <summary>
@@ -54,6 +55,9 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
 
+    [Header("MapType")]
+    [SerializeField] private MapType currentMap;
+
     [Header("MapInfo")]
     [SerializeField] private List<Map> maps;
 
@@ -67,7 +71,6 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
 
     readonly Dictionary<MapType, Map> mapPair = new();
-    MapType currentMap = MapType.Home;
     MapType targetType;
 
 
@@ -87,9 +90,11 @@ public class MapManager : MonoBehaviour
         SetMap();
 
         UnloadAllMap();
-        if(mapPair.TryGetValue(MapType.Home, out Map homeMap))
+
+        if (mapPair.TryGetValue(currentMap, out Map map))
         {
-            homeMap.place.SetActive(true);
+            map.place.SetActive(true);
+            SetPlayerPosition(map);
         }
     }
 
@@ -183,7 +188,7 @@ public class MapManager : MonoBehaviour
         // 1. 해당 맵에서 입구가 없을 때. 스폰포인트만 있다면 리스트 첫 번째로 둘 것
         if (entrance == null)
         {
-            GameManager.Instance.player.transform.position = targetMap.portals[0].spawnPoints[0].position;
+            GameManager.Instance.player.transform.position = targetMap.defaultSpawn.position;
             return;
         }
         // 2. 해당 맵에서 입구가 있을 때
@@ -229,13 +234,13 @@ public class MapManager : MonoBehaviour
     {
         switch (selectedType)
         {
-            case MapType.StoneMine: 
-                return 0; 
-            case MapType.CopperMine: 
+            case MapType.StoneMine:
+                return 0;
+            case MapType.CopperMine:
                 return 1;
-            case MapType.IronMine: 
+            case MapType.IronMine:
                 return 2;
-            default: 
+            default:
                 return 99;
         }
     }
