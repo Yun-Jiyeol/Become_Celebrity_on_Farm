@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor.VersionControl;
@@ -32,7 +33,9 @@ public class PlayerController : BaseController
     PlayerInteractType nowInteractType;
     ItemType chooseItemType;
     GameObject PlayerInteractRange;
-
+    GameObject MouseInteract;
+    GameObject FishingGauge;
+    public float ItemDamage = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
     public class RangeInteract
@@ -51,6 +54,9 @@ public class PlayerController : BaseController
 
         PlayerInteractRange = Instantiate(GameManager.Instance.PlayerRange);
         PlayerInteractRange.SetActive(false);
+        MouseInteract = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower;
+        FishingGauge = Instantiate(GameManager.Instance.FishingGauge);
+        FishingGauge.SetActive(false);
         Invoke("lateStart", 0.1f);
     }
 
@@ -69,6 +75,7 @@ public class PlayerController : BaseController
     void OnMove(InputValue inputValue)
     {
         if (UIManager.Instance.InventoryIsOpen()) return;
+        if (isAction == true) return;
 
         dir = inputValue.Get<Vector2>();
     }
@@ -101,6 +108,8 @@ public class PlayerController : BaseController
 
                     CheckAngle();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
 
                     if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
@@ -115,6 +124,8 @@ public class PlayerController : BaseController
 
                     CheckAngle();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.WateringParameterHash);
 
                     if (GameManager.Instance.TagIsInMouse(new string[] { "Plow" }))
@@ -172,7 +183,7 @@ public class PlayerController : BaseController
         {
             PlayerInteractRange.SetActive(true);
             PlayerInteractRange.transform.position = gameObject.transform.position;
-            PlayerInteractRange.transform.localScale = Vector3.one * 2.5f; //범위는 아이템에서 가져오기
+            PlayerInteractRange.transform.localScale = Vector3.one * 2.5f * gameObject.GetComponent<Player>().stat.ActiveRange; //범위는 아이템에서 가져오기
 
             switch (chooseItemType)
             {
@@ -181,6 +192,8 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SickleParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
@@ -194,6 +207,8 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
@@ -207,6 +222,8 @@ public class PlayerController : BaseController
                     CheckAngle();
                     SaveDirextionInfo();
                     isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.PickaxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
@@ -224,14 +241,135 @@ public class PlayerController : BaseController
             switch (chooseItemType)
             {
                 case ItemType.FishingRod:
-                    int i = 0;
-                    Debug.Log(i++);
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    Debug.Log(dir);
+                    isAction = true;
+
+                    FishingGauge.SetActive(true);
+                    FishingGauge.transform.position = gameObject.transform.position;
+                    FishingGauge.GetComponent<FishingGauge>().MoveGauge(0f);
+
+                    MouseInteract.SetActive(true);
+                    MouseInteract.transform.position = new Vector3(gameObject.transform.position.x + dir.x * 2, gameObject.transform.position.y + dir.y * 2,0);
+
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.FishingParameterHash);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+
+                    StartCoroutine(FishingChargingCoroutine());
                     break;
                 default:
-                    TryHandInteract();
                     break;
             }
         }
+    }
+
+    IEnumerator FishingChargingCoroutine()
+    {
+        float Charge = 0f;
+        float MaxCharge = 1f;
+        int Mul = 1;
+
+        while (true)
+        {
+            if (Charge > MaxCharge)
+            {
+                Mul = -1;
+            }
+            else if (Charge < 0)
+            {
+                Mul += 1;
+            }
+
+            Charge += Time.deltaTime * Mul;
+            FishingGauge.GetComponent<FishingGauge>().MoveGauge(Charge / MaxCharge);
+
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 1);
+                break;
+            }
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        FishingGauge.SetActive(false);
+
+        if (GameManager.Instance.TagIsInMouse(new string[] { "Fishable" }))
+        {
+            StartCoroutine(IdleFishing());
+        }
+        else
+        {
+            gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+            EndAction();
+        }
+    }
+
+    IEnumerator IdleFishing()
+    {
+        bool isHooked = false;
+        float HookedTime = UnityEngine.Random.Range(3f,7f);
+        float NowTime = 0f;
+
+        while (true)
+        {
+            NowTime += Time.deltaTime;
+
+            if (NowTime > HookedTime)
+            {
+                gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 2);
+                isHooked = true;
+                break;
+            }
+
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                EndAction();
+                break;
+            }
+            yield return null;
+        }
+
+        if (isHooked)
+        {
+            NowTime = 0;
+
+            while (true)
+            {
+                NowTime += Time.deltaTime;
+
+                if (NowTime > 2)
+                {
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                    EndAction();
+                    break;
+                }
+
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
+                    GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(4);
+                    break;
+                }
+                yield return null;
+            }
+        }
+    }
+
+    public void EndFishing(bool isSuccess)
+    {
+        if (isSuccess)
+        {
+            gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 4);
+        }
+        else
+        {
+            gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+        }
+        EndAction();
     }
 
     void SaveDirextionInfo()
@@ -283,6 +421,7 @@ public class PlayerController : BaseController
     public void EndAction()
     {
         dir = Vector2.zero;
+        gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash, 1f);
         isAction = false;
     }
 
@@ -383,13 +522,17 @@ public class PlayerController : BaseController
 
     void ChangeSlot(int num)
     {
+        if (isAction) return;
+
         PlayerChoosNum = num;
         if (PlayerChoosNum != nownum)
         {
             nownum = PlayerChoosNum;
             QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
+            gameObject.GetComponent<Player>().stat.ActiveRange = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Range;
+            ItemDamage = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Damage;
 
-            if(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
+            if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
             {
                 chooseItemType = ItemType.Except;
             }
@@ -431,7 +574,7 @@ public class PlayerController : BaseController
                 nowInteractType = PlayerInteractType.Range;
 
                 PlayerInteractRange.gameObject.SetActive(true);
-                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
+                MouseInteract.SetActive(false);
                 gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
                 break;
 
@@ -446,7 +589,7 @@ public class PlayerController : BaseController
                 nowInteractType = PlayerInteractType.Charge;
 
                 PlayerInteractRange.gameObject.SetActive(false);
-                gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.SetActive(false);
+                MouseInteract.SetActive(false);
                 gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
                 break;
         }

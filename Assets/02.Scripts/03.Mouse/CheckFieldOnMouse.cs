@@ -5,20 +5,12 @@ using UnityEngine;
 public class CheckFieldOnMouse : MonoBehaviour
 {
     public GameObject MouseFollower;
-    private float ActiveRange;
     Camera camera;
 
     private void Start()
     {
         camera = GameManager.Instance.camera;
         MouseFollower = Instantiate(GameManager.Instance.MouseFollower);
-
-        settActiveRange();
-    }
-
-    public void settActiveRange()
-    {
-        ActiveRange = gameObject.GetComponent<Player>().stat.ActiveRange * 3;
     }
 
     private void Update()
@@ -27,7 +19,7 @@ public class CheckFieldOnMouse : MonoBehaviour
         MousePosition = camera.ScreenToWorldPoint(MousePosition);
         Vector3 RoundPosition = new Vector2(Mathf.RoundToInt(MousePosition.x / 1.6f), Mathf.RoundToInt(MousePosition.y / 1.6f));
 
-        if (Vector2.Distance(MousePosition, transform.position) <= ActiveRange)
+        if (Vector2.Distance(MousePosition, transform.position) <= gameObject.GetComponent<Player>().stat.ActiveRange * 3)
         {
             MouseFollower.SetActive(true);
             if(MouseFollower.transform.position != RoundPosition)

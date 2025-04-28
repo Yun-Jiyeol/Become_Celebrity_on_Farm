@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class PlayerAnimation : BaseAnimation
 {
+    string SpeedParameterName = "Speed";
     string HoeParameterName = "Hoe";
     string WateringParameterName = "Watering";
     string SickleParameterName = "Sickle";
     string PickaxeParameterName = "PickAxe";
     string AxeParameterName = "Axe";
+    string FishingParameterName = "Fishing";
+    string FishingStateParameterName = "FishingState";
 
+    public int SpeedParameterHash { get; private set; }
     public int HoeParameterHash { get; private set; }
     public int WateringParameterHash { get; private set; }
     public int SickleParameterHash { get; private set; }
     public int PickaxeParameterHash { get; private set; }
     public int AxeParameterHash { get; private set; }
+    public int FishingParameterHash { get; private set; }
+    public int FishingStateParameterHash { get; private set; }
 
     private void Start()
     {
@@ -28,11 +34,14 @@ public class PlayerAnimation : BaseAnimation
     {
         base.Initalize();
 
+        SpeedParameterHash = Animator.StringToHash(SpeedParameterName);
         HoeParameterHash = Animator.StringToHash(HoeParameterName);
         WateringParameterHash = Animator.StringToHash(WateringParameterName);
         SickleParameterHash = Animator.StringToHash(SickleParameterName);
         PickaxeParameterHash = Animator.StringToHash(PickaxeParameterName);
         AxeParameterHash = Animator.StringToHash(AxeParameterName);
+        FishingParameterHash = Animator.StringToHash(FishingParameterName);
+        FishingStateParameterHash = Animator.StringToHash(FishingStateParameterName);
     }
 
     private void FixedUpdate()
