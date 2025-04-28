@@ -3,24 +3,18 @@ using UnityEngine.UI;
 
 public class UIEnergyBar : MonoBehaviour
 {
-    [SerializeField] private Image fillImage;
+    [SerializeField] private Image energyFillImage;
     private PlayerStats player;
 
     public void Init(PlayerStats target)
     {
         player = target;
-        player.OnStatChanged += UpdateUI;
-        UpdateUI();
     }
 
-    private void UpdateUI()
+    private void Update()
     {
-        fillImage.fillAmount = player.Mana / player.MaxMana;
-    }
+        if (player == null) return;
 
-    private void OnDestroy()
-    {
-        if (player != null)
-            player.OnStatChanged -= UpdateUI;
+        energyFillImage.fillAmount = player.Mana / player.MaxMana;
     }
 }

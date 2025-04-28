@@ -3,24 +3,18 @@ using UnityEngine.UI;
 
 public class UIHpBar : MonoBehaviour
 {
-    [SerializeField] private Image fillImage;
+    [SerializeField] private Image hpFillImage;
     private PlayerStats player;
 
     public void Init(PlayerStats target)
     {
         player = target;
-        player.OnStatChanged += UpdateUI;
-        UpdateUI();
     }
 
-    private void UpdateUI()
+    private void Update()
     {
-        fillImage.fillAmount = player.Hp / player.MaxHp;
-    }
+        if (player == null) return;
 
-    private void OnDestroy()
-    {
-        if (player != null)
-            player.OnStatChanged -= UpdateUI;
+        hpFillImage.fillAmount = player.Hp / player.MaxHp;
     }
 }
