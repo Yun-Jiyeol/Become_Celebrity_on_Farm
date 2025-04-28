@@ -117,8 +117,8 @@ public class MapManager : MonoBehaviour
             virtualCamera.enabled = false;
         }
 
-        //StartCoroutine(fader.Fade(() =>
-        //{
+        StartCoroutine(fader.Fade(() =>
+        {
             // 1. 현재 맵 비활성화
             UnloadMap(currentMap);
 
@@ -134,25 +134,25 @@ public class MapManager : MonoBehaviour
 
                 if (spawner)
                 {
-                    Debug.Log("스포너 찾기 성공");
+                    //Debug.Log("스포너 찾기 성공");
                     for (int i = 0; i < 100; i++)
                     {
                         spawner.SpawnStuff();
                     }
                 }
-                else
-                    Debug.Log("스포너 찾기 실패");
+                //else
+                //    Debug.Log("스포너 찾기 실패");
             }
 
             currentMap = targetType;
             virtualCamera.enabled = true;
-        //},
+        },
 
-        //() =>
-        //{
+        () =>
+        {
             input.enabled = true;
-        //}
-        //));
+        }
+        ));
     }
 
     /// <summary>
