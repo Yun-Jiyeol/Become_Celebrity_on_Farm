@@ -22,8 +22,7 @@ public class ShopUI : MonoBehaviour
     private void Start()
     {
         TestManager.Instance.shopUIManager.shopUI = this;
-        //gameObject.SetActive(false);
-        StartShopping();
+        gameObject.SetActive(false);
     }
 
     public void StartShopping()
