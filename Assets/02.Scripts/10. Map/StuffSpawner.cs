@@ -13,25 +13,42 @@ public class StuffSpawner : ObjectPolling
     [SerializeField] private List<GameObject> stuffs;
     [SerializeField] private Transform onActiveObj;
     public int prefabCount = 100;
+    private int curDay;
 
     readonly HashSet<Vector3Int> usedPositions = new();
 
-    bool spawned = false;
+    bool isSpawned = false;
 
-    void Start()
+
+    void Awake()
     {
         InitializeStuffPool(prefabCount);
     }
 
+    void Start()
+    {
+        if (TimeManager.Instance != null)
+            curDay = TimeManager.Instance.currentDay;
+    }
+
+    void Update()
+    {
+        if (curDay != TimeManager.Instance.currentDay)
+        {
+            Debug.Log($"[StuffSpawner] 날짜 달라짐. {curDay}, {TimeManager.Instance.currentDay}");
+            curDay = TimeManager.Instance.currentDay;
+            SpawnStuff(10);
+        }
+    }
+
     void OnEnable()
     {
-        if (!spawned)
+        Debug.Log($"[StuffSpawner] 날짜 초기화. {curDay}, {TimeManager.Instance.currentDay}");
+
+        if (!isSpawned)
         {
-            for (int i = 0; i < prefabCount; i++)
-            {
-                SpawnStuff();
-                spawned = true;
-            }
+            SpawnStuff(prefabCount);
+            isSpawned = true;
         }
     }
 
@@ -57,16 +74,19 @@ public class StuffSpawner : ObjectPolling
     /// <summary>
     /// 랜덤 위치에 랜덤 프리팹 스폰
     /// </summary>
-    public void SpawnStuff()
+    void SpawnStuff(int count)
     {
-        Vector3 position = SetRandomPosition();
-        GameObject obj = SetStuff();
-        obj.transform.position = position;
-        obj.SetActive(true);
+        for (int i = 0; i < count; i++)
+        {
+            Vector3 position = SetRandomPosition();
+            GameObject obj = SetStuff();
+            obj.transform.position = position;
+            obj.SetActive(true);
+        }
     }
 
     /// <summary>
-    /// 1. 랜덤 위치 정하기
+    /// 랜덤 위치 정하기
     /// </summary>
     Vector3 SetRandomPosition()
     {
@@ -98,7 +118,7 @@ public class StuffSpawner : ObjectPolling
     }
 
     /// <summary>
-    /// 2. 프리팹 리턴
+    /// 프리팹 리턴
     /// </summary>
     GameObject SetStuff()
     {
