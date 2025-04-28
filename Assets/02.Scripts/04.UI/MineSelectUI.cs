@@ -39,19 +39,19 @@ public class MineSelectUI : UIBase
 
     void OnStoneButtonClick()
     {
-        mineEntrance.LoadSelectedMine(MapType.StoneMine);
+        mineEntrance.SelectMine(MapType.StoneMine);
         this.gameObject.SetActive(false);
     }
 
     void OnCopperButtonClick()
     {
-        mineEntrance.LoadSelectedMine(MapType.CopperMine);
+        mineEntrance.SelectMine(MapType.CopperMine);
         this.gameObject.SetActive(false);
     }
 
     void OnIronButtonClick()
     {
-        mineEntrance.LoadSelectedMine(MapType.IronMine);
+        mineEntrance.SelectMine(MapType.IronMine);
         this.gameObject.SetActive(false);
     }
 
