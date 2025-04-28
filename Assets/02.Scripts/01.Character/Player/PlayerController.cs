@@ -327,7 +327,6 @@ public class PlayerController : BaseController
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
-                EndAction();
                 break;
             }
             yield return null;
@@ -344,7 +343,6 @@ public class PlayerController : BaseController
                 if (NowTime > 2)
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
-                    EndAction();
                     break;
                 }
 
@@ -369,7 +367,6 @@ public class PlayerController : BaseController
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
         }
-        EndAction();
     }
 
     void SaveDirextionInfo()
