@@ -540,16 +540,18 @@ public class PlayerController : BaseController
         {
             nownum = PlayerChoosNum;
             QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
-            gameObject.GetComponent<Player>().stat.ActiveRange = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Range;
-            ItemDamage = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Damage;
 
             if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
             {
                 chooseItemType = ItemType.Except;
+                gameObject.GetComponent<Player>().stat.ActiveRange = 1;
+                ItemDamage = 0;
             }
             else
             {
                 chooseItemType = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
+                gameObject.GetComponent<Player>().stat.ActiveRange = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Range;
+                ItemDamage = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Damage;
             }
 
             switch (chooseItemType)
