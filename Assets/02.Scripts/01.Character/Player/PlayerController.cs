@@ -36,6 +36,7 @@ public class PlayerController : BaseController
     GameObject MouseInteract;
     GameObject FishingGauge;
     public float ItemDamage = 0;
+    int LastItemNum = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
     public class RangeInteract
@@ -305,7 +306,7 @@ public class PlayerController : BaseController
 
         if (GameManager.Instance.TagIsInMouse(new string[] { "Fishable" }))
         {
-            StartCoroutine(IdleFishing());
+            StartCoroutine(IdleFishing(Charge / MaxCharge));
         }
         else
         {
@@ -314,7 +315,7 @@ public class PlayerController : BaseController
         }
     }
 
-    IEnumerator IdleFishing()
+    IEnumerator IdleFishing(float percentage)
     {
         yield return new WaitForSeconds(1.5f);
 
@@ -343,6 +344,7 @@ public class PlayerController : BaseController
 
         if (isHooked)
         {
+            GameManager.Instance.minigameManager.fishingMinigame.OnAllFishingCollider();
             NowTime = 0;
 
             while (true)
@@ -352,12 +354,15 @@ public class PlayerController : BaseController
                 if (NowTime > 2)
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                    GameManager.Instance.minigameManager.fishingMinigame.OffAllFishingCollider();
                     break;
                 }
 
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
+                    LastItemNum = GameManager.Instance.minigameManager.fishingMinigame.CheckHookedFish((int)((1- percentage) * 5));
+                    Debug.Log(LastItemNum);
                     GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(4);
                     break;
                 }
@@ -371,11 +376,13 @@ public class PlayerController : BaseController
         if (isSuccess)
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 4);
+            GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum], 1);
         }
         else
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
         }
+        GameManager.Instance.minigameManager.fishingMinigame.OffAllFishingCollider();
     }
 
     void SaveDirextionInfo()

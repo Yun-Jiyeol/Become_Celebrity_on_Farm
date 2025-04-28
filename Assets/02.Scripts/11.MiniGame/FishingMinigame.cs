@@ -24,6 +24,68 @@ public class FishingMinigame : MonoBehaviour
         new MiniGameKeys { keycode = KeyCode.LeftArrow, shownkey = "¡ç" }   // ¿ÞÂÊ È­»ìÇ¥
    };
 
+    public void OnAllFishingCollider()
+    {
+        if (GameManager.Instance.FishingRange == null) return;
+        foreach(FishingCollider FC in GameManager.Instance.FishingRange)
+        {
+            FC.OnCollider();
+        }
+    }
+
+    public int CheckHookedFish(int trashamount)
+    {
+        List<int> HookedItemNum = new List<int>();
+        HookedItemNum.Add(154);
+        List<int> Persentage = new List<int>();
+        Persentage.Add(trashamount);
+        int Sum = trashamount;
+
+        foreach (GameObject go in GameManager.Instance.TagOnMouse)
+        {
+            if (go.TryGetComponent<FishingCollider>(out FishingCollider FC))
+            {
+                foreach (FishingRange _fr in FC.thiscolliderRange)
+                {
+                    HookedItemNum.Add(_fr.ItemData_num);
+                    Persentage.Add(_fr.amount);
+                    Sum += _fr.amount;
+                }
+            }
+        }
+
+        Debug.Log(Sum);
+        int ChoosedNum = Random.Range(0, Sum);
+        Debug.Log(ChoosedNum);
+
+        for (int i = 0; i < Persentage.Count; i++)
+        {
+            if(ChoosedNum <= Persentage[i])
+            {
+                Debug.Log(HookedItemNum[i]);
+                return HookedItemNum[i];
+            }
+            else
+            {
+                ChoosedNum -= Persentage[i];
+            }
+        }
+
+        return 0;
+    }
+
+
+    public void OffAllFishingCollider()
+    {
+        if (GameManager.Instance.FishingRange == null) return;
+        foreach (FishingCollider FC in GameManager.Instance.FishingRange)
+        {
+            FC.OffCollider();
+        }
+    }
+
+
+
     public void StartMinigame(int num)
     {
         Vector3 CenterPosition = Camera.main.transform.position;

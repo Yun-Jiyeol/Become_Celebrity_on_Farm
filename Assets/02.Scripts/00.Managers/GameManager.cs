@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject FishingGauge;
 
     public List<GameObject> OnActive;
+    public List<FishingCollider> FishingRange;
     public List<GameObject> TagOnMouse;
 
     Coroutine colliderCoroutine;
