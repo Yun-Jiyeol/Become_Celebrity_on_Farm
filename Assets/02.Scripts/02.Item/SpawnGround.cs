@@ -24,14 +24,14 @@ public class SpawnGround : ObjectPolling
     { 
         _Tag = "Plow",
         _spriteOnResourceManager = "GroundPlow_55",
-        _spriteOrder = 0
+        _spriteOrder = 10
     };
 
     SaveInfo Watered = new SaveInfo()
     {
         _Tag = "Watered",
         _spriteOnResourceManager = "GroundPlow_66",
-        _spriteOrder = 1
+        _spriteOrder = 20
     };
 
     public void SpawnGrounds(ChangedGround Type, Vector3 spawnposition)

@@ -23,7 +23,6 @@ public class PlayerController : BaseController
     public bool isAction = false;
     public bool isClick = false;
 
-    public int PlayerChoosNum = 1;
     private int nownum;
     int DirectionSave = 0;
 
@@ -36,6 +35,7 @@ public class PlayerController : BaseController
     GameObject MouseInteract;
     GameObject FishingGauge;
     public float ItemDamage = 0;
+    int LastItemNum = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
     public class RangeInteract
@@ -82,6 +82,7 @@ public class PlayerController : BaseController
 
     void OnClick(InputValue inputValue)
     {
+        if (UIManager.Instance.InventoryIsOpen()) return;
         if (isAction) return;
 
         if (inputValue.isPressed)
@@ -112,11 +113,15 @@ public class PlayerController : BaseController
                         ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
 
-                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        CanSpawn = true;
-                        Groundtype = ChangedGround.Plow;
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
+                        {
+                            CanSpawn = true;
+                            Groundtype = ChangedGround.Plow;
+                        }
                     }
+                        
                     break;
                 case ItemType.Watering:
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
@@ -161,16 +166,19 @@ public class PlayerController : BaseController
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
-                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
-                        if (ConnectedObejct != null)
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
                         {
-                            GameObject go = Instantiate(ConnectedObejct);
-                            go.transform.parent = GameManager.Instance.transform;
-                            go.transform.position = tartgetPosition;
+                            GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                            if (ConnectedObejct != null)
+                            {
+                                GameObject go = Instantiate(ConnectedObejct);
+                                go.transform.parent = GameManager.Instance.transform;
+                                go.transform.position = tartgetPosition;
+                            }
+                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                         }
-                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                     }
                     TryHandInteract();
                     break;
@@ -243,7 +251,6 @@ public class PlayerController : BaseController
                 case ItemType.FishingRod:
                     tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
                     CheckAngle();
-                    Debug.Log(dir);
                     isAction = true;
 
                     FishingGauge.SetActive(true);
@@ -298,7 +305,7 @@ public class PlayerController : BaseController
 
         if (GameManager.Instance.TagIsInMouse(new string[] { "Fishable" }))
         {
-            StartCoroutine(IdleFishing());
+            StartCoroutine(IdleFishing(Charge / MaxCharge));
         }
         else
         {
@@ -307,8 +314,10 @@ public class PlayerController : BaseController
         }
     }
 
-    IEnumerator IdleFishing()
+    IEnumerator IdleFishing(float percentage)
     {
+        yield return new WaitForSeconds(1.5f);
+
         bool isHooked = false;
         float HookedTime = UnityEngine.Random.Range(3f,7f);
         float NowTime = 0f;
@@ -327,7 +336,6 @@ public class PlayerController : BaseController
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
-                EndAction();
                 break;
             }
             yield return null;
@@ -335,6 +343,7 @@ public class PlayerController : BaseController
 
         if (isHooked)
         {
+            GameManager.Instance.minigameManager.fishingMinigame.OnAllFishingCollider();
             NowTime = 0;
 
             while (true)
@@ -344,13 +353,14 @@ public class PlayerController : BaseController
                 if (NowTime > 2)
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
-                    EndAction();
+                    GameManager.Instance.minigameManager.fishingMinigame.OffAllFishingCollider();
                     break;
                 }
 
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
+                    LastItemNum = GameManager.Instance.minigameManager.fishingMinigame.CheckHookedFish((int)((1- percentage) * 5));
                     GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(4);
                     break;
                 }
@@ -364,12 +374,13 @@ public class PlayerController : BaseController
         if (isSuccess)
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 4);
+            GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum], 1);
         }
         else
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
         }
-        EndAction();
+        GameManager.Instance.minigameManager.fishingMinigame.OffAllFishingCollider();
     }
 
     void SaveDirextionInfo()
@@ -406,7 +417,7 @@ public class PlayerController : BaseController
     {
         if (inputValue.isPressed)
         {
-            
+            ChangeSlot(nownum);
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.ToggleInventoryUI();
@@ -524,44 +535,42 @@ public class PlayerController : BaseController
     {
         if (isAction) return;
 
-        PlayerChoosNum = num;
-        if (PlayerChoosNum != nownum)
+        nownum = num;
+        QuickSlotUIManager.Instance.SelectSlot(nownum - 1);
+
+        if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
         {
-            nownum = PlayerChoosNum;
-            QuickSlotUIManager.Instance.SelectSlot(PlayerChoosNum - 1);
+            chooseItemType = ItemType.Except;
+            gameObject.GetComponent<Player>().stat.ActiveRange = 1;
+            ItemDamage = 0;
+        }
+        else
+        {
+            chooseItemType = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
             gameObject.GetComponent<Player>().stat.ActiveRange = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Range;
             ItemDamage = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Damage;
+        }
 
-            if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
-            {
-                chooseItemType = ItemType.Except;
-            }
-            else
-            {
-                chooseItemType = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
-            }
+        switch (chooseItemType)
+        {
+            case ItemType.Except:
+            case ItemType.Hoe:
+            case ItemType.Watering:
+            case ItemType.Seed:
+            case ItemType.TreeSeed:
+                TryChangeType(PlayerInteractType.Point);
+                break;
 
-            switch (chooseItemType)
-            {
-                case ItemType.Except:
-                case ItemType.Hoe:
-                case ItemType.Watering:
-                case ItemType.Seed:
-                case ItemType.TreeSeed:
-                    TryChangeType(PlayerInteractType.Point);
-                    break;
+            case ItemType.Sickle:
+            case ItemType.Axe:
+            case ItemType.Pickaxe:
+                TryChangeType(PlayerInteractType.Range);
+                break;
 
-                case ItemType.Sickle:
-                case ItemType.Axe:
-                case ItemType.Pickaxe:
-                    TryChangeType(PlayerInteractType.Range);
-                    break;
+            case ItemType.FishingRod:
+                TryChangeType(PlayerInteractType.Charge);
+                break;
 
-                case ItemType.FishingRod:
-                    TryChangeType(PlayerInteractType.Charge);
-                    break;
-
-            }
         }
     }
     void TryChangeType(PlayerInteractType type)

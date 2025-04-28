@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
     public GameObject FishingGauge;
 
     public List<GameObject> OnActive;
+    public List<FishingCollider> FishingRange;
     public List<GameObject> TagOnMouse;
+
+    Coroutine colliderCoroutine;
 
     private void Awake()
     {
@@ -157,12 +160,32 @@ public class GameManager : MonoBehaviour
 
     public void TurnOnAllColliders()
     {
-        if(OnActive == null) return;
+        if (OnActive == null) return;
 
-        foreach(GameObject go in OnActive)
+        foreach (GameObject go in OnActive)
         {
             go.GetComponent<SaveOnGM>().OnCollider();
         }
+
+        if (colliderCoroutine != null) StopCoroutine(colliderCoroutine);
+        colliderCoroutine = StartCoroutine(OffCoroutineCollider());
+    }
+
+    void TurnOffAllColliders()
+    {
+        if (OnActive == null) return;
+
+        foreach (GameObject go in OnActive)
+        {
+            go.GetComponent<SaveOnGM>().OffCollider();
+        }
+    }
+
+    IEnumerator OffCoroutineCollider()
+    {
+        yield return new WaitForSeconds(2f);
+
+        TurnOffAllColliders();
     }
 
     public void OneDayAfter()

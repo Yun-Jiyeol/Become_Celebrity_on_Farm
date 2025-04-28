@@ -26,23 +26,12 @@ public class SaveOnGM : MonoBehaviour
     public void OnCollider()
     {
         thisCollider.enabled = true;
-
-        if (OffThisCollider)
-        {
-            if(coroutine != null) StopCoroutine(coroutine);
-            coroutine = StartCoroutine(OffCoroutineCollider());
-        }
     }
     public void OffCollider()
     {
-        thisCollider.enabled = false;
-    }
-
-
-    IEnumerator OffCoroutineCollider()
-    {
-        yield return new WaitForSeconds(2f);
-
-        OffCollider();
+        if (OffThisCollider)
+        {
+            thisCollider.enabled = false;
+        }
     }
 }
