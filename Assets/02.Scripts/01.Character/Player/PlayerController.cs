@@ -112,11 +112,15 @@ public class PlayerController : BaseController
                         ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.HoeParameterHash);
 
-                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        CanSpawn = true;
-                        Groundtype = ChangedGround.Plow;
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
+                        {
+                            CanSpawn = true;
+                            Groundtype = ChangedGround.Plow;
+                        }
                     }
+                        
                     break;
                 case ItemType.Watering:
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
@@ -161,16 +165,19 @@ public class PlayerController : BaseController
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
                     tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
 
-                    if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
-                        if (ConnectedObejct != null)
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
                         {
-                            GameObject go = Instantiate(ConnectedObejct);
-                            go.transform.parent = GameManager.Instance.transform;
-                            go.transform.position = tartgetPosition;
+                            GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                            if (ConnectedObejct != null)
+                            {
+                                GameObject go = Instantiate(ConnectedObejct);
+                                go.transform.parent = GameManager.Instance.transform;
+                                go.transform.position = tartgetPosition;
+                            }
+                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                         }
-                        gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
                     }
                     TryHandInteract();
                     break;
