@@ -316,6 +316,8 @@ public class PlayerController : BaseController
 
     IEnumerator IdleFishing()
     {
+        yield return new WaitForSeconds(1.5f);
+
         bool isHooked = false;
         float HookedTime = UnityEngine.Random.Range(3f,7f);
         float NowTime = 0f;
