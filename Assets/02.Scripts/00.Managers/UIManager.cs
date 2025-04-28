@@ -18,6 +18,21 @@ public class UIManager : MonoBehaviour
     [Header("Ingame UI")]
     public GameObject inventoryUI; // <- 인벤토리 UI 연결
 
+    private void Start()
+    {
+        var player = FindObjectOfType<PlayerStats>();
+        if (player == null)
+        {
+            Debug.LogError("[UIManager] PlayerStats 못 찾음!");
+            return;
+        }
+
+        var hpBar = GetComponentInChildren<UIHpBar>();
+        var energyBar = GetComponentInChildren<UIEnergyBar>();
+
+        if (hpBar != null) hpBar.Init(player);
+        if (energyBar != null) energyBar.Init(player);
+    }
 
     void Awake()
     {
