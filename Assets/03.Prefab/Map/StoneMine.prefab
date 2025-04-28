@@ -1917,7 +1917,7 @@ Tilemap:
       - {fileID: -825159427, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
       - {fileID: 332899907, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
       - {fileID: -1982064824, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -19, y: -13, z: 0}
@@ -1983,7 +1983,7 @@ Tilemap:
       - {fileID: 1586794436, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
       - {fileID: 134431234, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
       - {fileID: 1048626658, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -15, y: -12, z: 0}
@@ -12795,7 +12795,39 @@ MonoBehaviour:
   - {fileID: 3989072721742333914, guid: 123efafc485d1b0479211148677e6524, type: 3}
   - {fileID: 5667300125452834223, guid: 819011a86e164af4a83292206bfc464c, type: 3}
   - {fileID: 5840822429453991646, guid: 598c06c54781e0f43967da1767186cea, type: 3}
+  onActiveObjs: {fileID: 7142998965475799717}
   prefabCount: 100
+--- !u!1 &1271941933459723386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7142998965475799717}
+  m_Layer: 0
+  m_Name: OnActive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7142998965475799717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271941933459723386}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4937309786169959285}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1914222296481942275
 GameObject:
   m_ObjectHideFlags: 0
@@ -20893,6 +20925,7 @@ Transform:
   - {fileID: 9033527689080995463}
   - {fileID: 1424113054960866249}
   - {fileID: 2876210809878059506}
+  - {fileID: 7142998965475799717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4529644317046306583
