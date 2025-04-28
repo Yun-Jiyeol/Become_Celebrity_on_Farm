@@ -52,12 +52,29 @@ public class InventoryUIManager : MonoBehaviour
 
     public void RefreshUI()
     {
+        //for (int i = 0; i < slots.Length; i++)
+        //{
+        //    if (i < 12)
+        //        slots[i].SetData(playerInventory.PlayerHave[i]);
+        //    else
+        //        slots[i].SetData(warehouseInven[i - 12]);
+        //}
         for (int i = 0; i < slots.Length; i++)
         {
             if (i < 12)
-                slots[i].SetData(playerInventory.PlayerHave[i]);
+            {
+                if (i < playerInventory.PlayerHave.Count)
+                    slots[i].SetData(playerInventory.PlayerHave[i]);
+                else
+                    slots[i].SetData(null); // 데이터 없으면 비워줌
+            }
             else
-                slots[i].SetData(warehouseInven[i - 12]);
+            {
+                if (i - 12 < warehouseInven.Count)
+                    slots[i].SetData(warehouseInven[i - 12]);
+                else
+                    slots[i].SetData(null);
+            }
         }
 
         QuickSlotUIManager.Instance?.RefreshQuickSlot();
