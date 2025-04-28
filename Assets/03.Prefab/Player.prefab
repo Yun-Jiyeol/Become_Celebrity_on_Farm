@@ -382,6 +382,7 @@ MonoBehaviour:
   isAction: 0
   isClick: 0
   PlayerChoosNum: 1
+  ItemDamage: 0
 --- !u!114 &4288322753646585984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,7 +401,7 @@ MonoBehaviour:
   Hp: 0
   MaxHp: 0
   Speed: 10
-  Attack: 0
+  Attack: 10
   GetItemRange: 1
   ActiveRange: 1
   InventorySize: 12
@@ -446,7 +447,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySize: 12
-  PlayerHave: []
+  PlayerHave:
+  - ItemData_num: 8
+    amount: 1
+  - ItemData_num: 60
+    amount: 1
+  - ItemData_num: 67
+    amount: 1
 --- !u!114 &5617835291384115681
 MonoBehaviour:
   m_ObjectHideFlags: 0
