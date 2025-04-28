@@ -11,13 +11,28 @@ public class StuffSpawner : ObjectPolling
 {
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private List<GameObject> stuffs;
+    [SerializeField] private Transform onActiveObj;
     public int prefabCount = 100;
 
     readonly HashSet<Vector3Int> usedPositions = new();
 
+    bool spawned = false;
+
     void Start()
     {
         InitializeStuffPool(prefabCount);
+    }
+
+    void OnEnable()
+    {
+        if (!spawned)
+        {
+            for (int i = 0; i < prefabCount; i++)
+            {
+                SpawnStuff();
+                spawned = true;
+            }
+        }
     }
 
     /// <summary>
@@ -33,7 +48,7 @@ public class StuffSpawner : ObjectPolling
             GameObject stuff = stuffs[num];
 
             // 2. 프리팹 생성
-            GameObject obj = Instantiate(stuff);
+            GameObject obj = Instantiate(stuff, onActiveObj);
             obj.SetActive(false);
             Things.Add(obj);
         }
@@ -58,7 +73,11 @@ public class StuffSpawner : ObjectPolling
         // 해당 프리팹의 전체 크기
         BoundsInt wholeBounds = tilemap.cellBounds;
 
-        for (int i = 0; i < prefabCount; i++)
+        int tryCount = 0;
+        int maxTry = 200;
+
+        // 위치 찾을 때까지 200번 반복
+        while (tryCount < maxTry)
         {
             int x = Random.Range(wholeBounds.xMin, wholeBounds.xMax);
             int y = Random.Range(wholeBounds.yMin, wholeBounds.yMax);
@@ -70,8 +89,11 @@ public class StuffSpawner : ObjectPolling
                 usedPositions.Add(tilePos);
                 return tilemap.GetCellCenterWorld(tilePos);
             }
+
+            tryCount++;
         }
 
+        Debug.Log("[StuffSpawner] 스폰 위치 찾기 실패");
         return Vector3.zero;
     }
 
@@ -81,21 +103,6 @@ public class StuffSpawner : ObjectPolling
     GameObject SetStuff()
     {
         GameObject stuff = SpawnOrFindThings();
-
-
-        // 뭔가 이상함 여기
-        if (stuff == null)
-        {
-            // 1. 랜덤으로 프리팹 추출
-            int num = Random.Range(0, stuffs.Count);
-            stuff = stuffs[num];
-
-            // 2. 프리팹 생성
-            GameObject obj = Instantiate(stuff);
-            obj.SetActive(false);
-            Things.Add(obj);
-        }
-
         return stuff;
     }
 }
