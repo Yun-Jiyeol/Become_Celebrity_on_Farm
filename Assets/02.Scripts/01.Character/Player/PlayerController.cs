@@ -586,7 +586,7 @@ public class PlayerController : BaseController
                 MouseInteract.SetActive(false);
                 gameObject.GetComponent<CheckFieldOnMouse>().enabled = false;
                 break;
-                
+
             case PlayerInteractType.Point:
                 nowInteractType = PlayerInteractType.Point;
 
