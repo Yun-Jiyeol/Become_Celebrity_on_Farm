@@ -98,7 +98,6 @@ public class MapManager : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// MapType - Map 연결해서 딕셔너리에 저장
     /// </summary>
@@ -130,23 +129,8 @@ public class MapManager : MonoBehaviour
             // 2. 타겟 맵 활성화
             if (mapPair.TryGetValue(targetType, out Map targetMap))
             {
-                // 2-1. 타겟 맵 활성화, 플레이어 스폰 위치로 이동
                 targetMap.place.SetActive(true);
                 SetPlayerPosition(targetMap, entrance);
-
-                // 2-2. 채집 요소 스폰
-                StuffSpawner spawner = targetMap.place.GetComponentInChildren<StuffSpawner>();
-
-                if (spawner)
-                {
-                    //Debug.Log("스포너 찾기 성공");
-                    for (int i = 0; i < 100; i++)
-                    {
-                        spawner.SpawnStuff();
-                    }
-                }
-                //else
-                //    Debug.Log("스포너 찾기 실패");
             }
 
             currentMap = targetType;
