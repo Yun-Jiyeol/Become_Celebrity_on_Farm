@@ -85,7 +85,14 @@ public class Crops : SeedGrow
 
         if(SpawnItemAmount != 0)
         {
-            ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+            //ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+            var harvestedItem = ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum];
+            string harvestedName = harvestedItem.Item_name;
+
+            // 퀘스트 시스템에 보고
+            QuestManager.Instance.ReportProgress(harvestedName, 1);
+
+            ItemManager.Instance.spawnItem.DropItem(harvestedItem, SpawnItemAmount, transform.position);
         }
 
         if (isDestroyAfterHarvest)
