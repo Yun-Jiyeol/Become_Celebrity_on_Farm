@@ -3,6 +3,8 @@ using UnityEngine;
 public class MobBehavior : MonoBehaviour
 {
     [Header("설정")]
+    public float maxHealth = 20f;
+    private float currentHealth;
     public float attackPower = 10f;           // 공격력
     public float moveSpeed = 2f;              // 이동 속도
     public float detectionRadius = 5f;        // 플레이어를 감지하는 반경
@@ -16,6 +18,7 @@ public class MobBehavior : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player")?.transform;
         mainCamera = Camera.main;
+        currentHealth = maxHealth;
     }
 
     void Update()
@@ -44,7 +47,7 @@ public class MobBehavior : MonoBehaviour
 
     void AttackPlayer()
     {
-        Debug.Log($"Attacking player with power: {attackPower}");
+        Debug.Log($"플레이어를 공격: {attackPower}");
     }
 
     void AvoidOtherMobs()
@@ -63,6 +66,18 @@ public class MobBehavior : MonoBehaviour
                 }
             }
         }
+    }
+    public void TakeDamage(float amount)
+    {
+        currentHealth -= amount;
+        if(currentHealth<=0)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Destroy(gameObject);
     }
 
     bool IsPlayerVisible()
