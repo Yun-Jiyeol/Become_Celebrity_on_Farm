@@ -42,4 +42,13 @@ public class GrowthManager : MonoBehaviour
             currentStageIndex++;
         }
     }
+    public void GrowNextStage()
+    {
+        if (currentStageIndex < stages.Length - 1)
+        {
+            Destroy(currentObject);
+            currentStageIndex++;
+            currentObject = Instantiate(stages[currentStageIndex].prefab, transform.position, Quaternion.identity, transform);
+        }
+    }
 }

@@ -11,13 +11,45 @@ public class StuffSpawner : ObjectPolling
 {
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private List<GameObject> stuffs;
+    [SerializeField] private Transform onActiveObj;
     public int prefabCount = 100;
+    private int curDay;
 
     readonly HashSet<Vector3Int> usedPositions = new();
 
-    void Start()
+    bool isSpawned = false;
+
+
+    void Awake()
     {
         InitializeStuffPool(prefabCount);
+    }
+
+    void Start()
+    {
+        if (TimeManager.Instance != null)
+            curDay = TimeManager.Instance.currentDay;
+    }
+
+    void Update()
+    {
+        if (curDay != TimeManager.Instance.currentDay)
+        {
+            Debug.Log($"[StuffSpawner] 날짜 달라짐. {curDay}, {TimeManager.Instance.currentDay}");
+            curDay = TimeManager.Instance.currentDay;
+            SpawnStuff(10);
+        }
+    }
+
+    void OnEnable()
+    {
+        Debug.Log($"[StuffSpawner] 날짜 초기화. {curDay}, {TimeManager.Instance.currentDay}");
+
+        if (!isSpawned)
+        {
+            SpawnStuff(prefabCount);
+            isSpawned = true;
+        }
     }
 
     /// <summary>
@@ -33,7 +65,7 @@ public class StuffSpawner : ObjectPolling
             GameObject stuff = stuffs[num];
 
             // 2. 프리팹 생성
-            GameObject obj = Instantiate(stuff);
+            GameObject obj = Instantiate(stuff, onActiveObj);
             obj.SetActive(false);
             Things.Add(obj);
         }
@@ -42,23 +74,30 @@ public class StuffSpawner : ObjectPolling
     /// <summary>
     /// 랜덤 위치에 랜덤 프리팹 스폰
     /// </summary>
-    public void SpawnStuff()
+    void SpawnStuff(int count)
     {
-        Vector3 position = SetRandomPosition();
-        GameObject obj = SetStuff();
-        obj.transform.position = position;
-        obj.SetActive(true);
+        for (int i = 0; i < count; i++)
+        {
+            Vector3 position = SetRandomPosition();
+            GameObject obj = SetStuff();
+            obj.transform.position = position;
+            obj.SetActive(true);
+        }
     }
 
     /// <summary>
-    /// 1. 랜덤 위치 정하기
+    /// 랜덤 위치 정하기
     /// </summary>
     Vector3 SetRandomPosition()
     {
         // 해당 프리팹의 전체 크기
         BoundsInt wholeBounds = tilemap.cellBounds;
 
-        for (int i = 0; i < prefabCount; i++)
+        int tryCount = 0;
+        int maxTry = 200;
+
+        // 위치 찾을 때까지 200번 반복
+        while (tryCount < maxTry)
         {
             int x = Random.Range(wholeBounds.xMin, wholeBounds.xMax);
             int y = Random.Range(wholeBounds.yMin, wholeBounds.yMax);
@@ -70,32 +109,20 @@ public class StuffSpawner : ObjectPolling
                 usedPositions.Add(tilePos);
                 return tilemap.GetCellCenterWorld(tilePos);
             }
+
+            tryCount++;
         }
 
+        Debug.Log("[StuffSpawner] 스폰 위치 찾기 실패");
         return Vector3.zero;
     }
 
     /// <summary>
-    /// 2. 프리팹 리턴
+    /// 프리팹 리턴
     /// </summary>
     GameObject SetStuff()
     {
         GameObject stuff = SpawnOrFindThings();
-
-
-        // 뭔가 이상함 여기
-        if (stuff == null)
-        {
-            // 1. 랜덤으로 프리팹 추출
-            int num = Random.Range(0, stuffs.Count);
-            stuff = stuffs[num];
-
-            // 2. 프리팹 생성
-            GameObject obj = Instantiate(stuff);
-            obj.SetActive(false);
-            Things.Add(obj);
-        }
-
         return stuff;
     }
 }
