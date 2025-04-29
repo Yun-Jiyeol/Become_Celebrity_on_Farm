@@ -2,76 +2,83 @@ using UnityEngine;
 
 public class MobBehavior : MonoBehaviour
 {
-    public float attackPower = 10f;  // 공격력
-    public float moveSpeed = 2f;     // 이동 속도
+    [Header("설정")]
+    public float attackPower = 10f;           // 공격력
+    public float moveSpeed = 2f;              // 이동 속도
+    public float detectionRadius = 5f;        // 플레이어를 감지하는 반경
 
-    private Transform player;        // 플레이어의 Transform
-    private bool isPlayerInRange;    // 플레이어가 범위 내에 있는지 체크
-    private Camera mainCamera;       // 메인 카메라
+    private Transform player;
+    private Camera mainCamera;
+
+    private bool hasSeenPlayer = false;       // 플레이어를 본 적이 있는지 체크
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;  // 플레이어를 찾음
-        mainCamera = Camera.main;  // 메인 카메라 참조
+        player = GameObject.FindWithTag("Player")?.transform;
+        mainCamera = Camera.main;
     }
 
     void Update()
     {
-        if (isPlayerInRange && IsPlayerVisible())
-        {
-            // 플레이어를 향해 이동
-            MoveTowardsPlayer();
+        if (player == null) return;
 
-            // 플레이어와 근접하면 공격
+        // 플레이어를 본 적이 있거나, 감지 범위 내에 있을 경우
+        if (hasSeenPlayer || (IsPlayerInRange() && IsPlayerVisible()))
+        {
+            MoveTowardsPlayer();
             AttackPlayer();
+            AvoidOtherMobs(); // 겹침 방지
         }
+    }
+
+    bool IsPlayerInRange()
+    {
+        return Vector2.Distance(transform.position, player.position) <= detectionRadius;
     }
 
     void MoveTowardsPlayer()
     {
-        if (player != null)
-        {
-            // 플레이어를 향한 방향을 계산
-            Vector3 direction = (player.position - transform.position).normalized;
-            // 실제 이동
-            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
-        }
+        Vector3 direction = (player.position - transform.position).normalized;
+        transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
     }
 
     void AttackPlayer()
     {
-        // 공격 로직 구현 (간단히 공격력 표시)
         Debug.Log($"Attacking player with power: {attackPower}");
     }
 
-    // 플레이어가 범위에 들어왔을 때 호출
-    private void OnTriggerEnter(Collider other)
+    void AvoidOtherMobs()
     {
-        if (other.CompareTag("Player"))
+        GameObject[] allMobs = GameObject.FindGameObjectsWithTag("Mob");
+
+        foreach (GameObject mob in allMobs)
         {
-            isPlayerInRange = true;
+            if (mob != gameObject)
+            {
+                float distance = Vector2.Distance(transform.position, mob.transform.position);
+                if (distance < 0.5f)
+                {
+                    Vector3 away = (transform.position - mob.transform.position).normalized;
+                    transform.position += away * 0.01f;
+                }
+            }
         }
     }
 
-    // 플레이어가 범위를 벗어났을 때 호출
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInRange = false;
-        }
-    }
-
-    // 카메라에 플레이어가 보이는지 체크하는 함수
-    private bool IsPlayerVisible()
+    bool IsPlayerVisible()
     {
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(player.position);
+        return viewportPosition.x >= 0 && viewportPosition.x <= 1 &&
+               viewportPosition.y >= 0 && viewportPosition.y <= 1 &&
+               viewportPosition.z > 0;
+    }
 
-        // Viewport 좌표가 (0,0)에서 (1,1) 사이에 있으면 카메라에 보이는 위치
-        if (viewportPosition.x >= 0 && viewportPosition.x <= 1 && viewportPosition.y >= 0 && viewportPosition.y <= 1 && viewportPosition.z > 0)
+    // 플레이어를 감지하면 계속 따라오도록 상태를 변경
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
         {
-            return true;
+            hasSeenPlayer = true; // 플레이어를 봤다고 설정
         }
-        return false;
     }
 }
