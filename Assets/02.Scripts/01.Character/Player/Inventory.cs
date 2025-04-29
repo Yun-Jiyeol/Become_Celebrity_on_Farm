@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public int inventorySize = 12;  // 플레이어 인벤토리 크기
     public List<Inven> PlayerHave;
 
     [System.Serializable]
@@ -20,7 +19,7 @@ public class Inventory : MonoBehaviour
 
     public void SettingInventorySize()
     {
-        while (PlayerHave.Count < inventorySize)
+        while (PlayerHave.Count < GetComponent<Player>().stat.InventorySize)
         {
             PlayerHave.Add(new Inven());
         }
