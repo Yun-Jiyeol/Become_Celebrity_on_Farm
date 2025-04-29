@@ -14,6 +14,7 @@ public enum MapType
     CopperMine,
     IronMine,
     Beach,
+    Store,
 }
 
 
