@@ -44,6 +44,7 @@ public class ShopUI : MonoBehaviour
 
     [Header("Shop")]
     public GameObject ShopItemSpawnPos;
+    public List<GameObject> slotsinshop;
 
     private ShopUIState nowState = ShopUIState.Buy;
 
@@ -105,6 +106,12 @@ public class ShopUI : MonoBehaviour
 
     public void ClickOffBtn()
     {
+        foreach(GameObject go in slotsinshop)
+        {
+            Destroy(go);
+        }
+
+        ClearBag();
         gameObject.SetActive(false);
     }
 
@@ -132,6 +139,7 @@ public class ShopUI : MonoBehaviour
         {
             GameObject go = Instantiate(slot, ShopItemSpawnPos.transform);
             go.AddComponent<ShopHave>().Setting(this, _shopData.sellingCatalogs[i].ItemData_num, _shopData.sellingCatalogs[i].Price);
+            slotsinshop.Add(go);
         }
     }
 
