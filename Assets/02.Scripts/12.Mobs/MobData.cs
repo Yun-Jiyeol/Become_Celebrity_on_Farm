@@ -7,17 +7,14 @@ public class MobData : MonoBehaviour
 {
     [Header("StoneMine 설정")]
     public Tilemap stoneMineGround;
-    public Tilemap stoneMineRoad;
     public GameObject[] stoneMobs;
 
     [Header("CopperMine 설정")]
     public Tilemap copperMineGround;
-    public Tilemap copperMineRoad;
     public GameObject[] copperMobs;
 
     [Header("IronMine 설정")]
     public Tilemap ironMineGround;
-    public Tilemap ironMineRoad;
     public GameObject[] ironMobs;
 
     [Header("Mob 수 설정")]
@@ -39,32 +36,23 @@ public class MobData : MonoBehaviour
             stoneMobs = new GameObject[] { CloudC, MobBatSmallB, EarthSmallerB, SlimeD };
         }
 
-        // CopperMine 기본 설정 (나중에 추가)
-        if (copperMobs == null || copperMobs.Length == 0)
-        {
-            // 예시: copperMobs = new GameObject[] { CopperMob1, CopperMob2 };
-        }
-
-        // IronMine 기본 설정 (나중에 추가)
-        if (ironMobs == null || ironMobs.Length == 0)
-        {
-            // 예시: ironMobs = new GameObject[] { IronMob1, IronMob2 };
-        }
+        // CopperMine, IronMine은 나중에 설정
     }
 
     void Start()
     {
         if (stoneMobs != null && stoneMobs.Length > 0)
-            SpawnMobs(stoneMineGround, stoneMineRoad, stoneMobs, numberOfStoneMobs);
+            SpawnMobs(stoneMineGround, stoneMobs, numberOfStoneMobs);
 
-        //if (copperMobs != null && copperMobs.Length > 0)
-        //    SpawnMobs(copperMineGround, copperMineRoad, copperMobs, numberOfCopperMobs);
+        // 나중에 활성화
+        // if (copperMobs != null && copperMobs.Length > 0)
+        //     SpawnMobs(copperMineGround, copperMobs, numberOfCopperMobs);
 
-        //if (ironMobs != null && ironMobs.Length > 0)
-        //    SpawnMobs(ironMineGround, ironMineRoad, ironMobs, numberOfIronMobs);
+        // if (ironMobs != null && ironMobs.Length > 0)
+        //     SpawnMobs(ironMineGround, ironMobs, numberOfIronMobs);
     }
 
-    void SpawnMobs(Tilemap ground, Tilemap road, GameObject[] mobs, int mobCount)
+    void SpawnMobs(Tilemap ground, GameObject[] mobs, int mobCount)
     {
         if (mobs == null || mobs.Length == 0)
         {
@@ -72,19 +60,27 @@ public class MobData : MonoBehaviour
             return;
         }
 
+        HashSet<Vector3Int> usedPositions = new HashSet<Vector3Int>();
+
         for (int i = 0; i < mobCount; i++)
         {
-            Vector3Int randomPos = GetRandomGroundOrRoadTile(ground, road);
-            Vector3 spawnPos = ground.CellToWorld(randomPos) + new Vector3(0.5f, 0.5f, 0);
+            Vector3Int randomPos = GetRandomGroundTile(ground, usedPositions);
 
+            if (randomPos == Vector3Int.zero)
+            {
+                Debug.LogWarning("Mob을 생성할 유효한 타일이 부족합니다.");
+                return;
+            }
+
+            Vector3 spawnPos = ground.CellToWorld(randomPos) + new Vector3(0.5f, 0.5f, 0);
             GameObject mobPrefab = mobs[Random.Range(0, mobs.Length)];
             Instantiate(mobPrefab, spawnPos, Quaternion.identity);
         }
     }
 
-    Vector3Int GetRandomGroundOrRoadTile(Tilemap ground, Tilemap road)
+    Vector3Int GetRandomGroundTile(Tilemap ground, HashSet<Vector3Int> usedPositions)
     {
-        Tilemap targetMap = (Random.value > 0.5f) ? ground : road;
+        Tilemap targetMap = ground;
         BoundsInt bounds = targetMap.cellBounds;
         List<Vector3Int> validTiles = new List<Vector3Int>();
 
@@ -93,17 +89,22 @@ public class MobData : MonoBehaviour
             for (int y = bounds.yMin; y <= bounds.yMax; y++)
             {
                 Vector3Int pos = new Vector3Int(x, y, 0);
-                if (targetMap.HasTile(pos))
+                if (targetMap.HasTile(pos) && !usedPositions.Contains(pos))
+                {
                     validTiles.Add(pos);
+                }
             }
         }
 
         if (validTiles.Count == 0)
         {
-            Debug.LogWarning("유효한 타일이 없습니다!");
-            return Vector3Int.zero;
+            return Vector3Int.zero; // 더 이상 배치할 곳 없음
         }
 
-        return validTiles[Random.Range(0, validTiles.Count)];
+        Vector3Int selected = validTiles[Random.Range(0, validTiles.Count)];
+        usedPositions.Add(selected);
+        return selected;
     }
 }
+
+
