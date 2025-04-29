@@ -16,6 +16,10 @@ public class Mob : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
         Load();
     }
 
@@ -25,15 +29,13 @@ public class Mob : MonoBehaviour
             return;
 
         var path = "Mob/" + _animator.runtimeAnimatorController.name + Skin;
-
-        if (!_path.Equals(path))
+        if (string.IsNullOrEmpty(_path) || !_path.Equals(path))
         {
             _path = path;
             _sprites = Resources.LoadAll<Sprite>(_path);
 
-            // 만약 스프라이트를 못 찾으면 경고 출력
             if (_sprites == null || _sprites.Length == 0)
-                Debug.LogWarning("No sprites found at path: " + path);
+                Debug.LogWarning("No sprites found at path: " + _path);
         }
     }
 
