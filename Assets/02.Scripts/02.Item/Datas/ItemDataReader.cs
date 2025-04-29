@@ -58,7 +58,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
         public string Item_name;
         public string Item_Explain;
         public ItemType Item_Type;
-        public float Item_Price;
+        public int Item_Price;
         public int Item_Overlap;
 
         public Sprite Item_sprite;
@@ -110,7 +110,7 @@ public class ItemDataReader : MonoBehaviour, ExcelReader
                 Item_name = splitData[1],
                 Item_Explain = splitData[2],
                 Item_Type = (ItemType)Enum.Parse(typeof(ItemType), splitData[3]),
-                Item_Price = float.TryParse(splitData[4], out float price) ? price : 0,
+                Item_Price = int.TryParse(splitData[4], out int price) ? price : 0,
                 Item_Overlap = int.TryParse(splitData[5], out int overlap) ? overlap : 0,
 
                 Item_sprite = ResourceManager.Instance.splits[splitData[6]],

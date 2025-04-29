@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3074353407444108538}
   - component: {fileID: 7032404626350052077}
   - component: {fileID: 7951975261641743995}
+  - component: {fileID: 1072144621032970964}
   m_Layer: 0
   m_Name: BabyChicken
   m_TagString: Untagged
@@ -106,3 +107,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1072144621032970964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543068028283955062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4f4249381ad6a6408b852c73b6594a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  moveDuration: 2
+  idleDuration: 2
+  heartEffectPrefab: {fileID: 6224238678973582970, guid: 7285514cb5fef284ea9e6de5238fb498, type: 3}

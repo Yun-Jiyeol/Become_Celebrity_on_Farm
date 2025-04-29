@@ -9,6 +9,7 @@ public class TestManager : MonoBehaviour
     public InvenSlot[] SlotItem = new InvenSlot[12];
 
     public Season.SeasonType nowSeason;
+    public ShopUIManager shopUIManager;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class TestManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        shopUIManager = gameObject.GetComponent<ShopUIManager>();
     }
 
     private void Start()

@@ -6,11 +6,14 @@ public class AnimalMovement : MonoBehaviour
     public float moveDuration = 2f;
     public float idleDuration = 2f;
 
+    public GameObject heartEffectPrefab;
+
     private float timer;
     private Vector2 moveDir;
     private bool isMoving;
 
     private Animator anim;
+    private Food targetFood;
 
     void Start()
     {
@@ -22,9 +25,25 @@ public class AnimalMovement : MonoBehaviour
     {
         timer -= Time.deltaTime;
 
-        if (isMoving)
+        if (targetFood == null)
+            FindNearestFood();
+
+        if (targetFood != null)
         {
-            transform.Translate(moveDir * moveSpeed * Time.deltaTime);
+            Vector2 dir = (targetFood.transform.position - transform.position).normalized;
+            transform.Translate(dir * moveSpeed * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, targetFood.transform.position) < 0.3f)
+            {
+                EatFood();
+            }
+        }
+        else
+        {
+            if (isMoving)
+            {
+                transform.Translate(moveDir * moveSpeed * Time.deltaTime);
+            }
         }
 
         if (timer <= 0f)
@@ -32,22 +51,45 @@ public class AnimalMovement : MonoBehaviour
             ChooseNextState();
         }
 
-        // 애니메이션 파라미터 전달
-        if (anim != null)
+        UpdateAnimation();
+    }
+
+    void FindNearestFood()
+    {
+        var foods = FindObjectsOfType<Food>();
+        float minDist = Mathf.Infinity;
+        foreach (var food in foods)
         {
-            anim.SetBool("isWalking", isMoving);
-            if (isMoving)
+            float dist = Vector2.Distance(transform.position, food.transform.position);
+            if (dist < 5f && dist < minDist)
             {
-                anim.SetFloat("moveX", moveDir.x);
-                anim.SetFloat("moveY", moveDir.y);
+                minDist = dist;
+                targetFood = food;
             }
         }
+    }
 
-        if (moveDir.x != 0 && GetComponent<SpriteRenderer>() != null)
+    void EatFood()
+    {
+        if (targetFood != null)
         {
-            GetComponent<SpriteRenderer>().flipX = moveDir.x > 0;
-        }
+            // 1. 먹이를 삭제
+            Destroy(targetFood.gameObject);
+            targetFood = null;
 
+            // 2. 하트 이펙트 생성
+            if (heartEffectPrefab != null)
+            {
+                GameObject heart = Instantiate(heartEffectPrefab, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+                Destroy(heart, 1.0f); // 1초 뒤에 하트 이펙트 제거
+            }
+
+            // 3. 성장 시도
+            if (TryGetComponent<AnimalGrowth>(out var growth))
+            {
+                growth.OnEat();
+            }
+        }
     }
 
     void ChooseNextState()
@@ -64,5 +106,17 @@ public class AnimalMovement : MonoBehaviour
             moveDir = Vector2.zero;
         }
     }
-}
 
+    void UpdateAnimation()
+    {
+        if (anim != null)
+        {
+            anim.SetBool("isWalking", isMoving);
+            if (isMoving)
+            {
+                anim.SetFloat("moveX", moveDir.x);
+                anim.SetFloat("moveY", moveDir.y);
+            }
+        }
+    }
+}
