@@ -1,12 +1,21 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum ShopUIState
 {
     Sell,
     Buy
+}
+
+public class AmountAndPrice
+{
+    public int amount;
+    public int price;
 }
 
 public class ShopUI : MonoBehaviour
@@ -16,13 +25,29 @@ public class ShopUI : MonoBehaviour
     public RectTransform Shop;
     public RectTransform Middle;
     public RectTransform PlayerInven;
+    public GameObject slot;
+
+    [Header("PlayerHave")]
+    public GameObject ShopExplain;
+
+    public List<ShopPlayerHave> shopPlayerHaves;
+
+    [Header("Middle")]
+    public GameObject SlotSpawnPos;
+    
+    public Dictionary<int, AmountAndPrice> InBag = new Dictionary<int, AmountAndPrice>();
+    public List<GameObject> slots;
+
+    public TextMeshProUGUI PlayerHaveGold;
+    public TextMeshProUGUI InBagHaveGold;
 
     private ShopUIState nowState = ShopUIState.Buy;
 
     private void Start()
     {
         TestManager.Instance.shopUIManager.shopUI = this;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        StartShopping();
     }
 
     public void StartShopping()
@@ -33,6 +58,9 @@ public class ShopUI : MonoBehaviour
         Shop.anchoredPosition = new Vector2(Shop.anchoredPosition.x, 1080);
         PlayerInven.anchoredPosition = new Vector2(PlayerInven.anchoredPosition.x, -1080);
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
+        ShopExplain.SetActive(false);
+        ClearBag();
+        ChangePlayerGold(0);
     }
 
     public void ShowShopping()
@@ -43,14 +71,140 @@ public class ShopUI : MonoBehaviour
 
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, -1080), 1f);
+
+        if(InBag.Count > 0)
+        {
+            foreach(int itemdatanum in InBag.Keys)
+            {
+                GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[itemdatanum], InBag[itemdatanum].amount);
+            }
+        }
+        ClearBag();
     }
     public void ShowInven()
     {
         nowState = ShopUIState.Sell;
+        SettingPlayerHave();
 
         AllInclude.GetComponent<RectTransform>().DOAnchorPos(new Vector2(960, 0), 0.5f);
 
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 1080), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, 0), 1f);
+        ClearBag();
+    }
+
+    public void ClickOffBtn()
+    {
+        gameObject.SetActive(false);
+    }
+
+    void SettingPlayerHave()
+    {
+        foreach(ShopPlayerHave SPH in shopPlayerHaves)
+        {
+            Inventory.Inven inven = GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[SPH.IconNum];
+            if(inven.ItemData_num == 0)
+            {
+                SPH.Setting(0,0,0);
+            }
+            else
+            {
+                SPH.Setting(inven.ItemData_num, inven.amount, ItemManager.Instance.itemDataReader.itemsDatas[inven.ItemData_num].Item_Price);
+            }
+        }
+    }
+
+    public void ClearBag(bool isDone = false)
+    {
+        if(InBag.Count > 0)
+        {
+            if (nowState == ShopUIState.Sell && !isDone)
+            {
+                foreach (int itemdatanum in InBag.Keys)
+                {
+                    GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[itemdatanum], InBag[itemdatanum].amount);
+                    SettingPlayerHave();
+                }
+            }
+            InBag.Clear();
+        }
+        if(slots.Count > 0)
+        {
+            foreach(GameObject go in slots)
+            {
+                Destroy(go);
+            }
+            slots.Clear();
+        }
+
+        InBagHaveGold.text = "0000000";
+    }
+
+    public void AddBag(int _itemData_num, int _amount, int _price)
+    {
+        if (InBag.ContainsKey(_itemData_num))
+        {
+            InBag[_itemData_num].amount += _amount;
+        }
+        else
+        {
+            GameObject go = Instantiate(slot, SlotSpawnPos.transform);
+            slots.Add(go);
+            go.GetComponentInChildren<Shopslot>().Icon.sprite = ItemManager.Instance.itemDataReader.itemsDatas[_itemData_num].Item_sprite;
+
+            AmountAndPrice _AAP = new AmountAndPrice() 
+            { 
+                amount = _amount,
+                price = _price
+            };
+            InBag.Add(_itemData_num, _AAP);
+        }
+
+        SettingGoldBarUI();
+    }
+
+    void SettingGoldBarUI()
+    {
+        int sum = 0;
+        if (InBag.Count > 0)
+        {
+            foreach(AmountAndPrice aap in InBag.Values)
+            {
+                sum += aap.amount * aap.price;
+            }
+        }
+
+        InBagHaveGold.text = sum.ToString();
+    }
+
+    void ChangePlayerGold(int Changes)
+    {
+        PlayerStats playerstats = GameManager.Instance.player.GetComponent<Player>().stat;
+
+        if(Changes >= 0)
+        {
+            playerstats.AddGold(Changes);
+        }
+        else
+        {
+            playerstats.SpendGold(Changes);
+        }
+
+        PlayerHaveGold.text = playerstats.GetGold().ToString();
+    }
+
+    public void OnClickDoneBtn()
+    {
+        if(InBag.Count == 0) return;
+
+        switch (nowState)
+        {
+            case ShopUIState.Sell:
+                ChangePlayerGold(int.Parse(InBagHaveGold.text));
+                break;
+            case ShopUIState.Buy:
+                break;
+        }
+        ClearBag(true);
     }
 }
