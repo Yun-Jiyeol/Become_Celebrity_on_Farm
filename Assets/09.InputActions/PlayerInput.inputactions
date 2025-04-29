@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "InteractNPC",
+                    "type": "Button",
+                    "id": "210cb6b2-81b8-4a28-a6de-01b759208a3f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Inventory",
                     "type": "Button",
                     "id": "fc095661-a442-43c6-9ef6-fdc3c31ec0bd",
@@ -348,6 +357,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TenSlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26c3d175-86f7-4121-8c8a-182c6450980b",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractNPC",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

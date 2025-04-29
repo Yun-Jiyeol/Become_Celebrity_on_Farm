@@ -106,11 +106,11 @@ public class ShopUI : MonoBehaviour
 
     public void ClickOffBtn()
     {
+        GameManager.Instance.player.GetComponent<Player>().playerController.isShop = false;
         foreach(GameObject go in slotsinshop)
         {
             Destroy(go);
         }
-
         ClearBag();
         gameObject.SetActive(false);
     }
@@ -135,12 +135,16 @@ public class ShopUI : MonoBehaviour
     {
         if(_shopData == null || _shopData.sellingCatalogs.Length == 0) return;
 
-        for(int i = 0; i< _shopData.sellingCatalogs.Length; i++)
+        int i = 0;
+        for(i = 0; i< _shopData.sellingCatalogs.Length; i++)
         {
             GameObject go = Instantiate(slot, ShopItemSpawnPos.transform);
             go.AddComponent<ShopHave>().Setting(this, _shopData.sellingCatalogs[i].ItemData_num, _shopData.sellingCatalogs[i].Price);
             slotsinshop.Add(go);
         }
+
+        int length = (i % 5 == 0) ? i / 5 : i/ 5 + 1;
+        ShopItemSpawnPos.GetComponent<RectTransform>().sizeDelta = new Vector2(0, length * 105);
     }
 
     public void ClearBag(bool isDone = false)

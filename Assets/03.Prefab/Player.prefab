@@ -80,6 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e40f5773cbe31e448df1afd1f921f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPCs: []
+  ClosestNPC: {fileID: 0}
 --- !u!1 &6216140351619814056
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +383,7 @@ MonoBehaviour:
   speed: 0
   isAction: 0
   isClick: 0
-  PlayerChoosNum: 1
+  isShop: 0
   ItemDamage: 0
 --- !u!114 &4288322753646585984
 MonoBehaviour:
@@ -404,11 +406,11 @@ MonoBehaviour:
   Attack: 10
   GetItemRange: 1
   ActiveRange: 1
-  InventorySize: 12
+  InventorySize: 30
   Mana: 0
   MaxMana: 0
   Defence: 0
-  gold: 0
+  gold: 10000
 --- !u!114 &6345333457444713724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,13 +448,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42d73d9110e4fc42b5392b2dd2926a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySize: 12
   PlayerHave:
-  - ItemData_num: 8
+  - ItemData_num: 64
     amount: 1
-  - ItemData_num: 60
+  - ItemData_num: 59
     amount: 1
-  - ItemData_num: 67
+  - ItemData_num: 71
     amount: 1
 --- !u!114 &5617835291384115681
 MonoBehaviour:

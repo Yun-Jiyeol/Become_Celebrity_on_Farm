@@ -6,17 +6,6 @@ using UnityEngine;
 public class ShopUIManager : MonoBehaviour
 {
     public ShopUI shopUI;
-    public ShopData shopData;
-
-    private void Start()
-    {
-        Invoke("LateStart", 0.5f);
-    }
-
-    void LateStart()
-    {
-        ShowShopUI(shopData);
-    }
 
     public void ShowShopUI(ShopData _shopData)
     {
