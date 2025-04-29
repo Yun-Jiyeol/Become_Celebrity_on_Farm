@@ -36,6 +36,7 @@ public class Map
     public MapType mapType;
     public GameObject place;
     public List<Portal> portals;
+    public Transform defaultSpawn;
 }
 
 /// <summary>
@@ -54,6 +55,9 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
 
+    [Header("MapType")]
+    [SerializeField] private MapType currentMap;
+
     [Header("MapInfo")]
     [SerializeField] private List<Map> maps;
 
@@ -67,7 +71,6 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
 
     readonly Dictionary<MapType, Map> mapPair = new();
-    MapType currentMap = MapType.Home;
     MapType targetType;
 
 
@@ -87,12 +90,13 @@ public class MapManager : MonoBehaviour
         SetMap();
 
         UnloadAllMap();
-        if(mapPair.TryGetValue(MapType.Home, out Map homeMap))
+
+        if (mapPair.TryGetValue(currentMap, out Map map))
         {
-            homeMap.place.SetActive(true);
+            map.place.SetActive(true);
+            SetPlayerPosition(map);
         }
     }
-
 
     /// <summary>
     /// MapType - Map 연결해서 딕셔너리에 저장
@@ -125,23 +129,8 @@ public class MapManager : MonoBehaviour
             // 2. 타겟 맵 활성화
             if (mapPair.TryGetValue(targetType, out Map targetMap))
             {
-                // 2-1. 타겟 맵 활성화, 플레이어 스폰 위치로 이동
                 targetMap.place.SetActive(true);
                 SetPlayerPosition(targetMap, entrance);
-
-                // 2-2. 채집 요소 스폰
-                StuffSpawner spawner = targetMap.place.GetComponentInChildren<StuffSpawner>();
-
-                if (spawner)
-                {
-                    //Debug.Log("스포너 찾기 성공");
-                    for (int i = 0; i < 100; i++)
-                    {
-                        spawner.SpawnStuff();
-                    }
-                }
-                //else
-                //    Debug.Log("스포너 찾기 실패");
             }
 
             currentMap = targetType;
@@ -183,7 +172,7 @@ public class MapManager : MonoBehaviour
         // 1. 해당 맵에서 입구가 없을 때. 스폰포인트만 있다면 리스트 첫 번째로 둘 것
         if (entrance == null)
         {
-            GameManager.Instance.player.transform.position = targetMap.portals[0].spawnPoints[0].position;
+            GameManager.Instance.player.transform.position = targetMap.defaultSpawn.position;
             return;
         }
         // 2. 해당 맵에서 입구가 있을 때
@@ -229,13 +218,13 @@ public class MapManager : MonoBehaviour
     {
         switch (selectedType)
         {
-            case MapType.StoneMine: 
-                return 0; 
-            case MapType.CopperMine: 
+            case MapType.StoneMine:
+                return 0;
+            case MapType.CopperMine:
                 return 1;
-            case MapType.IronMine: 
+            case MapType.IronMine:
                 return 2;
-            default: 
+            default:
                 return 99;
         }
     }

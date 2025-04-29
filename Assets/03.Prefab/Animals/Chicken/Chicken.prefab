@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 647122820966625567}
   - component: {fileID: 5853663940027462336}
   - component: {fileID: 3685133373335874933}
+  - component: {fileID: 583647586375675439}
+  - component: {fileID: 8101578167098975654}
+  - component: {fileID: 5451425862549013689}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Untagged
@@ -106,3 +109,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &583647586375675439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122141628013632314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4f4249381ad6a6408b852c73b6594a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  moveDuration: 2
+  idleDuration: 2
+  heartEffectPrefab: {fileID: 6224238678973582970, guid: 7285514cb5fef284ea9e6de5238fb498, type: 3}
+--- !u!114 &8101578167098975654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122141628013632314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9459b6c0c5538f248add75b8577554c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  growthManager: {fileID: 0}
+  eatsToGrow: 3
+--- !u!114 &5451425862549013689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122141628013632314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc9d9339d6fa7c4e85f50ecc7be0db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stages:
+  - prefab: {fileID: 0}
+    growTime: 5
+  - prefab: {fileID: 0}
+    growTime: 5
+  - prefab: {fileID: 0}
+    growTime: 5
+  - prefab: {fileID: 9122141628013632314}
+    growTime: 5
