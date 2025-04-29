@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -62,4 +63,19 @@ public class PlayerStats : MonoBehaviour
         Debug.Log($"[PlayerStats] 캐릭터 설정완료 - {CharacterType}, {Name}, {FarmName}");
     }
 
+    public void ChangeHp(float amount)
+    {
+        Hp = Mathf.Clamp(Hp + amount, 0, MaxHp);
+        OnStatChanged?.Invoke();
+
+    }
+
+    public void ChangeMana(float amount)
+    {
+        Mana = Mathf.Clamp(Mana + amount, 0, MaxMana);
+        OnStatChanged?.Invoke();
+    }
+
+    // 체력, 스태미나 변경 알림용 이벤트
+    public event Action OnStatChanged;
 }
