@@ -27,13 +27,29 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        var hpBar = GetComponentInChildren<UIHpBar>();
-        var energyBar = GetComponentInChildren<UIEnergyBar>();
+        var hpBar = GetComponentInChildren<UIHpBar>(true);   // true 추가! 비활성화까지 검색
+        var energyBar = GetComponentInChildren<UIEnergyBar>(true); // true 추가!
 
-        if (hpBar != null) hpBar.Init(player);
-        if (energyBar != null) energyBar.Init(player);
+        if (hpBar != null)
+        {
+            hpBar.Init(player);
+            Debug.Log("[UIManager] HpBar Init 완료");
+        }
+        else
+        {
+            Debug.LogError("[UIManager] HpBar 못 찾음");
+        }
+
+        if (energyBar != null)
+        {
+            energyBar.Init(player);
+            Debug.Log("[UIManager] EnergyBar Init 완료");
+        }
+        else
+        {
+            Debug.LogError("[UIManager] EnergyBar 못 찾음");
+        }
     }
-
     void Awake()
     {
         if (Instance == null)
