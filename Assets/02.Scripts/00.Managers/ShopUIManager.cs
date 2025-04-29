@@ -6,11 +6,21 @@ using UnityEngine;
 public class ShopUIManager : MonoBehaviour
 {
     public ShopUI shopUI;
+    public ShopData shopData;
 
-    public void ShowShopUI()
+    private void Start()
     {
-        shopUI.gameObject.SetActive(true);
-        shopUI.StartShopping();
+        Invoke("LateStart", 0.5f);
     }
 
+    void LateStart()
+    {
+        ShowShopUI(shopData);
+    }
+
+    public void ShowShopUI(ShopData _shopData)
+    {
+        shopUI.gameObject.SetActive(true);
+        shopUI.StartShopping(_shopData);
+    }
 }

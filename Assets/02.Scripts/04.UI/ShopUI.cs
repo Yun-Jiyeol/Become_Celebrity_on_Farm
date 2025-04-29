@@ -29,6 +29,7 @@ public class ShopUI : MonoBehaviour
 
     [Header("PlayerHave")]
     public GameObject ShopExplain;
+    public RectTransform ShopExplainDir;
 
     public List<ShopPlayerHave> shopPlayerHaves;
 
@@ -41,24 +42,31 @@ public class ShopUI : MonoBehaviour
     public TextMeshProUGUI PlayerHaveGold;
     public TextMeshProUGUI InBagHaveGold;
 
+    [Header("Shop")]
+    public GameObject ShopItemSpawnPos;
+
     private ShopUIState nowState = ShopUIState.Buy;
 
     private void Start()
     {
         TestManager.Instance.shopUIManager.shopUI = this;
-        //gameObject.SetActive(false);
-        StartShopping();
+        gameObject.SetActive(false);
     }
 
-    public void StartShopping()
+    public void StartShopping(ShopData _shopData)
     {
         nowState = ShopUIState.Buy;
+
+        SettingShopHave(_shopData);
 
         AllInclude.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         Shop.anchoredPosition = new Vector2(Shop.anchoredPosition.x, 1080);
         PlayerInven.anchoredPosition = new Vector2(PlayerInven.anchoredPosition.x, -1080);
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
+
         ShopExplain.SetActive(false);
+        ShopExplainDir.anchoredPosition = new Vector2(-150, -100);
+
         ClearBag();
         ChangePlayerGold(0);
     }
@@ -68,6 +76,7 @@ public class ShopUI : MonoBehaviour
         nowState = ShopUIState.Buy;
 
         AllInclude.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 0), 0.5f);
+        ShopExplainDir.anchoredPosition = new Vector2(-150, -100);
 
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, -1080), 1f);
@@ -87,10 +96,11 @@ public class ShopUI : MonoBehaviour
         SettingPlayerHave();
 
         AllInclude.GetComponent<RectTransform>().DOAnchorPos(new Vector2(960, 0), 0.5f);
+        ShopExplainDir.anchoredPosition = new Vector2(150, -100);
 
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 1080), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, 0), 1f);
-        ClearBag();
+        ClearBag(true);
     }
 
     public void ClickOffBtn()
@@ -111,6 +121,17 @@ public class ShopUI : MonoBehaviour
             {
                 SPH.Setting(inven.ItemData_num, inven.amount, ItemManager.Instance.itemDataReader.itemsDatas[inven.ItemData_num].Item_Price);
             }
+        }
+    }
+
+    void SettingShopHave(ShopData _shopData)
+    {
+        if(_shopData == null || _shopData.sellingCatalogs.Length == 0) return;
+
+        for(int i = 0; i< _shopData.sellingCatalogs.Length; i++)
+        {
+            GameObject go = Instantiate(slot, ShopItemSpawnPos.transform);
+            go.AddComponent<ShopHave>().Setting(this, _shopData.sellingCatalogs[i].ItemData_num, _shopData.sellingCatalogs[i].Price);
         }
     }
 
@@ -187,7 +208,7 @@ public class ShopUI : MonoBehaviour
         }
         else
         {
-            playerstats.SpendGold(Changes);
+            playerstats.SpendGold(-Changes);
         }
 
         PlayerHaveGold.text = playerstats.GetGold().ToString();
@@ -201,10 +222,24 @@ public class ShopUI : MonoBehaviour
         {
             case ShopUIState.Sell:
                 ChangePlayerGold(int.Parse(InBagHaveGold.text));
+                ClearBag(true);
                 break;
             case ShopUIState.Buy:
+                if(int.Parse(InBagHaveGold.text) <= GameManager.Instance.player.GetComponent<Player>().stat.GetGold())
+                {
+                    PlayerBuyBag();
+                    ChangePlayerGold(-int.Parse(InBagHaveGold.text));
+                    ClearBag(true);
+                }
                 break;
         }
-        ClearBag(true);
+    }
+
+    void PlayerBuyBag()
+    {
+        foreach(int ItemDataNum in InBag.Keys)
+        {
+            GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[ItemDataNum], InBag[ItemDataNum].amount);
+        }
     }
 }
