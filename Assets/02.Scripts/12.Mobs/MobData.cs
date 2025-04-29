@@ -75,6 +75,9 @@ public class MobData : MonoBehaviour
             Vector3 spawnPos = ground.CellToWorld(randomPos) + new Vector3(0.5f, 0.5f, 0);
             GameObject mobPrefab = mobs[Random.Range(0, mobs.Length)];
             Instantiate(mobPrefab, spawnPos, Quaternion.identity);
+
+            Debug.DrawLine(spawnPos, spawnPos + Vector3.up * 2f, Color.red, 5f, false);
+
         }
     }
 
