@@ -106,7 +106,7 @@ public class ShopUI : MonoBehaviour
 
     public void ClickOffBtn()
     {
-        GameManager.Instance.player.GetComponent<Player>().playerController.isShop = false;
+        GameManager.Instance.player.GetComponent<Player>().playerController.isNPCInteract = false;
         foreach(GameObject go in slotsinshop)
         {
             Destroy(go);
