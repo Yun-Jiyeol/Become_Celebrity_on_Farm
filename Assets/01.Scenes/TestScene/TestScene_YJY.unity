@@ -3398,6 +3398,7 @@ GameObject:
   - component: {fileID: 996328075}
   - component: {fileID: 996328074}
   - component: {fileID: 996328073}
+  - component: {fileID: 996328076}
   m_Layer: 0
   m_Name: TextScript
   m_TagString: Untagged
@@ -3488,6 +3489,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &996328076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996328071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0a9c2ea083d1b74abc059ccd05130a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 322827316}
+  NPCimage: {fileID: 1306923913}
 --- !u!1 &1052614883
 GameObject:
   m_ObjectHideFlags: 0
@@ -4568,6 +4583,7 @@ GameObject:
   - component: {fileID: 1519044772}
   - component: {fileID: 1519044771}
   - component: {fileID: 1519044773}
+  - component: {fileID: 1519044774}
   m_Layer: 0
   m_Name: TestManager
   m_TagString: Untagged
@@ -4630,6 +4646,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopUI: {fileID: 0}
+--- !u!114 &1519044774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519044770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a4d7e247ddada419c208414d7f8129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1568161276
 PrefabInstance:
   m_ObjectHideFlags: 0
