@@ -124,7 +124,8 @@ public class QuestManager : MonoBehaviour
                 if (quest.currentProgress >= quest.quest.objectiveAmount)
                 {
                     Debug.Log($"[QuestManager] {targetName} 퀘스트 완료!");
-                    // TODO: 여기서 골드 지급, 퀘스트 완료 처리 추가 가능
+                    questSlot.Remove(quest); 
+                    activeQuests.Remove(quest);
                 }
 
                 break; // 같은 타겟 여러 개 증가하는 것 방지
