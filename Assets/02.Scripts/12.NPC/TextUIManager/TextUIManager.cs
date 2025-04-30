@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using static ItemDataReader;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public enum NPCName
 {
@@ -30,7 +31,7 @@ public class TextUIManager : MonoBehaviour, ExcelReader
     public List<NPCNameAndPath> settingnameandpath;
     List<StreamReader> reader;
 
-    public Dictionary<string, List<NPCTextSave>> calledNPCText = new Dictionary<string, List<NPCTextSave>>();
+    public Dictionary<NPCName, List<NPCTextSave>> calledNPCText = new Dictionary<NPCName, List<NPCTextSave>>();
 
     private void Awake()
     {
@@ -55,52 +56,33 @@ public class TextUIManager : MonoBehaviour, ExcelReader
 
     public void SettingData()
     {
-        /*for (int i = 0; i < settingnameandpath.Count; i++)
+        for (int i = 0; i < reader.Count; i++)
         {
             while (true)
             {
-                string data = reader.ReadLine();
-                if (itemsDatas.Count == 0)
-                {
-                    data = reader.ReadLine();
-                }
-
-                if (data == null)
-                {
-                    break;
-                }
-
+                string data = reader[i].ReadLine();
                 var splitData = data.Split(',');
 
-                ItemsData itemsData = new ItemsData
+                NPCTextSave _npctext = new NPCTextSave
                 {
-                    Item_num = int.Parse(splitData[0]),
-                    Item_name = splitData[1],
-                    Item_Explain = splitData[2],
-                    Item_Type = (ItemType)Enum.Parse(typeof(ItemType), splitData[3]),
-                    Item_Price = int.TryParse(splitData[4], out int price) ? price : 0,
-                    Item_Overlap = int.TryParse(splitData[5], out int overlap) ? overlap : 0,
-
-                    Item_sprite = ResourceManager.Instance.splits[splitData[6]],
-
-                    Stamina = float.TryParse(splitData[7], out float stamina) ? stamina : 0,
-                    Hp = float.TryParse(splitData[8], out float hp) ? hp : 0,
-                    Stress = float.TryParse(splitData[9], out float stress) ? stress : 0,
-                    Damage = float.TryParse(splitData[10], out float damage) ? damage : 0,
-                    Range = float.TryParse(splitData[11], out float range) ? range : 0,
-                    Speed = float.TryParse(splitData[12], out float speed) ? speed : 0,
-
-                    Buff = splitData[13]
+                    Text = splitData[0],
+                    spriteName = splitData[1]
                 };
 
-                itemsDatas.Add(itemsData.Item_num, itemsData);
+                calledNPCText[settingnameandpath[i].Name].Add(_npctext);
             }
-        }*/
+        }
     }
 
-    public void ShowTextUI()
+    public void ShowTextUI(NPCName name, int num)
     {
-        //TextScript.SettingTextScript(±Û, »çÁø);
+        NPCTextSave temp = calledNPCText[name][num];
+        TextScript.SettingTextScript(temp.Text, ResourceManager.Instance.splits[temp.spriteName]);
         TextScript.gameObject.SetActive(true);
+    }
+
+    public void OffTextUI()
+    {
+        TextScript.gameObject.SetActive(false);
     }
 }
