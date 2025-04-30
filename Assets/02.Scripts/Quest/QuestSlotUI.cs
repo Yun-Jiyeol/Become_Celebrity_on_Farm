@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using static QuestManager;
 
 public class QuestSlotUI : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class QuestSlotUI : MonoBehaviour
 
     public bool HasEmptySlot => acceptedQuests.Count < slotTexts.Count;
 
-    public void Assign(QuestData quest)
+    public void Assign(QuestProgress questProgress)
     {
         if (!HasEmptySlot)
         {
@@ -19,7 +18,7 @@ public class QuestSlotUI : MonoBehaviour
             return;
         }
 
-        acceptedQuests.Add(new QuestProgress(quest));
+        acceptedQuests.Add(questProgress);
         UpdateUI();
     }
     private void Update()
@@ -65,9 +64,13 @@ public class QuestSlotUI : MonoBehaviour
         {
             acceptedQuests.Remove(quest);
             UpdateUI();
+            Debug.Log($"[QuestSlotUI] 퀘스트 제거됨: {quest.quest.questTitle}");
+        }
+        else
+        {
+            Debug.LogWarning("[QuestSlotUI] 제거 실패: 리스트에 없음");
         }
     }
-
     public void RemoveByTitle(string questTitle)
     {
         for (int i = 0; i < acceptedQuests.Count; i++)

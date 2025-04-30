@@ -29,14 +29,14 @@ public class PlayerStats : MonoBehaviour
         MaxHp = 100;
         Hp = MaxHp;
 
-        MaxMana = 50;
+        MaxMana = 100;
         Mana = MaxMana;
 
-        Speed = 3;
+        Speed = 5;
         Attack = 10;
         Defence = 5;
 
-        InventorySize = 24;
+        InventorySize = 12;
         GetItemRange = 2;
         ActiveRange = 1.5f;
 
