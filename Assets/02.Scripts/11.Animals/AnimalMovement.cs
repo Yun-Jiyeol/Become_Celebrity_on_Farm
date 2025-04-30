@@ -80,14 +80,15 @@ public class AnimalMovement : MonoBehaviour
             // 2. 하트 이펙트 생성
             if (heartEffectPrefab != null)
             {
-                GameObject heart = Instantiate(heartEffectPrefab, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
-                Destroy(heart, 1.0f); // 1초 뒤에 하트 이펙트 제거
+                GameObject heart = Instantiate(heartEffectPrefab, transform.position + new Vector3(0, 1f, 0), Quaternion.identity, transform);
+                Destroy(heart, 1.0f); // 1초 뒤에 하트 제거
             }
 
             // 3. 성장 시도
             if (TryGetComponent<AnimalGrowth>(out var growth))
             {
                 growth.OnEat();
+                Debug.Log("성장!");
             }
         }
     }
