@@ -22,9 +22,8 @@ public class UIEnergyBar : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (player == null) return;
-
-        energyFillImage.fillAmount = player.Mana / player.MaxMana;
+        if (player == null || player.MaxMana <= 0) return; //NaN 방지
         Debug.Log($"[UIEnergyBar] Energy 갱신: {player.Mana} / {player.MaxMana}");
+        energyFillImage.fillAmount = player.Mana / player.MaxMana;
     }
 }
