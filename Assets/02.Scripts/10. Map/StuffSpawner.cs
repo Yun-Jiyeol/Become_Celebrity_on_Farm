@@ -11,14 +11,14 @@ public class StuffSpawner : ObjectPolling
 {
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private List<GameObject> stuffs;
-    [SerializeField] private Transform onActiveObj;
-    public int prefabCount = 100;
-    private int curDay;
+    [SerializeField] private Transform onActiveObjs;
+
+    public int prefabCount;
+    private int curDay = 0;
 
     readonly HashSet<Vector3Int> usedPositions = new();
 
     bool isSpawned = false;
-
 
     void Awake()
     {
@@ -33,21 +33,22 @@ public class StuffSpawner : ObjectPolling
 
     void Update()
     {
+        // 하루 지나면 추가 스폰. event?
         if (curDay != TimeManager.Instance.currentDay)
         {
-            Debug.Log($"[StuffSpawner] 날짜 달라짐. {curDay}, {TimeManager.Instance.currentDay}");
             curDay = TimeManager.Instance.currentDay;
-            SpawnStuff(10);
+            SpawnStuff(prefabCount / 10);
         }
     }
 
+    /// <summary>
+    /// 처음 켜졌을 때 오브젝트 풀의 반만 스폰
+    /// </summary>
     void OnEnable()
     {
-        Debug.Log($"[StuffSpawner] 날짜 초기화. {curDay}, {TimeManager.Instance.currentDay}");
-
         if (!isSpawned)
         {
-            SpawnStuff(prefabCount);
+            SpawnStuff(prefabCount / 2);
             isSpawned = true;
         }
     }
@@ -65,14 +66,14 @@ public class StuffSpawner : ObjectPolling
             GameObject stuff = stuffs[num];
 
             // 2. 프리팹 생성
-            GameObject obj = Instantiate(stuff, onActiveObj);
+            GameObject obj = Instantiate(stuff, onActiveObjs);
             obj.SetActive(false);
             Things.Add(obj);
         }
     }
 
     /// <summary>
-    /// 랜덤 위치에 랜덤 프리팹 스폰
+    /// 랜덤 위치에 랜덤 프리팹 오브젝트 풀에서 꺼내오기
     /// </summary>
     void SpawnStuff(int count)
     {
@@ -94,9 +95,9 @@ public class StuffSpawner : ObjectPolling
         BoundsInt wholeBounds = tilemap.cellBounds;
 
         int tryCount = 0;
-        int maxTry = 200;
+        int maxTry = 1000;
 
-        // 위치 찾을 때까지 200번 반복
+        // 위치 찾을 때까지 1000번 반복
         while (tryCount < maxTry)
         {
             int x = Random.Range(wholeBounds.xMin, wholeBounds.xMax);
@@ -123,6 +124,18 @@ public class StuffSpawner : ObjectPolling
     GameObject SetStuff()
     {
         GameObject stuff = SpawnOrFindThings();
+
+        // 오브젝트 풀에 아무것도 없을 경우
+        if (stuff == null)
+        {
+            int num = Random.Range(0, stuffs.Count);
+            stuff = stuffs[num];
+
+            GameObject obj = Instantiate(stuff, onActiveObjs);
+            obj.SetActive(false);
+            Things.Add(obj);
+        }
+
         return stuff;
     }
 }

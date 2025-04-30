@@ -22,7 +22,7 @@ public class PlayerController : BaseController
     Vector3 tartgetPosition = new Vector3();
     public bool isAction = false;
     public bool isClick = false;
-    public bool isShop = false;
+    public bool isNPCInteract = false;
 
     private int nownum;
     int DirectionSave = 0;
@@ -69,7 +69,7 @@ public class PlayerController : BaseController
     protected override void FixedUpdate()
     {
         if (isAction) return;
-        if (isShop) return;
+        if (isNPCInteract) return;
 
         base.FixedUpdate();
     }
@@ -77,10 +77,10 @@ public class PlayerController : BaseController
     {
         GameObject NPC = GetComponent<Player>().autoGetItem.ClosestNPC;
 
-        if (NPC != null && !isShop)
+        if (NPC != null && !isNPCInteract)
         {
-            isShop = true;
-            TestManager.Instance.shopUIManager.ShowShopUI(NPC.GetComponent<NPCData>().ShopData);
+            isNPCInteract = true;
+            NPC.GetComponent<IInteract>().Interact();
         }
     }
 
@@ -88,7 +88,7 @@ public class PlayerController : BaseController
     {
         if (UIManager.Instance.InventoryIsOpen()) return;
         if (isAction == true) return;
-        if (isShop) return;
+        if (isNPCInteract) return;
 
         dir = inputValue.Get<Vector2>();
     }
@@ -97,7 +97,7 @@ public class PlayerController : BaseController
     {
         if (UIManager.Instance.InventoryIsOpen()) return;
         if (isAction) return;
-        if (isShop) return;
+        if (isNPCInteract) return;
 
         if (inputValue.isPressed)
         {
