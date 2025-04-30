@@ -87,7 +87,8 @@ public class AnimalMovement : MonoBehaviour
             // 3. 성장 시도
             if (TryGetComponent<AnimalGrowth>(out var growth))
             {
-                growth.OnEat(); 
+                growth.OnEat();
+                Debug.Log("성장!");
             }
         }
     }
