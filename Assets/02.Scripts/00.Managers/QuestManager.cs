@@ -9,12 +9,16 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private QuestPopupUI popupUI;
     [SerializeField] private QuestPhone phone;
     [SerializeField] private QuestSlotUI questSlot; // 최대 3개 슬롯
+
+
     private List<QuestData> receivedQuests = new List<QuestData>(); //이미 수락한 퀘스트 목록
+    private List<QuestProgress> activeQuests = new List<QuestProgress>();
 
 
     private float questInterval = 10f; // 실제 시간 2분 120f
     private float timer;
     private QuestData pendingQuest;
+
 
 
     private void Awake()
@@ -65,7 +69,8 @@ public class QuestManager : MonoBehaviour
         if (!questSlot.HasEmptySlot) return;
 
         questSlot.Assign(pendingQuest);
-        receivedQuests.Add(pendingQuest); // 받은 퀘스트로 기록
+        activeQuests.Add(new QuestProgress(pendingQuest));
+        receivedQuests.Add(pendingQuest); //받은 퀘스트로 기록
 
         pendingQuest = null;
         phone.HideNotification();
@@ -104,5 +109,30 @@ public class QuestManager : MonoBehaviour
 
         Debug.Log($"[QuestManager] 퀘스트 풀 개수: {allQuestPool.Count}");
         return available[Random.Range(0, available.Count)];
+    }
+
+    public void ReportProgress(string targetName, int amount)
+    {
+        foreach (QuestProgress quest in activeQuests)
+        {
+            if (quest.quest.objectiveTarget == targetName)
+            {
+                quest.currentProgress += amount;
+                Debug.Log($"[QuestManager] {targetName} 퀘스트 진행도 증가: {quest.currentProgress}/{quest.quest.objectiveAmount}");
+
+                if (quest.currentProgress >= quest.quest.objectiveAmount)
+                {
+                    Debug.Log($"[QuestManager] {targetName} 퀘스트 완료!");
+
+                    // 슬롯에서 제거
+                    questSlot.Remove(quest);
+
+                    // 퀘스트 목록에서도 제거
+                    activeQuests.Remove(quest);
+                }
+
+                break; // 같은 타겟 여러 개 증가하는 것 방지
+            }
+        }
     }
 }
