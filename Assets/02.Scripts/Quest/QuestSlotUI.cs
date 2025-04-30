@@ -52,35 +52,32 @@ public class QuestSlotUI : MonoBehaviour
             }
         }
     }
-    public class QuestProgress //// 퀘스트 진행 상태(시간)를 관리하는 클래스
-    {
-        public QuestData quest;
-        public float remainingTime;
-        public int currentProgress = 0;
-
-        public QuestProgress(QuestData quest)
-        {
-            this.quest = quest;
-            remainingTime = quest.duration * 60f; // 분 → 초
-        }
-
-        public void Update(float deltaTime)
-        {
-            remainingTime -= deltaTime;
-            remainingTime = Mathf.Max(remainingTime, 0f);
-        }
-
-        public string GetFormattedTime()
-        {
-            int min = Mathf.FloorToInt(remainingTime / 60f);
-            int sec = Mathf.FloorToInt(remainingTime % 60f);
-            return $"{min:D2}분 {sec:D2}초";
-        }
-    }
 
     public void ClearAll()
     {
         acceptedQuests.Clear();
         UpdateUI();
+    }
+
+    public void Remove(QuestProgress quest)
+    {
+        if (acceptedQuests.Contains(quest))
+        {
+            acceptedQuests.Remove(quest);
+            UpdateUI();
+        }
+    }
+
+    public void RemoveByTitle(string questTitle)
+    {
+        for (int i = 0; i < acceptedQuests.Count; i++)
+        {
+            if (acceptedQuests[i].quest.questTitle == questTitle)
+            {
+                acceptedQuests.RemoveAt(i);
+                UpdateUI();
+                break;
+            }
+        }
     }
 }
