@@ -68,9 +68,11 @@ public class QuestManager : MonoBehaviour
     {
         if (!questSlot.HasEmptySlot) return;
 
-        questSlot.Assign(pendingQuest);
-        activeQuests.Add(new QuestProgress(pendingQuest));
-        receivedQuests.Add(pendingQuest); //받은 퀘스트로 기록
+        QuestProgress newQuest = new QuestProgress(pendingQuest);
+
+        questSlot.Assign(newQuest); 
+        activeQuests.Add(newQuest);
+        receivedQuests.Add(pendingQuest); 
 
         pendingQuest = null;
         phone.HideNotification();
