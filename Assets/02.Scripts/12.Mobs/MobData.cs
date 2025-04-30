@@ -36,7 +36,45 @@ public class MobData : MonoBehaviour
             stoneMobs = new GameObject[] { CloudC, MobBatSmallB, EarthSmallerB, SlimeD };
         }
 
-        // CopperMine, IronMine은 나중에 설정
+        // 자동으로 Tilemap 할당 (이름 기반)
+        if (stoneMineGround == null)
+        {
+            GameObject groundObj = GameObject.Find("MineGround");
+            if (groundObj != null)
+            {
+                stoneMineGround = groundObj.GetComponent<Tilemap>();
+                if (stoneMineGround == null)
+                    Debug.LogWarning("MineGround 오브젝트에 Tilemap 컴포넌트가 없습니다!");
+            }
+            else
+            {
+                Debug.LogWarning("MineGround 오브젝트를 찾을 수 없습니다!");
+            }
+        }
+
+        // StoneMobs 배열 내 요소가 비어 있다면 Resources에서 자동 로딩
+        if ((stoneMobs == null || stoneMobs.Length == 0) ||
+            (stoneMobs.Length > 0 && stoneMobs[0] == null))
+        {
+            List<GameObject> mobList = new List<GameObject>();
+            string[] defaultMobNames = { "CloudC", "MobBatSmallB", "EarthSmallerB", "SlimeD" };
+            foreach (string mobName in defaultMobNames)
+            {
+                GameObject prefab = Resources.Load<GameObject>(mobName);
+                if (prefab != null)
+                {
+                    mobList.Add(prefab);
+                }
+                else
+                {
+                    Debug.LogWarning($"Resources에서 '{mobName}' 프리팹을 찾을 수 없습니다.");
+                }
+            }
+            if (mobList.Count > 0)
+            {
+                stoneMobs = mobList.ToArray();
+            }
+        }
     }
 
     void Start()
@@ -77,7 +115,6 @@ public class MobData : MonoBehaviour
             Instantiate(mobPrefab, spawnPos, Quaternion.identity);
 
             Debug.DrawLine(spawnPos, spawnPos + Vector3.up * 2f, Color.red, 5f, false);
-
         }
     }
 
@@ -109,5 +146,3 @@ public class MobData : MonoBehaviour
         return selected;
     }
 }
-
-
