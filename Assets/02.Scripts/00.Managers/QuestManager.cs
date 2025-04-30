@@ -10,7 +10,6 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private QuestPhone phone;
     [SerializeField] private QuestSlotUI questSlot; // 최대 3개 슬롯
 
-
     private List<QuestData> receivedQuests = new List<QuestData>(); //이미 수락한 퀘스트 목록
     private List<QuestProgress> activeQuests = new List<QuestProgress>();
 
@@ -125,12 +124,7 @@ public class QuestManager : MonoBehaviour
                 if (quest.currentProgress >= quest.quest.objectiveAmount)
                 {
                     Debug.Log($"[QuestManager] {targetName} 퀘스트 완료!");
-
-                    // 슬롯에서 제거
-                    questSlot.Remove(quest);
-
-                    // 퀘스트 목록에서도 제거
-                    activeQuests.Remove(quest);
+                    // TODO: 여기서 골드 지급, 퀘스트 완료 처리 추가 가능
                 }
 
                 break; // 같은 타겟 여러 개 증가하는 것 방지

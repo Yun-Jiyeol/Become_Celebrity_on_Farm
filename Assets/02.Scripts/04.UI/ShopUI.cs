@@ -22,7 +22,6 @@ public class ShopUI : MonoBehaviour
 {
     public GameObject AllInclude;
 
-    public RectTransform ChooseBtn;
     public RectTransform Shop;
     public RectTransform Middle;
     public RectTransform PlayerInven;
@@ -64,7 +63,6 @@ public class ShopUI : MonoBehaviour
         AllInclude.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         Shop.anchoredPosition = new Vector2(Shop.anchoredPosition.x, 1080);
         PlayerInven.anchoredPosition = new Vector2(PlayerInven.anchoredPosition.x, -1080);
-        ChooseBtn.anchoredPosition = new Vector2(180, 200);
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
 
         ShopExplain.SetActive(false);
@@ -83,9 +81,8 @@ public class ShopUI : MonoBehaviour
 
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, -1080), 1f);
-        ChooseBtn.DOAnchorPos(new Vector2(180, 200), 1f);
 
-        if (InBag.Count > 0)
+        if(InBag.Count > 0)
         {
             foreach(int itemdatanum in InBag.Keys)
             {
@@ -104,14 +101,12 @@ public class ShopUI : MonoBehaviour
 
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 1080), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, 0), 1f);
-        ChooseBtn.DOAnchorPos(new Vector2(0, 200), 1f);
-
         ClearBag(true);
     }
 
     public void ClickOffBtn()
     {
-        GameManager.Instance.player.GetComponent<Player>().playerController.isNPCInteract = false;
+        GameManager.Instance.player.GetComponent<Player>().playerController.isShop = false;
         foreach(GameObject go in slotsinshop)
         {
             Destroy(go);
