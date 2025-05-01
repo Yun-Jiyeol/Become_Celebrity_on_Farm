@@ -11,6 +11,10 @@ public class Season : MonoBehaviour
         Winter
     }
 
+    [Header("수동 계절 설정 (테스트용)")]
+    public bool overrideSeason = false;
+    public SeasonType manualSeason;
+
     private int currentDay = 0; // TimeManager와 연동할 예정
     private readonly string[] seasonNames = { "봄", "여름", "가을", "겨울" };
 
@@ -22,6 +26,11 @@ public class Season : MonoBehaviour
     {
         get
         {
+            if (overrideSeason)
+            {
+                return manualSeason;
+            }
+
             int seasonLength = 28;
             int seasonIndex = (currentDay / seasonLength) % 4;
             return (SeasonType)seasonIndex;
@@ -33,7 +42,14 @@ public class Season : MonoBehaviour
     public void SetCurrentDay(int day)
     {
         currentDay = day;
-        UpdateSeason(); //날짜가 바뀌면 시즌 업데이트 호출
+        UpdateSeason(); // 날짜가 바뀌면 시즌 업데이트 호출
+    }
+
+    public void SetCurrentSeason(SeasonType season)
+    {
+        overrideSeason = true;
+        manualSeason = season;
+        UpdateSeason();
     }
 
     public void UpdateSeason()
@@ -42,7 +58,7 @@ public class Season : MonoBehaviour
         if (current != lastSeason)
         {
             lastSeason = current;
-            OnSeasonChanged?.Invoke(current); //계절이 바뀌었으면 이벤트 발동
+            OnSeasonChanged?.Invoke(current); // 계절이 바뀌었으면 이벤트 발동
         }
     }
 }

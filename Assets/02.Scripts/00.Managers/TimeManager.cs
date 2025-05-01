@@ -26,6 +26,10 @@ public class TimeManager : MonoBehaviour
 
     private Season season;
 
+    [Header("계절 수동 설정 (TimeManager → Season)")]
+    public bool overrideSeasonInInspector = false;
+    public Season.SeasonType manualSeason;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -39,7 +43,13 @@ public class TimeManager : MonoBehaviour
         if (season != null)
         {
             season.SetCurrentDay(currentDay);
+
+            if (overrideSeasonInInspector)
+            {
+                season.SetCurrentSeason(manualSeason);
+            }
         }
+
         StartCoroutine(TimeFlow());
     }
 
@@ -58,7 +68,7 @@ public class TimeManager : MonoBehaviour
             yield return new WaitForSeconds(timeTick);
             AdvanceTime(10);
 
-            if (season != null)
+            if (season != null && !season.overrideSeason) // 수동 계절이면 자동 갱신하지 않음
             {
                 season.UpdateSeason();
             }
@@ -140,6 +150,11 @@ public class TimeManager : MonoBehaviour
         if (season != null)
         {
             season.SetCurrentDay(currentDay);
+
+            if (overrideSeasonInInspector)
+            {
+                season.SetCurrentSeason(manualSeason);
+            }
         }
     }
 }
