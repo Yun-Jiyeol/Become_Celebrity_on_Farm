@@ -45,17 +45,22 @@ public class Bed : MonoBehaviour
     {
         endOfDaySelectUI.gameObject.SetActive(false);
 
-        StartCoroutine(fader.Fade(
-            () =>
-            {
-                endingUI.gameObject.SetActive(true);
-            },
+        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
+        {
+            input.enabled = true;
+        }
 
-            () =>
-            {
-                // 다음 날 진행?
-            }
-            ));
+        //StartCoroutine(fader.Fade(
+        //    () =>
+        //    {
+        //        endingUI.gameObject.SetActive(true);
+        //    },
+
+        //    () =>
+        //    {
+        //        // 다음 날 진행?
+        //    }
+        //    ));
     }
 
     void OnClickNoButton()
