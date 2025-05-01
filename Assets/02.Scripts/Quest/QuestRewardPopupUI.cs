@@ -29,13 +29,14 @@ public class QuestRewardPopupUI : MonoBehaviour
     {
         if (currentQuest != null)
         {
-            //보상 지급
-            PlayerStats player = FindObjectOfType<PlayerStats>();
-            if (player != null)
+            if (GoldManager.Instance != null)
             {
                 Debug.Log("[QuestRewardPopupUI] 골드 지급 시도");
-                player.AddGold(currentQuest.rewardGold);
-                // 경험치 시스템 추가
+                GoldManager.Instance.AddGold(currentQuest.rewardGold);
+            }
+            else
+            {
+                Debug.LogError("[QuestRewardPopupUI] GoldManager.Instance 가 null입니다.");
             }
 
             currentQuest = null;
