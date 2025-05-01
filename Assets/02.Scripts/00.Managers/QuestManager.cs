@@ -26,7 +26,6 @@ public class QuestManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
-
     private void Update()
     {
         timer += Time.deltaTime;
@@ -34,6 +33,26 @@ public class QuestManager : MonoBehaviour
         {
             timer = 0f;
             TryGenerateQuest();
+        }
+
+        //퀘스트 진행 시간 갱신 + 만료 체크
+        List<QuestProgress> expired = new List<QuestProgress>();
+
+        foreach (QuestProgress quest in activeQuests)
+        {
+            quest.Update(Time.deltaTime);
+
+            if (quest.remainingTime <= 0f)
+            {
+                Debug.Log($"[QuestManager] 퀘스트 만료됨: {quest.quest.questTitle}");
+                expired.Add(quest);
+            }
+        }
+
+        foreach (QuestProgress quest in expired)
+        {
+            questSlot.Remove(quest);
+            activeQuests.Remove(quest);
         }
     }
 

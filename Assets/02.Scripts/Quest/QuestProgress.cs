@@ -17,6 +17,7 @@ public class QuestProgress
     public void Update(float deltaTime)
     {
         remainingTime -= deltaTime;
+        remainingTime = Mathf.Max(0f, remainingTime); //음수 방지
     }
 
     public string GetFormattedTime()
