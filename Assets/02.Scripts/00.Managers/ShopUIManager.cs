@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShopUIManager : MonoBehaviour
 {
     public ShopUI shopUI;
+    public ShopData lastshopData;
 
     public void ShowShopUI(ShopData _shopData)
     {

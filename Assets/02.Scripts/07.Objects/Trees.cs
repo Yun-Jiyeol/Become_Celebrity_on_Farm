@@ -129,6 +129,7 @@ public class Trees : SeedGrow
                 collider.size = new Vector2(1, 1);
                 TreeStump stump = go.AddComponent<TreeStump>();
                 stump.GetDamage(StumpHp);
+                go.AddComponent<SortingOrderGroup>();
             }
             else
             {
