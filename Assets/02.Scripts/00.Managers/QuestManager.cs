@@ -9,6 +9,7 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private QuestPopupUI popupUI;
     [SerializeField] private QuestPhone phone;
     [SerializeField] private QuestSlotUI questSlot; // 최대 3개 슬롯
+    [SerializeField] private QuestRewardPopupUI questRewardPopupUI;
 
 
     private List<QuestData> receivedQuests = new List<QuestData>(); //이미 수락한 퀘스트 목록
@@ -68,9 +69,11 @@ public class QuestManager : MonoBehaviour
     {
         if (!questSlot.HasEmptySlot) return;
 
-        questSlot.Assign(pendingQuest);
-        activeQuests.Add(new QuestProgress(pendingQuest));
-        receivedQuests.Add(pendingQuest); //받은 퀘스트로 기록
+        QuestProgress newQuest = new QuestProgress(pendingQuest);
+
+        questSlot.Assign(newQuest); 
+        activeQuests.Add(newQuest);
+        receivedQuests.Add(pendingQuest); 
 
         pendingQuest = null;
         phone.HideNotification();
@@ -113,6 +116,8 @@ public class QuestManager : MonoBehaviour
 
     public void ReportProgress(string targetName, int amount)
     {
+        QuestProgress completedQuest = null;
+
         foreach (QuestProgress quest in activeQuests)
         {
             if (quest.quest.objectiveTarget == targetName)
@@ -123,16 +128,28 @@ public class QuestManager : MonoBehaviour
                 if (quest.currentProgress >= quest.quest.objectiveAmount)
                 {
                     Debug.Log($"[QuestManager] {targetName} 퀘스트 완료!");
+                    completedQuest = quest;
 
                     // 슬롯에서 제거
                     questSlot.Remove(quest);
 
                     // 퀘스트 목록에서도 제거
                     activeQuests.Remove(quest);
+
                 }
 
                 break; // 같은 타겟 여러 개 증가하는 것 방지
             }
+        }
+        if (completedQuest != null)
+        {
+            Debug.Log("[QuestManager] 완료 팝업 호출 시도됨");
+
+            questSlot.Remove(completedQuest);
+            activeQuests.Remove(completedQuest);
+
+            //보상 팝업 호출
+            questRewardPopupUI.Show(completedQuest.quest);
         }
     }
 }

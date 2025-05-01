@@ -22,9 +22,7 @@ public class UIHpBar : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (player == null) return;
-
+        if (player == null || player.MaxHp <= 0) return; // NaN 방지
         hpFillImage.fillAmount = player.Hp / player.MaxHp;
-        Debug.Log($"[UIHpBar] Hp 갱신: {player.Hp} / {player.MaxHp}");
     }
 }

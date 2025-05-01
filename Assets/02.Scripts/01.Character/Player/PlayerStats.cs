@@ -23,6 +23,25 @@ public class PlayerStats : MonoBehaviour
     public float MaxMana;
     public float Defence;
 
+    void Start()
+    {
+        MaxHp = 100;
+        Hp = MaxHp;
+
+        MaxMana = 100;
+        Mana = MaxMana;
+
+        Speed = 7;
+        Attack = 10;
+        Defence = 5;
+
+        InventorySize = 12;
+        GetItemRange = 2;
+        ActiveRange = 1.5f;
+
+        OnStatChanged?.Invoke(); // UI 초기 업데이트
+    }
+
     //플레이어가 보유한 골드
     [Header("Currency")]
     [SerializeField] private int gold = 0;
