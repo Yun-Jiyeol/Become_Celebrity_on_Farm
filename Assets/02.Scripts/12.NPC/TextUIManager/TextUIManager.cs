@@ -9,6 +9,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public enum NPCName
 {
+    None,
     Blacksmith
 }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopNPC : NPCData, IInteract
+public class TalkNPC : NPCData, IInteract
 {
     public void Interact()
     {

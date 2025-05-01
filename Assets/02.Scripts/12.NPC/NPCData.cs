@@ -6,4 +6,5 @@ public class NPCData : MonoBehaviour
 {
     public ShopData ShopData;
     public GameObject Choosed;
+    public NPCName npcName;
 }
