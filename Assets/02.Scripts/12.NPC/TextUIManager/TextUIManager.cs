@@ -9,7 +9,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public enum NPCName
 {
-    BlackSmith
+    Blacksmith
 }
 
 [System.Serializable]
@@ -29,13 +29,13 @@ public class TextUIManager : MonoBehaviour, ExcelReader
 {
     public TextScript TextScript;
     public List<NPCNameAndPath> settingnameandpath;
-    List<StreamReader> reader;
+    List<StreamReader> reader = new List<StreamReader>();
 
     public Dictionary<NPCName, List<NPCTextSave>> calledNPCText = new Dictionary<NPCName, List<NPCTextSave>>();
 
     private void Awake()
     {
-        if(settingnameandpath.Count == 0) return;
+        if (settingnameandpath.Count == 0) return;
 
         ReadCSV();
     }
@@ -58,9 +58,16 @@ public class TextUIManager : MonoBehaviour, ExcelReader
     {
         for (int i = 0; i < reader.Count; i++)
         {
+            calledNPCText[settingnameandpath[i].Name] = new List<NPCTextSave>();
+
             while (true)
             {
-                string data = reader[i].ReadLine();
+                string data = reader[i].ReadLine(); 
+                if (data == null)
+                {
+                    break;
+                }
+
                 var splitData = data.Split(',');
 
                 NPCTextSave _npctext = new NPCTextSave
