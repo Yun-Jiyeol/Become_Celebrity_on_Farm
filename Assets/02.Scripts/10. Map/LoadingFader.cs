@@ -22,7 +22,7 @@ public class LoadingFader : MonoBehaviour
     /// <param name="onLoad"> 맵 로드 </param>
     /// <param name="onAfterFade"> Fader 중복 호출 막기 위한 PlayerInput 제어 </param>
     /// <returns></returns>
-    public IEnumerator Fade(Action onLoad, Action onAfterFade)
+    public IEnumerator Fade(Action onLoad, Action onAfterFade = null)
     {
         fader.gameObject.SetActive(true);
         
