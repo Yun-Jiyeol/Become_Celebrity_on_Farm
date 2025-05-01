@@ -13,13 +13,6 @@ public enum NPCName
     Blacksmith
 }
 
-public enum BtnType
-{
-    None,
-    Shop,
-    OFF
-}
-
 [System.Serializable]
 public class NPCNameAndPath
 {
@@ -51,11 +44,6 @@ public class TextUIManager : MonoBehaviour, ExcelReader
         if (settingnameandpath.Count == 0) return;
 
         ReadCSV();
-    }
-    private void Start()
-    {
-        if (settingnameandpath.Count == 0) return;
-
         SettingData();
     }
 
@@ -102,12 +90,7 @@ public class TextUIManager : MonoBehaviour, ExcelReader
     public void ShowTextUI(NPCName name, int num)
     {
         NPCTextSave temp = calledNPCText[name][num];
-        TextScript.SettingTextScript(temp.Text, ResourceManager.Instance.splits[temp.spriteName]);
+        TextScript.SettingTextScript(temp.Text, ResourceManager.Instance.splits[temp.spriteName], temp.Buttons);
         TextScript.gameObject.SetActive(true);
-    }
-
-    public void OffTextUI()
-    {
-        TextScript.gameObject.SetActive(false);
     }
 }

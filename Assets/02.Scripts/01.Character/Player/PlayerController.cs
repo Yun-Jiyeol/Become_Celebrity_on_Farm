@@ -79,6 +79,7 @@ public class PlayerController : BaseController
 
         if (NPC != null && !isNPCInteract)
         {
+            dir = Vector2.zero;
             isNPCInteract = true;
             NPC.GetComponent<IInteract>().Interact();
         }
