@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8552793518820237628}
   - component: {fileID: 765671421022127985}
   - component: {fileID: 3744862401869457665}
+  - component: {fileID: 5016039050145866031}
   m_Layer: 0
   m_Name: Computer
   m_TagString: Untagged
@@ -130,6 +131,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.3430452, y: 2.3432653}
   m_EdgeRadius: 0
+--- !u!114 &5016039050145866031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333566284489776031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f68180cde1ac349ba9178c9968759d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dailyQuestUI: {fileID: 0}
+  yesButton: {fileID: 0}
+  closeButton: {fileID: 0}
 --- !u!1 &359526200957455229
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +290,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5771654853464666080}
   - component: {fileID: 5018904345905654166}
-  - component: {fileID: 5986317885748845899}
+  - component: {fileID: 8886116707930393037}
+  - component: {fileID: 7471664409750290359}
   m_Layer: 0
   m_Name: Bed
   m_TagString: Untagged
@@ -349,7 +366,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5986317885748845899
+--- !u!114 &8886116707930393037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2536520810212728166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0e3a11f7efe904291dde251834c7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fader: {fileID: 0}
+  endOfDaySelectUI: {fileID: 0}
+  endingUI: {fileID: 0}
+  yesButton: {fileID: 0}
+  noButton: {fileID: 0}
+--- !u!61 &7471664409750290359
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -378,10 +412,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.74130154, y: 0.15543413}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -392,7 +426,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.0001, y: 0.0001}
+  m_Size: {x: 0.31739688, y: 1.9891353}
   m_EdgeRadius: 0
 --- !u!1 &2687298177605997714
 GameObject:
