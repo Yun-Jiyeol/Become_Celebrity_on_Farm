@@ -13,6 +13,13 @@ public enum NPCName
     Blacksmith
 }
 
+public enum BtnType
+{
+    None,
+    Shop,
+    OFF
+}
+
 [System.Serializable]
 public class NPCNameAndPath
 {
@@ -24,6 +31,11 @@ public class NPCTextSave
 {
     public string Text;
     public string spriteName;
+    public float MinLike;
+    public float MaxLike;
+    public string DailyOrRefeat;
+    public string[] Buttons;
+    public bool canClick;
 }
 
 public class TextUIManager : MonoBehaviour, ExcelReader
@@ -74,7 +86,12 @@ public class TextUIManager : MonoBehaviour, ExcelReader
                 NPCTextSave _npctext = new NPCTextSave
                 {
                     Text = splitData[0],
-                    spriteName = splitData[1]
+                    spriteName = splitData[1],
+                    MinLike = float.Parse(splitData[2]),
+                    MaxLike = float.Parse(splitData[3]),
+                    DailyOrRefeat = splitData[4],
+                    Buttons = splitData[5].Split('/'),
+                    canClick = bool.Parse(splitData[6]),
                 };
 
                 calledNPCText[settingnameandpath[i].Name].Add(_npctext);
