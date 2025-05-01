@@ -27,7 +27,7 @@ public class MapTransition : MonoBehaviour
             MapManager.Instance.LoadMap(targetType, this.gameObject);
         }
 
-        Debug.Log("Collided");
+        //Debug.Log("Collided");
     }
 
     /// <summary>
