@@ -33,6 +33,7 @@ public class QuestRewardPopupUI : MonoBehaviour
             PlayerStats player = FindObjectOfType<PlayerStats>();
             if (player != null)
             {
+                Debug.Log("[QuestRewardPopupUI] 골드 지급 시도");
                 player.AddGold(currentQuest.rewardGold);
                 // 경험치 시스템 추가
             }
