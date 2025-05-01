@@ -235,7 +235,7 @@ public class PlayerController : BaseController
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.AxeParameterHash);
                     readyRangeInteract = new RangeInteract()
                     {
-                        _Tag = new string[] { "Tree", "EndGrow" },
+                        _Tag = new string[] { "Tree" },
                         _Dir = DirectionSave,
                         _isAll = false
                     };

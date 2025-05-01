@@ -17,6 +17,16 @@ public class Crops : SeedGrow
         OnSettingSeason();
     }
 
+    public override void GetDamage(float amount)
+    {
+        base.GetDamage(amount);
+
+        if (HP >= MaxHP)
+        {
+            transform.tag = "EndGrow";
+        }
+    }
+
     public override void Grow(float grow)
     {
         if (OnWater)

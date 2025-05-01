@@ -44,7 +44,7 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
     }
 
 
-    public void GetDamage(float amount)
+    public virtual void GetDamage(float amount)
     {
         HP += amount;
 
@@ -52,7 +52,6 @@ public class SeedGrow : MonoBehaviour, IHaveHP, IInteract
         {
             HP = MaxHP;
             isEndGrow = true;
-            transform.tag = "EndGrow";
         }
     }
 
