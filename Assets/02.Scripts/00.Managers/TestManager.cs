@@ -10,6 +10,7 @@ public class TestManager : MonoBehaviour
 
     public Season.SeasonType nowSeason;
     public ShopUIManager shopUIManager;
+    public bool nextday = false;
 
     private void Awake()
     {
@@ -25,10 +26,14 @@ public class TestManager : MonoBehaviour
         shopUIManager = gameObject.GetComponent<ShopUIManager>();
     }
 
-    private void Start()
+    private void Update()
     {
-        InvokeRepeating("SeasonAfter", 15f, 15f);
-        InvokeRepeating("DayAfter", 5f, 5f);
+        if (nextday)
+        {
+            nextday = false;
+            DayAfter();
+            SeasonAfter();
+        }
     }
 
     void DayAfter()
