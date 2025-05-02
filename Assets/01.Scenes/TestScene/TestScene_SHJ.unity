@@ -3080,6 +3080,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33242210fe239b543933aba03671a2d3, type: 3}
+--- !u!114 &931832433 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 524239382949042460, guid: cc6985b5826d9d14e8fe88570c3881cf, type: 3}
+  m_PrefabInstance: {fileID: 2016345650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &931832434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1582274070717790485, guid: cc6985b5826d9d14e8fe88570c3881cf, type: 3}
+  m_PrefabInstance: {fileID: 2016345650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &931832435 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2448946458245401723, guid: cc6985b5826d9d14e8fe88570c3881cf, type: 3}
+  m_PrefabInstance: {fileID: 2016345650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &931832436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4028049875027971860, guid: cc6985b5826d9d14e8fe88570c3881cf, type: 3}
+  m_PrefabInstance: {fileID: 2016345650}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &931832437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931832436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58fb1ac3843f9cf45bf160e730ccbff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questTitleText: {fileID: 931832435}
+  questDescriptionText: {fileID: 931832434}
+  questProgressText: {fileID: 931832433}
 --- !u!1 &941563365 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 106289670471846482, guid: dfd32848c0f9f52418e12f675f0d923d, type: 3}
@@ -7618,7 +7671,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4028049875027971860, guid: cc6985b5826d9d14e8fe88570c3881cf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 931832437}
   m_SourcePrefab: {fileID: 100100000, guid: cc6985b5826d9d14e8fe88570c3881cf, type: 3}
 --- !u!114 &2016345651 stripped
 MonoBehaviour:

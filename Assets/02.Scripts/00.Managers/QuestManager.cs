@@ -171,4 +171,9 @@ public class QuestManager : MonoBehaviour
             questRewardPopupUI.Show(completedQuest.quest);
         }
     }
+
+    public List<QuestProgress> GetActiveQuests()
+    {
+        return new List<QuestProgress>(activeQuests);
+    }
 }
