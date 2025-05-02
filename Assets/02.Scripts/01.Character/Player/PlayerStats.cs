@@ -35,7 +35,7 @@ public class PlayerStats : MonoBehaviour
         Attack = 10;
         Defence = 5;
 
-        InventorySize = 12;
+        InventorySize = 30;
         GetItemRange = 2;
         ActiveRange = 1.5f;
 
