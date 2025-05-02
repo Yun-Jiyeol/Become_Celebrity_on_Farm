@@ -50,17 +50,17 @@ public class Bed : MonoBehaviour
             input.enabled = true;
         }
 
-        //StartCoroutine(fader.Fade(
-        //    () =>
-        //    {
-        //        endingUI.gameObject.SetActive(true);
-        //    },
+        StartCoroutine(fader.Fade(
+            () =>
+            {
+                endingUI.gameObject.SetActive(true);
+            },
 
-        //    () =>
-        //    {
-        //        // 다음 날 진행?
-        //    }
-        //    ));
+            () =>
+            {
+                // 다음 날 진행?
+            }
+            ));
     }
 
     void OnClickNoButton()
