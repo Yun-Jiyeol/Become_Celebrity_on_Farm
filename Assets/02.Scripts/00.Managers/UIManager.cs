@@ -18,6 +18,10 @@ public class UIManager : MonoBehaviour
     [Header("Ingame UI")]
     public GameObject inventoryUI; // <- 인벤토리 UI 연결
 
+    [Header("Ingame UI")]
+    public UIHpBar hpBar;
+    public UIEnergyBar energyBar;
+
     private void Start()
     {
         var player = FindObjectOfType<PlayerStats>();
@@ -26,9 +30,6 @@ public class UIManager : MonoBehaviour
             Debug.LogError("[UIManager] PlayerStats 못 찾음!");
             return;
         }
-
-        var hpBar = GetComponentInChildren<UIHpBar>(true);   // true 추가! 비활성화까지 검색
-        var energyBar = GetComponentInChildren<UIEnergyBar>(true); // true 추가!
 
         if (hpBar != null)
         {
