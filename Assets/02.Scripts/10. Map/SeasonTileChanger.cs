@@ -36,36 +36,31 @@ public class SeasonTileList : ScriptableObject
 /// <summary>
 /// 계절에 따라 달라질 타일
 /// </summary>
-
 public class SeasonTileChanger : MonoBehaviour
 {
-    [SerializeField] private List<Tilemap> tilemaps;
-    [SerializeField] private List<SeasonTileList> tileList;
+    [SerializeField] private List<Tilemap> tilemaps;            // 타일맵들
+    [SerializeField] private List<SeasonTileList> tileList;     // 타일 SO
 
     Season season;
 
-    //void OnEnable()
-    //{
-    //    season.OnSeasonChanged += ChangeTiles;
-    //}
+    void OnEnable()
+    {
+        season.OnSeasonChanged += ChangeTiles;
+    }
 
-    //void OnDisable()
-    //{
-    //    season.OnSeasonChanged -= ChangeTiles;
-    //}
+    void OnDisable()
+    {
+        season.OnSeasonChanged -= ChangeTiles;
+    }
 
-    ///// <summary>
-    ///// 계절이 바뀔 때 타일 교체
-    ///// </summary>
-    ///// <param name="season"></param>
-    //void ChangeTiles(SeasonType season)
-    //{
-    //    // 1. 현재 계절에 맞는 타일 찾기
-
-
-
-
-       
-
-    //}
+    /// <summary>
+    /// 계절이 바뀔 때 타일 교체
+    /// </summary>
+    /// <param name="season"> 현재 계절 </param>
+    void ChangeTiles(SeasonType season)
+    {
+      
+    }
 }
+
+
