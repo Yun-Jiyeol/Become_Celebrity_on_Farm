@@ -11,16 +11,7 @@ public class SaveOnGM : MonoBehaviour
     private void Start()
     {
         thisCollider = GetComponent<Collider2D>();
-    }
-
-    private void OnEnable()
-    {
         GameManager.Instance.OnActive.Add(gameObject);
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.OnActive.Remove(gameObject);
     }
 
     public void OnCollider()

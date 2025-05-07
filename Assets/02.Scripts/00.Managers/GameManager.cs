@@ -164,7 +164,10 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject go in OnActive)
         {
-            go.GetComponent<SaveOnGM>().OnCollider();
+            if(go.activeSelf == true)
+            {
+                go.GetComponent<SaveOnGM>().OnCollider();
+            }
         }
 
         if (colliderCoroutine != null) StopCoroutine(colliderCoroutine);
@@ -177,7 +180,10 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject go in OnActive)
         {
-            go.GetComponent<SaveOnGM>().OffCollider();
+            if (go.activeSelf == true)
+            {
+                go.GetComponent<SaveOnGM>().OffCollider();
+            }
         }
     }
 
