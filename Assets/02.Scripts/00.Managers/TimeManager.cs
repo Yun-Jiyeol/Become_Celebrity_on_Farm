@@ -67,6 +67,9 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
+        currentHour = 6;
+        currentMinute = 0;
+
         if (season != null)
         {
             season.SetCurrentDay(currentDay);
