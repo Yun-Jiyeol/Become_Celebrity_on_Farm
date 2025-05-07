@@ -14,10 +14,12 @@ public class AnimalMovement : MonoBehaviour
 
     private Animator anim;
     private Food targetFood;
+    private SpriteRenderer sprite;
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         ChooseNextState();
     }
 
@@ -113,10 +115,18 @@ public class AnimalMovement : MonoBehaviour
         if (anim != null)
         {
             anim.SetBool("isWalking", isMoving);
-            if (isMoving)
+
+            Vector2 dir = targetFood != null
+                ? (targetFood.transform.position - transform.position).normalized
+                : moveDir;
+
+            if (isMoving || targetFood != null)
             {
-                anim.SetFloat("moveX", moveDir.x);
-                anim.SetFloat("moveY", moveDir.y);
+                anim.SetFloat("moveX", dir.x);
+                anim.SetFloat("moveY", dir.y);
+
+                if (sprite != null)
+                    sprite.flipX = dir.x > 0; 
             }
         }
     }
