@@ -1,68 +1,35 @@
-using TMPro;
 using UnityEngine;
-using System.Collections;
+using System;
 
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
-    public TMP_Text timeText;   // TimeTxt ÅØ½ºÆ®
-    public TMP_Text dayText;    // DayTxt ÅØ½ºÆ®
 
-    [Header("ÇöÀç ½Ã°£ ¼öµ¿ ¼³Á¤ (Å×½ºÆ®¿ë)")]
-    [Range(0, 23)] public int currentHour = 6;
-    [Range(0, 59)] public int currentMinute = 0;
-    [Range(0, 365)] public int currentDay = 0; // 0 = ¿ù¿äÀÏ
+    [Header("ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+    public float timePerMinute = 1f;
+    private float timer;
 
-    private readonly string[] weekdays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-    private readonly string[] seasons = { "º½", "¿©¸§", "°¡À»", "°Ü¿ï" };
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+    public int currentMinute;
+    public int currentHour;
+    public int currentDay;
+    public int currentMonth; // 0~3 : ï¿½ï¿½~ï¿½Ü¿ï¿½
+    public int currentYear = 1;
 
-    public string CurrentWeekday => weekdays[currentDay % 7];
-    public string CurrentSeason => seasons[(currentDay / 28) % 4];  // °èÀý °è»ê
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
+    public bool isSleeping = false;
 
-    private bool isSleeping = false;
-    private bool isFainted = false;
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½")]
+    public Season season;
 
-    [Header("Time Settings")]
-    [Tooltip("Çö½Ç ¸î ÃÊ¸¶´Ù °ÔÀÓ ½Ã°£ 10ºÐÀÌ Èå¸¦Áö ¼³Á¤")]
-    public float realSecondsPerGameTenMinutes = 10f;
-
-    private float timeTick => realSecondsPerGameTenMinutes;
-
-    private Season season;
-
-    [Header("°èÀý ¼öµ¿ ¼³Á¤ (TimeManager ¡æ Season)")]
-    public bool overrideSeasonInInspector = false;
-    public Season.SeasonType manualSeason;
+    public event Action OnTimeChanged;
+    public event Action OnDayChanged;
+    public event Action OnMonthChanged;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        // Inspector¿¡¼­ ¿¬°áµÇÁö ¾Ê¾ÒÀ» °æ¿ì ÀÚµ¿À¸·Î Ã£±â
-        if (timeText == null)
-        {
-            var timeTransform = transform.root.Find("Canvases/InGameCanvas/PlayerInGameUI/ClockGold/TimeTxt");
-            if (timeTransform != null)
-                timeText = timeTransform.GetComponent<TMP_Text>();
-            else
-                Debug.LogWarning("TimeTxt¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. Inspector¿¡ Á÷Á¢ ¿¬°áÇØ ÁÖ¼¼¿ä.");
-        }
-
-        if (dayText == null)
-        {
-            var dayTransform = transform.root.Find("Canvases/InGameCanvas/PlayerInGameUI/ClockGold/DayTxt");
-            if (dayTransform != null)
-                dayText = dayTransform.GetComponent<TMP_Text>();
-            else
-                Debug.LogWarning("DayTxt¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. Inspector¿¡ Á÷Á¢ ¿¬°áÇØ ÁÖ¼¼¿ä.");
-        }
-
-        season = FindObjectOfType<Season>();
+        else Destroy(gameObject);
     }
 
     private void Start()
@@ -72,134 +39,76 @@ public class TimeManager : MonoBehaviour
 
         if (season != null)
         {
-            season.SetCurrentDay(currentDay);
+        season.SetCurrentDay(currentDay);
+        currentMinute = 0;
+        currentHour = 6;
+        currentDay = 0;
+        currentMonth = 0;
+        currentYear = 1;
 
-            if (overrideSeasonInInspector)
-            {
-                season.SetCurrentSeason(manualSeason);
-            }
-        }
-
-        // ½ÃÀÛ ½Ã Ã¹ ¹øÂ° Å¸ÀÓÇÃ·Î¿ì ½ÃÀÛ Àü¿¡ ÃÊ±â ½Ã°£À» Ç¥½ÃÇÏµµ·Ï Ã³¸®
-        timeText.text = GetFormattedTime();
-        dayText.text = GetFormattedDay();  // °èÀý, ¿äÀÏ, ³¯Â¥ Ãâ·Â
-
-        // Ã¹ ¹øÂ° TimeFlow°¡ ½ÃÀÛµÇÁö ¾Êµµ·Ï ¼öÁ¤
-        StartCoroutine(TimeFlow());
+        UpdateSeason();
     }
 
     private void Update()
     {
+        if (isSleeping) return;
 
-        if (Instance != null && timeText != null && dayText != null)
+        timer += Time.deltaTime;
+        if (timer >= timePerMinute)
         {
-            timeText.text = GetFormattedTime();
-            dayText.text = GetFormattedDay();  // °èÀý, ¿äÀÏ, ³¯Â¥ Ãâ·Â
+            AdvanceTime(10); // 10ï¿½Ê¿ï¿½ 10ï¿½ï¿½ ï¿½å¸§
+            timer = 0f;
         }
     }
 
-    private IEnumerator TimeFlow()
-    {
-        Debug.Log("TimeFlow ÄÚ·çÆ¾ ½ÃÀÛµÊ");
-        while (true)
-        {
-            yield return new WaitForSeconds(timeTick);  // timeTickÀº Çö½Ç ½Ã°£¿¡ ºñ·ÊÇÏ´Â °ÔÀÓ ½Ã°£ Èå¸§ ¼Óµµ
-            Debug.Log("10ºÐ °æ°úµÊ");  // Èå¸§ Å×½ºÆ®¿ë ·Î±×
-            AdvanceTime(10);  // 10ºÐ¾¿ Áõ°¡
-
-            if (season != null && !season.overrideSeason) // ¼öµ¿ °èÀýÀÌ¸é ÀÚµ¿ °»½ÅÇÏÁö ¾ÊÀ½
-            {
-                season.UpdateSeason();
-            }
-        }
-    }
-
-    private void AdvanceTime(int minutes)
+    public void AdvanceTime(int minutes)
     {
         currentMinute += minutes;
 
         if (currentMinute >= 60)
         {
-            currentMinute -= 60;
+            currentMinute = 0;
             currentHour++;
-
-            Debug.Log($"[½Ã°£ °æ°ú] {CurrentWeekday} {currentHour}½Ã {currentMinute:D2}ºÐ");
-
             if (currentHour >= 24)
             {
-                currentHour = 0;
-                currentDay++;
-                season.SetCurrentDay(currentDay);
-
-                Weather weather = FindObjectOfType<Weather>();
-                if (weather != null)
-                {
-                    var todayWeather = weather.GetWeather(currentDay);
-                    weather.ApplyWeather(todayWeather);
-                }
-            }
-
-            if (currentHour >= 0 && currentHour < 6 && !isSleeping && !isFainted)
-            {
-                Faint();
+                currentHour = 6;
+                AdvanceDay();
             }
         }
 
-        CheckSleep();
+        OnTimeChanged?.Invoke();
     }
 
-    private void CheckSleep()
+    public void AdvanceDay()
     {
-        if (currentHour == 24 || (currentHour == 0 && currentMinute == 0))
-        {
-            if (!isSleeping)
-            {
-                Sleep();
-            }
-        }
-    }
-
-    private void Sleep()
-    {
-        isSleeping = true;
-    }
-
-    private void Faint()
-    {
-        isFainted = true;
-    }
-
-    // AM/PM Çü½ÄÀ¸·Î º¯°æµÈ ½Ã°£ Æ÷¸Ë
-    public string GetFormattedTime()
-    {
-        int hour12 = currentHour % 12;
-        if (hour12 == 0) hour12 = 12;
-
-        string ampm = currentHour < 12 ? "AM" : "PM";
-
-        return $"{hour12:D2}:{currentMinute:D2} {ampm}";
-    }
-
-    // Day ÅØ½ºÆ® Æ÷¸Ë (°èÀý | ¿äÀÏ ³¯Â¥ Çü½Ä)
-    public string GetFormattedDay()
-    {
-        return $"{CurrentSeason} | {CurrentWeekday} {currentDay % 28 + 1}";  // currentDay + 1·Î Ãâ·Â
-    }
-
-    private void OnValidate()
-    {
-        currentHour = Mathf.Clamp(currentHour, 0, 23);
-        currentMinute = Mathf.Clamp(currentMinute, 0, 59);
-        currentDay = Mathf.Max(0, currentDay);
+        currentDay++;
 
         if (season != null)
-        {
             season.SetCurrentDay(currentDay);
 
-            if (overrideSeasonInInspector)
+        OnDayChanged?.Invoke();
+
+        if (currentDay >= 28)
+        {
+            currentDay = 0;
+            currentMonth++;
+            if (currentMonth >= 4)
             {
-                season.SetCurrentSeason(manualSeason);
+                currentMonth = 0;
+                currentYear++;
             }
+
+            OnMonthChanged?.Invoke();
         }
     }
+
+    public void UpdateSeason()
+    {
+        if (season != null)
+            season.SetCurrentDay(currentDay);
+    }
+
+    private readonly string[] weekdays = { "ï¿½ï¿½", "È­", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½" };
+    public string CurrentWeekday => weekdays[currentDay % 7];
+    public string CurrentSeason => season != null ? season.CurrentSeasonName : "ï¿½ï¿½";
 }
