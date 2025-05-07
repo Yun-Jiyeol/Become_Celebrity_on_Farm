@@ -3,12 +3,12 @@ using TMPro;
 
 public class TimeDisplay : MonoBehaviour
 {
-    public TMP_Text timeText;  // TimeTxt 텍스트
-    public TMP_Text dayText;   // DayTxt 텍스트
+    public TMP_Text timeText; // ClockGold/TimeTxt
+    public TMP_Text dayText;  // ClockGold/DayTxt
 
     void Awake()
     {
-        // TimeTxt와 DayTxt 연결
+        // 텍스트 오브젝트 자동 연결
         if (timeText == null)
         {
             var timeTransform = transform.root.Find("Canvases/InGameCanvas/PlayerInGameUI/ClockGold/TimeTxt");
@@ -35,13 +35,13 @@ public class TimeDisplay : MonoBehaviour
         string minute = tm.currentMinute.ToString("D2");
         string ampm = tm.currentHour < 12 ? "AM" : "PM";
 
-        timeText.text = $"{hour}:{minute} {ampm}";  // TimeTxt
+        timeText.text = $"{hour}:{minute} {ampm}";
 
-        // Day 텍스트 포맷 (계절 | 요일 날짜 형식)
+        // 날짜: 계절 | 요일 일자 형식
         string season = tm.CurrentSeason;
         string weekday = tm.CurrentWeekday;
-        string day = (tm.currentDay + 1).ToString();  // 날짜는 1일부터 시작
+        string day = (tm.currentDay + 1).ToString(); // 1일부터 시작하는 날짜 표현
 
-        dayText.text = $"{season} | {weekday} {day}";  // DayTxt
+        dayText.text = $"{season} | {weekday} {day}";
     }
 }
