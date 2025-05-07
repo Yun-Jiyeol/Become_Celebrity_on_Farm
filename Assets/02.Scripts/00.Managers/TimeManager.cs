@@ -5,21 +5,21 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
-    [Header("�ð� ����")]
+    [Header("timePerMinute")]
     public float timePerMinute = 1f;
     private float timer;
 
-    [Header("���� �ð� ����")]
+    [Header("time")]
     public int currentMinute;
     public int currentHour;
     public int currentDay;
-    public int currentMonth; // 0~3 : ��~�ܿ�
+    public int currentMonth; // 0~3 : 봄~겨울
     public int currentYear = 1;
 
-    [Header("����")]
+    [Header("sleep")]
     public bool isSleeping = false;
 
-    [Header("����� ���� �ý���")]
+    [Header("season")]
     public Season season;
 
     public event Action OnTimeChanged;
@@ -39,14 +39,15 @@ public class TimeManager : MonoBehaviour
 
         if (season != null)
         {
-        season.SetCurrentDay(currentDay);
-        currentMinute = 0;
-        currentHour = 6;
-        currentDay = 0;
-        currentMonth = 0;
-        currentYear = 1;
+            season.SetCurrentDay(currentDay);
+            currentMinute = 0;
+            currentHour = 6;
+            currentDay = 0;
+            currentMonth = 0;
+            currentYear = 1;
 
-        UpdateSeason();
+            UpdateSeason();
+        }
     }
 
     private void Update()
@@ -56,7 +57,7 @@ public class TimeManager : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= timePerMinute)
         {
-            AdvanceTime(10); // 10�ʿ� 10�� �帧
+            AdvanceTime(10);
             timer = 0f;
         }
     }
@@ -108,7 +109,7 @@ public class TimeManager : MonoBehaviour
             season.SetCurrentDay(currentDay);
     }
 
-    private readonly string[] weekdays = { "��", "ȭ", "��", "��", "��", "��", "��" };
+    private readonly string[] weekdays = { "월", "화", "수", "목", "금", "토", "일" };
     public string CurrentWeekday => weekdays[currentDay % 7];
-    public string CurrentSeason => season != null ? season.CurrentSeasonName : "��";
+    public string CurrentSeason => season != null ? season.CurrentSeasonName : "봄";
 }
