@@ -6,7 +6,7 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance;
 
     [Header("시간 설정")]
-    public float timePerMinute = 10f; //10초마다 10분 흐름
+    public float timePerMinute = 1f;
     private float timer;
 
     [Header("현재 시간 정보")]
