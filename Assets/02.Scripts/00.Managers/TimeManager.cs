@@ -6,7 +6,7 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance;
 
     [Header("timePerMinute")]
-    public float timePerMinute = 1f;
+    public float timePerMinute = 10f;
     private float timer;
 
     [Header("time")]
