@@ -18,13 +18,13 @@ public class MapTransition : MonoBehaviour
         {
             MapManager.Instance.mineSelectUI.SetMineEntrance(this);
             MapManager.Instance.mineSelectUI.Show();
-         
+
             if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
                 input.enabled = false;
         }
         else
         {
-            MapManager.Instance.LoadMap(targetType, this.gameObject);
+            MapManager.Instance.MoveMap(targetType, this.gameObject);
         }
 
         //Debug.Log("Collided");
@@ -35,6 +35,6 @@ public class MapTransition : MonoBehaviour
     /// </summary>
     public void SelectMine(MapType selectedType)
     {
-        MapManager.Instance.LoadMap(selectedType, this.gameObject);
+        MapManager.Instance.MoveMap(selectedType, this.gameObject);
     }
 }

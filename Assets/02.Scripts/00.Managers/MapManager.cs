@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public enum MapType
 {
@@ -68,9 +67,6 @@ public class MapManager : MonoBehaviour
     [Header("Fader")]
     [SerializeField] private LoadingFader fader;
 
-    [Header("Camera")]
-    [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
-
     readonly Dictionary<MapType, Map> mapPair = new();
     MapType targetType;
 
@@ -89,13 +85,11 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         SetMap();
-
         UnloadAllMap();
-
-        if (mapPair.TryGetValue(currentMap, out Map map))
+        if (mapPair.TryGetValue(currentMap, out Map curMap))
         {
-            map.place.SetActive(true);
-            SetPlayerPosition(map);
+            curMap.place.SetActive(true);
+            SetPlayerPosition(curMap);
         }
     }
 
@@ -111,17 +105,30 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 다음 날로 넘어갈 때 사용
+    /// </summary>
+    public void ReloadMap()
+    {
+        StartCoroutine(fader.Fade(() =>
+        {
+            UnloadMap(currentMap);
+            if (mapPair.TryGetValue(currentMap, out Map curMap))
+            {
+                curMap.place.SetActive(true);
+                SetPlayerPosition(curMap);
+            }
+
+            TimeManager.Instance.AdvanceDay();
+            TimeManager.Instance.currentHour = 6;
+            TimeManager.Instance.currentMinute = 0;
+        }));
+    }
+
+    /// <summary>
     /// 플레이어가 이동할 때 타겟 맵 활성화
     /// </summary>
-    public void LoadMap(MapType targetType, GameObject entrance = null)
+    public void MoveMap(MapType targetType, GameObject entrance = null)
     {
-        // 0. Fade 동안 카메라 움직임, input 막기
-        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
-        {
-            input.enabled = false;
-            virtualCamera.enabled = false;
-        }
-
         StartCoroutine(fader.Fade(() =>
         {
             // 1. 현재 맵 비활성화
@@ -135,14 +142,7 @@ public class MapManager : MonoBehaviour
             }
 
             currentMap = targetType;
-            virtualCamera.enabled = true;
-        },
-
-        () =>
-        {
-            input.enabled = true;
-        }
-        ));
+        }));
     }
 
     /// <summary>
@@ -170,13 +170,13 @@ public class MapManager : MonoBehaviour
     /// </summary>
     void SetPlayerPosition(Map targetMap, GameObject entrance = null)
     {
-        // 1. 해당 맵에서 입구가 없을 때. 스폰포인트만 있다면 리스트 첫 번째로 둘 것
+        // 1. 입구가 없을 때 기본 스폰포인트로 이동
         if (entrance == null)
         {
             GameManager.Instance.player.transform.position = targetMap.defaultSpawn.position;
             return;
         }
-        // 2. 해당 맵에서 입구가 있을 때
+        // 2. 입구가 있을 때 입구에 해당하는 스폰포인트로 이동
         else
         {
             if (mapPair.TryGetValue(currentMap, out Map cur))
@@ -203,7 +203,6 @@ public class MapManager : MonoBehaviour
                             }
 
                             int index = GetSpawnIndex(targetType);
-                            Debug.Log(index);
                             GameManager.Instance.player.transform.position = portal.spawnPoints[index].position;
                         }
                     }
