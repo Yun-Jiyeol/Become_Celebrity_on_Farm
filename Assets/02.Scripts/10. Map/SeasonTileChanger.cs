@@ -38,29 +38,25 @@ public class SeasonTileList : ScriptableObject
 /// </summary>
 public class SeasonTileChanger : MonoBehaviour
 {
-    [SerializeField] private List<Tilemap> tilemaps;            // 타일맵들
-    [SerializeField] private List<SeasonTileList> tileList;     // 타일 SO
+    //[SerializeField] private List<Tilemap> tilemaps;            // 타일맵들
+    //[SerializeField] private List<SeasonTileList> tileList;     // 타일 SO
 
-    Season season;
+    //Season season;
 
-    void OnEnable()
-    {
-        season.OnSeasonChanged += ChangeTiles;
-    }
+    //void OnEnable()
+    //{
+    //    season.OnSeasonChanged += ChangeTiles;
+    //}
 
-    void OnDisable()
-    {
-        season.OnSeasonChanged -= ChangeTiles;
-    }
+    //void OnDisable()
+    //{
+    //    season.OnSeasonChanged -= ChangeTiles;
+    //}
 
-    /// <summary>
-    /// 계절이 바뀔 때 타일 교체
-    /// </summary>
-    /// <param name="season"> 현재 계절 </param>
-    void ChangeTiles(SeasonType season)
-    {
+    //void ChangeTiles(SeasonType season)
+    //{
       
-    }
+    //}
 }
 
 
