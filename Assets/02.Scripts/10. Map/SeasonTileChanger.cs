@@ -38,25 +38,51 @@ public class SeasonTileList : ScriptableObject
 /// </summary>
 public class SeasonTileChanger : MonoBehaviour
 {
-    //[SerializeField] private List<Tilemap> tilemaps;            // 타일맵들
-    //[SerializeField] private List<SeasonTileList> tileList;     // 타일 SO
+    [SerializeField] private List<Tilemap> tileMaps;            // 타일맵들
+    [SerializeField] private List<SeasonTileList> tileList;     // 타일 SO
 
-    //Season season;
+    Season season;
 
-    //void OnEnable()
-    //{
-    //    season.OnSeasonChanged += ChangeTiles;
-    //}
+    void OnEnable()
+    {
+        //if (season == null)
+        //{
+        //    Debug.Log("season null");
+        //    season = FindObjectOfType<Season>();
+        //    season.OnSeasonChanged += ChangeTiles;
+        //    Debug.Log("season not null");
+
+        //}
+        //else
+        //    Debug.Log("else. season not null");
+    }
 
     //void OnDisable()
     //{
     //    season.OnSeasonChanged -= ChangeTiles;
     //}
 
-    //void ChangeTiles(SeasonType season)
-    //{
-      
-    //}
+ 
+
+    void ChangeTiles(SeasonType season)
+    {
+        //foreach (Tilemap tilemap in tileMaps)
+        //{
+        //    foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        //    {
+        //        TileBase curTile = tilemap.GetTile(pos);
+
+        //        Debug.Log($"[SeasonTileChanger] [{tilemap.name}] {pos} 위치에 {curTile.name}.");
+        //    }
+        //}
+
+
+
+
+
+
+
+    }
 }
 
 
