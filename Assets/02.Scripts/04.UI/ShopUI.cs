@@ -124,14 +124,21 @@ public class ShopUI : MonoBehaviour
     {
         foreach(ShopPlayerHave SPH in shopPlayerHaves)
         {
-            Inventory.Inven inven = GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[SPH.IconNum];
-            if(inven.ItemData_num == 0)
+            if(SPH.IconNum >= GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave.Count)
             {
-                SPH.Setting(0,0,0);
+                SPH.Setting(0, 0, 0);
             }
             else
             {
-                SPH.Setting(inven.ItemData_num, inven.amount, ItemManager.Instance.itemDataReader.itemsDatas[inven.ItemData_num].Item_Price);
+                Inventory.Inven inven = GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[SPH.IconNum];
+                if (inven.ItemData_num == 0)
+                {
+                    SPH.Setting(0, 0, 0);
+                }
+                else
+                {
+                    SPH.Setting(inven.ItemData_num, inven.amount, ItemManager.Instance.itemDataReader.itemsDatas[inven.ItemData_num].Item_Price);
+                }
             }
         }
     }

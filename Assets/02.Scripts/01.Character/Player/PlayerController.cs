@@ -389,6 +389,21 @@ public class PlayerController : BaseController
         if (isSuccess)
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 4);
+
+            //³¬½Ã Äù½ºÆ® ÁøÇàµµ º¸°í
+            var fishItem = ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum];
+            string fishName = fishItem.Item_name;
+
+            foreach (var quest in QuestManager.Instance.GetActiveQuestTargets())
+            {
+                if (quest == fishName)
+                {
+                    QuestManager.Instance.ReportProgress(fishName, 1);
+                    Debug.Log($"[Fishing] Äù½ºÆ® º¸°íµÊ: {fishName}");
+                    break;
+                }
+            }
+
             GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum], 1);
         }
         else
