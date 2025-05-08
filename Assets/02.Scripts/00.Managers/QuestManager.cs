@@ -15,9 +15,6 @@ public class QuestManager : MonoBehaviour
     private List<QuestData> receivedQuests = new List<QuestData>(); //이미 수락한 퀘스트 목록
     private List<QuestProgress> activeQuests = new List<QuestProgress>();
 
-
-    private float questInterval = 10f; // 실제 시간 2분 120f
-    private float timer;
     private QuestData pendingQuest;
     private int lastQuestTime = -1;
 
