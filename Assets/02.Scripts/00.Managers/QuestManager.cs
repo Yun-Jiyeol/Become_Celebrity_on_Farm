@@ -15,10 +15,8 @@ public class QuestManager : MonoBehaviour
     private List<QuestData> receivedQuests = new List<QuestData>(); //이미 수락한 퀘스트 목록
     private List<QuestProgress> activeQuests = new List<QuestProgress>();
 
-
-    private float questInterval = 10f; // 실제 시간 2분 120f
-    private float timer;
     private QuestData pendingQuest;
+    private int lastQuestTime = -1;
 
 
 
@@ -28,14 +26,45 @@ public class QuestManager : MonoBehaviour
     }
     private void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= questInterval)
-        {
-            timer = 0f;
-            TryGenerateQuest();
-        }
+        // 시간 갱신 , 퀘스트 만료 처리
+        UpdateQuestTimers();
 
-        //퀘스트 진행 시간 갱신 + 만료 체크
+        // 인게임 시간 기반 퀘스트 생성
+        GenerateQuestBasedOnInGameTime();
+    }
+
+    private void GenerateQuestBasedOnInGameTime()
+    {
+        int hour = TimeManager.Instance.currentHour;
+        int minute = TimeManager.Instance.currentMinute;
+        int totalMinutes = hour * 60 + minute;
+
+        // 오전 8시 ~ 12시 사이만 퀘스트 생성 (480 ~ 720분)
+        if (totalMinutes >= 480 && totalMinutes < 720)
+        {
+            if (totalMinutes % 20 == 0 && totalMinutes != lastQuestTime)
+            {
+                lastQuestTime = totalMinutes;
+
+                Debug.Log($"[QuestManager] {hour}:{minute:D2} → 퀘스트 체크 중");
+
+                // 기존 대기 퀘스트 제거
+                if (pendingQuest != null)
+                {
+                    Debug.Log("[QuestManager] 이전 퀘스트 자동 만료 처리됨 (수락/거절 안 함)");
+                    receivedQuests.Add(pendingQuest); // 받은 걸로 처리
+                    pendingQuest = null;
+                    phone.HideNotification();
+                    popupUI.Hide();
+                }
+
+                TryGenerateQuest();
+            }
+        }
+    }
+
+    private void UpdateQuestTimers()
+    {
         List<QuestProgress> expired = new List<QuestProgress>();
 
         foreach (QuestProgress quest in activeQuests)
