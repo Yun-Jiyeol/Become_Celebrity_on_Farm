@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,19 +16,32 @@ public class CraftingScroll : MonoBehaviour
     public List<SettingCraft> settingCrafts;
     public GameObject craftTooltip;
 
+    private void Start()
+    {
+        TestManager.Instance.gameObject.GetComponent<CraftManager>().PlayerCraftTable = this.gameObject;
+        Setting();
+    }
+
     public void Setting()
     {
         if (TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable == null) return;
         DestroyAllInLine();
-        AddCraftTable();
+        StartCoroutine(SpawnCraftTable());
     }
 
-    void AddCraftTable()
+    IEnumerator SpawnCraftTable()
     {
-        for(int i =0; i< TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable.Count; i++)
+        for (int i = 0; i < TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable.Count; i++)
         {
-            Instantiate(TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable[i], FindShortestLine().transform);
+            AddCraftTable(TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable[i]);
+            yield return null;
         }
+    }
+
+    void AddCraftTable(GameObject go)
+    {
+        GameObject shortest = FindShortestLine();
+        Instantiate(go, shortest.transform);
     }
 
     void DestroyAllInLine()
@@ -45,17 +59,16 @@ public class CraftingScroll : MonoBehaviour
         }
     }
 
-
     GameObject FindShortestLine()
     {
-        float min = settingCrafts[0].Point.position.y;
+        float min = settingCrafts[0].Point.anchoredPosition.y;
         GameObject minPoint = settingCrafts[0].Line;
 
         for(int i =1; i<settingCrafts.Count; i++)
         {
-            if (settingCrafts[i].Point.position.y < min)
+            if (settingCrafts[i].Point.anchoredPosition.y > min)
             {
-                min = settingCrafts[i].Point.position.y;
+                min = settingCrafts[i].Point.anchoredPosition.y;
                 minPoint = settingCrafts[i].Line;
             }
         }
