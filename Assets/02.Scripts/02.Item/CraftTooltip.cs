@@ -76,6 +76,7 @@ public class CraftTooltip : MonoBehaviour
         }
 
         int childnum = SpawnPosition.transform.childCount;
+        if (childnum == 0) return;
 
         for(int i = childnum-1; i >= 0; i--)
         {
