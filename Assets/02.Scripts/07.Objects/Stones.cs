@@ -36,7 +36,18 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
         {
             for(int i =0; i < dropitems.Length; i++)
             {
-                ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[dropitems[i].SpawnItemNum], dropitems[i].SpawnItemAmount, gameObject.transform.position);
+                //ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[dropitems[i].SpawnItemNum], dropitems[i].SpawnItemAmount, gameObject.transform.position);
+                var itemData = ItemManager.Instance.itemDataReader.itemsDatas[dropitems[i].SpawnItemNum];
+                string itemName = itemData.Item_name;
+
+                QuestManager.Instance.ReportProgress(itemName, 1);
+                Debug.Log($"[Stone] Äù½ºÆ® º¸°íµÊ: {itemName}");
+
+                ItemManager.Instance.spawnItem.DropItem(
+                itemData,
+                dropitems[i].SpawnItemAmount,
+                gameObject.transform.position
+            );
             }
             Destroy(gameObject);
         }
