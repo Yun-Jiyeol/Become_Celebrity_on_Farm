@@ -13,6 +13,12 @@ public class CraftingScroll : MonoBehaviour
 {
     public RectTransform ScrollMain;
     public List<SettingCraft> settingCrafts;
+    public CraftTooltip craftTooltip;
+
+    private void Start()
+    {
+        TestManager.Instance.gameObject.GetComponent<CraftManager>().playerCrafting = this;
+    }
 
     public void AddCraftTable()
     {

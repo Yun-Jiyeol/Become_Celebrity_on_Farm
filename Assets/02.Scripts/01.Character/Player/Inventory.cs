@@ -96,4 +96,19 @@ public class Inventory : MonoBehaviour
         if (PlayerHave[num].amount == 0) PlayerHave[num].ItemData_num = 0;
         InventoryUIManager.Instance.RefreshUI();
     }
+
+    public bool FindItem(int num, int amount)
+    {
+        int sum = 0;
+
+        for(int i =0; i< PlayerHave.Count; i++)
+        {
+            if (PlayerHave[i].ItemData_num == num)
+            {
+                sum += PlayerHave[i].amount;
+                if(sum >= amount) return true;
+            }
+        }
+        return false;
+    }
 }

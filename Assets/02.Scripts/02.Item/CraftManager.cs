@@ -5,4 +5,5 @@ using UnityEngine;
 public class CraftManager : MonoBehaviour
 {
     public List<GameObject> ListOfCraftingTable;
+    public CraftingScroll playerCrafting;
 }
