@@ -23,11 +23,15 @@ public class Bed : MonoBehaviour
         noButton.onClick.AddListener(OnClickNoButton);
 
         endOfDaySelectUI.gameObject.SetActive(false);
-        endingUI.gameObject.SetActive(false);
+        endingUI.gameObject.SetActive(false);               // temp
     
         TimeManager.Instance.OnTimeChanged += CheckForcedSleepTime;
     }
 
+    /// <summary>
+    /// 침대 오른쪽 구석으로 충돌하면 선택 UI 활성화
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = false;
@@ -76,11 +80,15 @@ public class Bed : MonoBehaviour
     /// </summary>
     void ForcedSleep()
     {
+        // 방법
+        // 1. 실행 중 TimeManager에서 22:50으로 바꿔서 preHour 23으로 세팅한 후
+        // 2. 23:50으로 가서 자정 기다리면 강제 취침 가능
+
         MapManager.Instance.MoveMap(MapType.Home);
         TimeManager.Instance.currentHour = 6;
         TimeManager.Instance.currentMinute = 0;
 
-        // 골드 1000~2000 (temp) 손해
+        // 골드 1000~2000 (temp. 랜덤) 손해
         int randomGold = Random.Range(10, 20) * 100;
         GoldManager.Instance.SpendGold(randomGold);
     }
