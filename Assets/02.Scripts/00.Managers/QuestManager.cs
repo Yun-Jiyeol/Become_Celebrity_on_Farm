@@ -62,7 +62,15 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
-
+    public List<string> GetActiveQuestTargets()
+    {
+        List<string> targets = new List<string>();
+        foreach (var quest in activeQuests)
+        {
+            targets.Add(quest.quest.objectiveTarget);
+        }
+        return targets;
+    }
     private void UpdateQuestTimers()
     {
         List<QuestProgress> expired = new List<QuestProgress>();
