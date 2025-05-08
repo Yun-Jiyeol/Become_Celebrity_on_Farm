@@ -8,7 +8,7 @@ public class CraftTooltip : MonoBehaviour
 {
     private RectTransform rect;
     public GameObject ExplainObject;
-    public Transform SpawnPosition;
+    public GameObject SpawnPosition;
 
     public RectTransform BGSize;
     public GameObject CanMakeBG;
@@ -17,7 +17,6 @@ public class CraftTooltip : MonoBehaviour
     private void Start()
     {
         rect = GetComponent<RectTransform>();
-        gameObject.SetActive(false);
     }
 
     private void Update()
@@ -34,7 +33,8 @@ public class CraftTooltip : MonoBehaviour
         BGSize.sizeDelta = new Vector2(200,100 * needsItems.Count);
         for (int i = 0; i < needsItems.Count; i++)
         {
-            GameObject go = Instantiate(ExplainObject, SpawnPosition);
+            GameObject go = Instantiate(ExplainObject);
+            go.transform.SetParent(SpawnPosition.transform);
             go.GetComponentInChildren<Image>().sprite = ItemManager.Instance.itemDataReader.itemsDatas[needsItems[i].SpawnItemNum].Item_sprite;
             TextMeshProUGUI text = go.GetComponentInChildren<TextMeshProUGUI>();
 
@@ -75,11 +75,11 @@ public class CraftTooltip : MonoBehaviour
             return;
         }
 
-        int childnum = SpawnPosition.childCount;
+        int childnum = SpawnPosition.transform.childCount;
 
         for(int i = childnum-1; i >= 0; i--)
         {
-            Transform child = SpawnPosition.GetChild(i);
+            Transform child = SpawnPosition.transform.GetChild(i);
             Destroy(child.gameObject);
         }
     }

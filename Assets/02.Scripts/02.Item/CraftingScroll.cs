@@ -13,16 +13,36 @@ public class CraftingScroll : MonoBehaviour
 {
     public RectTransform ScrollMain;
     public List<SettingCraft> settingCrafts;
-    public CraftTooltip craftTooltip;
+    public GameObject craftTooltip;
 
-    private void Start()
+    public void Setting()
     {
-        TestManager.Instance.gameObject.GetComponent<CraftManager>().playerCrafting = this;
+        if (TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable == null) return;
+        DestroyAllInLine();
+        AddCraftTable();
     }
 
-    public void AddCraftTable()
+    void AddCraftTable()
     {
+        for(int i =0; i< TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable.Count; i++)
+        {
+            Instantiate(TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable[i], FindShortestLine().transform);
+        }
+    }
 
+    void DestroyAllInLine()
+    {
+        foreach(SettingCraft set in settingCrafts)
+        {
+            int childnum = set.Line.transform.childCount;
+            if(childnum <= 1) continue;
+
+            for (int i = childnum - 1; i >= 0; i--)
+            {
+                Transform child = set.Line.transform.GetChild(i);
+                Destroy(child.gameObject);
+            }
+        }
     }
 
 
