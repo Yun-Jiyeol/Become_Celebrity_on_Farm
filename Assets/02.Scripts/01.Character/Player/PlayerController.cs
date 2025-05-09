@@ -183,7 +183,7 @@ public class PlayerController : BaseController
 
                     if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" , "Interactable"}))
                         {
                             GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                             if (ConnectedObejct != null)
@@ -196,6 +196,26 @@ public class PlayerController : BaseController
                         }
                     }
                     TryHandInteract();
+                    break;
+                case ItemType.Interia:
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
+                    {
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone", "Interactable" }))
+                        {
+                            GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                            if (ConnectedObejct != null)
+                            {
+                                GameObject go = Instantiate(ConnectedObejct);
+                                go.transform.parent = GameManager.Instance.transform;
+                                go.transform.position = tartgetPosition;
+                            }
+                            UseItemOnHand(1);
+                        }
+                    }
+
                     break;
                 case ItemType.Except:
                     if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
@@ -592,6 +612,7 @@ public class PlayerController : BaseController
             case ItemType.Hoe:
             case ItemType.Watering:
             case ItemType.Seed:
+            case ItemType.Interia:
             case ItemType.TreeSeed:
                 TryChangeType(PlayerInteractType.Point);
                 break;
