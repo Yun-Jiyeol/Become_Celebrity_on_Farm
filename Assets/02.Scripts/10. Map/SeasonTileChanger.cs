@@ -15,6 +15,8 @@ public class SeasonTile
 public class SeasonTileList : ScriptableObject
 {
     public List<SeasonTile> seasonTiles;
+    private readonly Dictionary<SeasonType, TileBase> seasonTileDict = new();
+    
 
 #if UNITY_EDITOR
     void OnEnable()
@@ -30,6 +32,21 @@ public class SeasonTileList : ScriptableObject
         }
     }
 #endif
+
+    private void OnValidate()
+    {
+        // dictionary에 추가
+        foreach (var so in seasonTiles)
+        {
+            seasonTileDict[so.type] = so.tile;
+        }
+    }
+
+    public TileBase GetSeasonTile(SeasonType season)
+    {
+        seasonTileDict.TryGetValue(season, out TileBase tile);
+        return tile;
+    }
 }
 
 
@@ -41,47 +58,43 @@ public class SeasonTileChanger : MonoBehaviour
     [SerializeField] private List<Tilemap> tileMaps;            // 타일맵들
     [SerializeField] private List<SeasonTileList> tileList;     // 타일 SO
 
-    Season season;
+    [SerializeField] private Season season;
 
-    void OnEnable()
+
+    private void Start()
     {
-        //if (season == null)
-        //{
-        //    Debug.Log("season null");
-        //    season = FindObjectOfType<Season>();
-        //    season.OnSeasonChanged += ChangeTiles;
-        //    Debug.Log("season not null");
-
-        //}
-        //else
-        //    Debug.Log("else. season not null");
+        season.OnSeasonChanged += ChangeTiles;
     }
 
-    //void OnDisable()
-    //{
-    //    season.OnSeasonChanged -= ChangeTiles;
-    //}
 
- 
-
-    void ChangeTiles(SeasonType season)
+    void ChangeTiles(SeasonType nextSeason)
     {
-        //foreach (Tilemap tilemap in tileMaps)
-        //{
-        //    foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
-        //    {
-        //        TileBase curTile = tilemap.GetTile(pos);
+        // Debug.Log($"[SeasonTileChanger] Current Season = {nextSeason}");
+        
+        foreach (Tilemap tilemap in tileMaps)
+        {
+            foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+            {
+                TileBase curTile = tilemap.GetTile(pos);
+                bool isChanged = false;
 
-        //        Debug.Log($"[SeasonTileChanger] [{tilemap.name}] {pos} 위치에 {curTile.name}.");
-        //    }
-        //}
-
-
-
-
-
-
-
+                // 현재 타일이 어느 so에 있는가?
+                foreach (SeasonTileList so in tileList)
+                {
+                    foreach (SeasonTile seasonTile in so.seasonTiles)
+                    {
+                        if (curTile == seasonTile.tile)
+                        {
+                            TileBase newTile = so.GetSeasonTile(nextSeason);
+                            tilemap.SetTile(pos, newTile);
+                            isChanged = true;
+                            break;
+                        }
+                    }
+                    if (isChanged) break;
+                }
+            }
+        }
     }
 }
 
