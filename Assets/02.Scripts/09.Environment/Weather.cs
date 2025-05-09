@@ -70,6 +70,7 @@ public class Weather : MonoBehaviour
 
     public void ApplyWeather(WeatherType weatherType)
     {
+        currentWeather = weatherType;
         Debug.Log($"[날씨 적용] {weatherType}");
 
         // 파티클 효과 반영
@@ -87,6 +88,12 @@ public class Weather : MonoBehaviour
             effect.ApplyEffect(weatherType);
         }
 
+    }
+    public void SetDay(int day)
+    {
+        currentDay = day;
+        WeatherType newWeather = GetWeather(currentDay);
+        ApplyWeather(newWeather);
     }
 
     public void RandomSeason(Season.SeasonType seasonType)

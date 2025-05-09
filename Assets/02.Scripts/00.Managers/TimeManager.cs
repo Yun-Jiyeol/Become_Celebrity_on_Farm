@@ -99,9 +99,12 @@ public class TimeManager : MonoBehaviour
     public void AdvanceDay()
     {
         currentDay++;
-
         if (season != null)
             season.SetCurrentDay(currentDay);
+
+        // 날씨에도 현재 날짜 전달
+        if (Weather.Instance != null)
+            Weather.Instance.SetDay(currentDay);
 
         OnDayChanged?.Invoke();
 
