@@ -58,12 +58,21 @@ public class SeasonTileChanger : MonoBehaviour
     [SerializeField] private List<Tilemap> tileMaps;            // 타일맵들
     [SerializeField] private List<SeasonTileList> tileList;     // 타일 SO
 
-    [SerializeField] private Season season;
+    Season season;
 
-
-    private void Start()
+    private void OnEnable()
     {
-        season.OnSeasonChanged += ChangeTiles;
+        season = TimeManager.Instance.season;
+
+        if (season != null)
+        {
+            season.OnSeasonChanged += ChangeTiles;
+            Debug.Log($"[SeasonTileChanger] {tileMaps[0].gameObject.name} NOT null");
+        }
+        else
+            Debug.Log($"[SeasonTileChanger] {tileMaps[0].gameObject.name} null");
+
+        ChangeTiles(season.CurrentSeason);
     }
 
 
