@@ -9,6 +9,9 @@ public class TimeManager : MonoBehaviour
     public float timePerMinute = 10f;
     private float timer;
 
+    [Header("total time in minutes")]
+    public int totalMinutes;  // 전체 누적 시간 (분 단위)
+
     [Header("time")]
     public int currentMinute;
     public int currentHour;
@@ -36,6 +39,7 @@ public class TimeManager : MonoBehaviour
     {
         currentHour = 6;
         currentMinute = 0;
+        totalMinutes = currentHour * 60 + currentMinute;
 
         if (season != null)
         {
@@ -45,6 +49,7 @@ public class TimeManager : MonoBehaviour
             currentDay = 0;
             currentMonth = 0;
             currentYear = 1;
+            totalMinutes = 6 * 60; // 6시 0분으로 초기화
 
             UpdateSeason();
         }
@@ -64,16 +69,27 @@ public class TimeManager : MonoBehaviour
 
     public void AdvanceTime(int minutes)
     {
+        totalMinutes += minutes;
         currentMinute += minutes;
 
         if (currentMinute >= 60)
         {
-            currentMinute = 0;
-            currentHour++;
+            int extraHours = currentMinute / 60;
+            currentMinute %= 60;
+            currentHour += extraHours;
+
             if (currentHour >= 24)
             {
+                int extraDays = currentHour / 24;
+                currentHour %= 24;
+                for (int i = 0; i < extraDays; i++)
+                {
+                    AdvanceDay();
+                }
+
+                // 원하는 기본값 (6시)으로 리셋
                 currentHour = 6;
-                AdvanceDay();
+                currentMinute = 0;
             }
         }
 

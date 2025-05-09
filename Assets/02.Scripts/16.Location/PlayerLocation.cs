@@ -13,6 +13,10 @@ public class PlayerLocation : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
+    private void Start()
+    {
+        SetIndoorState(true);  // 시작 시 실내로 설정
+    }
 
     public void SetIndoorState(bool isIndoor)
     {

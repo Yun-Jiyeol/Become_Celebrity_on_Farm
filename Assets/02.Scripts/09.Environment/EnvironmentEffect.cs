@@ -16,6 +16,7 @@ public class EnvironmentEffect : MonoBehaviour
 
     // 주인공의 Transform을 추가
     public Transform playerTransform;
+    private Vector3 offset = new Vector3(0f, 2f, 0f); // 머리 위
 
     void Awake()
     {
@@ -45,21 +46,15 @@ public class EnvironmentEffect : MonoBehaviour
     }
     void Update()
     {
-        // 주인공이 있는지 체크하고, 주인공이 있다면 파티클들을 주인공을 따라가게 함
-        if (playerTransform != null)
+        if (playerTransform != null && effectParent != null)
         {
-            // 파티클 효과들이 활성화되어 있다면 주인공을 따라가게 위치를 업데이트
-            foreach (var kvp in effects)
-            {
-                if (kvp.Value.activeSelf)  // 이펙트가 활성화되어 있는 경우
-                {
-                    Vector3 pos = playerTransform.position;
-                    pos.y += 2f; // 주인공 머리 위로 약간 띄움
-                    effectParent.position = pos;
-
-                }
-            }
+            effectParent.position = playerTransform.position + offset;
         }
+    }
+
+    bool IsOutdoor()
+    {
+        return PlayerLocation.Instance != null && !PlayerLocation.Instance.IsIndoor;
     }
 
     void InitEffect(string name, ref GameObject effectObj)
@@ -84,9 +79,9 @@ public class EnvironmentEffect : MonoBehaviour
     {
         Debug.Log($"[파티클 적용] 현재 날씨: {weatherType}");
 
-        // 실내면 이펙트 모두 끄고 return
-        if (PlayerLocation.Instance != null && PlayerLocation.Instance.IsIndoor)
+        if (!IsOutdoor())
         {
+            // 실내: 모든 파티클 끄기
             foreach (var kvp in effects)
                 kvp.Value?.SetActive(false);
 
@@ -94,7 +89,7 @@ public class EnvironmentEffect : MonoBehaviour
             return;
         }
 
-        // 실외: 날씨에 맞는 이펙트만 켬
+        // 실외: 먼저 전부 끄고, 해당 이펙트만 켬
         foreach (var kvp in effects)
             kvp.Value?.SetActive(false);
 
@@ -103,16 +98,13 @@ public class EnvironmentEffect : MonoBehaviour
             case Weather.WeatherType.Rain:
                 rainEffect?.SetActive(true);
                 smallrainEffect?.SetActive(true);
-                Debug.Log("비 이펙트 활성화");
                 break;
             case Weather.WeatherType.Snow:
                 snowEffect?.SetActive(true);
                 smallsnowEffect?.SetActive(true);
-                Debug.Log("눈 이펙트 활성화");
                 break;
             case Weather.WeatherType.FlowerRain:
                 flowerRainEffect?.SetActive(true);
-                Debug.Log("꽃비 이펙트 활성화");
                 break;
         }
     }
