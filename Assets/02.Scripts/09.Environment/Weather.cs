@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Weather : MonoBehaviour
 {
+    public static Weather Instance { get; private set; }
     public enum WeatherType
     {
         Sunny,
@@ -23,6 +24,15 @@ public class Weather : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         season = FindObjectOfType<Season>();
         if (season != null)
         {
@@ -109,7 +119,7 @@ public class Weather : MonoBehaviour
         foreach (int day in availableDays)
             dailyWeather[day] = WeatherType.Sunny;
     }
-
+    public WeatherType CurrentWeather => GetWeather(currentDay);
     private void AddRandomWeather(ref List<int> pool, int count, WeatherType type)
     {
         for (int i = 0; i < count && pool.Count > 0; i++)

@@ -46,11 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf71e178b59da044b915bf530f4baed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectParent: {fileID: 7758454863458974133}
   rainEffect: {fileID: 0}
   smallrainEffect: {fileID: 0}
   snowEffect: {fileID: 0}
   smallsnowEffect: {fileID: 0}
   flowerRainEffect: {fileID: 0}
+  playerTransform: {fileID: 0}
 --- !u!114 &7612267518682839658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,3 +79,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca8a50a9a95e5a4faf865d67a1ad0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideSeason: 0
+  manualSeason: 0
