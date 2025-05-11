@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1765793277186100463}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -41.415295, y: -4.2853904, z: 0}
+  m_LocalPosition: {x: -13.6, y: -76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be97a700bcb25fa49adc97f5d69cba08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartHp: 0
   steps:
   - Hp: 0
     isChangeOnSeason: 0
@@ -110,6 +111,7 @@ MonoBehaviour:
   SpawnItemAmount: 0
   isDestroyAfterHarvest: 1
   AfterHarvest: 0
+  Maxrots: 0
 --- !u!114 &6781536678704562363
 MonoBehaviour:
   m_ObjectHideFlags: 0

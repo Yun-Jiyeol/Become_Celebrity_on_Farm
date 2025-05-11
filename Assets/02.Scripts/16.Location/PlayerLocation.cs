@@ -1,41 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerLocation : MonoBehaviour
 {
-    public static PlayerLocation Instance { get; private set; }
+    public static PlayerLocation Instance;
+
+    public LayerMask outsideLayerMask;  // Outside Layer만 포함
 
     public bool IsIndoor { get; private set; }
 
+    private Transform playerTransform;
+
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-    }
-    private void Start()
-    {
-        SetIndoorState(true);  // 시작 시 실내로 설정
+        if (Instance == null)
+            Instance = this;
+
+        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
-    public void SetIndoorState(bool isIndoor)
+    private void Update()
     {
-        IsIndoor = isIndoor;
-        Debug.Log("플레이어 현재 위치: " + (isIndoor ? "실내" : "실외"));
-
-        // 날씨 이펙트 갱신
-        if (EnvironmentEffectInstanceExists())
+        if (playerTransform != null)
         {
-            FindObjectOfType<EnvironmentEffect>().RefreshEffect();
-        }
-        else
-        {
-            Debug.LogWarning("[PlayerLocation] EnvironmentEffect 인스턴스를 찾을 수 없습니다.");
+            // 플레이어 아래로 Raycast 발사
+            RaycastHit2D hit = Physics2D.Raycast(playerTransform.position, Vector2.down, 1f);
+            if (hit.collider != null)
+            {
+                // 부딪힌 오브젝트가 Outside Layer인지 확인
+                IsIndoor = (outsideLayerMask.value & (1 << hit.collider.gameObject.layer)) == 0;
+            }
         }
     }
 
-    private bool EnvironmentEffectInstanceExists()
-    {
-        return FindObjectOfType<EnvironmentEffect>() != null;
-    }
 }
