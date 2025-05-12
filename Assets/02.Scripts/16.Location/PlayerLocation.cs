@@ -4,7 +4,7 @@ public class PlayerLocation : MonoBehaviour
 {
     public static PlayerLocation Instance;
 
-    public LayerMask outsideLayerMask;  // Outside Layer만 포함
+    public LayerMask outsideLayerMask;
 
     public bool IsIndoor { get; private set; }
 
@@ -14,30 +14,69 @@ public class PlayerLocation : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
-    //private void Update()
-    //{
-    //    UpdateIndoorStateWithRaycast();
-
-    //    // 디버그용 Ray 시각화
-    //    Vector2 origin = transform.position;
-    //    Vector2 direction = Vector2.down;
-    //    float distance = 1f;
-
-    //    Debug.DrawRay(origin, direction * distance, Color.red);
-    //}
+    private void Update()
+    {
+        UpdateIndoorStateWithRaycast();
+    }
 
     public void UpdateIndoorStateWithRaycast()
     {
-        if (playerTransform != null)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(playerTransform.position, Vector2.down, 1f, outsideLayerMask);
-            Weather.Instance.ApplyWeather(Weather.Instance.CurrentWeather,!hit.collider);
-            Debug.Log(!hit.collider);
+        RaycastHit2D hitDown = Physics2D.Raycast(playerTransform.position, Vector2.down, 2f, outsideLayerMask);
+        RaycastHit2D hitUp = Physics2D.Raycast(playerTransform.position, Vector2.up, 2f, outsideLayerMask);
+        RaycastHit2D hitLeft = Physics2D.Raycast(playerTransform.position, Vector2.left, 2f, outsideLayerMask);
+        RaycastHit2D hitRight = Physics2D.Raycast(playerTransform.position, Vector2.right, 2f, outsideLayerMask);
 
+        bool isSurrounded = hitDown.collider == null &&
+                            hitUp.collider == null &&
+                            hitLeft.collider == null &&
+                            hitRight.collider == null;
+
+        bool isCurrentlyIndoor = isSurrounded;
+
+        if (isCurrentlyIndoor != IsIndoor)
+        {
+            IsIndoor = isCurrentlyIndoor;
+
+            if (Weather.Instance != null)
+            {
+                if (IsIndoor)
+                {
+                    Weather.Instance.HideWeatherEffect();
+                    Debug.Log("실내 진입: 날씨 효과 비활성화");
+                }
+                else
+                {
+                    Weather.Instance.ApplyWeather(Weather.Instance.CurrentWeather);
+                    Debug.Log("실외 진입: 날씨 효과 적용");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Weather.Instance가 null입니다!");
+            }
         }
     }
 }
+//if (playerTransform != null)
+//{
+//    //RaycastHit2D hit = Physics2D.Raycast(playerTransform.position, Vector2.down, 1f, outsideLayerMask);
+
+//    RaycastHit2D hitDown = Physics2D.Raycast(playerTransform.position, Vector2.down, 2f, outsideLayerMask);
+//    RaycastHit2D hitUp = Physics2D.Raycast(playerTransform.position, Vector2.up, 2f, outsideLayerMask);
+
+//    // 둘 중 하나라도 맞으면 hit으로 간주
+//    RaycastHit2D hit = hitDown.collider != null ? hitDown : hitUp;
+
+//    Weather.Instance.ApplyWeather(Weather.Instance.CurrentWeather,!hit.collider);
+//    Debug.Log(!hit.collider);
+
+//}
