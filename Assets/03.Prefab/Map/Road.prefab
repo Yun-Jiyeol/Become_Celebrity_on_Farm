@@ -7107,8 +7107,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.72389984, y: -1.30105, z: 0}
-    m_Extent: {x: 6.9385, y: 2.74285, z: 0}
+    m_Center: {x: 0.7239001, y: -1.3015, z: 0}
+    m_Extent: {x: 6.9386997, y: 2.742, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -9503,6 +9503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3329384392806779345}
+  - component: {fileID: 3604296922429555652}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -9532,6 +9533,35 @@ Transform:
   - {fileID: 6251688897346982813}
   m_Father: {fileID: 3609230013062205616}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3604296922429555652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3375156385461842408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa613b949b1f1c4689e1984c04495c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemaps:
+  - {fileID: 1773919278711792811}
+  - {fileID: 735926820123378687}
+  - {fileID: 4859241022436651364}
+  - {fileID: 315718567142232536}
+  - {fileID: 4892858478728580444}
+  tileList:
+  - {fileID: 11400000, guid: f46186dda86bca4469b5ff82539a3cd4, type: 2}
+  - {fileID: 11400000, guid: 323e31c92ba002b4c8ea9c929ab2cae4, type: 2}
+  - {fileID: 11400000, guid: 2a30bf2e654385a418e2176a052d6c63, type: 2}
+  - {fileID: 11400000, guid: 9343cde531d620142ad7d90debab98ca, type: 2}
+  - {fileID: 11400000, guid: caeecd75d05241a428a3ed63d7a5a665, type: 2}
+  - {fileID: 11400000, guid: a1615d9351979394aa4dd0f9f4c94d10, type: 2}
+  - {fileID: 11400000, guid: 7d0083ea56ae60a44ad4d6eb4185117c, type: 2}
+  - {fileID: 11400000, guid: 9d9a7bdbf725d2844934b7da80ea0776, type: 2}
+  - {fileID: 11400000, guid: 71b130d767629df4cb88b827e73c2961, type: 2}
+  - {fileID: 11400000, guid: d10fe112ffc1a3a4f822e0a990f8cef9, type: 2}
 --- !u!1 &4234419765166031521
 GameObject:
   m_ObjectHideFlags: 0
