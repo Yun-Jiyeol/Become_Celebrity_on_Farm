@@ -47,17 +47,18 @@ public class Weather : MonoBehaviour
         Debug.Log($"¿À´ÃÀÇ ³¯¾¾: {todayWeather}");
         ApplyWeather(todayWeather);
     }
-
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if (currentWeather != lastAppliedWeather)
-        {
-            ApplyWeather(currentWeather);
-            lastAppliedWeather = currentWeather;
-        }
-#endif
-    }
+    
+//    private void Update()
+//    {
+//#if UNITY_EDITOR
+//        if (currentWeather != lastAppliedWeather)
+//        {
+//            ApplyWeather(currentWeather);
+//            lastAppliedWeather = currentWeather;
+//            return;
+//        }
+//#endif
+//    }
 
     public WeatherType GetWeather(int day)
     {
@@ -68,7 +69,7 @@ public class Weather : MonoBehaviour
         return currentWeather;
     }
 
-    public void ApplyWeather(WeatherType weatherType)
+    public void ApplyWeather(WeatherType weatherType, bool IsOutside = false)
     {
         currentWeather = weatherType;
         Debug.Log($"[³¯¾¾ Àû¿ë] {weatherType}");
@@ -77,16 +78,9 @@ public class Weather : MonoBehaviour
         EnvironmentEffect envEffect = FindObjectOfType<EnvironmentEffect>();
         if (envEffect != null)
         {
-            envEffect.ApplyEffect(weatherType);
+            envEffect.ApplyEffect(weatherType, IsOutside);
         }
         Debug.Log($"Àû¿ëµÈ ³¯¾¾: {weatherType}");
-
-        // EnvironmentEffect È£Ãâ
-        EnvironmentEffect effect = FindObjectOfType<EnvironmentEffect>();
-        if (effect != null)
-        {
-            effect.ApplyEffect(weatherType);
-        }
 
     }
     public void SetDay(int day)

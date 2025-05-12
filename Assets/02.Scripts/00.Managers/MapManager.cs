@@ -3,16 +3,16 @@ using UnityEngine;
 
 public enum MapType
 {
-    Home,
+    Home, 
     Farm,
     Road,
     Village,
-    MineEntrance,
-    Mine,
-    StoneMine,
-    CopperMine,
+    MineEntrance, 
+    Mine, 
+    StoneMine, 
+    CopperMine, 
     IronMine,
-    Beach,
+    Beach, 
     Store,
 }
 
@@ -142,6 +142,7 @@ public class MapManager : MonoBehaviour
             }
 
             currentMap = targetType;
+            PlayerLocation.Instance.UpdateIndoorStateWithRaycast();
         }));
     }
 

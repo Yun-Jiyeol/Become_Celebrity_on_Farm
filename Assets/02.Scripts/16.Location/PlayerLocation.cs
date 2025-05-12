@@ -18,18 +18,26 @@ public class PlayerLocation : MonoBehaviour
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
-    private void Update()
+    //private void Update()
+    //{
+    //    UpdateIndoorStateWithRaycast();
+
+    //    // 디버그용 Ray 시각화
+    //    Vector2 origin = transform.position;
+    //    Vector2 direction = Vector2.down;
+    //    float distance = 1f;
+
+    //    Debug.DrawRay(origin, direction * distance, Color.red);
+    //}
+
+    public void UpdateIndoorStateWithRaycast()
     {
         if (playerTransform != null)
         {
-            // 플레이어 아래로 Raycast 발사
-            RaycastHit2D hit = Physics2D.Raycast(playerTransform.position, Vector2.down, 1f);
-            if (hit.collider != null)
-            {
-                // 부딪힌 오브젝트가 Outside Layer인지 확인
-                IsIndoor = (outsideLayerMask.value & (1 << hit.collider.gameObject.layer)) == 0;
-            }
+            RaycastHit2D hit = Physics2D.Raycast(playerTransform.position, Vector2.down, 1f, outsideLayerMask);
+            Weather.Instance.ApplyWeather(Weather.Instance.CurrentWeather,!hit.collider);
+            Debug.Log(!hit.collider);
+
         }
     }
-
 }
