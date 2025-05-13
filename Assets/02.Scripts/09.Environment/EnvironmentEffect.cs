@@ -88,11 +88,4 @@ public class EnvironmentEffect : MonoBehaviour
         }
     }
 
-    //public void RefreshEffect()
-    //{
-    //    if (Weather.Instance != null)
-    //    {
-    //        ApplyEffect(Weather.Instance.CurrentWeather);
-    //    }
-    //}
 }

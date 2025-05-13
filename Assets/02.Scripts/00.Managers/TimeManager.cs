@@ -5,24 +5,24 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
-    [Header("timePerMinute")]
+    [Header("시간 설정")]
     public float timePerMinute = 10f;
     private float timer;
 
-    [Header("total time in minutes")]
-    public int totalMinutes;  // 전체 누적 시간 (분 단위)
+    [Header("총 누적 시간 (분)")]
+    public int totalMinutes;
 
-    [Header("time")]
+    [Header("현재 시간")]
     public int currentMinute;
     public int currentHour;
     public int currentDay;
     public int currentMonth; // 0~3 : 봄~겨울
     public int currentYear = 1;
 
-    [Header("sleep")]
+    [Header("수면 여부")]
     public bool isSleeping = false;
 
-    [Header("season")]
+    [Header("계절 시스템")]
     public Season season;
 
     public event Action OnTimeChanged;
@@ -37,21 +37,24 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
+        // 시간 초기화
         currentHour = 6;
         currentMinute = 0;
-        totalMinutes = currentHour * 60 + currentMinute;
+        currentDay = 0;
+        currentMonth = 0;
+        currentYear = 1;
+        totalMinutes = currentHour * 60;
 
+        // 계절 초기화
         if (season != null)
         {
-            season.SetCurrentDay(currentDay);
-            currentMinute = 0;
-            currentHour = 6;
-            currentDay = 0;
-            currentMonth = 0;
-            currentYear = 1;
-            totalMinutes = 6 * 60; // 6시 0분으로 초기화
+            season.SetCurrentMonth(currentMonth); // 월 기준으로 계절 설정
+        }
 
-            UpdateSeason();
+        // 날씨에도 날짜 초기값 전달
+        if (Weather.Instance != null)
+        {
+            Weather.Instance.SetDay(currentDay);
         }
     }
 
@@ -87,7 +90,7 @@ public class TimeManager : MonoBehaviour
                     AdvanceDay();
                 }
 
-                // 원하는 기본값 (6시)으로 리셋
+                // 매일 아침 6시로 초기화
                 currentHour = 6;
                 currentMinute = 0;
             }
@@ -99,34 +102,36 @@ public class TimeManager : MonoBehaviour
     public void AdvanceDay()
     {
         currentDay++;
-        if (season != null)
-            season.SetCurrentDay(currentDay);
-
-        // 날씨에도 현재 날짜 전달
-        if (Weather.Instance != null)
-            Weather.Instance.SetDay(currentDay);
 
         OnDayChanged?.Invoke();
 
+        // 날씨에 날짜 반영
+        if (Weather.Instance != null)
+        {
+            Weather.Instance.SetDay(currentDay);
+        }
+
+        // 7일 지나면 한 달
         if (currentDay >= 7)
-        //if (currentDay >= 28)
         {
             currentDay = 0;
             currentMonth++;
+
+            // 월이 4 넘어가면 다음 해
             if (currentMonth >= 4)
             {
                 currentMonth = 0;
                 currentYear++;
             }
 
+            // 계절 갱신 (월 기준)
+            if (season != null)
+            {
+                season.SetCurrentMonth(currentMonth);
+            }
+
             OnMonthChanged?.Invoke();
         }
-    }
-
-    public void UpdateSeason()
-    {
-        if (season != null)
-            season.SetCurrentDay(currentDay);
     }
 
     private readonly string[] weekdays = { "월", "화", "수", "목", "금", "토", "일" };
