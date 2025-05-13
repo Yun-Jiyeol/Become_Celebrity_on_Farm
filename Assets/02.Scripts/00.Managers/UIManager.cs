@@ -126,6 +126,7 @@ public class UIManager : MonoBehaviour
 
         if (isActive)
             TooltipManager.Instance?.HideTooltip();
+            InventoryUIManager.Instance?.ForceReturnHoldingItem();
     }
 
     // 인벤토리 열려있는지 확인용
