@@ -19,13 +19,18 @@ public class GrowthManager : MonoBehaviour
         currentObject = Instantiate(stages[currentStageIndex].prefab, transform.position, Quaternion.identity, transform);
     }
 
-    public void GrowNextStage()
+    public void GrowNextStage(Vector3 spawnPosition)
     {
         if (currentStageIndex < stages.Length - 1)
         {
             Destroy(currentObject);
             currentStageIndex++;
-            currentObject = Instantiate(stages[currentStageIndex].prefab, transform.position, Quaternion.identity, transform);
+            currentObject = Instantiate(
+                stages[currentStageIndex].prefab,
+                spawnPosition,
+                Quaternion.identity,
+                transform
+            );
         }
     }
 }
