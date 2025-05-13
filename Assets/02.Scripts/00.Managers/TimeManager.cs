@@ -108,7 +108,8 @@ public class TimeManager : MonoBehaviour
 
         OnDayChanged?.Invoke();
 
-        if (currentDay >= 28)
+        if (currentDay >= 7)
+        //if (currentDay >= 28)
         {
             currentDay = 0;
             currentMonth++;
