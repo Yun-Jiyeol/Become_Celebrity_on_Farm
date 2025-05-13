@@ -10,6 +10,7 @@ public class TooltipManager : MonoBehaviour
     public TextMeshProUGUI nameText;      //아이템 이름
     public TextMeshProUGUI descText;      //설명
     public TextMeshProUGUI extraInfoText; //추가정보
+    public TextMeshProUGUI typeText;          //아이템 종류
 
     private void Awake()
     {
@@ -37,7 +38,9 @@ public class TooltipManager : MonoBehaviour
 
         nameText.text = itemData.Item_name;
         descText.text = itemData.Item_Explain;
-        extraInfoText.text = GetExtraInfo(itemData); 
+        typeText.text = itemData.Item_Type.ToString();
+        extraInfoText.text = GetExtraInfo(itemData);
+        
     }
 
     public void HideTooltip()
