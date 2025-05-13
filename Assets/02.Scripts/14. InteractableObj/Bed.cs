@@ -80,9 +80,11 @@ public class Bed : MonoBehaviour
     /// </summary>
     void ForcedSleep()
     {
+        // 전 시간 상관없이 자정되면 강제 취침할 방법 필요
         // 방법
         // 1. 실행 중 TimeManager에서 22:50으로 바꿔서 preHour 23으로 세팅한 후
         // 2. 23:50으로 가서 자정 기다리면 강제 취침 가능
+        
 
         MapManager.Instance.MoveMap(MapType.Home);
         TimeManager.Instance.currentHour = 6;
