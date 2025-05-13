@@ -64,6 +64,11 @@ public class GameManager : MonoBehaviour
                     SG.HandInteract();
                     return;
                 }
+                else if(go.tag == "Interactable")
+                {
+                    go.GetComponent<IInteract>().Interact();
+                    return;
+                }
             }
         }
     }

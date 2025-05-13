@@ -25,4 +25,9 @@ public class SaveOnGM : MonoBehaviour
             thisCollider.enabled = false;
         }
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnActive.Remove(gameObject);
+    }
 }

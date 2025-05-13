@@ -193,7 +193,7 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    private void ClearHoldingItem()
+    public void ClearHoldingItem()
     {
         tempItemData_num = 0;
         tempItemAmount = 0;
@@ -229,5 +229,55 @@ public class InventoryUIManager : MonoBehaviour
             }
         }
         return amount;
+    }
+    public void ForceReturnHoldingItem()
+    {
+        if (!HoldingItem()) return;
+
+        bool merged = false;
+
+        // 슬롯이 있으면
+        if (selectedSlot != null)
+        {
+            var backData = selectedSlot.GetData();
+
+            if (backData.ItemData_num == tempItemData_num)
+            {
+                // 같은 아이템이면 합쳐주기
+                backData.amount += tempItemAmount;
+                merged = true;
+            }
+            else if (backData.ItemData_num == 0)
+            {
+                // 빈 슬롯이면 그대로 넣기
+                backData.ItemData_num = tempItemData_num;
+                backData.amount = tempItemAmount;
+                merged = true;
+            }
+        }
+
+        // 아니면 인벤토리 전체에서 같은 아이템 찾아서 합치기
+        if (!merged)
+        {
+            var invenList = playerInventory.PlayerHave;
+            for (int i = 0; i < invenList.Count; i++)
+            {
+                if (invenList[i].ItemData_num == tempItemData_num)
+                {
+                    invenList[i].amount += tempItemAmount;
+                    merged = true;
+                    break;
+                }
+            }
+        }
+
+        // 그래도 못 합쳤으면 빈 슬롯에 넣기
+        if (!merged)
+        {
+            AddItemToInventoryFromMouse(tempItemData_num, tempItemAmount);
+        }
+
+        ClearHoldingItem();
+        RefreshUI();
     }
 }

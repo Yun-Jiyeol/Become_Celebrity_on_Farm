@@ -97,6 +97,8 @@ public class TimeManager : MonoBehaviour
         }
 
         OnTimeChanged?.Invoke();
+        QuestManager.Instance?.OnAdvanceDay();
+
     }
 
     public void AdvanceDay()

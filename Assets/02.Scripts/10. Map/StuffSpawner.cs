@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 /// 스폰이 될 타일맵에 붙임
 /// ex) FarmGround, MineGround
 /// </summary>
-public class StuffSpawner : ObjectPolling
+public class StuffSpawner : MonoBehaviour
 {
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private List<GameObject> stuffs;
@@ -19,11 +19,6 @@ public class StuffSpawner : ObjectPolling
 
     bool isSpawned = false;
 
-    void Awake()
-    {
-        InitializeStuffPool(prefabCount);
-    }
-
     void Start()
     {
         TimeManager.Instance.OnDayChanged += ExtraSpawn;
@@ -34,42 +29,23 @@ public class StuffSpawner : ObjectPolling
     /// </summary>
     void ExtraSpawn()
     {
-        SpawnStuff(prefabCount / 10);
+        SpawnStuff(prefabCount / 20);
     }
 
     /// <summary>
-    /// 처음 켜졌을 때 오브젝트 풀의 반만 스폰
+    /// 처음 켜졌을 때 프리팹 생성
     /// </summary>
     void OnEnable()
     {
         if (!isSpawned)
         {
-            SpawnStuff(prefabCount / 2);
+            SpawnStuff(prefabCount);
             isSpawned = true;
         }
     }
 
     /// <summary>
-    /// 랜덤 프리팹으로 오브젝트 풀 초기화
-    /// </summary>
-    /// <param name="count">오브젝트 개수</param>
-    void InitializeStuffPool(int count)
-    {
-        for (int i = 0; i < count ; i++)
-        {
-            // 1. 랜덤으로 프리팹 추출
-            int num = Random.Range(0, stuffs.Count);
-            GameObject stuff = stuffs[num];
-
-            // 2. 프리팹 생성
-            GameObject obj = Instantiate(stuff, onActiveObjs);
-            obj.SetActive(false);
-            Things.Add(obj);
-        }
-    }
-
-    /// <summary>
-    /// 랜덤 위치에 랜덤 프리팹 오브젝트 풀에서 꺼내오기
+    /// 랜덤 위치에 랜덤 프리팹 생성하기
     /// </summary>
     void SpawnStuff(int count)
     {
@@ -78,12 +54,12 @@ public class StuffSpawner : ObjectPolling
             Vector3 position = SetRandomPosition();
             GameObject obj = SetStuff();
             obj.transform.position = position;
-            obj.SetActive(true);
+            Instantiate(obj, onActiveObjs);
         }
     }
 
     /// <summary>
-    /// 랜덤 위치 정하기
+    /// 랜덤 위치 리턴
     /// </summary>
     Vector3 SetRandomPosition()
     {
@@ -115,23 +91,12 @@ public class StuffSpawner : ObjectPolling
     }
 
     /// <summary>
-    /// 프리팹 리턴
+    /// 랜덤 프리팹 리턴
     /// </summary>
     GameObject SetStuff()
     {
-        GameObject stuff = SpawnOrFindThings();
-
-        // 오브젝트 풀에 아무것도 없을 경우
-        if (stuff == null)
-        {
-            int num = Random.Range(0, stuffs.Count);
-            stuff = stuffs[num];
-
-            GameObject obj = Instantiate(stuff, onActiveObjs);
-            obj.SetActive(false);
-            Things.Add(obj);
-        }
-
+        int num = Random.Range(0, stuffs.Count);
+        GameObject stuff = stuffs[num];
         return stuff;
     }
 }

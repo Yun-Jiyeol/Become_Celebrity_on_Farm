@@ -123,6 +123,10 @@ public class UIManager : MonoBehaviour
 
         bool isActive = inventoryUI.activeSelf;
         inventoryUI.SetActive(!isActive);
+
+        if (isActive)
+            TooltipManager.Instance?.HideTooltip();
+            InventoryUIManager.Instance?.ForceReturnHoldingItem();
     }
 
     // 인벤토리 열려있는지 확인용
