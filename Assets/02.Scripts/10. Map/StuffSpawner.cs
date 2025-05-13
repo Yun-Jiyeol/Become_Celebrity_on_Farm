@@ -52,9 +52,8 @@ public class StuffSpawner : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Vector3 position = SetRandomPosition();
-            GameObject obj = SetStuff();
-            obj.transform.position = position;
-            Instantiate(obj, onActiveObjs);
+            GameObject prefab = SetStuff();
+            GameObject obj = Instantiate(prefab, position, Quaternion.identity, onActiveObjs);
         }
     }
 
