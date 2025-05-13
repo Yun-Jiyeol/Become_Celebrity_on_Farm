@@ -37,6 +37,7 @@ public class Map
     public GameObject place;
     public List<Portal> portals;
     public Transform defaultSpawn;
+    public Collider2D cameraBorder;
 }
 
 /// <summary>
@@ -70,6 +71,8 @@ public class MapManager : MonoBehaviour
     readonly Dictionary<MapType, Map> mapPair = new();
     MapType targetType;
 
+    CamConfinerChange camConfinerChange;
+
 
     void Awake()
     {
@@ -84,12 +87,15 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
+        camConfinerChange = FindObjectOfType<CamConfinerChange>();
+
         SetMap();
         UnloadAllMap();
         if (mapPair.TryGetValue(currentMap, out Map curMap))
         {
             curMap.place.SetActive(true);
             SetPlayerPosition(curMap);
+            camConfinerChange.ChangeCameraBorder(curMap.cameraBorder);
         }
     }
 
@@ -116,6 +122,7 @@ public class MapManager : MonoBehaviour
             {
                 curMap.place.SetActive(true);
                 SetPlayerPosition(curMap);
+                camConfinerChange.ChangeCameraBorder(curMap.cameraBorder);
             }
 
             TimeManager.Instance.AdvanceDay();
@@ -139,6 +146,7 @@ public class MapManager : MonoBehaviour
             {
                 targetMap.place.SetActive(true);
                 SetPlayerPosition(targetMap, entrance);
+                camConfinerChange.ChangeCameraBorder(targetMap.cameraBorder);
             }
 
             currentMap = targetType;
