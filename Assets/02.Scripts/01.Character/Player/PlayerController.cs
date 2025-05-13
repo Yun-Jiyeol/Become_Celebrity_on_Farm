@@ -172,7 +172,7 @@ public class PlayerController : BaseController
                                 go.transform.parent = GameManager.Instance.transform;
                                 go.transform.position = tartgetPosition;
                             }
-                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
+                            UseItemOnHand(1);
                         }
                     }
                     TryHandInteract();
@@ -183,7 +183,7 @@ public class PlayerController : BaseController
 
                     if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" , "Interactable"}))
                         {
                             GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                             if (ConnectedObejct != null)
@@ -192,9 +192,44 @@ public class PlayerController : BaseController
                                 go.transform.parent = GameManager.Instance.transform;
                                 go.transform.position = tartgetPosition;
                             }
-                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
+                            UseItemOnHand(1);
                         }
                     }
+                    TryHandInteract();
+                    break;
+                case ItemType.Interia:
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
+                    {
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone", "Interactable" }))
+                        {
+                            GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                            if (ConnectedObejct != null)
+                            {
+                                GameObject go = Instantiate(ConnectedObejct);
+                                go.transform.parent = GameManager.Instance.transform;
+                                go.transform.position = tartgetPosition;
+                            }
+                            UseItemOnHand(1);
+                        }
+                    }
+
+                    break;
+                case ItemType.Except:
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Interactable" }))
+                    {
+                        GameObject go = GameManager.Instance.TagOnMouse.Find(itemGameObject => itemGameObject.TryGetComponent<IInteractNum>(out _));
+                        if (go != null)
+                        {
+                            Debug.Log(go);
+                            go.GetComponent<IInteractNum>().Interact(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                        }
+                    }
+
                     TryHandInteract();
                     break;
                 default:
@@ -284,6 +319,11 @@ public class PlayerController : BaseController
                     break;
             }
         }
+    }
+
+    public bool UseItemOnHand(int num)
+    {
+        return gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, num);
     }
 
     IEnumerator FishingChargingCoroutine()
@@ -436,7 +476,7 @@ public class PlayerController : BaseController
 
     void TryHandInteract()
     {
-        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow" }))
+        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow", "Interactable"}))
         {
             GameManager.Instance.TryHandInteract();
         }
@@ -587,6 +627,7 @@ public class PlayerController : BaseController
             case ItemType.Hoe:
             case ItemType.Watering:
             case ItemType.Seed:
+            case ItemType.Interia:
             case ItemType.TreeSeed:
                 TryChangeType(PlayerInteractType.Point);
                 break;

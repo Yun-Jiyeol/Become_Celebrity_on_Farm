@@ -17,7 +17,6 @@ public class CraftTooltip : MonoBehaviour
     private void Start()
     {
         rect = GetComponent<RectTransform>();
-        gameObject.SetActive(false);
     }
 
     private void Update()

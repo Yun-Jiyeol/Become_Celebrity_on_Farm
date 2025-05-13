@@ -88,13 +88,14 @@ public class Inventory : MonoBehaviour
         InventoryUIManager.Instance.RefreshUI();
     }
 
-    public void UseItem(int num, int amount) //1개 씩 사용하게 만들었습니다. 만약 여러개 쓸려면 변경이 필요할 겁니다.
+    public bool UseItem(int num, int amount) //1개 씩 사용하게 만들었습니다. 만약 여러개 쓸려면 변경이 필요할 겁니다.
     {
-        if (PlayerHave[num].amount < amount) return;
+        if (PlayerHave[num].amount < amount) return false;
 
         PlayerHave[num].amount -= amount;
         if (PlayerHave[num].amount == 0) PlayerHave[num].ItemData_num = 0;
         InventoryUIManager.Instance.RefreshUI();
+        return true;
     }
 
     public bool FindItem(int num, int amount)

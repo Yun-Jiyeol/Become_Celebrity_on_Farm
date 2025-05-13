@@ -22,6 +22,11 @@ public class CraftingScroll : MonoBehaviour
         Setting();
     }
 
+    private void OnEnable()
+    {
+        craftTooltip.SetActive(false);
+    }
+
     public void Setting()
     {
         if (TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable == null) return;
@@ -36,6 +41,9 @@ public class CraftingScroll : MonoBehaviour
             AddCraftTable(TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable[i]);
             yield return null;
         }
+
+        yield return null;
+        ScrollMain.sizeDelta = new Vector2(0,FindLongestLine().anchoredPosition.y * -1);
     }
 
     void AddCraftTable(GameObject go)
@@ -82,9 +90,9 @@ public class CraftingScroll : MonoBehaviour
 
         for (int i = 1; i < settingCrafts.Count; i++)
         {
-            if (settingCrafts[i].Point.position.y >= max)
+            if (settingCrafts[i].Point.position.y <= max)
             {
-                max = settingCrafts[i].Point.position.y;
+                max = settingCrafts[i].Point.anchoredPosition.y;
                 minPoint = settingCrafts[i].Point;
             }
         }

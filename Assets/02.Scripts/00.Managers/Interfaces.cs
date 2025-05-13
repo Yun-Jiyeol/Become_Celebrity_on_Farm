@@ -7,6 +7,10 @@ interface IInteract
 {
     void Interact();
 }
+interface IInteractNum
+{
+    void Interact(int num);
+}
 
 interface ExcelReader
 {
