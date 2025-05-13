@@ -130,6 +130,10 @@ PrefabInstance:
       propertyPath: moveWithTransform
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 571826662303049415, guid: 862ffa0e7defbf84a80f35df90f55735, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6080619732490136384, guid: 862ffa0e7defbf84a80f35df90f55735, type: 3}
       propertyPath: m_Name
       value: smallsnowEffect
@@ -200,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9170431483017931574, guid: 862ffa0e7defbf84a80f35df90f55735, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4988995
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9170431483017931574, guid: 862ffa0e7defbf84a80f35df90f55735, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -303,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7303304007970613181, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4988995
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7303304007970613181, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -322,7 +326,31 @@ PrefabInstance:
       value: flowerRainEffect
       objectReference: {fileID: 0}
     - target: {fileID: 8943942384947906834, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
+      propertyPath: lengthInSec
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943942384947906834, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
       propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943942384947906834, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
+      propertyPath: ShapeModule.m_Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 75e200790cdf156429960a359a423230, type: 3}
+    - target: {fileID: 8943942384947906834, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
+      propertyPath: NoiseModule.strength.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943942384947906834, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943942384947906834, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943942384947906834, guid: 5ee7215612b475b409afd14cdbb09dca, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -351,6 +379,22 @@ PrefabInstance:
     - target: {fileID: 380777752298054464, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
       propertyPath: moveWithTransform
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 380777752298054464, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 380777752298054464, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.atime1
+      value: 63916
+      objectReference: {fileID: 0}
+    - target: {fileID: 380777752298054464, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 380777752298054464, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.m_NumAlphaKeys
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2742323017756470103, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
       propertyPath: m_Pivot.x
@@ -418,7 +462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2742323017756470103, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.6188993
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2742323017756470103, guid: de44af5440ab93c42add98d0bbde66d9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -463,6 +507,14 @@ PrefabInstance:
       propertyPath: moveWithTransform
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1876192128161383938, guid: 1bd80988479f18040a6031d4ab1edad1, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876192128161383938, guid: 1bd80988479f18040a6031d4ab1edad1, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3000178134202067627, guid: 1bd80988479f18040a6031d4ab1edad1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -529,7 +581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3000178134202067627, guid: 1bd80988479f18040a6031d4ab1edad1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.6188993
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3000178134202067627, guid: 1bd80988479f18040a6031d4ab1edad1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -577,6 +629,14 @@ PrefabInstance:
     - target: {fileID: 2543457055894799943, guid: c7525046932465140a99c6d3b61ee7f6, type: 3}
       propertyPath: moveWithTransform
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543457055894799943, guid: c7525046932465140a99c6d3b61ee7f6, type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543457055894799943, guid: c7525046932465140a99c6d3b61ee7f6, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8463455659587061447, guid: c7525046932465140a99c6d3b61ee7f6, type: 3}
       propertyPath: m_Pivot.x
@@ -644,7 +704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8463455659587061447, guid: c7525046932465140a99c6d3b61ee7f6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4988995
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8463455659587061447, guid: c7525046932465140a99c6d3b61ee7f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
