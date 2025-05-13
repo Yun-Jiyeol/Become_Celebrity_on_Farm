@@ -14,7 +14,6 @@ public class StuffSpawner : ObjectPolling
     [SerializeField] private Transform onActiveObjs;
 
     public int prefabCount;
-    private int curDay = 0;
 
     readonly HashSet<Vector3Int> usedPositions = new();
 
@@ -27,18 +26,15 @@ public class StuffSpawner : ObjectPolling
 
     void Start()
     {
-        if (TimeManager.Instance != null)
-            curDay = TimeManager.Instance.currentDay;
+        TimeManager.Instance.OnDayChanged += ExtraSpawn;
     }
 
-    void Update()
+    /// <summary>
+    /// 하루 지나면 추가 스폰
+    /// </summary>
+    void ExtraSpawn()
     {
-        // 하루 지나면 추가 스폰. event?
-        if (curDay != TimeManager.Instance.currentDay)
-        {
-            curDay = TimeManager.Instance.currentDay;
-            SpawnStuff(prefabCount / 10);
-        }
+        SpawnStuff(prefabCount / 10);
     }
 
     /// <summary>

@@ -34,9 +34,32 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
 
         if (HP <= 0)
         {
-            for(int i =0; i < dropitems.Length; i++)
+            bool reported = false;
+
+            for (int i =0; i < dropitems.Length; i++)
             {
-                ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[dropitems[i].SpawnItemNum], dropitems[i].SpawnItemAmount, gameObject.transform.position);
+                //ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[dropitems[i].SpawnItemNum], dropitems[i].SpawnItemAmount, gameObject.transform.position);
+                var itemData = ItemManager.Instance.itemDataReader.itemsDatas[dropitems[i].SpawnItemNum];
+                string itemName = itemData.Item_name;
+                Debug.Log($"[Stone] 드롭된 아이템 이름: {itemName}");
+
+                foreach (var questTarget in QuestManager.Instance.GetActiveQuestTargets())
+                {
+                    Debug.Log($"[Stone] 퀘스트 타겟: {questTarget}");
+
+                    if (questTarget == itemName && !reported)
+                    {
+                        QuestManager.Instance.ReportProgress(itemName, 1);
+                        Debug.Log($"[Stone] 퀘스트 보고됨: {itemName}");
+                        reported = true;
+                        break; // 하나만 보고하고 끝냄
+                    }
+                }
+                ItemManager.Instance.spawnItem.DropItem(
+                itemData,
+                dropitems[i].SpawnItemAmount,
+                transform.position
+                );
             }
             Destroy(gameObject);
         }
