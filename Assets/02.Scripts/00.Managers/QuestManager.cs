@@ -26,12 +26,22 @@ public class QuestManager : MonoBehaviour
     }
     private void Update()
     {
-        // 시간 갱신 , 퀘스트 만료 처리
-        UpdateQuestTimers();
-
         // 인게임 시간 기반 퀘스트 생성
         GenerateQuestBasedOnInGameTime();
     }
+
+    private void Start()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged += OnGameTick;
+    }
+
+    private void OnDestroy()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged -= OnGameTick;
+    }
+
 
     private void GenerateQuestBasedOnInGameTime()
     {
@@ -70,27 +80,6 @@ public class QuestManager : MonoBehaviour
             targets.Add(quest.quest.objectiveTarget);
         }
         return targets;
-    }
-    private void UpdateQuestTimers()
-    {
-        List<QuestProgress> expired = new List<QuestProgress>();
-
-        foreach (QuestProgress quest in activeQuests)
-        {
-            quest.Update(Time.deltaTime);
-
-            if (quest.remainingTime <= 0f)
-            {
-                Debug.Log($"[QuestManager] 퀘스트 만료됨: {quest.quest.questTitle}");
-                expired.Add(quest);
-            }
-        }
-
-        foreach (QuestProgress quest in expired)
-        {
-            questSlot.Remove(quest);
-            activeQuests.Remove(quest);
-        }
     }
 
     void TryGenerateQuest()
@@ -207,5 +196,71 @@ public class QuestManager : MonoBehaviour
             //보상 팝업 호출
             questRewardPopupUI.Show(completedQuest.quest);
         }
+    }
+
+    public List<QuestProgress> GetActiveQuests()
+    {
+        return new List<QuestProgress>(activeQuests);
+    }
+
+    private void OnEnable()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged += OnGameTick;
+    }
+
+    private void OnDisable()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged -= OnGameTick;
+    }
+
+    private void OnGameTick()
+    {
+        Debug.Log("[QuestManager] OnGameTick 호출됨");
+        List<QuestProgress> expired = new List<QuestProgress>();
+
+        foreach (QuestProgress quest in activeQuests)
+        {
+            quest.Tick();
+
+            if (quest.remainingTicks <= 0)
+            {
+                Debug.Log($"[QuestManager] 퀘스트 만료됨 (인게임 시간): {quest.quest.questTitle}");
+                expired.Add(quest);
+            }
+        }
+
+        foreach (QuestProgress quest in expired)
+        {
+            questSlot.Remove(quest);
+            activeQuests.Remove(quest);
+        }
+    }
+    public void OnAdvanceDay()
+    {
+        Debug.Log("[QuestManager] 하루 경과 → 퀘스트 Tick -144");
+
+        List<QuestProgress> expired = new List<QuestProgress>();
+
+        foreach (QuestProgress quest in activeQuests)
+        {
+            quest.remainingTicks = Mathf.Max(0, quest.remainingTicks - 144);
+
+            if (quest.remainingTicks <= 0)
+            {
+                Debug.Log($"[QuestManager] 퀘스트 만료됨 (잠자기): {quest.quest.questTitle}");
+                expired.Add(quest);
+            }
+        }
+
+        foreach (var quest in expired)
+        {
+            questSlot.Remove(quest);
+            activeQuests.Remove(quest);
+        }
+
+        // UI도 즉시 반영
+        questSlot?.UpdateQuestUIManually();
     }
 }

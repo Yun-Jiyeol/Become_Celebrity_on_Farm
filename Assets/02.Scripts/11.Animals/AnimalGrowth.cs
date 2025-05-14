@@ -12,7 +12,7 @@ public class AnimalGrowth : MonoBehaviour
         eatCount++;
         if (eatCount >= eatsToGrow)
         {
-            growthManager.GrowNextStage();
+            growthManager.GrowNextStage(transform.position);
             eatCount = 0; // 다음 단계로 준비
         }
     }

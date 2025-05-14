@@ -21,17 +21,36 @@ public class QuestSlotUI : MonoBehaviour
         acceptedQuests.Add(questProgress);
         UpdateUI();
     }
-    private void Update()
+
+    private void OnEnable()
     {
-        foreach (var q in acceptedQuests)
-        {
-            q.Update(Time.deltaTime);
-        }
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged += UpdateUI;
+    }
+
+    private void OnDisable()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged -= UpdateUI;
+    }
+    private void Start()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged += UpdateUI;
 
         UpdateUI();
     }
+
+    private void OnDestroy()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged -= UpdateUI;
+    }
+
     private void UpdateUI()
     {
+        Debug.Log("[QuestSlotUI] UI 갱신됨");
+        Debug.Log($"[UI] {acceptedQuests[0].quest.questTitle} 남은 시간: {acceptedQuests[0].remainingTicks}");
         for (int i = 0; i < slotTexts.Count; i++)
         {
             if (i < acceptedQuests.Count)
@@ -83,5 +102,9 @@ public class QuestSlotUI : MonoBehaviour
                 break;
             }
         }
+    }
+    public void UpdateQuestUIManually()
+    {
+        UpdateUI();
     }
 }

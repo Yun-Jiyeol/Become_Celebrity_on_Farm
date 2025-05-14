@@ -89,6 +89,8 @@ public class TimeManager : MonoBehaviour
 
         OnDayChanged?.Invoke();
 
+        QuestManager.Instance?.OnAdvanceDay();
+
         if (currentDay >= 28)
         {
             currentDay = 0;
