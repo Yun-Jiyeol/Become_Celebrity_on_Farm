@@ -50,7 +50,12 @@ public class QuestSlotUI : MonoBehaviour
     private void UpdateUI()
     {
         Debug.Log("[QuestSlotUI] UI 갱신됨");
-        Debug.Log($"[UI] {acceptedQuests[0].quest.questTitle} 남은 시간: {acceptedQuests[0].remainingTicks}");
+
+        if (acceptedQuests.Count > 0)
+        {
+            Debug.Log($"[UI] {acceptedQuests[0].quest.questTitle} 남은 시간: {acceptedQuests[0].remainingTicks}");
+        }
+
         for (int i = 0; i < slotTexts.Count; i++)
         {
             if (i < acceptedQuests.Count)
