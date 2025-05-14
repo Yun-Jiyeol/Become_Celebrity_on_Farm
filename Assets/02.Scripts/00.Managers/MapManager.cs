@@ -66,7 +66,7 @@ public class MapManager : MonoBehaviour
     public MineSelectUI mineSelectUI;
 
     [Header("Fader")]
-    [SerializeField] private LoadingFader fader;
+    public LoadingFader fader;
 
     readonly Dictionary<MapType, Map> mapPair = new();
     MapType targetType;
@@ -113,22 +113,15 @@ public class MapManager : MonoBehaviour
     /// <summary>
     /// 다음 날로 넘어갈 때 사용
     /// </summary>
-    public void ReloadMap()
+    public void RefreshMap()
     {
-        StartCoroutine(fader.Fade(() =>
+        UnloadMap(currentMap);
+        if (mapPair.TryGetValue(currentMap, out Map curMap))
         {
-            UnloadMap(currentMap);
-            if (mapPair.TryGetValue(currentMap, out Map curMap))
-            {
-                curMap.place.SetActive(true);
-                SetPlayerPosition(curMap);
-                camConfinerChange.ChangeCameraBorder(curMap.cameraBorder);
-            }
-
-            TimeManager.Instance.AdvanceDay();
-            TimeManager.Instance.currentHour = 6;
-            TimeManager.Instance.currentMinute = 0;
-        }));
+            curMap.place.SetActive(true);
+            SetPlayerPosition(curMap);
+            camConfinerChange.ChangeCameraBorder(curMap.cameraBorder);
+        }
     }
 
     /// <summary>

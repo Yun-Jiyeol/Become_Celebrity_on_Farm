@@ -11,23 +11,23 @@ public class LoadingFader : MonoBehaviour
     [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
 
     Image fader;
-    Canvas parentCanvas;
+    Canvas loadingCanvas;
 
     void Start()
     {
         DOTween.Init();
 
         fader = GetComponent<Image>();
-        parentCanvas = GetComponentInParent<Canvas>();
+        loadingCanvas = GetComponentInParent<Canvas>();
 
-        parentCanvas.gameObject.SetActive(false);
+        loadingCanvas.gameObject.SetActive(false);
     }
 
     /// <summary>
     /// 맵 전환용
     /// Fade Out, Fade In
     /// </summary>
-    public IEnumerator Fade(Action onLoad = null, Action onAfterLoad = null)
+    public IEnumerator Fade(Action onLoad = null)
     {
         // 0. Fade 동안 카메라 움직임, input 막기
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
@@ -37,7 +37,7 @@ public class LoadingFader : MonoBehaviour
         }
 
         // 1. Fade out 시작
-        parentCanvas.gameObject.SetActive(true);
+        loadingCanvas.gameObject.SetActive(true);
         yield return fader.DOFade(1f, 1f)
             .SetUpdate(true)
             .SetEase(Ease.Linear)
@@ -48,17 +48,21 @@ public class LoadingFader : MonoBehaviour
 
         // 3. Fade in 시작
         virtualCamera.enabled = true;
-        yield return fader.DOFade(0f, 1f)
+        
+        Debug.Log($"1. {input.enabled}");
+
+        fader.DOFade(0f, 1f)
             .SetUpdate(true)
             .SetEase(Ease.Linear)
             .WaitForCompletion();
 
-        onAfterLoad?.Invoke();
+        Debug.Log($"2. {input.enabled}");
+        input.enabled = true;
+        loadingCanvas.gameObject.SetActive(false);
+
 
         // 4. 0.1초 기다리고 input enabled
-        yield return new WaitForSecondsRealtime(0.1f);
-        input.enabled = true;
-        parentCanvas.gameObject.SetActive(false);
+        //yield return new WaitForSecondsRealtime(0.1f);
     }
 
     /// <summary>
@@ -66,20 +70,25 @@ public class LoadingFader : MonoBehaviour
     /// </summary>
     public IEnumerator FadeOut(Action onLoad = null)
     {
+        // 0. 카메라 / 인풋 막기
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
         {
             input.enabled = false;
             virtualCamera.enabled = false;
         }
 
-        parentCanvas.gameObject.SetActive(true);
+        // 1. Fade Out
+        loadingCanvas.gameObject.SetActive(true);
         yield return fader.DOFade(1f, 1.5f)
             .SetUpdate(true)
             .SetEase(Ease.Linear)
             .WaitForCompletion();
 
+        // 2. 해야 할 것 하기
         onLoad?.Invoke();
+
+        // 3. 알파값 돌려놓고 비활성화
         fader.DOFade(0f, 0f);
-        parentCanvas.gameObject.SetActive(false);
+        loadingCanvas.gameObject.SetActive(false);
     }
 }

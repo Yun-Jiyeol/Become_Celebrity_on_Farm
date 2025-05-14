@@ -1,20 +1,21 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class EndingButton : MonoBehaviour
 {
     [SerializeField] private Button endButton;
     [SerializeField] private Button nextDayButton;
-    Canvas parentCanvas;
+    Canvas endingCanvas;
     LoadingFader fader;
 
     void Start()
     {
         endButton.onClick.AddListener(OnClickEndButton);
         nextDayButton.onClick.AddListener(OnNextDayButton);
-        
-        parentCanvas = GetComponentInParent<Canvas>();
-        fader = FindObjectOfType<LoadingFader>();
+
+        endingCanvas = GetComponentInParent<Canvas>();
+        fader = MapManager.Instance.fader;
     }
 
     void OnClickEndButton()
@@ -26,11 +27,12 @@ public class EndingButton : MonoBehaviour
     {
         StartCoroutine(fader.Fade(() =>
         {
-            MapManager.Instance.ReloadMap();
-        },
-        () =>
-        {
-            parentCanvas.gameObject.SetActive(false);
+            endingCanvas.gameObject.SetActive(false);
+            MapManager.Instance.RefreshMap();
+            TimeManager.Instance.AdvanceDay();
+            TimeManager.Instance.currentHour = 6;
+            TimeManager.Instance.currentMinute = 0;
+            //if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = true;
         }));
     }
 }
