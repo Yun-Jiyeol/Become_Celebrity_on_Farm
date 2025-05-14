@@ -14,7 +14,7 @@ public class CraftItemBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private void Start()
     {
-        crafttool = TestManager.Instance.gameObject.GetComponent<CraftManager>().PlayerCraftTable.GetComponent<CraftingScroll>().craftTooltip;
+        crafttool = ItemManager.Instance.craftManager.PlayerCraftTable.GetComponent<CraftingScroll>().craftTooltip;
         crafttooltip = crafttool.GetComponent<CraftTooltip>();
     }
 

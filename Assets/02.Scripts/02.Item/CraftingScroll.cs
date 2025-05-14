@@ -18,7 +18,7 @@ public class CraftingScroll : MonoBehaviour
 
     private void Start()
     {
-        TestManager.Instance.gameObject.GetComponent<CraftManager>().PlayerCraftTable = this.gameObject;
+        ItemManager.Instance.craftManager.PlayerCraftTable = this.gameObject;
         Setting();
     }
 
@@ -29,16 +29,16 @@ public class CraftingScroll : MonoBehaviour
 
     public void Setting()
     {
-        if (TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable == null) return;
+        if (ItemManager.Instance.craftManager.ListOfCraftingTable == null) return;
         DestroyAllInLine();
         StartCoroutine(SpawnCraftTable());
     }
 
     IEnumerator SpawnCraftTable()
     {
-        for (int i = 0; i < TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable.Count; i++)
+        for (int i = 0; i < ItemManager.Instance.craftManager.ListOfCraftingTable.Count; i++)
         {
-            AddCraftTable(TestManager.Instance.gameObject.GetComponent<CraftManager>().ListOfCraftingTable[i]);
+            AddCraftTable(ItemManager.Instance.craftManager.ListOfCraftingTable[i]);
             yield return null;
         }
 

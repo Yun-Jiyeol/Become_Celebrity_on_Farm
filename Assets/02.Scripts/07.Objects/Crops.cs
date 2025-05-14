@@ -57,7 +57,7 @@ public class Crops : SeedGrow
 
         foreach (Season.SeasonType cangrowseason in canGrowSeason)
         {
-            if (cangrowseason == TestManager.Instance.nowSeason)
+            if (cangrowseason == TimeManager.Instance.season.CurrentSeason)
             {
                 canGrow = true;
                 break;

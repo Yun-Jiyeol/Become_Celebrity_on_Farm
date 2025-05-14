@@ -15,7 +15,7 @@ public class TextScript : MonoBehaviour
 
     private void Start()
     {
-        TestManager.Instance.gameObject.GetComponent<TextUIManager>().TextScript = this;
+        UIManager.Instance.textUIManager.TextScript = this;
         gameObject.SetActive(false);
     }
 
@@ -69,7 +69,7 @@ public class TextScript : MonoBehaviour
     }
     void OnClickShopBtn()
     {
-        TestManager.Instance.shopUIManager.ShowShopUI(TestManager.Instance.shopUIManager.lastshopData);
+        UIManager.Instance.shopUIManager.ShowShopUI(UIManager.Instance.shopUIManager.lastshopData);
         gameObject.SetActive(false);
     }
 }

@@ -51,7 +51,7 @@ public class Trees : SeedGrow
     {
         for (int i = 0; i < settingSeason.Count; i++)
         {
-            if (settingSeason[i].SeasonType == TestManager.Instance.nowSeason)
+            if (settingSeason[i].SeasonType == TimeManager.Instance.season.CurrentSeason)
             {
                 NowSeasonName = settingSeason[i].SeasonName;
                 break;
@@ -62,7 +62,7 @@ public class Trees : SeedGrow
 
         foreach (Season.SeasonType cangrowseason in canGrowSeason)
         {
-            if (cangrowseason == TestManager.Instance.nowSeason)
+            if (cangrowseason == TimeManager.Instance.season.CurrentSeason)
             {
                 canGrow = true;
                 break;
