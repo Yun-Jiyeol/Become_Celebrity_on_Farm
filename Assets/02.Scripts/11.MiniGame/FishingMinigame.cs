@@ -94,7 +94,7 @@ public class FishingMinigame : MonoBehaviour
             MiniGameKeys thisKey = miniGameKeys[Random.Range(0, miniGameKeys.Length)];
             AnswerKeys.Add(thisKey.keycode);
             GameObject go = Instantiate(Key, this.transform);
-            go.transform.position = new Vector3(CenterPosition.x - 8 + (16 / num) * i + (8 / num) + (Random.Range(-8f / num,8f / num)), CenterPosition.y + Random.Range(-4f, 4f),0);
+            go.transform.position = new Vector3(CenterPosition.x - num + 2 * i + 1, CenterPosition.y + 4f,0);
             go.GetComponentInChildren<TextMeshPro>().text = thisKey.shownkey;
             SpawnedObject.Add(go);
         }
