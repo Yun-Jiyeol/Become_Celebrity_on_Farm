@@ -6,14 +6,13 @@ public class ComputerInteract : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerInRange)
+        if (Input.GetKeyDown(KeyCode.C))
+            Debug.Log(" C 키 눌림");
+
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("플레이어 범위 안에 있음");
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                Debug.Log("C 키 눌림 → 퀘스트 열기");
-                OnInteractWithComputer();
-            }
+            Debug.Log(" C 키 눌림 → 퀘스트 열기 실행");
+            OnInteractWithComputer();
         }
     }
 
@@ -28,8 +27,8 @@ public class ComputerInteract : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            Debug.Log("플레이어 범위 안으로 들어옴");
             isPlayerInRange = true;
+            Debug.Log("플레이어 범위 안에 있음 (isPlayerInRange = true)");
         }
     }
 
@@ -37,5 +36,6 @@ public class ComputerInteract : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             isPlayerInRange = false;
+        Debug.Log(" 플레이어 범위에서 나감 (isPlayerInRange = false)");
     }
 }

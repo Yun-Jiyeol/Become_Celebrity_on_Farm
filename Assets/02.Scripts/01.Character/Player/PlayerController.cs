@@ -134,6 +134,8 @@ public class PlayerController : BaseController
                         {
                             CanSpawn = true;
                             Groundtype = ChangedGround.Plow;
+
+                            PlannerQuestManager.Instance.ReportAction("Till");
                         }
                     }
                         
@@ -154,6 +156,8 @@ public class PlayerController : BaseController
                         {
                             CanSpawn = true;
                             Groundtype = ChangedGround.Watered;
+
+                            PlannerQuestManager.Instance.ReportAction("Water");
                         }
                     }
                     break;
@@ -173,6 +177,8 @@ public class PlayerController : BaseController
                                 go.transform.position = tartgetPosition;
                             }
                             UseItemOnHand(1);
+
+                            PlannerQuestManager.Instance.ReportAction("Plant");
                         }
                     }
                     TryHandInteract();

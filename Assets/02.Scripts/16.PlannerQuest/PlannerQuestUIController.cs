@@ -1,8 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlannerQuestUIController : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
+    [SerializeField] private TextMeshProUGUI acceptButtonText;
+
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button closeButton;
 
@@ -12,26 +17,39 @@ public class PlannerQuestUIController : MonoBehaviour
         closeButton.onClick.AddListener(OnClickClose);
     }
 
+    public void SetQuest(PlannerQuestData data, bool isAccepted)
+    {
+        if (data == null)
+        {
+            Debug.LogError("PlannerQuestData가 null입니다.");
+            return;
+        }
+
+        titleText.text = data.questTitle;
+        descriptionText.text = data.description;
+
+        if (isAccepted)
+        {
+            acceptButton.interactable = false;
+            acceptButtonText.text = "수락 완료";
+        }
+        else
+        {
+            acceptButton.interactable = true;
+            acceptButtonText.text = "수락하기";
+        }
+    }
+
     private void OnClickAccept()
     {
-        Debug.Log("퀘스트 수락됨!");
+        Debug.Log("[UI] 수락 버튼 눌림!");
         PlannerQuestManager.Instance.MarkQuestAcceptedToday();
-        gameObject.SetActive(false);
+        SetQuest(PlannerQuestManager.Instance.GetTodayQuestData(), true);
+        // gameObject.SetActive(false);
     }
 
     private void OnClickClose()
     {
-        Debug.Log("퀘스트 창 닫힘");
         gameObject.SetActive(false);
-    }
-
-    public void SetQuest(PlannerQuestData data, bool isAccepted)
-    {
-        // 제목과 내용 표시
-        transform.Find("TitleTxt").GetComponent<Text>().text = data.questTitle;
-        transform.Find("DescriptionBtn/Text").GetComponent<Text>().text = data.description;
-
-        // 버튼 상태 조절
-        acceptButton.interactable = !isAccepted;
     }
 }
