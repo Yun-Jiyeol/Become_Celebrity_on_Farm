@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Ingame UI")]
     public GameObject inventoryUI; // <- 인벤토리 UI 연결
+    public ShopUIManager shopUIManager;
+    public TextUIManager textUIManager;
 
     [Header("Ingame UI")]
     public UIHpBar hpBar;
@@ -84,6 +86,9 @@ public class UIManager : MonoBehaviour
                 uiInstances.Add(prefab.name, ui);
             }
         }
+
+        shopUIManager = gameObject.GetComponent<ShopUIManager>();
+        textUIManager = gameObject.GetComponent<TextUIManager>();
     }
 
     public T Show<T>() where T : UIBase //타입 T에 해당하는 ui를 찾아서 화면에 보여줌. 제네릭T 함수는 uibase를 상속한 아무 타입이나 받을 수 있음

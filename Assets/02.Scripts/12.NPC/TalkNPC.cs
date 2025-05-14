@@ -14,7 +14,7 @@ public class TalkNPC : NPCData, IInteract
 
     private void Start()
     {
-        textuimanager = TestManager.Instance.gameObject.GetComponent<TextUIManager>();
+        textuimanager = UIManager.Instance.textUIManager;
         npctextsaves = textuimanager.calledNPCText[npcName];
         SettingOneDay();
     }
@@ -56,7 +56,7 @@ public class TalkNPC : NPCData, IInteract
 
         if(ShopData != null)
         {
-            TestManager.Instance.shopUIManager.lastshopData = ShopData;
+            UIManager.Instance.shopUIManager.lastshopData = ShopData;
         }
 
         if (talkcoroutine != null) StopCoroutine(talkcoroutine);

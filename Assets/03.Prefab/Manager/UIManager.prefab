@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7662060963681230370}
   - component: {fileID: 8000422574740159921}
+  - component: {fileID: 6318285985553125525}
+  - component: {fileID: 4240771546368173415}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -51,5 +53,37 @@ MonoBehaviour:
   - {fileID: 0}
   uiRoot: {fileID: 0}
   inventoryUI: {fileID: 0}
+  shopUIManager: {fileID: 0}
+  textUIManager: {fileID: 0}
   hpBar: {fileID: 0}
   energyBar: {fileID: 0}
+--- !u!114 &6318285985553125525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6515265307130363566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a4d7e247ddada419c208414d7f8129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextScript: {fileID: 0}
+  settingnameandpath:
+  - Name: 1
+    Path: 02.Scripts/12.NPC/TextUIManager/BlackSmith.csv
+--- !u!114 &4240771546368173415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6515265307130363566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff9554141fe3404dbdcdcfd1541caa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopUI: {fileID: 0}
+  lastshopData: {fileID: 0}
