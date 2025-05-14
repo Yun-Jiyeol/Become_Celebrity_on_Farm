@@ -20,16 +20,9 @@ public class PlannerQuestManager : MonoBehaviour
     {
         int today = TimeManager.Instance.currentDay;
 
-        if (today != lastReceivedDay)
-        {
-            lastReceivedDay = today;
-            todayQuest = GetQuestForDay(today);
-            OpenQuestUI(todayQuest);
-        }
-        else
-        {
-            Debug.Log("오늘 퀘스트는 이미 받았습니다.");
-        }
+        todayQuest = GetQuestForDay(today);
+
+        OpenQuestUI(todayQuest);
     }
 
     private PlannerQuestData GetQuestForDay(int day)
@@ -42,8 +35,15 @@ public class PlannerQuestManager : MonoBehaviour
     {
         dailyQuestUI.SetActive(true);
 
-        // UI 요소 연결
-        dailyQuestUI.transform.Find("TitleTxt").GetComponent<UnityEngine.UI.Text>().text = data.questTitle;
-        dailyQuestUI.transform.Find("DescriptionBtn/Text").GetComponent<UnityEngine.UI.Text>().text = data.description;
+        // isAccepted = (오늘 날짜 == lastReceivedDay)
+        bool isAccepted = (lastReceivedDay == TimeManager.Instance.currentDay);
+
+        // UI 컨트롤러 불러와서 세팅
+        dailyQuestUI.GetComponent<PlannerQuestUIController>().SetQuest(data, isAccepted);
+    }
+
+    public void MarkQuestAcceptedToday()
+    {
+        lastReceivedDay = TimeManager.Instance.currentDay;
     }
 }
