@@ -7,6 +7,9 @@ public class PlannerQuestManager : MonoBehaviour
     [SerializeField] private GameObject dailyQuestUI;
     [SerializeField] private PlannerQuestData[] quests;
 
+    [SerializeField] private GameObject questRewardPopup;
+    [SerializeField] private DailyQuestRewardPopupUI questRewardPopupUI;
+
     private int lastReceivedDay = -1; // 마지막으로 퀘스트 받은 날짜
     private PlannerQuestData todayQuest;
 
@@ -51,16 +54,30 @@ public class PlannerQuestManager : MonoBehaviour
     public void TryShowTodayQuest()
     {
         int today = TimeManager.Instance.currentDay;
-
         todayQuest = GetQuestForDay(today);
+
+        if (isQuestCompleted)
+        {
+            Debug.Log("이미 일일퀘스트를 완료, 퀘스트 UI만 열지 않음.");
+            return;
+        }
 
         OpenQuestUI(todayQuest);
     }
 
     private PlannerQuestData GetQuestForDay(int day)
     {
-        int index = day % quests.Length;
-        return quests[index];
+        int today = TimeManager.Instance.currentDay + 1; 
+
+        foreach (var quest in quests)
+        {
+            if (quest.targetDay == today)
+                return quest;
+        }
+
+        Debug.LogWarning($"[PlannerQuest] {today}일차에 해당하는 퀘스트 없음!");
+        return null;
+
     }
 
     private void OpenQuestUI(PlannerQuestData data)
@@ -103,9 +120,16 @@ public class PlannerQuestManager : MonoBehaviour
             isQuestCompleted = true;
             Debug.Log("1일차 퀘스트 완료");
 
-            GoldManager.Instance.AddGold(todayQuest.rewardGold);
-
-            // 퀘스트 완료 UI 띄우기 해야함
+            ShowQuestRewardUI();
         }
     }
+
+    private void ShowQuestRewardUI()
+    {
+        Debug.Log("[PlannerQuestManager] ShowQuestRewardUI 호출됨");
+
+        questRewardPopup.SetActive(true);
+        questRewardPopupUI.SetReward(todayQuest.questTitle, todayQuest.rewardGold, todayQuest.rewardExp);
+    }
+
 }
