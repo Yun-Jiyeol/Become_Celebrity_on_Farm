@@ -1,14 +1,6 @@
 ﻿using UnityEngine;
 using System;
 
-public enum Season
-{
-    Spring,
-    Summer,
-    Fall,
-    Winter
-}
-
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
@@ -33,28 +25,6 @@ public class TimeManager : MonoBehaviour
     public event Action OnTimeChanged;
     public event Action OnDayChanged;
     public event Action OnMonthChanged;
-
-    // 현재 계절 enum
-    public Season CurrentSeasonEnum => (Season)currentMonth;
-
-    // 1부터 시작하는 계절 내 날짜 (UI용)
-    public int CurrentDayInSeason => currentDay + 1;
-
-    // 추가: 한글 시즌 이름
-    public string CurrentSeasonName
-    {
-        get
-        {
-            switch (CurrentSeasonEnum)
-            {
-                case Season.Spring: return "봄";
-                case Season.Summer: return "여름";
-                case Season.Fall: return "가을";
-                case Season.Winter: return "겨울";
-                default: return "봄";
-            }
-        }
-    }
 
     private void Awake()
     {

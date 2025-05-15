@@ -53,29 +53,27 @@ public class PlannerQuestManager : MonoBehaviour
 
     public void TryShowTodayQuest()
     {
-        todayQuest = GetQuestForToday();
+        int today = TimeManager.Instance.currentDay;
+        todayQuest = GetQuestForDay(today);
 
-        if (todayQuest == null)
+        if (isQuestCompleted)
+        {
+            Debug.Log("이미 일일퀘스트를 완료, 퀘스트 UI만 열지 않음.");
             return;
+        }
 
         OpenQuestUI(todayQuest);
     }
 
-    private PlannerQuestData GetQuestForToday()
+    private PlannerQuestData GetQuestForDay(int day)
     {
-        var todaySeason = TimeManager.Instance.CurrentSeasonEnum;
-        var todayDay = TimeManager.Instance.CurrentDayInSeason;
-
         foreach (var quest in quests)
         {
-            if (quest.targetSeason == todaySeason &&
-                quest.targetDayInSeason == todayDay)
-            {
+            if (quest.targetDay == day)
                 return quest;
-            }
         }
 
-        Debug.LogWarning($"해당 날짜에 맞는 일일 퀘스트 없음: {todaySeason} {todayDay}일");
+        Debug.LogWarning($"해당 날짜({day})에 맞는 일일 퀘스트 없음!");
         return null;
     }
 

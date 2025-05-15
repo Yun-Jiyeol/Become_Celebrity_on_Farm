@@ -3,24 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Quest/PlannerQuest")]
 public class PlannerQuestData : ScriptableObject
 {
-    public Season targetSeason;
-
-    public int targetDayInSeason; // ¿¹: º½ 1ÀÏ ¡æ Spring, 1
-
     public string questTitle;
 
     [TextArea(2, 5)]
     public string description;
 
+    public int targetDay; //ÀÌ Äù½ºÆ®°¡ ¶ß´Â ³¯Â¥
+
     public int rewardGold;
 
     public int rewardExp;
 
-    public enum Season
-    {
-        Spring,
-        Summer,
-        Fall,
-        Winter
-    }
 }
