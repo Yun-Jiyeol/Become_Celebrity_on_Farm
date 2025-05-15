@@ -41,16 +41,21 @@ public class NextDay : MonoBehaviour
     /// </summary>
     IEnumerator ForcedSleep()
     {
-        Sleep();
+        if (!TimeManager.Instance.isSleeping)
+        {
+            TimeManager.Instance.isSleeping = true;
+            Sleep();
 
-        yield return new WaitForSecondsRealtime(1.2f);
-        
-        MapManager.Instance.MoveMap(MapType.Home);
+            yield return new WaitForSecondsRealtime(1.2f);
 
-        yield return new WaitForSecondsRealtime(0.5f);
+            MapManager.Instance.MoveMap(MapType.Home);
 
-        // 랜덤 골드 1000~2000(temp) 손해
-        int randomGold = Random.Range(10, 20) * 100;
-        GoldManager.Instance.SpendGold(randomGold);
+            yield return new WaitForSecondsRealtime(0.5f);
+
+            // 랜덤 골드 1000~2000(temp) 손해
+            int randomGold = Random.Range(10, 20) * 100;
+            GoldManager.Instance.SpendGold(randomGold);
+
+        }
     }
 }

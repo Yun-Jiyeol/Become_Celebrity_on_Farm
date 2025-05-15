@@ -1,21 +1,24 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using System.Collections;
+using DG.Tweening;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class EndingButton : MonoBehaviour
 {
     [SerializeField] private Button endButton;
     [SerializeField] private Button nextDayButton;
-    Canvas endingCanvas;
-    LoadingFader fader;
+
+    [SerializeField] private Image expenseBg;
+    [SerializeField] private Image expensePanel;
+    
 
     void Start()
     {
         endButton.onClick.AddListener(OnClickEndButton);
         nextDayButton.onClick.AddListener(OnNextDayButton);
 
-        endingCanvas = GetComponentInParent<Canvas>();
-        fader = MapManager.Instance.fader;
+        expenseBg.gameObject.SetActive(false);
+        expensePanel.gameObject.SetActive(false);
     }
 
     void OnClickEndButton()
@@ -25,14 +28,16 @@ public class EndingButton : MonoBehaviour
 
     void OnNextDayButton()
     {
-        StartCoroutine(fader.Fade(() =>
-        {
-            endingCanvas.gameObject.SetActive(false);
-            MapManager.Instance.RefreshMap();
-            TimeManager.Instance.AdvanceDay();
-            TimeManager.Instance.currentHour = 6;
-            TimeManager.Instance.currentMinute = 0;
-            //if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = true;
-        }));
+        expensePanel.gameObject.SetActive(false);
+        StartCoroutine(FadeUI());
+    }
+
+    IEnumerator FadeUI()
+    {
+        expenseBg.gameObject.SetActive(true);
+        yield return expenseBg.DOFade(1f, 1.5f)
+            .SetUpdate(true)
+            .WaitForCompletion();
+        expensePanel.gameObject.SetActive(true);
     }
 }
