@@ -1,29 +1,29 @@
-﻿using DG.Tweening;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
-public class ExpenseUI : MonoBehaviour
+public class DailySummaryUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI dateText;
     [SerializeField] private TextMeshProUGUI goldText;
 
-    Image expenseBg;
-    Image expensePanel;
+    [SerializeField] private Button nextButton;
 
-    Button nextButton;
+    Image summaryBg;
+    Image summaryPanel;
+
     LoadingFader fader;
     Canvas endingCanvas;
 
 
     void Start()
     {
-        nextButton = GetComponentInChildren<Button>();
         nextButton.onClick.AddListener(OnNextButtonClick);
 
         endingCanvas = GetComponentInParent<Canvas>();
-        expenseBg = GetComponent<Image>();
-        expensePanel = GetComponentInChildren<Image>();
+        summaryBg = GetComponent<Image>();
+        summaryPanel = GetComponentInChildren<Image>();
         fader = MapManager.Instance.fader;
     }
 
@@ -36,9 +36,9 @@ public class ExpenseUI : MonoBehaviour
     {
         StartCoroutine(fader.Fade(() =>
         {
-            expenseBg.DOFade(0f, 0f);
-            expenseBg.gameObject.SetActive(false);
-            expensePanel.gameObject.SetActive(false);
+            summaryBg.DOFade(0f, 0f);
+            summaryBg.gameObject.SetActive(false);
+            summaryPanel.gameObject.SetActive(false);
             endingCanvas.gameObject.SetActive(false);
 
             MapManager.Instance.RefreshMap();
@@ -52,13 +52,13 @@ public class ExpenseUI : MonoBehaviour
     void SetText()
     {
         string year = TimeManager.Instance.currentYear.ToString();
-        string month = TimeManager.Instance.currentMonth.ToString();
-        string day = TimeManager.Instance.currentDay.ToString();
+        string month = (TimeManager.Instance.currentMonth + 1).ToString();
+        string day = (TimeManager.Instance.currentDay + 1).ToString();
         dateText.text = $"{year}년 {month}월 {day}일";
 
-        string add = "1000";
-        string spend = "10000";
-        string total = GoldManager.Instance.GetGold().ToString();
+        string add = $"{GoldManager.Instance.addAmount}G";
+        string spend = $"{GoldManager.Instance.spendAmount}G";
+        string total = $"{GoldManager.Instance.GetGold()}G";
         goldText.text = $"{add}\n{spend}\n{total}";
     }
 }

@@ -8,8 +8,8 @@ public class EndingButton : MonoBehaviour
     [SerializeField] private Button endButton;
     [SerializeField] private Button nextDayButton;
 
-    [SerializeField] private Image expenseBg;
-    [SerializeField] private Image expensePanel;
+    [SerializeField] private Image summaryBg;
+    [SerializeField] private Image summaryPanel;
     
 
     void Start()
@@ -17,8 +17,8 @@ public class EndingButton : MonoBehaviour
         endButton.onClick.AddListener(OnClickEndButton);
         nextDayButton.onClick.AddListener(OnNextDayButton);
 
-        expenseBg.gameObject.SetActive(false);
-        expensePanel.gameObject.SetActive(false);
+        summaryBg.gameObject.SetActive(false);
+        summaryPanel.gameObject.SetActive(false);
     }
 
     void OnClickEndButton()
@@ -28,16 +28,16 @@ public class EndingButton : MonoBehaviour
 
     void OnNextDayButton()
     {
-        expensePanel.gameObject.SetActive(false);
+        summaryPanel.gameObject.SetActive(false);
         StartCoroutine(FadeUI());
     }
 
     IEnumerator FadeUI()
     {
-        expenseBg.gameObject.SetActive(true);
-        yield return expenseBg.DOFade(1f, 1.5f)
+        summaryBg.gameObject.SetActive(true);
+        yield return summaryBg.DOFade(1f, 1.5f)
             .SetUpdate(true)
             .WaitForCompletion();
-        expensePanel.gameObject.SetActive(true);
+        summaryPanel.gameObject.SetActive(true);
     }
 }

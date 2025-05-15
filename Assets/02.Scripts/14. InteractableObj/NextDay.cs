@@ -46,7 +46,7 @@ public class NextDay : MonoBehaviour
             TimeManager.Instance.isSleeping = true;
             Sleep();
 
-            yield return new WaitForSecondsRealtime(1.2f);
+            yield return new WaitForSecondsRealtime(1.3f);
 
             MapManager.Instance.MoveMap(MapType.Home);
 
@@ -55,7 +55,7 @@ public class NextDay : MonoBehaviour
             // 랜덤 골드 1000~2000(temp) 손해
             int randomGold = Random.Range(10, 20) * 100;
             GoldManager.Instance.SpendGold(randomGold);
-
+            GoldManager.Instance.AddGold(randomGold / 2);       // temp
         }
     }
 }
