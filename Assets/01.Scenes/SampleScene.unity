@@ -4180,6 +4180,14 @@ PrefabInstance:
       propertyPath: dailyQuestUI
       value: 
       objectReference: {fileID: 441894257}
+    - target: {fileID: 301810316849173911, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: questRewardPopup
+      value: 
+      objectReference: {fileID: 1838258321}
+    - target: {fileID: 301810316849173911, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: questRewardPopupUI
+      value: 
+      objectReference: {fileID: 1838258322}
     - target: {fileID: 1652836993486011838, guid: 6eae958aca478744d91d0598125ed741, type: 3}
       propertyPath: m_Name
       value: PlannerQuestManager
@@ -4257,6 +4265,10 @@ PrefabInstance:
       propertyPath: playerInventory
       value: 
       objectReference: {fileID: 1846813599}
+    - target: {fileID: 3383846802306507056, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4542285240544604232, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4335,10 +4347,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4542285240544604232, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5815466286498690092, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8725865112581933879, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
@@ -5184,7 +5192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7164294353717783392, guid: 34e3baa27891fa04b9be09a04562600e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000012227834
+      value: 0.00007715012
       objectReference: {fileID: 0}
     - target: {fileID: 7243080351125518944, guid: 34e3baa27891fa04b9be09a04562600e, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6086,6 +6094,22 @@ PolygonCollider2D:
   m_CorrespondingSourceObject: {fileID: 8523443309804772144, guid: d88690b7eecc65a4fa71bfb7d3af87af, type: 3}
   m_PrefabInstance: {fileID: 4623178650252813164}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1838258321 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6852905398966081327, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
+  m_PrefabInstance: {fileID: 1459228646}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1838258322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7231463758779165671, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
+  m_PrefabInstance: {fileID: 1459228646}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838258321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43c67c854b0c8874f816259ab0fec833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1846813597 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8005032737190425901, guid: f02d4cf63fe9c5c48a96d633c8a1f634, type: 3}
