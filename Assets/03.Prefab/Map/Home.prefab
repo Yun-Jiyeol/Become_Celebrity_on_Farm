@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8552793518820237628}
   - component: {fileID: 765671421022127985}
   - component: {fileID: 3744862401869457665}
-  - component: {fileID: 5016039050145866031}
+  - component: {fileID: 3234261995271526876}
   m_Layer: 0
   m_Name: Computer
   m_TagString: Untagged
@@ -115,10 +115,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.057174623, y: -0.00000011920929}
+  m_Offset: {x: -0.019571185, y: -0.8194455}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -129,9 +129,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.3430452, y: 2.3432653}
+  m_Size: {x: 3.0822446, y: 3.982157}
   m_EdgeRadius: 0
---- !u!114 &5016039050145866031
+--- !u!114 &3234261995271526876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,12 +140,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 333566284489776031}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f68180cde1ac349ba9178c9968759d, type: 3}
+  m_Script: {fileID: 11500000, guid: d0bd4a9e91590e94cb931d94fd6418f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dailyQuestUI: {fileID: 0}
-  yesButton: {fileID: 0}
-  closeButton: {fileID: 0}
 --- !u!1 &359526200957455229
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +345,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.74130154, y: 0.15543413}
+  m_Offset: {x: 0.7725662, y: 0.15543413}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -359,7 +356,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31739688, y: 1.9891353}
+  m_Size: {x: 0.25486755, y: 1.9891353}
   m_EdgeRadius: 0
 --- !u!114 &3727286488781987354
 MonoBehaviour:
@@ -375,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fader: {fileID: 0}
   endOfDaySelectUI: {fileID: 0}
-  endingUI: {fileID: 0}
+  nextDay: {fileID: 0}
   yesButton: {fileID: 0}
   noButton: {fileID: 0}
 --- !u!1 &2687298177605997714
@@ -11945,10 +11942,10 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0.18724525, y: 9.613285}
-      - {x: -14.4384, y: 9.540031}
-      - {x: -14.435198, y: -11.078516}
-      - {x: 14.464122, y: -11.069397}
-      - {x: 14.404894, y: 9.58197}
+      - {x: -12.176333, y: 9.59956}
+      - {x: -12.232659, y: -9.947483}
+      - {x: 12.746147, y: -9.99789}
+      - {x: 12.68796, y: 9.641499}
   m_UseDelaunayMesh: 0
 --- !u!1 &7895047216614902946
 GameObject:

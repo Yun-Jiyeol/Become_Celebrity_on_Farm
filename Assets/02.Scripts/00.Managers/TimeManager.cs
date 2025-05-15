@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public class TimeManager : MonoBehaviour
@@ -70,11 +70,11 @@ public class TimeManager : MonoBehaviour
         {
             currentMinute = 0;
             currentHour++;
-            if (currentHour >= 24)
-            {
-                currentHour = 6;
-                AdvanceDay();
-            }
+            //if (currentHour >= 24)
+            //{
+            //    currentHour = 6;
+            //    AdvanceDay();
+            //}
         }
 
         OnTimeChanged?.Invoke();
