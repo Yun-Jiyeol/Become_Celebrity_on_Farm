@@ -2177,53 +2177,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8265412614696705605, guid: 813c41f33ff3d9447b9bd31a70b74e70, type: 3}
   m_PrefabInstance: {fileID: 8757279953232867476}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &647457194
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 647457196}
-  - component: {fileID: 647457195}
-  m_Layer: 0
-  m_Name: PlannerQuestManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &647457195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647457194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e59a8838ebeda4b80457fbc37a9e95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dailyQuestUI: {fileID: 8962868082705055085}
-  quests:
-  - {fileID: 11400000, guid: 7b8e63c9a623a1145a1d322f237b3a9b, type: 2}
---- !u!4 &647457196
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647457194}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &670461524 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4571779999932448371, guid: dfd32848c0f9f52418e12f675f0d923d, type: 3}
@@ -11801,6 +11754,67 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &5112878610467133504
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 301810316849173911, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: dailyQuestUI
+      value: 
+      objectReference: {fileID: 8962868082705055085}
+    - target: {fileID: 1652836993486011838, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_Name
+      value: PlannerQuestManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6eae958aca478744d91d0598125ed741, type: 3}
 --- !u!224 &5174594490796208396
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13190,4 +13204,4 @@ SceneRoots:
   - {fileID: 5367587892725191172}
   - {fileID: 1707056068}
   - {fileID: 1860702202}
-  - {fileID: 647457196}
+  - {fileID: 5112878610467133504}
