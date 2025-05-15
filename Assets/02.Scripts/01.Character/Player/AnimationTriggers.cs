@@ -18,4 +18,14 @@ public class AnimationTriggers : MonoBehaviour
     {
         GameManager.Instance.player.GetComponent<PlayerController>().EndAction();
     }
+
+    public void WalkingSoundAction()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Walking"]);
+    }
+
+    public void HoeSoundAction()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Hoe"]);
+    }
 }

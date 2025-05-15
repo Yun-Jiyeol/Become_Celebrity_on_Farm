@@ -213,6 +213,9 @@ public class PlayerController : BaseController
                                 go.transform.position = tartgetPosition;
                             }
                             UseItemOnHand(1);
+
+                            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["PutItem"]);
+                            ChangeSlot(nownum);
                         }
                     }
 
