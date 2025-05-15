@@ -35,6 +35,7 @@ public class ShopHave : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ShopBuy"]);
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             _shopUI.AddBag(_ItemData_Num, 1, _price);

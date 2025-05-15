@@ -159,6 +159,12 @@ public class ShopUI : MonoBehaviour
         ShopItemSpawnPos.GetComponent<RectTransform>().sizeDelta = new Vector2(0, length * 105);
     }
 
+    public void OnClickClearBtn()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ClickClearInShop"]);
+        ClearBag();
+    }
+
     public void ClearBag(bool isDone = false)
     {
         if(InBag.Count > 0)
@@ -241,6 +247,7 @@ public class ShopUI : MonoBehaviour
     public void OnClickDoneBtn()
     {
         if(InBag.Count == 0) return;
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ClickDoneInShop"]);
 
         switch (nowState)
         {
