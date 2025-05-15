@@ -1682,6 +1682,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1781398027080064398, guid: c59a83025571ef747a2ed115615ac0dd, type: 3}
   m_PrefabInstance: {fileID: 2555976282581491901}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &441894257 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3383846802306507056, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
+  m_PrefabInstance: {fileID: 1459228646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &447671099 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1713165175948643356, guid: 813c41f33ff3d9447b9bd31a70b74e70, type: 3}
@@ -3944,6 +3949,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 72819377955373430, guid: c30f2e60e3e68ba449d20c962499f91a, type: 3}
   m_PrefabInstance: {fileID: 6492216164601599635}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1442956979
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 301810316849173911, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: dailyQuestUI
+      value: 
+      objectReference: {fileID: 441894257}
+    - target: {fileID: 1652836993486011838, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_Name
+      value: PlannerQuestManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966050411002284333, guid: 6eae958aca478744d91d0598125ed741, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6eae958aca478744d91d0598125ed741, type: 3}
 --- !u!1001 &1459228646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4034,6 +4100,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4542285240544604232, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815466286498690092, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8725865112581933879, guid: 20fac4601ffdc1b49be916e48c942c2e, type: 3}
@@ -4879,7 +4949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7164294353717783392, guid: 34e3baa27891fa04b9be09a04562600e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015193136
+      value: 0.00008582871
       objectReference: {fileID: 0}
     - target: {fileID: 7243080351125518944, guid: 34e3baa27891fa04b9be09a04562600e, type: 3}
       propertyPath: m_AnchorMax.y
@@ -10486,40 +10556,7 @@ PrefabInstance:
       propertyPath: endOfDaySelectUI
       value: 
       objectReference: {fileID: 8007546417369945021}
-    - target: {fileID: 5016039050145866031, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: yesButton
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5016039050145866031, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: closeButton
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5016039050145866031, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: dailyQuestUI
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8886116707930393037, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: fader
-      value: 
-      objectReference: {fileID: 1679783918}
-    - target: {fileID: 8886116707930393037, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: endingUI
-      value: 
-      objectReference: {fileID: 900333391}
-    - target: {fileID: 8886116707930393037, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: noButton
-      value: 
-      objectReference: {fileID: 614309463}
-    - target: {fileID: 8886116707930393037, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: yesButton
-      value: 
-      objectReference: {fileID: 1035197117}
-    - target: {fileID: 8886116707930393037, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
-      propertyPath: endOfDaySelectUI
-      value: 
-      objectReference: {fileID: 8007546417369945021}
-    m_RemovedComponents:
-    - {fileID: 8886116707930393037, guid: a96e8a8a1e806704db2376b03bba7844, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -12053,6 +12090,7 @@ SceneRoots:
   - {fileID: 2005584254}
   - {fileID: 755644840}
   - {fileID: 344837742}
+  - {fileID: 1442956979}
   - {fileID: 146347144}
   - {fileID: 382906367}
   - {fileID: 2086361775}
