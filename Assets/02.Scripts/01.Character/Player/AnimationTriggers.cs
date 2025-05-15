@@ -19,8 +19,12 @@ public class AnimationTriggers : MonoBehaviour
         GameManager.Instance.player.GetComponent<PlayerController>().EndAction();
     }
 
-    public void HoeSoundAction()
+    public void SwingSoundAction()
     {
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Hoe"]);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Swing"]);
+    }
+    public void WateringSoundAction()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Watering"]);
     }
 }

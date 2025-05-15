@@ -22,11 +22,13 @@ public class TreeStump : MonoBehaviour, IHaveHP, IInteract
 
         if (HP <= 0)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["CutWood"]);
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
             Destroy(gameObject);
         }
         else if(amount <= 0)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["CutWood"]);
             StartCoroutine(DamageCoroutine());
         }
     }

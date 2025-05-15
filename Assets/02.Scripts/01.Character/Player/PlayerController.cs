@@ -45,6 +45,7 @@ public class PlayerController : BaseController
     Coroutine walkingsoundcoroutine;
     float walkingsoundtime = 0.5f;
 
+    private string hoesound = "Hoe";
     private string putitemsound = "PutItem";
 
     public class RangeInteract
@@ -76,8 +77,15 @@ public class PlayerController : BaseController
 
     protected override void FixedUpdate()
     {
-        if (isAction) return;
-        if (isNPCInteract) return;
+        if (isNPCInteract || isAction)
+        {
+            if (walkingsoundcoroutine != null)
+            {
+                StopCoroutine(walkingsoundcoroutine);
+                walkingsoundcoroutine = null;
+            }
+            return;
+        }
 
         base.FixedUpdate();
         if(dir == Vector2.zero)
@@ -99,6 +107,7 @@ public class PlayerController : BaseController
 
     IEnumerator WSC()
     {
+        yield return new WaitForSeconds(0.1f);
         while (true)
         {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[walkingsound]);
@@ -583,6 +592,10 @@ public class PlayerController : BaseController
         CanSpawn = false;
 
         ItemManager.Instance.spawnGround.SpawnGrounds(Groundtype, tartgetPosition);
+        if(Groundtype == ChangedGround.Plow)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[hoesound]);
+        }
     }
 
     void OnOneSlot(InputValue inputValue)
