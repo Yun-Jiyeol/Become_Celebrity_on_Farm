@@ -34,6 +34,7 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
 
         if (HP <= 0)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["BrokenStone"]);
             bool reported = false;
 
             for (int i =0; i < dropitems.Length; i++)
@@ -65,6 +66,7 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
         }
         else if (amount <= 0)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Stone"]);
             StartCoroutine(DamageCoroutine());
         }
     }
