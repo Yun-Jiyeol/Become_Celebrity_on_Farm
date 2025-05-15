@@ -67,8 +67,14 @@ public class PlannerQuestManager : MonoBehaviour
 
     private PlannerQuestData GetQuestForDay(int day)
     {
-        int index = day % quests.Length;
-        return quests[index];
+        foreach (var quest in quests)
+        {
+            if (quest.targetDay == day)
+                return quest;
+        }
+
+        Debug.LogWarning($"해당 날짜({day})에 맞는 일일 퀘스트 없음!");
+        return null;
     }
 
     private void OpenQuestUI(PlannerQuestData data)
