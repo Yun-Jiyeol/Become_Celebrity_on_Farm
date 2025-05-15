@@ -11,6 +11,7 @@ public class PlannerQuestUIController : MonoBehaviour
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button closeButton;
 
+
     private void Start()
     {
         acceptButton.onClick.AddListener(OnClickAccept);
@@ -52,4 +53,5 @@ public class PlannerQuestUIController : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
 }
