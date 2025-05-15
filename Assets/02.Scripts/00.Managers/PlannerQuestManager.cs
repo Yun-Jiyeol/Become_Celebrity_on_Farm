@@ -111,8 +111,6 @@ public class PlannerQuestManager : MonoBehaviour
             isQuestCompleted = true;
             Debug.Log("1일차 퀘스트 완료");
 
-            GoldManager.Instance.AddGold(todayQuest.rewardGold);
-
             ShowQuestRewardUI();
         }
     }
