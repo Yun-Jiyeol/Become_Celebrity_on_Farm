@@ -20,6 +20,7 @@ public class PlannerQuestManager : MonoBehaviour
     private bool didTill = false;
     private bool didPlant = false;
     private bool didWater = false;
+    private bool didClean = false;
 
     private void Awake()
     {
@@ -119,6 +120,25 @@ public class PlannerQuestManager : MonoBehaviour
                 GoldManager.Instance.AddGold(todayQuest.rewardGold);
                 ShowQuestRewardUI();
                 break;
+
+            case "Clean":
+                didClean = true;
+                Debug.Log("didClean = true");
+
+                // Clean만으로 완료되는 퀘스트 처리 (ex. 3일차)
+                if (todayQuest.targetDay == 3)
+                {
+                    isQuestCompleted = true;
+                    Debug.Log("3일차 퀘스트 완료 (Clean)");
+
+                    GoldManager.Instance.AddGold(todayQuest.rewardGold);
+                    ExpManager.Instance.AddExp(todayQuest.rewardExp);
+                    ShowQuestRewardUI();
+                    return;
+                }
+
+                break;
+
         }
 
         // 세 조건 모두 완료했는지 체크
@@ -131,7 +151,7 @@ public class PlannerQuestManager : MonoBehaviour
         }
 
         if (!isQuestAccepted || isQuestCompleted)
-            return;
+            return;   
     }
 
     private void ShowQuestRewardUI()

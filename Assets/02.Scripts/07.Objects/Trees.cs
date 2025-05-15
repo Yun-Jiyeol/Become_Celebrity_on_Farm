@@ -110,6 +110,9 @@ public class Trees : SeedGrow
         GetDamage(-(GameManager.Instance.player.GetComponent<Player>().stat.Attack + GameManager.Instance.player.GetComponent<Player>().playerController.ItemDamage));
         if (HP <= 0)
         {
+            PlannerQuestManager.Instance.ReportAction("Clean"); 
+            Debug.Log("[Tree] Clean Äù½ºÆ® ¾×¼Ç º¸°íµÊ");
+
             if (isEndGrow)
             {
                 if (AdditionalGrow >= MaxAddiitionalGrow && isFruitTree)
@@ -135,6 +138,8 @@ public class Trees : SeedGrow
             {
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
             }
+            PlannerQuestManager.Instance.ReportAction("Clean");
+
             AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["CutWood"]);
             Destroy(gameObject);
         }
