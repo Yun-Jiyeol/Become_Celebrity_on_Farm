@@ -39,6 +39,14 @@ public class PlayerController : BaseController
     int LastItemNum = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
+
+    //소리 조정용
+    private string walkingsound = "Walking";
+    Coroutine walkingsoundcoroutine;
+    float walkingsoundtime = 0.5f;
+
+    private string putitemsound = "PutItem";
+
     public class RangeInteract
     {
         public string[] _Tag;
@@ -72,7 +80,32 @@ public class PlayerController : BaseController
         if (isNPCInteract) return;
 
         base.FixedUpdate();
+        if(dir == Vector2.zero)
+        {
+            if(walkingsoundcoroutine != null)
+            {
+                StopCoroutine(walkingsoundcoroutine);
+                walkingsoundcoroutine = null;
+            }
+        }
+        else
+        {
+            if(walkingsoundcoroutine == null)
+            {
+                walkingsoundcoroutine = StartCoroutine(WSC()); 
+            }
+        }
     }
+
+    IEnumerator WSC()
+    {
+        while (true)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[walkingsound]);
+            yield return new WaitForSeconds(walkingsoundtime);
+        }
+    }
+
     void OnInteractNPC()
     {
         GameObject NPC = GetComponent<Player>().autoGetItem.ClosestNPC;
@@ -214,8 +247,7 @@ public class PlayerController : BaseController
                             }
                             UseItemOnHand(1);
 
-                            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["PutItem"]);
-                            ChangeSlot(nownum);
+                            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[putitemsound]);
                         }
                     }
 
@@ -326,7 +358,10 @@ public class PlayerController : BaseController
 
     public bool UseItemOnHand(int num)
     {
-        return gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, num);
+        bool canuse = gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, num);
+        ChangeSlot(nownum);
+
+        return canuse;
     }
 
     IEnumerator FishingChargingCoroutine()
