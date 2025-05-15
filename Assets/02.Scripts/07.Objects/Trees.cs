@@ -135,10 +135,12 @@ public class Trees : SeedGrow
             {
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
             }
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["CutWood"]);
             Destroy(gameObject);
         }
         else
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["WoodDamage"]);
             StartCoroutine(DamageCoroutine());
         }
     }
@@ -152,6 +154,7 @@ public class Trees : SeedGrow
         if (AdditionalGrow >= MaxAddiitionalGrow)
         {
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["WoodDamage"]);
             AdditionalGrow = 0;
             CheckGrow();
         }

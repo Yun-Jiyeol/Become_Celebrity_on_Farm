@@ -18,4 +18,17 @@ public class AnimationTriggers : MonoBehaviour
     {
         GameManager.Instance.player.GetComponent<PlayerController>().EndAction();
     }
+
+    public void SwingSoundAction()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Swing"]);
+    }
+    public void WateringSoundAction()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Watering"]);
+    }
+    public void StartFishingSoundAction()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["StartFishing"]);
+    }
 }

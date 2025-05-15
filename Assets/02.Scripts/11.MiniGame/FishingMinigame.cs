@@ -105,7 +105,7 @@ public class FishingMinigame : MonoBehaviour
     IEnumerator FishingMinigameCoroutine()
     {
         float time = 0;
-        float Maxtime = 10f;
+        float Maxtime = 5f;
         int keynum = 0;
         bool isSuccess = false;
 
@@ -117,6 +117,7 @@ public class FishingMinigame : MonoBehaviour
             {
                 if (Input.GetKeyDown(AnswerKeys[keynum]))
                 {
+                    MakeSound(AnswerKeys[keynum]);
                     SpawnedObject[keynum].SetActive(false);
                     keynum++;
                     if (keynum >= AnswerKeys.Count)
@@ -127,6 +128,7 @@ public class FishingMinigame : MonoBehaviour
                 }
                 else
                 {
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["PiaWrong"]);
                     isSuccess = false;
                     break;
                 }
@@ -140,5 +142,24 @@ public class FishingMinigame : MonoBehaviour
         }
 
         GameManager.Instance.player.GetComponent<Player>().playerController.EndFishing(isSuccess);
+    }
+
+    void MakeSound(KeyCode key)
+    {
+        switch (key)
+        {
+            case KeyCode.UpArrow:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["PiaUp"]);
+                break;
+            case KeyCode.DownArrow:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["PiaDown"]);
+                break;
+            case KeyCode.RightArrow:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["PiaRight"]);
+                break;
+            case KeyCode.LeftArrow:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["PiaLeft"]);
+                break;
+        }
     }
 }

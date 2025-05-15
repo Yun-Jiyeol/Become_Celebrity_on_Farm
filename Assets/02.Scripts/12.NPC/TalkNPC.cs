@@ -65,6 +65,7 @@ public class TalkNPC : NPCData, IInteract
 
     IEnumerator talkTextCoroutine()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["TextStart"]);
         textuimanager.ShowTextUI(npcName, nowtalksave);
 
         if (npctextsaves[nowtalksave].canClick)
