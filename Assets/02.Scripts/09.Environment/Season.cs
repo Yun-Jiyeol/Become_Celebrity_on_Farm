@@ -22,6 +22,7 @@ public class Season : MonoBehaviour
 
     public event Action<SeasonType> OnSeasonChanged; // 계절 변경 이벤트
 
+
     public SeasonType CurrentSeason
     {
         get
