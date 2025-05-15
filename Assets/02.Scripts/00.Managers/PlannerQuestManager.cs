@@ -7,6 +7,9 @@ public class PlannerQuestManager : MonoBehaviour
     [SerializeField] private GameObject dailyQuestUI;
     [SerializeField] private PlannerQuestData[] quests;
 
+    [SerializeField] private GameObject questRewardPopup;
+    [SerializeField] private DailyQuestRewardPopupUI questRewardPopupUI;
+
     private int lastReceivedDay = -1; // 마지막으로 퀘스트 받은 날짜
     private PlannerQuestData todayQuest;
 
@@ -105,7 +108,14 @@ public class PlannerQuestManager : MonoBehaviour
 
             GoldManager.Instance.AddGold(todayQuest.rewardGold);
 
-            // 퀘스트 완료 UI 띄우기 해야함
+            ShowQuestRewardUI();
         }
     }
+
+    private void ShowQuestRewardUI()
+    {
+        questRewardPopup.SetActive(true);
+        questRewardPopupUI.SetReward(todayQuest.questTitle, todayQuest.rewardGold, todayQuest.rewardExp);
+    }
+
 }
