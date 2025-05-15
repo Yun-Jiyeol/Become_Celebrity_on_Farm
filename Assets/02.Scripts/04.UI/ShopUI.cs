@@ -84,6 +84,7 @@ public class ShopUI : MonoBehaviour
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, -1080), 1f);
         ChooseBtn.DOAnchorPos(new Vector2(180, 200), 1f);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ChangeShopUI"]);
 
         if (InBag.Count > 0)
         {
@@ -105,6 +106,7 @@ public class ShopUI : MonoBehaviour
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 1080), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, 0), 1f);
         ChooseBtn.DOAnchorPos(new Vector2(0, 200), 1f);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ChangeShopUI"]);
 
         ClearBag(true);
     }
@@ -117,6 +119,7 @@ public class ShopUI : MonoBehaviour
             Destroy(go);
         }
         ClearBag();
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ChangeShopUI"]);
         gameObject.SetActive(false);
     }
 
