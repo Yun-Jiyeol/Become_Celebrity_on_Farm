@@ -27,4 +27,8 @@ public class AnimationTriggers : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Watering"]);
     }
+    public void StartFishingSoundAction()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["StartFishing"]);
+    }
 }

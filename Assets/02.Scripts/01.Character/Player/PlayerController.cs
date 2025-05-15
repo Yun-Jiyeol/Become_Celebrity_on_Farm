@@ -45,8 +45,10 @@ public class PlayerController : BaseController
     Coroutine walkingsoundcoroutine;
     float walkingsoundtime = 0.5f;
 
+    private string swingsound = "Swing";
     private string hoesound = "Hoe";
     private string putitemsound = "PutItem";
+    private string caughtfishsound = "Fishcatch";
 
     public class RangeInteract
     {
@@ -362,6 +364,7 @@ public class PlayerController : BaseController
 
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.FishingParameterHash);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[swingsound]);
 
                     StartCoroutine(FishingChargingCoroutine());
                     break;
@@ -402,6 +405,7 @@ public class PlayerController : BaseController
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 1);
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[swingsound]);
                 break;
             }
             yield return null;
@@ -436,6 +440,7 @@ public class PlayerController : BaseController
 
             if (NowTime > HookedTime)
             {
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[caughtfishsound]);
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 2);
                 isHooked = true;
                 break;
