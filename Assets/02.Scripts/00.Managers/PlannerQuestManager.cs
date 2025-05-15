@@ -54,8 +54,13 @@ public class PlannerQuestManager : MonoBehaviour
     public void TryShowTodayQuest()
     {
         int today = TimeManager.Instance.currentDay;
-
         todayQuest = GetQuestForDay(today);
+
+        if (isQuestCompleted)
+        {
+            Debug.Log("이미 일일퀘스트를 완료, 퀘스트 UI만 열지 않음.");
+            return;
+        }
 
         OpenQuestUI(todayQuest);
     }
@@ -114,6 +119,8 @@ public class PlannerQuestManager : MonoBehaviour
 
     private void ShowQuestRewardUI()
     {
+        Debug.Log("[PlannerQuestManager] ShowQuestRewardUI 호출됨");
+
         questRewardPopup.SetActive(true);
         questRewardPopupUI.SetReward(todayQuest.questTitle, todayQuest.rewardGold, todayQuest.rewardExp);
     }

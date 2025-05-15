@@ -14,6 +14,8 @@ public class DailyQuestRewardPopupUI : MonoBehaviour
 
     public void SetReward(string questTitle, int rewardGold, int rewardExp)
     {
+        Debug.Log($"[DailyQuestRewardPopupUI] SetReward È£ÃâµÊ - {questTitle}, {rewardGold}G, {rewardExp}EXP");
+
         titleText.text = $"'{questTitle}' Äù½ºÆ® ¿Ï·á!";
         rewardText.text = $"°ñµå: {rewardGold}G\n°æÇèÄ¡: {rewardExp} EXP";
 
