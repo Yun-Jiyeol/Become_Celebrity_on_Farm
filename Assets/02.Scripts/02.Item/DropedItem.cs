@@ -116,6 +116,7 @@ public class DropedItem : MonoBehaviour, IInteract
 
 
         GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(item, amount);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
         offObject();
     }
 

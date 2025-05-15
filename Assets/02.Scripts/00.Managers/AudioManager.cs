@@ -24,6 +24,17 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public static AudioManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
 
     private void Start()
     {

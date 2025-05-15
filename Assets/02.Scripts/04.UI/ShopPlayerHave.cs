@@ -58,6 +58,7 @@ public class ShopPlayerHave : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (!ItemIcon.isActiveAndEnabled) return;
 
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ShopBuy"]);
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             GameManager.Instance.player.GetComponent<Player>().inventory.UseItem(IconNum,1);

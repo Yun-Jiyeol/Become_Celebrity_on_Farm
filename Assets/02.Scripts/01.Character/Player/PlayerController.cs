@@ -39,6 +39,17 @@ public class PlayerController : BaseController
     int LastItemNum = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
+
+    //소리 조정용
+    private string walkingsound = "Walking";
+    Coroutine walkingsoundcoroutine;
+    float walkingsoundtime = 0.5f;
+
+    private string swingsound = "Swing";
+    private string hoesound = "Hoe";
+    private string putitemsound = "PutItem";
+    private string caughtfishsound = "Fishcatch";
+
     public class RangeInteract
     {
         public string[] _Tag;
@@ -68,11 +79,44 @@ public class PlayerController : BaseController
 
     protected override void FixedUpdate()
     {
-        if (isAction) return;
-        if (isNPCInteract) return;
+        if (isNPCInteract || isAction)
+        {
+            if (walkingsoundcoroutine != null)
+            {
+                StopCoroutine(walkingsoundcoroutine);
+                walkingsoundcoroutine = null;
+            }
+            return;
+        }
 
         base.FixedUpdate();
+        if(dir == Vector2.zero)
+        {
+            if(walkingsoundcoroutine != null)
+            {
+                StopCoroutine(walkingsoundcoroutine);
+                walkingsoundcoroutine = null;
+            }
+        }
+        else
+        {
+            if(walkingsoundcoroutine == null)
+            {
+                walkingsoundcoroutine = StartCoroutine(WSC()); 
+            }
+        }
     }
+
+    IEnumerator WSC()
+    {
+        yield return new WaitForSeconds(0.1f);
+        while (true)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[walkingsound]);
+            yield return new WaitForSeconds(walkingsoundtime);
+        }
+    }
+
     void OnInteractNPC()
     {
         GameObject NPC = GetComponent<Player>().autoGetItem.ClosestNPC;
@@ -219,6 +263,8 @@ public class PlayerController : BaseController
                                 go.transform.position = tartgetPosition;
                             }
                             UseItemOnHand(1);
+
+                            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[putitemsound]);
                         }
                     }
 
@@ -318,6 +364,7 @@ public class PlayerController : BaseController
 
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.FishingParameterHash);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[swingsound]);
 
                     StartCoroutine(FishingChargingCoroutine());
                     break;
@@ -329,7 +376,10 @@ public class PlayerController : BaseController
 
     public bool UseItemOnHand(int num)
     {
-        return gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, num);
+        bool canuse = gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, num);
+        ChangeSlot(nownum);
+
+        return canuse;
     }
 
     IEnumerator FishingChargingCoroutine()
@@ -355,6 +405,7 @@ public class PlayerController : BaseController
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 1);
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[swingsound]);
                 break;
             }
             yield return null;
@@ -389,6 +440,7 @@ public class PlayerController : BaseController
 
             if (NowTime > HookedTime)
             {
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[caughtfishsound]);
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 2);
                 isHooked = true;
                 break;
@@ -545,6 +597,10 @@ public class PlayerController : BaseController
         CanSpawn = false;
 
         ItemManager.Instance.spawnGround.SpawnGrounds(Groundtype, tartgetPosition);
+        if(Groundtype == ChangedGround.Plow)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[hoesound]);
+        }
     }
 
     void OnOneSlot(InputValue inputValue)
