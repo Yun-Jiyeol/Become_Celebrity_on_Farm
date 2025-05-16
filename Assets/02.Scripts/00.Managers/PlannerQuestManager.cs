@@ -40,30 +40,47 @@ public class PlannerQuestManager : MonoBehaviour
 
     public void MarkQuestAcceptedToday()
     {
-        lastReceivedDay = TimeManager.Instance.currentDay;
-
-        isQuestAccepted = true;
+        lastReceivedDay = -1;  
+        isQuestAccepted = false;    
         isQuestCompleted = false;
 
         didTill = false;
         didPlant = false;
         didWater = false;
+        didClean = false;
+
+        todayQuest = GetQuestForDay(TimeManager.Instance.currentDay + 1);
+
+        Debug.Log("[PlannerQuestManager] 하루 지나서 퀘스트 상태 초기화됨");
     }
 
     
 
     public void TryShowTodayQuest()
     {
-        int today = TimeManager.Instance.currentDay;
-        todayQuest = GetQuestForDay(today);
+        int today = TimeManager.Instance.currentDay + 1;
 
-        if (isQuestCompleted)
+        // 오늘 퀘스트가 이미 세팅된 상태면 다시 세팅하지 않음
+        if (todayQuest == null || todayQuest.targetDay != today)
         {
-            Debug.Log("이미 일일퀘스트를 완료, 퀘스트 UI만 열지 않음.");
+            todayQuest = GetQuestForDay(today);
+        }
+
+        if (todayQuest == null)
+        {
+            Debug.LogWarning($"[PlannerQuestManager] {today}일차 퀘스트가 존재하지 않습니다.");
             return;
         }
 
-        OpenQuestUI(todayQuest);
+        if (isQuestCompleted)
+        {
+            Debug.Log("이미 일일퀘스트를 완료했으므로 퀘스트 UI를 열지 않습니다.");
+            return;
+        }
+
+        // 수락했는지 여부는 날짜로 판단
+        bool isAccepted = (lastReceivedDay == TimeManager.Instance.currentDay);
+        OpenQuestUI(todayQuest, isAccepted);
     }
 
     private PlannerQuestData GetQuestForDay(int day)
@@ -81,14 +98,9 @@ public class PlannerQuestManager : MonoBehaviour
 
     }
 
-    private void OpenQuestUI(PlannerQuestData data)
+    private void OpenQuestUI(PlannerQuestData data, bool isAccepted)
     {
         dailyQuestUI.SetActive(true);
-
-        // isAccepted = (오늘 날짜 == lastReceivedDay)
-        bool isAccepted = (lastReceivedDay == TimeManager.Instance.currentDay);
-
-        // UI 컨트롤러 불러와서 세팅
         dailyQuestUI.GetComponent<PlannerQuestUIController>().SetQuest(data, isAccepted);
     }
 
@@ -161,5 +173,12 @@ public class PlannerQuestManager : MonoBehaviour
         questRewardPopup.SetActive(true);
         questRewardPopupUI.SetReward(todayQuest.questTitle, todayQuest.rewardGold, todayQuest.rewardExp);
     }
+    public void MarkQuestAsAccepted()
+    {
+        lastReceivedDay = TimeManager.Instance.currentDay;
+        isQuestAccepted = true;
+        isQuestCompleted = false;
 
+        Debug.Log($"[PlannerQuestManager] 퀘스트 수락됨 - {lastReceivedDay}일차");
+    }
 }
