@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 using static ItemDataReader;
-using static UnityEditor.Progress;
 
 public class DropedItem : MonoBehaviour, IInteract
 {
