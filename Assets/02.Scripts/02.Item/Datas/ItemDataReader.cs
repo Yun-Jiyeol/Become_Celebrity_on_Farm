@@ -46,7 +46,7 @@ public enum ItemType
 
 public class ItemDataReader : MonoBehaviour, ExcelReader
 {
-    string path = "02.Scripts/02.Item/Datas/ItemDatas.csv";
+    string path = "Resources/Additional/Excel/ItemDatas.csv";
     StreamReader reader;
 
     public Dictionary<int, ItemsData> itemsDatas = new Dictionary<int, ItemsData>();
