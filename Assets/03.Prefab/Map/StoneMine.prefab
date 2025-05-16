@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8163827073670074302}
   - component: {fileID: 6469657358876283547}
   - component: {fileID: 4205461913076550174}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bonfire (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2876210809878059506}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 335284627710902912}
   - component: {fileID: 8168518855485878329}
   - component: {fileID: 8004728835816309399}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MineDeco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1182,7 +1182,7 @@ GameObject:
   - component: {fileID: 3012019495131462360}
   - component: {fileID: 8083020557275076682}
   - component: {fileID: 5418417360231103525}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bonfire (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1384,7 +1384,7 @@ GameObject:
   - component: {fileID: 4911907104352815241}
   - component: {fileID: 7961543810861881143}
   - component: {fileID: 7372482709631021877}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MineWater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2049,7 +2049,7 @@ Tilemap:
       - {fileID: -1305706949, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
       - {fileID: 462778136, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
       - {fileID: 2104028, guid: ce6d89fd08e5b8344aba762f05c151bc, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 106, y: -18, z: 0}
@@ -2493,7 +2493,7 @@ GameObject:
   - component: {fileID: 262019285747411005}
   - component: {fileID: 6665378369843950435}
   - component: {fileID: 1774849364257197182}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bonfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2692,7 +2692,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1424113054960866249}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Objects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2730,7 +2730,7 @@ GameObject:
   - component: {fileID: 358417681507904393}
   - component: {fileID: 4774514408227704503}
   - component: {fileID: 253674248309455800}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MineGround
   m_TagString: StoneMineGround
   m_Icon: {fileID: 0}
@@ -12980,7 +12980,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7142998965475799717}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: OnActive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13012,7 +13012,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8679495435550374223}
   - component: {fileID: 3085300368607181282}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CameraBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13095,7 +13095,7 @@ GameObject:
   - component: {fileID: 489618344235446077}
   - component: {fileID: 2620012680430540925}
   - component: {fileID: 1857990605074398815}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MineWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17718,6 +17718,83 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!1 &2478870818683214745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5340257709216412019}
+  - component: {fileID: 2390507569500169047}
+  m_Layer: 9
+  m_Name: IndoorAreaTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5340257709216412019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478870818683214745}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 191.6, y: -45.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4937309786169959285}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2390507569500169047
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478870818683214745}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 100, y: 70}
+  m_EdgeRadius: 0
 --- !u!1 &2855868862138421994
 GameObject:
   m_ObjectHideFlags: 0
@@ -17730,7 +17807,7 @@ GameObject:
   - component: {fileID: 8966662448247008728}
   - component: {fileID: 2742238136450684597}
   - component: {fileID: 6890435748364713672}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21158,7 +21235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4937309786169959285}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StoneMine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21183,6 +21260,7 @@ Transform:
   - {fileID: 2876210809878059506}
   - {fileID: 7142998965475799717}
   - {fileID: 8679495435550374223}
+  - {fileID: 5340257709216412019}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4529644317046306583
@@ -21196,7 +21274,7 @@ GameObject:
   - component: {fileID: 197006156597392384}
   - component: {fileID: 7221272275699437185}
   - component: {fileID: 3375293413488279511}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62782,7 +62860,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9033527689080995463}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62823,7 +62901,7 @@ GameObject:
   - component: {fileID: 1868133680105775825}
   - component: {fileID: 3756295153155455649}
   - component: {fileID: 4451204516984001775}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MineRoad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69514,7 +69592,7 @@ GameObject:
   - component: {fileID: 3397045965020715291}
   - component: {fileID: 3336539264773646214}
   - component: {fileID: 2093541593803825479}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: From_Stone_To_ME
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69655,7 +69733,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319224872304848930}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StoneCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69688,7 +69766,7 @@ GameObject:
   - component: {fileID: 7018252866272733857}
   - component: {fileID: 4299802915475428959}
   - component: {fileID: 3030489925370091973}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MineBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
