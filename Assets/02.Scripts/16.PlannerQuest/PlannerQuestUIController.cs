@@ -44,7 +44,7 @@ public class PlannerQuestUIController : MonoBehaviour
     private void OnClickAccept()
     {
         Debug.Log("[UI] 수락 버튼 눌림!");
-        PlannerQuestManager.Instance.MarkQuestAcceptedToday();
+        PlannerQuestManager.Instance.MarkQuestAsAccepted();
         SetQuest(PlannerQuestManager.Instance.GetTodayQuestData(), true);
         // gameObject.SetActive(false);
     }

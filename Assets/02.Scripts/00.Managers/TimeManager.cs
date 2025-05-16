@@ -109,6 +109,9 @@ public class TimeManager : MonoBehaviour
         currentDay++;
         Debug.Log($"TimeManager - 날짜 변경: {currentDay}");
 
+        // 퀘스트 초기화
+        PlannerQuestManager.Instance?.MarkQuestAcceptedToday();
+
         // Weather에 날짜 알려주기
         if (Weather.Instance != null)
         {
