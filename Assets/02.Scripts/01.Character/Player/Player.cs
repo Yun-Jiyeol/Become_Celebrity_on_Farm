@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     {
         GameManager.Instance.player = gameObject;
         playerController.speed = stat.Speed;
+
+        stat = SceneChangerManager.Instance.GetComponent<PlayerStats>();
     }
 
     private void LateUpdate()
