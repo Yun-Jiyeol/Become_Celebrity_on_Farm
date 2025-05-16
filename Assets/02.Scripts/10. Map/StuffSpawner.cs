@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
+using static Season;
 
 /// <summary>
 /// 스폰이 될 타일맵에 붙임
@@ -19,9 +19,13 @@ public class StuffSpawner : MonoBehaviour
 
     bool isSpawned = false;
 
+    Season season;
+
     void Start()
     {
+        season = TimeManager.Instance.season;
         TimeManager.Instance.OnDayChanged += ExtraSpawn;
+        season.OnSeasonChanged += ChangePrefabSeason;
     }
 
     /// <summary>
@@ -94,8 +98,33 @@ public class StuffSpawner : MonoBehaviour
     /// </summary>
     GameObject SetStuff()
     {
+        // 겨울일때 plant spawn 스킵
+
+
+
         int num = Random.Range(0, stuffs.Count);
         GameObject stuff = stuffs[num];
-        return stuff;
+        //if (stuff.TryGetComponent(out SeedGrow sg))
+        //{
+            //if (sg.canGrowSeason.Contains(season.CurrentSeason))
+            //{
+                return stuff;
+            //}
+        //}
+        //else return stuff;
+    }
+
+    /// <summary>
+    /// 기존에 깔려있던 프리팹 계절 스프라이트 변경
+    /// </summary>
+    void ChangePrefabSeason(SeasonType newSeason)
+    {
+        GameManager.Instance.OneSeasonAfter();
+        Debug.Log($"[StuffSpawner] OneSeasonAfter 호출됨");
+
+        foreach (var sg in onActiveObjs.GetComponentsInChildren<SeedGrow>())
+        {
+            sg.Grow(0f);
+        }
     }
 }
