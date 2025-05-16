@@ -46,6 +46,7 @@ public class FurnaceObject : InteractedObject, IInteractNum
         targetTime = (int)cot.Time * 60 + nowTime;
 
         Furnace.GetComponent<Animator>().SetBool("Burning", true);
+        gameObject.GetComponent<AudioSource>().Play();
         timeManager.OnTimeChanged += checkTime;
     }
 
@@ -56,6 +57,7 @@ public class FurnaceObject : InteractedObject, IInteractNum
             iswork = false;
             isend = true;
             Furnace.GetComponent<Animator>().SetBool("Burning", false);
+            gameObject.GetComponent<AudioSource>().Stop();
             AfterWork.SetActive(true);
             AfterItem.sprite = ItemManager.Instance.itemDataReader.itemsDatas[cot.AfterItemNum].Item_sprite;
             cotAfteritem = cot.AfterItemNum;
