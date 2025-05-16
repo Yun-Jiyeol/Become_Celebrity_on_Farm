@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7758454863458974133
 Transform:
   m_ObjectHideFlags: 0
@@ -66,7 +66,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeather: 0
-  currentDay: 0
+  currentDayDebug: 0
+  currentWeatherDebug: 0
+  envEffect: {fileID: 4391439933868618130}
 --- !u!114 &4192331378528463195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4219589367037767365, guid: a5a54f9a0f5a7a142b0276e28c47be8f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.6188993
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4219589367037767365, guid: a5a54f9a0f5a7a142b0276e28c47be8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -208,6 +210,14 @@ PrefabInstance:
     - target: {fileID: 4379593153301794265, guid: a5a54f9a0f5a7a142b0276e28c47be8f, type: 3}
       propertyPath: m_Name
       value: smallrainEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819247992117668058, guid: a5a54f9a0f5a7a142b0276e28c47be8f, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819247992117668058, guid: a5a54f9a0f5a7a142b0276e28c47be8f, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -232,6 +242,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3564118908821466560}
     m_Modifications:
+    - target: {fileID: 1293349850955751037, guid: 4323dd5a338ab7046ae8fbe3f77356c8, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293349850955751037, guid: 4323dd5a338ab7046ae8fbe3f77356c8, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293349850955751037, guid: 4323dd5a338ab7046ae8fbe3f77356c8, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6777273354704125975, guid: 4323dd5a338ab7046ae8fbe3f77356c8, type: 3}
       propertyPath: m_Name
       value: rainEffect
@@ -302,7 +324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7934123908287242547, guid: 4323dd5a338ab7046ae8fbe3f77356c8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.6188993
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7934123908287242547, guid: 4323dd5a338ab7046ae8fbe3f77356c8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -339,6 +361,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3564118908821466560}
     m_Modifications:
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: NoiseModule.strength.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.9269233
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.7813385
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.96981126
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899115290696562567, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4380335251293705577, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -405,7 +459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4380335251293705577, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4988995
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4380335251293705577, guid: 0c17b50171ef091468fed348e7d8f57f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -450,6 +504,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: smallsnowEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 7623042959956903711, guid: 90fefc28a65477b44bfc4a7ef0d9119f, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7623042959956903711, guid: 90fefc28a65477b44bfc4a7ef0d9119f, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7629321137873596191, guid: 90fefc28a65477b44bfc4a7ef0d9119f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -516,7 +578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7629321137873596191, guid: 90fefc28a65477b44bfc4a7ef0d9119f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4988995
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7629321137873596191, guid: 90fefc28a65477b44bfc4a7ef0d9119f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -623,7 +685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8319031829583209598, guid: ad777a6e69727464881786e72e3f0dad, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4988995
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8319031829583209598, guid: ad777a6e69727464881786e72e3f0dad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -636,6 +698,14 @@ PrefabInstance:
     - target: {fileID: 8319031829583209598, guid: ad777a6e69727464881786e72e3f0dad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9183884127015877437, guid: ad777a6e69727464881786e72e3f0dad, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9183884127015877437, guid: ad777a6e69727464881786e72e3f0dad, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
