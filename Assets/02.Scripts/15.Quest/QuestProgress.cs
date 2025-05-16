@@ -3,26 +3,42 @@ using UnityEngine;
 [System.Serializable]
 public class QuestProgress
 {
-    public QuestData quest;       // 어떤 퀘스트를 진행 중인지
-    public int currentProgress;   // 현재 달성도
-    public int remainingTicks; // 인게임 시간 (분 단위)
+    public QuestData quest;
+    public int currentProgress;
+    public int startTime;       // 퀘스트 시작 시간 (TimeManager.totalMinutes 기준)
+    public int durationMinutes; // 퀘스트 유효 시간 (분 단위)
 
     public QuestProgress(QuestData questData)
     {
         quest = questData;
         currentProgress = 0;
-        remainingTicks = Mathf.RoundToInt(questData.duration * 144); // 하루 144틱 = 24시간 * 6 (10분 단위)
+
+        startTime = TimeManager.Instance.totalMinutes;
+
+        // 1일 = 144분 → totalMinutes는 10분 단위로 증가
+        durationMinutes = Mathf.RoundToInt(questData.duration * 144);
+        Debug.Log($"[QuestProgress] 생성됨 -> 시작 시각: {startTime} / 유효시간: {durationMinutes}분");
     }
 
-    public void Tick()
+    public int RemainingMinutes
     {
-        remainingTicks = Mathf.Max(0, remainingTicks - 1);
+        get
+        {
+            int elapsed = TimeManager.Instance.totalMinutes - startTime;
+            int remaining = Mathf.Max(0, durationMinutes - elapsed);
+            Debug.Log($"[QuestProgress] 남은시간 계산 -> total: {TimeManager.Instance.totalMinutes}, start: {startTime}, 남은: {remaining}");
+            return remaining;
+        }
     }
 
     public string GetFormattedTime()
     {
-        int days = remainingTicks / 144;
-        int hours = (remainingTicks % 144) / 6;
+        int minutes = RemainingMinutes;
+
+        int days = minutes / 144;
+        int hours = (minutes % 144) / 6; 
         return $"{days}일 {hours}시간";
     }
+
+    public bool IsExpired => RemainingMinutes <= 0;
 }

@@ -65,7 +65,7 @@ public class TimeManager : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= timePerMinute)
         {
-            Debug.Log($"AdvanceTime 호출 - currentDay: {currentDay}, currentHour: {currentHour}, currentMinute: {currentMinute}");
+            Debug.Log($"[TimeManager] AdvanceTime 호출됨. 이전 totalMinutes: {totalMinutes}");
             AdvanceTime(10);
             timer = 0f;
         }
@@ -73,6 +73,7 @@ public class TimeManager : MonoBehaviour
 
     public void AdvanceTime(int minutes)
     {
+        Debug.Log($"[TimeManager] 시간 증가 요청: {minutes}분, 이전 totalMinutes: {totalMinutes}");
         totalMinutes += minutes;
         currentMinute += minutes;
 
@@ -100,7 +101,6 @@ public class TimeManager : MonoBehaviour
         }
 
         OnTimeChanged?.Invoke();
-        QuestManager.Instance?.OnAdvanceDay();
     }
 
     public void AdvanceDay()
