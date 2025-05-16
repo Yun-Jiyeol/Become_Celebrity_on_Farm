@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 765671421022127985}
   - component: {fileID: 3744862401869457665}
   - component: {fileID: 3234261995271526876}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Computer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3364965699714766627}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HomeCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 109905091942468741}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Furniture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,6 +212,83 @@ Transform:
   - {fileID: 6181191558127993561}
   m_Father: {fileID: 3539412101892247775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1129906114145412883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8209853289036631348}
+  - component: {fileID: 7608108692369312213}
+  m_Layer: 9
+  m_Name: IndoorAreaTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8209853289036631348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129906114145412883}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3539412101892247775}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &7608108692369312213
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129906114145412883}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 20, y: 20}
+  m_EdgeRadius: 0
 --- !u!1 &1604157449079893985
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6882809536512478996}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HomeDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3539412101892247775}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Home
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,6 +353,7 @@ Transform:
   - {fileID: 109905091942468741}
   - {fileID: 6976393846087251939}
   - {fileID: 8776302858250098402}
+  - {fileID: 8209853289036631348}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2536520810212728166
@@ -289,7 +367,7 @@ GameObject:
   - component: {fileID: 5771654853464666080}
   - component: {fileID: 7471664409750290359}
   - component: {fileID: 3727286488781987354}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +463,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8365611798395769291}
   - component: {fileID: 7502434759877685055}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DayWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,7 +549,7 @@ GameObject:
   - component: {fileID: 3627840417294538882}
   - component: {fileID: 8478833266172932364}
   - component: {fileID: 4270020042875672120}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Covers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -622,7 +700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3702013513961755753}
   - component: {fileID: 2747794287495776640}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NightWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +783,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6976393846087251939}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -738,7 +816,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7277665137444751050}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -775,7 +853,7 @@ GameObject:
   - component: {fileID: 76464718385748152}
   - component: {fileID: 7478026129674519186}
   - component: {fileID: 8423752728221357573}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BlackSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9563,7 +9641,7 @@ GameObject:
   - component: {fileID: 599545375696130097}
   - component: {fileID: 5800727026984097917}
   - component: {fileID: 4770966621131991474}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Division
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10120,7 +10198,7 @@ GameObject:
   - component: {fileID: 3108349894904884127}
   - component: {fileID: 7396308814553388730}
   - component: {fileID: 5153585729684790486}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pillow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10262,7 +10340,7 @@ GameObject:
   - component: {fileID: 7292684732591368528}
   - component: {fileID: 58783596964550761}
   - component: {fileID: 7624563208048069374}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: From_Home_To_Farm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10353,7 +10431,7 @@ GameObject:
   - component: {fileID: 6687833532682523510}
   - component: {fileID: 7168408203701906098}
   - component: {fileID: 2981427386357234000}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ComputerTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10483,7 +10561,7 @@ GameObject:
   - component: {fileID: 7748271088440634521}
   - component: {fileID: 1327193174996845300}
   - component: {fileID: 5467446309718264005}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10613,7 +10691,7 @@ GameObject:
   - component: {fileID: 6168365177481869793}
   - component: {fileID: 94184507756783622}
   - component: {fileID: 1645824379380791943}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10741,7 +10819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6181191558127993561}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10776,7 +10854,7 @@ GameObject:
   - component: {fileID: 2281665754784025508}
   - component: {fileID: 6732892107664214556}
   - component: {fileID: 6586935806554231189}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11875,7 +11953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8776302858250098402}
   - component: {fileID: 8693358257638605934}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CameraBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11961,7 +12039,7 @@ GameObject:
   - component: {fileID: 7113894870403007969}
   - component: {fileID: 5970723503314197722}
   - component: {fileID: 3398808774586992141}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
