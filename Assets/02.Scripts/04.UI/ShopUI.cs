@@ -237,11 +237,11 @@ public class ShopUI : MonoBehaviour
 
         if(Changes >= 0)
         {
-            playerstats.AddGold(Changes);
+            GoldManager.Instance.AddGold(Changes);
         }
         else
         {
-            playerstats.SpendGold(-Changes);
+            GoldManager.Instance.SpendGold(-Changes);
         }
 
         PlayerHaveGold.text = playerstats.GetGold().ToString();
