@@ -59,7 +59,7 @@ public class SeasonTileList : ScriptableObject
 public class SeasonTileChanger : MonoBehaviour
 {
     [SerializeField] private List<Tilemap> tilemaps;
-    [SerializeField] private List<SeasonTileList> tileList;
+    public int tilenum;
     readonly Dictionary<TileBase, SeasonTileList> tileDict = new();
     readonly Dictionary<Tilemap, Dictionary<Vector3Int, SeasonTileList>> mapPosDict = new();
 
@@ -85,6 +85,26 @@ public class SeasonTileChanger : MonoBehaviour
     /// </summary>
     void TileSOMapping()
     {
+        List<SeasonTileList> tileList = new List<SeasonTileList>();
+        switch (tilenum)
+        {
+            case 0:
+                tileList = ResourceManager.Instance.FarmtileList;
+                break;
+
+            case 1:
+                tileList = ResourceManager.Instance.RoadtileList;
+                break;
+
+            case 2:
+                tileList = ResourceManager.Instance.VillagetileList;
+                break;
+
+            case 3:
+                tileList = ResourceManager.Instance.BeachtileList;
+                break;
+        }
+
         foreach (SeasonTileList so in tileList)
         {
             foreach (SeasonTile st in so.seasonTiles)
