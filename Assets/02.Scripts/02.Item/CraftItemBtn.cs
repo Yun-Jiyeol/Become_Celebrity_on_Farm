@@ -33,6 +33,7 @@ public class CraftItemBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (!canmake) return;
 
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["CreateItem"]);
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             foreach(DropItem useitem in needsItems)
