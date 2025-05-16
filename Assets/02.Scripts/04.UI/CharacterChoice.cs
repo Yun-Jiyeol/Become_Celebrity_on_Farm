@@ -19,7 +19,7 @@ public class CharacterChoice : UIBase
     {
         if (PlayerStats == null)
         {
-            PlayerStats = FindObjectOfType<PlayerStats>();
+            PlayerStats = SceneChangerManager.Instance.gameObject.GetComponent<PlayerStats>();
             if (PlayerStats == null)
             {
                 Debug.LogError("PlayerStats 컴포넌트를 찾을 수 없습니다.");
