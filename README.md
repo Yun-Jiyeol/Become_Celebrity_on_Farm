@@ -21,7 +21,7 @@
 
 | 윤지열 | 최유성 | 손효정 | 신소현 | 이유진 |
 | --- | --- | --- | --- | --- |
-| [블로그](https://velog.io/@yunssi/posts)) | [블로그](https://sin-dev200.tistory.com/) | [블로그](https://fociend.tistory.com/) | [블로그](https://velog.io/@slj506/posts) | [블로그](https://velog.io/@yjyj713/posts) |
+| [블로그](https://velog.io/@yunssi/posts) | [블로그](https://sin-dev200.tistory.com/) | [블로그](https://fociend.tistory.com/) | [블로그](https://velog.io/@slj506/posts) | [블로그](https://velog.io/@yjyj713/posts) |
 | [깃](https://github.com/Yun-Jiyeol) | [깃](https://github.com/000SIN) | [깃](https://github.com/hyojeong0509) | [깃](https://github.com/S-SoHyun) | [깃](https://github.com/yjyj713) |
 - Git : https://github.com/Yun-Jiyeol/Become_Celebrity_on_Farm
 
@@ -56,10 +56,9 @@
 
 - 조작법
 
-| 조작법 | 점프 | 슬라이드 |
-| --- | --- | --- |
-| 키보드 | SpaceBar | R Shift |
-| 버튼 | Jump | Slide |
+| 조작법 | 위 | 아래 | 왼쪽 | 오른쪽 | 인벤토리 |
+| --- | --- | --- | --- | --- | --- |
+| 키보드 | W | S | A | D | E |
 
 - 튜토리얼 진행
 게임 최초 진행 시 게임 조작에 대해 간단하게 안내해주는 튜토리얼이 실행됩니다
