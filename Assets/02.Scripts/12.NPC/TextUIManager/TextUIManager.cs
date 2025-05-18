@@ -119,21 +119,6 @@ public class TextUIManager : MonoBehaviour // ItemDataReader를 상속하지 않으므로
             // TextAsset의 내용을 StringReader로 읽습니다.
             using (StringReader reader = new StringReader(csvAsset.text))
             {
-                // 첫 번째 줄(헤더) 읽고 건너뛰기 (CSV 파일에 헤더가 있다고 가정)
-                // 헤더가 없다면 이 부분을 제거하세요.
-                string headerLine = reader.ReadLine();
-                if (headerLine == null && csvAsset.text.Length > 0) // 파일에 내용이 있는데 헤더를 못 읽었을 경우
-                {
-                    Debug.LogWarning($"CSV 파일 '{npcEntry.ResourcesPath}'의 첫 줄(헤더)을 읽지 못했습니다.");
-                    // 첫 줄이 데이터 라인이라면 아래 루프에서 첫 줄부터 처리될 것입니다.
-                }
-                else if (csvAsset.text.Length == 0) // 파일 내용이 완전히 비어있는 경우
-                {
-                    Debug.LogWarning($"CSV 파일 '{npcEntry.ResourcesPath}'의 내용이 비어있습니다.");
-                    continue; // 다음 파일로 넘어갑니다.
-                }
-
-
                 string dataLine;
                 // 데이터 줄을 한 줄씩 읽습니다.
                 while ((dataLine = reader.ReadLine()) != null)
