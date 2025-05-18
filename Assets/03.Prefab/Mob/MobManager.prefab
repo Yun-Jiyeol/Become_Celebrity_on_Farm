@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3098087561858401918}
   - component: {fileID: 692576374730978378}
   - component: {fileID: 5042815867876115239}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: MobManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4280013838437941157}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.6000001, y: 3.6000001, z: 3.6000001}
   m_ConstrainProportionsScale: 0
@@ -53,6 +53,9 @@ MonoBehaviour:
   attackPower: 10
   moveSpeed: 2
   detectionRadius: 5
+  allowedArea: {fileID: 0}
+  maxChaseDistance: 10
+  mineEntranceObject: {fileID: 0}
 --- !u!114 &5042815867876115239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,8 +79,8 @@ MonoBehaviour:
   ironMineGround: {fileID: 0}
   ironMobs: []
   numberOfStoneMobs: 20
-  numberOfCopperMobs: 4
-  numberOfIronMobs: 4
+  numberOfCopperMobs: 20
+  numberOfIronMobs: 20
   CloudC: {fileID: 0}
   MobBatSmallB: {fileID: 0}
   EarthSmallerB: {fileID: 0}
