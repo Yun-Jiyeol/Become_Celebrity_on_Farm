@@ -23,7 +23,7 @@ public class EndingButton : MonoBehaviour
 
     void OnClickEndButton()
     {
-        //SceneManager.LoadScene("StartScene");
+        SceneChangerManager.Instance.OnClick_LoadScene(SceneChangerManager.Instance.sceneNamesInBuild[0]);
     }
 
     void OnNextDayButton()
