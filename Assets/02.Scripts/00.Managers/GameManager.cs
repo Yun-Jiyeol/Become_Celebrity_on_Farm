@@ -36,8 +36,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        camera = Camera.main;
     }
 
     public static GameManager Instance

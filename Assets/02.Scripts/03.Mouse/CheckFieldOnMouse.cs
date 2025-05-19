@@ -9,7 +9,7 @@ public class CheckFieldOnMouse : MonoBehaviour
 
     private void Start()
     {
-        camera = GameManager.Instance.camera;
+        camera = Camera.main;
         MouseFollower = Instantiate(GameManager.Instance.MouseFollower);
     }
 
