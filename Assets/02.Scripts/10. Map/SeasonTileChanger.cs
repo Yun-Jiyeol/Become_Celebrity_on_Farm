@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static Season;
@@ -18,17 +17,27 @@ public class SeasonTileChanger : MonoBehaviour
     Season season;
 
 
-    IEnumerator Start()
+    void Start()
     {
-        yield return new WaitUntil(() => ResourceManager.Instance != null);
+        season = TimeManager.Instance.season;
+
+        if (ResourceManager.Instance != null) Debug.Log("[SeasonTileChanger] rm NOT NULL");
+        else Debug.Log("[SeasonTileChanger] rm NULL");
+
+        if (TimeManager.Instance.season != null) Debug.Log("[SeasonTileChanger] TimeManager.Instance.season NOT NULL");
+        else Debug.Log("[SeasonTileChanger] tm NULL");
 
         TileSOMapping();
         MapPosMapping();
 
-        season = TimeManager.Instance.season;
 
         if (season != null)
+        {
+            if (TimeManager.Instance != null) Debug.Log("[SeasonTileChanger] tm NOT NULL");
+            ChangeTiles(TimeManager.Instance.season.CurrentSeason);
             season.OnSeasonChanged += ChangeTiles;
+        }
+        else Debug.Log("[SeasonTileChanger] TM NULL");
     }
 
     /// <summary>
@@ -36,6 +45,8 @@ public class SeasonTileChanger : MonoBehaviour
     /// </summary>
     void TileSOMapping()
     {
+        Debug.Log("[SeasonTileChanger] TileSOmapping start");
+
         List<SeasonTileList> tileList = new List<SeasonTileList>();
         switch (tilenum)
         {
@@ -71,6 +82,8 @@ public class SeasonTileChanger : MonoBehaviour
     /// </summary>
     void MapPosMapping()
     {
+        Debug.Log("[SeasonTileChanger] mapposmapping start");
+
         foreach (Tilemap tilemap in tilemaps)
         {
             var posTile = new Dictionary<Vector3Int, SeasonTileList>();
@@ -94,6 +107,8 @@ public class SeasonTileChanger : MonoBehaviour
     /// </summary>
     void ChangeTiles(SeasonType nextSeason)
     {
+        Debug.Log("[SeasonTileChanger] changetiles start");
+
         foreach (Tilemap tilemap in tilemaps)
         {
             if (!mapPosDict.TryGetValue(tilemap, out var posTile)) continue;
@@ -109,5 +124,3 @@ public class SeasonTileChanger : MonoBehaviour
         }
     }
 }
-
-
