@@ -65,6 +65,7 @@ public class TutorialUI : MonoBehaviour
         fifthPage.gameObject.SetActive(false);
         firstPage.gameObject.SetActive(true);
         curPage = 0;
+        pageText.text = "1/5";
         tutorialUI.SetActive(false);
         AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
     }
@@ -140,7 +141,7 @@ public class TutorialUI : MonoBehaviour
                 pageText.text = "4/5";
                 break;
             case 5:
-                break;  
+                break;
         }
     }
 }
