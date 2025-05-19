@@ -4,8 +4,8 @@
 </p>
 <br>
 
-### 즐겨보자 행복한 농경생활!<br>
-### 방송하자 나의 일상!
+### <p align="center"><strong>🎮 즐겨보자 행복한 나의 농경 생활!</strong></p>
+### <p align="center"><strong>📸 방송하자 나의 일상, 나의 인생!</strong></p>
 
 <br>
 
