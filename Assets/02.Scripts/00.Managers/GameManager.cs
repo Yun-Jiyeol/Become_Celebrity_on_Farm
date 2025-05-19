@@ -199,6 +199,7 @@ public class GameManager : MonoBehaviour
 
     public void OneDayAfter()
     {
+        TurnOnAllColliders();
         List<GameObject> forActivefalse = new List<GameObject>();
         List<SeedGrow> forGrow = new List<SeedGrow>();
 

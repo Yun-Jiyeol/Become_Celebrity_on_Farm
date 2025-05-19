@@ -56,6 +56,9 @@ public class TimeManager : MonoBehaviour
         {
             Weather.Instance.SetDay(currentDay);
         }
+
+        OnDayChanged += GameManager.Instance.OneDayAfter;
+        OnMonthChanged += GameManager.Instance.OneSeasonAfter;
     }
 
     private void Update()
