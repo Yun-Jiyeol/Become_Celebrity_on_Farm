@@ -4,6 +4,8 @@ using TMPro;
 
 public class CharacterChoice : UIBase
 {
+    [SerializeField] private bool femaleUnlocked = false; // 데모에서 여캐 선택 false
+
     PlayerStats PlayerStats;
 
     public Button MaleBtn, FemaleBtn;
@@ -12,6 +14,8 @@ public class CharacterChoice : UIBase
     public TMP_InputField nameInputField, farmnameInputField;
 
     public CharacterAnimator characterAnimator;
+
+    public GameObject FemaleLock;
 
     private string selectedCharacter = null;
     private bool isCharacterSelected = false;
@@ -31,13 +35,31 @@ public class CharacterChoice : UIBase
     }
     public void Setup()
     {
-        Debug.Log("CharacterChoice.Setup() 호출됨"); //나중에 삭제
+        //Debug.Log("CharacterChoice.Setup() 호출됨"); //나중에 삭제
+        //MaleBtn.onClick.AddListener(() => SelectedCharacter("Male"));
+        //FemaleBtn.onClick.AddListener(() => SelectedCharacter("Female"));
+        //OKBtn.onClick.AddListener(OnOK);
+        //BackBtn.onClick.AddListener(OnBackBtn);
+
+        //selectedCharacter = null;
+
+
+        //데모 버전 여캐 잠금
         MaleBtn.onClick.AddListener(() => SelectedCharacter("Male"));
-        FemaleBtn.onClick.AddListener(() => SelectedCharacter("Female"));
         OKBtn.onClick.AddListener(OnOK);
         BackBtn.onClick.AddListener(OnBackBtn);
 
-        selectedCharacter = null;
+        if (femaleUnlocked)
+        {
+            FemaleBtn.onClick.AddListener(() => SelectedCharacter("Female"));
+            FemaleBtn.interactable = true;
+            FemaleLock.SetActive(false); // 자물쇠 끄기
+        }
+        else
+        {
+            FemaleBtn.interactable = false;
+            FemaleLock.SetActive(true); // 자물쇠 표시
+        }
     }
 
     
