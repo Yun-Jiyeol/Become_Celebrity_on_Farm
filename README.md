@@ -65,14 +65,21 @@
 - 튜토리얼 진행
   게임 최초 진행 시 게임 조작키와 기능들에 대해 소개해주는 튜토리얼이 준비되어 있습니다.
 
-![image (7)](https://github.com/user-attachments/assets/f6333227-02ab-4407-891b-71643ab23973)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f6333227-02ab-4407-891b-71643ab23973" width="700" height="394" />
+</p>
 
-![image (6)](https://github.com/user-attachments/assets/17b86591-6729-4e25-80be-cb6d58316f12)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/17b86591-6729-4e25-80be-cb6d58316f12" width="700" height="394" />
+</p>
 
-![image (5)](https://github.com/user-attachments/assets/bf5ae449-dea0-4acc-ab06-b5385f282894)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/bf5ae449-dea0-4acc-ab06-b5385f282894" width="700" height="394" />
+</p>
 
-![image (4)](https://github.com/user-attachments/assets/8de13391-1408-4159-8408-ef5513dead52)
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8de13391-1408-4159-8408-ef5513dead52" width="700" height="394" />
+</p>
 
 - 제작
   수집한 자원들을 활용해 다양한 도구, 가구, 재료 아이템을 제작할 수 있습니다.
