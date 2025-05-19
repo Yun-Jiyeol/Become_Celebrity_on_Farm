@@ -1,8 +1,9 @@
 # 팜플루언서(Farmfluencer)
+<br>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9462fdec-e280-4fc6-927c-d984a250fd8e" width="700" height="394" />
 </p>
-<br>
+
 
 ### <p align="center"><strong>🎮 즐겨보자 행복한 나의 농경 생활!</strong></p>
 ### <p align="center"><strong>📸 방송하자 나의 일상, 나의 인생!</strong></p>
