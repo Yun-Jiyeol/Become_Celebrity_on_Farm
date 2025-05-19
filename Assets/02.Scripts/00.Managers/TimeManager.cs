@@ -37,6 +37,8 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
+        season = FindObjectOfType<Season>();
+
         // 시간 초기화
         currentHour = 6;
         currentMinute = 0;
