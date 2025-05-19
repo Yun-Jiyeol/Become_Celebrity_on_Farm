@@ -86,28 +86,40 @@
   계절이나 상황에 따라 필요한 물건을 직접 만들어 활용하는 재미를 느낄 수 있어요.
   농기구부터 낚시대, 화로 등 폭넓은 제작 시스템이 준비되어 있습니다.
 
-![image (8)](https://github.com/user-attachments/assets/8d8a1364-61e2-4234-9eec-b440e322bea5)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8d8a1364-61e2-4234-9eec-b440e322bea5" width="700" height="394" />
+</p>
 
 
 - 농사
   약 40여종의 다채로운 작물과 과일들이 있습니다.
   자라는 동안 때에 맞는 모습을 보여주며 직접 작물을 기르는 듯한 재미를 더해줍니다.
 
-![image](https://github.com/user-attachments/assets/25e07c6b-3788-417a-97c3-b7d2009ca20d)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/25e07c6b-3788-417a-97c3-b7d2009ca20d" width="700" height="394" />
+</p>
+
 
 - 낚시
   농장에 있는 작은 폭포에서도, 돌고래 해변이 있는 큰 바다에서도 언제든지 물이 있는 곳이라면 낚시를 할 수 있습니다.
   소소한 미니게임을 통해 물고기를 잡으며 다양한 어종들을 만날 수 있습니다.
 
-![image](https://github.com/user-attachments/assets/61e93b0c-402f-413c-9fb5-a966c74b797d)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/61e93b0c-402f-413c-9fb5-a966c74b797d" width="700" height="394" />
+</p>
+
 
 - 광산&전투
   돌, 구리, 철 등 특화된 광물이 위치한 많은 광산들에서 광물을 캐보세요.
   플레이어를 향해 달려드는 몬스터들을 처치하고 아이템을 얻어보세요!
 
-![image](https://github.com/user-attachments/assets/c6cff356-bce4-4a11-a461-2271e6f71ffe)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c6cff356-bce4-4a11-a461-2271e6f71ffe" width="700" height="394" />
+</p>
 
-![image](https://github.com/user-attachments/assets/a9c987b1-b687-420c-bd7f-ffd33f7751cb)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a9c987b1-b687-420c-bd7f-ffd33f7751cb" width="700" height="394" />
+</p>
 
 
 - 마을
@@ -115,16 +127,24 @@
   계절과 시간에 따라 마을 분위기가 바뀌며, 주민들과의 대화를 통해 생동감을 느낄 수 있어요.
   선물, 부탁, 축제 등 관계를 쌓아가는 요소들을 통해 마을 주민들과 점점 가까워지는 재미를 알아가 봅시다.
 
-![image](https://github.com/user-attachments/assets/ed1ed6b9-6bef-463f-bf5d-4272fcf54d43)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ed1ed6b9-6bef-463f-bf5d-4272fcf54d43" width="700" height="394" />
+</p>
 
-![image](https://github.com/user-attachments/assets/b622a066-799c-4c78-bb8d-3f415aabcaf6)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b622a066-799c-4c78-bb8d-3f415aabcaf6" width="700" height="394" />
+</p>
 
 
 - 퀘스트
   스트리머가 다양한 콘텐츠 미션을 수행하듯, 퀘스트를 받을 수 있습니다.
   작물 재배, 낚시, 몬스터 처치, 아이템 전달 등 다양한 형식의 미션을 통해 보상을 얻고, 구독자를 올릴 수 있습니다.
 
-  ![image](https://github.com/user-attachments/assets/b6a2d6c9-fef8-4469-89b8-4e8534da5966)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b6a2d6c9-fef8-4469-89b8-4e8534da5966" width="700" height="394" />
+</p>
 
-  ![image](https://github.com/user-attachments/assets/bfc64ffe-c8ef-467a-8e61-27959820323e)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/bfc64ffe-c8ef-467a-8e61-27959820323e" width="700" height="394" />
+</p>
 
