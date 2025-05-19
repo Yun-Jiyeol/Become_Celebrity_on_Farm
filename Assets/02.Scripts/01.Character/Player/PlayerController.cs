@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -39,6 +38,17 @@ public class PlayerController : BaseController
     int LastItemNum = 0;
 
     private RangeInteract readyRangeInteract = new RangeInteract();
+
+    //¼Ò¸® Á¶Á¤¿ë
+    private string walkingsound = "Walking";
+    Coroutine walkingsoundcoroutine;
+    float walkingsoundtime = 0.5f;
+
+    private string swingsound = "Swing";
+    private string hoesound = "Hoe";
+    private string putitemsound = "PutItem";
+    private string caughtfishsound = "Fishcatch";
+
     public class RangeInteract
     {
         public string[] _Tag;
@@ -68,11 +78,44 @@ public class PlayerController : BaseController
 
     protected override void FixedUpdate()
     {
-        if (isAction) return;
-        if (isNPCInteract) return;
+        if (isNPCInteract || isAction)
+        {
+            if (walkingsoundcoroutine != null)
+            {
+                StopCoroutine(walkingsoundcoroutine);
+                walkingsoundcoroutine = null;
+            }
+            return;
+        }
 
         base.FixedUpdate();
+        if(dir == Vector2.zero)
+        {
+            if(walkingsoundcoroutine != null)
+            {
+                StopCoroutine(walkingsoundcoroutine);
+                walkingsoundcoroutine = null;
+            }
+        }
+        else
+        {
+            if(walkingsoundcoroutine == null)
+            {
+                walkingsoundcoroutine = StartCoroutine(WSC()); 
+            }
+        }
     }
+
+    IEnumerator WSC()
+    {
+        yield return new WaitForSeconds(0.1f);
+        while (true)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[walkingsound]);
+            yield return new WaitForSeconds(walkingsoundtime);
+        }
+    }
+
     void OnInteractNPC()
     {
         GameObject NPC = GetComponent<Player>().autoGetItem.ClosestNPC;
@@ -96,6 +139,7 @@ public class PlayerController : BaseController
 
     void OnClick(InputValue inputValue)
     {
+        ChangeSlot(nownum);
         if (UIManager.Instance.InventoryIsOpen()) return;
         if (isAction) return;
         if (isNPCInteract) return;
@@ -130,10 +174,12 @@ public class PlayerController : BaseController
 
                     if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow", "Interactable" }))
                         {
                             CanSpawn = true;
                             Groundtype = ChangedGround.Plow;
+
+                            PlannerQuestManager.Instance.ReportAction("Till");
                         }
                     }
                         
@@ -154,6 +200,8 @@ public class PlayerController : BaseController
                         {
                             CanSpawn = true;
                             Groundtype = ChangedGround.Watered;
+
+                            PlannerQuestManager.Instance.ReportAction("Water");
                         }
                     }
                     break;
@@ -172,7 +220,9 @@ public class PlayerController : BaseController
                                 go.transform.parent = GameManager.Instance.transform;
                                 go.transform.position = tartgetPosition;
                             }
-                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
+                            UseItemOnHand(1);
+
+                            PlannerQuestManager.Instance.ReportAction("Plant");
                         }
                     }
                     TryHandInteract();
@@ -183,7 +233,7 @@ public class PlayerController : BaseController
 
                     if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" }))
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone" , "Interactable"}))
                         {
                             GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
                             if (ConnectedObejct != null)
@@ -192,9 +242,46 @@ public class PlayerController : BaseController
                                 go.transform.parent = GameManager.Instance.transform;
                                 go.transform.position = tartgetPosition;
                             }
-                            gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, 1);
+                            UseItemOnHand(1);
                         }
                     }
+                    TryHandInteract();
+                    break;
+                case ItemType.Interia:
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+                    tartgetPosition = gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.transform.position;
+
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
+                    {
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "EndGrow", "Stone", "Interactable" }))
+                        {
+                            GameObject ConnectedObejct = ItemManager.Instance.connectItem.FindObject(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                            if (ConnectedObejct != null)
+                            {
+                                GameObject go = Instantiate(ConnectedObejct);
+                                go.transform.parent = GameManager.Instance.transform;
+                                go.transform.position = tartgetPosition;
+                            }
+                            UseItemOnHand(1);
+
+                            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[putitemsound]);
+                        }
+                    }
+
+                    break;
+                case ItemType.Except:
+                    if (!gameObject.GetComponent<CheckFieldOnMouse>().MouseFollower.activeSelf) return;
+
+                    if (GameManager.Instance.TagIsInMouse(new string[] { "Interactable" }))
+                    {
+                        GameObject go = GameManager.Instance.TagOnMouse.Find(itemGameObject => itemGameObject.TryGetComponent<IInteractNum>(out _));
+                        if (go != null)
+                        {
+                            Debug.Log(go);
+                            go.GetComponent<IInteractNum>().Interact(gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num);
+                        }
+                    }
+
                     TryHandInteract();
                     break;
                 default:
@@ -277,6 +364,7 @@ public class PlayerController : BaseController
 
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.FishingParameterHash);
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[swingsound]);
 
                     StartCoroutine(FishingChargingCoroutine());
                     break;
@@ -284,6 +372,14 @@ public class PlayerController : BaseController
                     break;
             }
         }
+    }
+
+    public bool UseItemOnHand(int num)
+    {
+        bool canuse = gameObject.GetComponent<Player>().inventory.UseItem(nownum - 1, num);
+        ChangeSlot(nownum);
+
+        return canuse;
     }
 
     IEnumerator FishingChargingCoroutine()
@@ -309,6 +405,7 @@ public class PlayerController : BaseController
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 1);
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[swingsound]);
                 break;
             }
             yield return null;
@@ -325,6 +422,7 @@ public class PlayerController : BaseController
         else
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+            yield return new WaitForSeconds(0.7f);
             EndAction();
         }
     }
@@ -343,6 +441,7 @@ public class PlayerController : BaseController
 
             if (NowTime > HookedTime)
             {
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[caughtfishsound]);
                 gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 2);
                 isHooked = true;
                 break;
@@ -375,8 +474,8 @@ public class PlayerController : BaseController
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
-                    LastItemNum = GameManager.Instance.minigameManager.fishingMinigame.CheckHookedFish((int)((1- percentage) * 5));
-                    GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(4);
+                    LastItemNum = GameManager.Instance.minigameManager.fishingMinigame.CheckHookedFish((int)((1- percentage) * 10));
+                    GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum].Item_Price / 5 + 1);
                     break;
                 }
                 yield return null;
@@ -389,6 +488,21 @@ public class PlayerController : BaseController
         if (isSuccess)
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 4);
+
+            //³¬½Ã Äù½ºÆ® ÁøÇàµµ º¸°í
+            var fishItem = ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum];
+            string fishName = fishItem.Item_name;
+
+            foreach (var quest in QuestManager.Instance.GetActiveQuestTargets())
+            {
+                if (quest == fishName)
+                {
+                    QuestManager.Instance.ReportProgress(fishName, 1);
+                    Debug.Log($"[Fishing] Äù½ºÆ® º¸°íµÊ: {fishName}");
+                    break;
+                }
+            }
+
             GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum], 1);
         }
         else
@@ -421,7 +535,7 @@ public class PlayerController : BaseController
 
     void TryHandInteract()
     {
-        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow" }))
+        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow", "Interactable", "Tree"}))
         {
             GameManager.Instance.TryHandInteract();
         }
@@ -484,6 +598,10 @@ public class PlayerController : BaseController
         CanSpawn = false;
 
         ItemManager.Instance.spawnGround.SpawnGrounds(Groundtype, tartgetPosition);
+        if(Groundtype == ChangedGround.Plow)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio[hoesound]);
+        }
     }
 
     void OnOneSlot(InputValue inputValue)
@@ -572,6 +690,7 @@ public class PlayerController : BaseController
             case ItemType.Hoe:
             case ItemType.Watering:
             case ItemType.Seed:
+            case ItemType.Interia:
             case ItemType.TreeSeed:
                 TryChangeType(PlayerInteractType.Point);
                 break;

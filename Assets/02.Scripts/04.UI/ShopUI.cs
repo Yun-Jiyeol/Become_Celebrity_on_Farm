@@ -51,7 +51,7 @@ public class ShopUI : MonoBehaviour
 
     private void Start()
     {
-        TestManager.Instance.shopUIManager.shopUI = this;
+        UIManager.Instance.shopUIManager.shopUI = this;
         gameObject.SetActive(false);
     }
 
@@ -84,6 +84,7 @@ public class ShopUI : MonoBehaviour
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 0), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, -1080), 1f);
         ChooseBtn.DOAnchorPos(new Vector2(180, 200), 1f);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ChangeShopUI"]);
 
         if (InBag.Count > 0)
         {
@@ -105,6 +106,7 @@ public class ShopUI : MonoBehaviour
         Shop.DOAnchorPos(new Vector2(Shop.anchoredPosition.x, 1080), 1f);
         PlayerInven.DOAnchorPos(new Vector2(PlayerInven.anchoredPosition.x, 0), 1f);
         ChooseBtn.DOAnchorPos(new Vector2(0, 200), 1f);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ChangeShopUI"]);
 
         ClearBag(true);
     }
@@ -117,6 +119,7 @@ public class ShopUI : MonoBehaviour
             Destroy(go);
         }
         ClearBag();
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ChangeShopUI"]);
         gameObject.SetActive(false);
     }
 
@@ -124,14 +127,21 @@ public class ShopUI : MonoBehaviour
     {
         foreach(ShopPlayerHave SPH in shopPlayerHaves)
         {
-            Inventory.Inven inven = GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[SPH.IconNum];
-            if(inven.ItemData_num == 0)
+            if(SPH.IconNum >= GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave.Count)
             {
-                SPH.Setting(0,0,0);
+                SPH.Setting(0, 0, 0);
             }
             else
             {
-                SPH.Setting(inven.ItemData_num, inven.amount, ItemManager.Instance.itemDataReader.itemsDatas[inven.ItemData_num].Item_Price);
+                Inventory.Inven inven = GameManager.Instance.player.GetComponent<Player>().inventory.PlayerHave[SPH.IconNum];
+                if (inven.ItemData_num == 0)
+                {
+                    SPH.Setting(0, 0, 0);
+                }
+                else
+                {
+                    SPH.Setting(inven.ItemData_num, inven.amount, ItemManager.Instance.itemDataReader.itemsDatas[inven.ItemData_num].Item_Price);
+                }
             }
         }
     }
@@ -150,6 +160,12 @@ public class ShopUI : MonoBehaviour
 
         int length = (i % 5 == 0) ? i / 5 : i/ 5 + 1;
         ShopItemSpawnPos.GetComponent<RectTransform>().sizeDelta = new Vector2(0, length * 105);
+    }
+
+    public void OnClickClearBtn()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ClickClearInShop"]);
+        ClearBag();
     }
 
     public void ClearBag(bool isDone = false)
@@ -217,23 +233,22 @@ public class ShopUI : MonoBehaviour
 
     void ChangePlayerGold(int Changes)
     {
-        PlayerStats playerstats = GameManager.Instance.player.GetComponent<Player>().stat;
-
         if(Changes >= 0)
         {
-            playerstats.AddGold(Changes);
+            GoldManager.Instance.AddGold(Changes);
         }
         else
         {
-            playerstats.SpendGold(-Changes);
+            GoldManager.Instance.SpendGold(-Changes);
         }
 
-        PlayerHaveGold.text = playerstats.GetGold().ToString();
+        PlayerHaveGold.text = GoldManager.Instance.GetGold().ToString();
     }
 
     public void OnClickDoneBtn()
     {
         if(InBag.Count == 0) return;
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["ClickDoneInShop"]);
 
         switch (nowState)
         {

@@ -50,12 +50,12 @@ public class PlayerAutoGetItem : MonoBehaviour
 
     public void settingGetItemRange()
     {
-        collider.radius = gameObject.GetComponentInParent<Player>().stat.GetItemRange * 3;
+        collider.radius = gameObject.GetComponentInParent<Player>().stat.GetItemRange * 2;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "DropedItem") //юс╫ц
+        if (collision.transform.tag == "DropedItem")
         {
             collision.GetComponent<IInteract>().Interact();
         }

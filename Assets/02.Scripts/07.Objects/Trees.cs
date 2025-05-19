@@ -51,7 +51,7 @@ public class Trees : SeedGrow
     {
         for (int i = 0; i < settingSeason.Count; i++)
         {
-            if (settingSeason[i].SeasonType == TestManager.Instance.nowSeason)
+            if (settingSeason[i].SeasonType == TimeManager.Instance.season.CurrentSeason)
             {
                 NowSeasonName = settingSeason[i].SeasonName;
                 break;
@@ -62,7 +62,7 @@ public class Trees : SeedGrow
 
         foreach (Season.SeasonType cangrowseason in canGrowSeason)
         {
-            if (cangrowseason == TestManager.Instance.nowSeason)
+            if (cangrowseason == TimeManager.Instance.season.CurrentSeason)
             {
                 canGrow = true;
                 break;
@@ -110,6 +110,9 @@ public class Trees : SeedGrow
         GetDamage(-(GameManager.Instance.player.GetComponent<Player>().stat.Attack + GameManager.Instance.player.GetComponent<Player>().playerController.ItemDamage));
         if (HP <= 0)
         {
+            PlannerQuestManager.Instance.ReportAction("Clean"); 
+            Debug.Log("[Tree] Clean Äù½ºÆ® ¾×¼Ç º¸°íµÊ");
+
             if (isEndGrow)
             {
                 if (AdditionalGrow >= MaxAddiitionalGrow && isFruitTree)
@@ -135,10 +138,14 @@ public class Trees : SeedGrow
             {
                 ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[WoodItemNum], WoodItemAmount, gameObject.transform.position);
             }
+            PlannerQuestManager.Instance.ReportAction("Clean");
+
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["CutWood"]);
             Destroy(gameObject);
         }
         else
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["WoodDamage"]);
             StartCoroutine(DamageCoroutine());
         }
     }
@@ -152,6 +159,7 @@ public class Trees : SeedGrow
         if (AdditionalGrow >= MaxAddiitionalGrow)
         {
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["WoodDamage"]);
             AdditionalGrow = 0;
             CheckGrow();
         }

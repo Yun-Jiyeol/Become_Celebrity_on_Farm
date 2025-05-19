@@ -10,6 +10,11 @@ public class ResourceManager : MonoBehaviour
     public List<Texture2D> NeedToSplit;
     public Dictionary<string, Sprite> splits = new Dictionary<string, Sprite>();
 
+    public List<SeasonTileList> FarmtileList;
+    public List<SeasonTileList> RoadtileList;
+    public List<SeasonTileList> VillagetileList;
+    public List<SeasonTileList> BeachtileList;
+
     private void Awake()
     {
         if (instance == null)

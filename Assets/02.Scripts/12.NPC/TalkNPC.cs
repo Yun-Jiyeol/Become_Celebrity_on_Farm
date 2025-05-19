@@ -14,9 +14,10 @@ public class TalkNPC : NPCData, IInteract
 
     private void Start()
     {
-        textuimanager = TestManager.Instance.gameObject.GetComponent<TextUIManager>();
+        textuimanager = UIManager.Instance.textUIManager;
         npctextsaves = textuimanager.calledNPCText[npcName];
         SettingOneDay();
+        TimeManager.Instance.OnDayChanged += SettingOneDay;
     }
 
     public void SettingOneDay()
@@ -56,8 +57,10 @@ public class TalkNPC : NPCData, IInteract
 
         if(ShopData != null)
         {
-            TestManager.Instance.shopUIManager.lastshopData = ShopData;
+            UIManager.Instance.shopUIManager.lastshopData = ShopData;
         }
+
+        LikeGauge += UIManager.Instance.textUIManager.calledNPCText[npcName][nowtalksave].AddLike;
 
         if (talkcoroutine != null) StopCoroutine(talkcoroutine);
         talkcoroutine = StartCoroutine(talkTextCoroutine());
@@ -65,6 +68,7 @@ public class TalkNPC : NPCData, IInteract
 
     IEnumerator talkTextCoroutine()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["TextStart"]);
         textuimanager.ShowTextUI(npcName, nowtalksave);
 
         if (npctextsaves[nowtalksave].canClick)

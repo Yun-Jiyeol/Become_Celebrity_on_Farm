@@ -28,22 +28,16 @@ public class Inventory : MonoBehaviour
     // 아이템 획득 처리
     public void GetItem(ItemDataReader.ItemsData getItem, int amount)
     {
-        // 플레이어 인벤토리에 넣기 시도
+        // 전부 PlayerHave에만 넣음
         amount = AddItemToInventory(PlayerHave, getItem, amount);
 
-        // 못 넣은게 남아있으면 → 창고에 넣기 시도
-        if (amount > 0)
-            amount = InventoryUIManager.Instance.AddItemToWarehouse(getItem, amount);
-
-        // 그래도 남아있으면 → 바닥에 드랍
+        // 못 넣은 게 남아있으면 드롭
         if (amount > 0)
             ThrowItem(getItem, amount);
 
-        // UI 새로고침
         InventoryUIManager.Instance.RefreshUI();
     }
 
-    // 인벤토리 추가 공용 로직
     private int AddItemToInventory(List<Inven> invenList, ItemDataReader.ItemsData getItem, int amount)
     {
         for (int i = 0; i < invenList.Count; i++)
@@ -63,7 +57,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        return amount; // 못 넣은 갯수 리턴
+        return amount;
     }
 
     public void ThrowItem(ItemDataReader.ItemsData getItem, int amount)
@@ -71,29 +65,48 @@ public class Inventory : MonoBehaviour
         ItemManager.Instance.spawnItem.DropItem(getItem, amount, transform.position);
     }
 
-    public void TakeItem(ItemDataReader.ItemsData useItem, int amount) //양만큼 가지고 있을 때 실행 시키세요. 퀘스트 용, 제작 용
+    public void TakeItem(ItemDataReader.ItemsData useItem, int amount)
     {
-        for(int i =0; i < PlayerHave.Count; i++)
+        for (int i = 0; i < PlayerHave.Count; i++)
         {
-            if(PlayerHave[i].ItemData_num == useItem.Item_num)
+            if (PlayerHave[i].ItemData_num == useItem.Item_num)
             {
-                int Takeamount = Mathf.Min(PlayerHave[i].amount, amount);
-                PlayerHave[i].amount -= Takeamount;
+                int takeAmount = Mathf.Min(PlayerHave[i].amount, amount);
+                PlayerHave[i].amount -= takeAmount;
                 if (PlayerHave[i].amount == 0) PlayerHave[i].ItemData_num = 0;
 
-                amount -= Takeamount;
-                if(amount == 0) return;
+                amount -= takeAmount;
+                if (amount == 0) return;
             }
         }
+
         InventoryUIManager.Instance.RefreshUI();
     }
 
-    public void UseItem(int num, int amount) //1개 씩 사용하게 만들었습니다. 만약 여러개 쓸려면 변경이 필요할 겁니다.
+    public bool UseItem(int num, int amount)
     {
-        if (PlayerHave[num].amount < amount) return;
+        if (PlayerHave[num].amount < amount) return false;
 
         PlayerHave[num].amount -= amount;
         if (PlayerHave[num].amount == 0) PlayerHave[num].ItemData_num = 0;
+
         InventoryUIManager.Instance.RefreshUI();
+        return true;
+    }
+
+    public bool FindItem(int num, int amount)
+    {
+        int sum = 0;
+
+        for (int i = 0; i < PlayerHave.Count; i++)
+        {
+            if (PlayerHave[i].ItemData_num == num)
+            {
+                sum += PlayerHave[i].amount;
+                if (sum >= amount) return true;
+            }
+        }
+
+        return false; 
     }
 }

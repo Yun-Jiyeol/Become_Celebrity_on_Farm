@@ -9,7 +9,9 @@ public class Bed : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private Image endOfDaySelectUI;
-    [SerializeField] private Canvas endingUI;
+
+    [Header("UI")]
+    [SerializeField] private NextDay nextDay;
 
     [Header("Buttons")]
     [SerializeField] private Button yesButton;
@@ -23,53 +25,26 @@ public class Bed : MonoBehaviour
         noButton.onClick.AddListener(OnClickNoButton);
 
         endOfDaySelectUI.gameObject.SetActive(false);
-        endingUI.gameObject.SetActive(false);
     }
 
-
-
+    /// <summary>
+    /// 침대 오른쪽 구석으로 충돌하면 선택 UI 활성화
+    /// </summary>
     private void OnCollisionStay2D(Collision2D collision)
     {
-        // PlayerController?
-
-        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
-        {
-            input.enabled = false;
-        }
-
+        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = false;
         endOfDaySelectUI.gameObject.SetActive(true);
     }
-
 
     void OnClickYesButton()
     {
         endOfDaySelectUI.gameObject.SetActive(false);
-
-        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
-        {
-            input.enabled = true;
-        }
-
-        //StartCoroutine(fader.Fade(
-        //    () =>
-        //    {
-        //        endingUI.gameObject.SetActive(true);
-        //    },
-
-        //    () =>
-        //    {
-        //        // 다음 날 진행?
-        //    }
-        //    ));
+        nextDay.Sleep();
     }
 
     void OnClickNoButton()
     {
         endOfDaySelectUI.gameObject.SetActive(false);
-
-        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input))
-        {
-            input.enabled = true;
-        }
+        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = true;
     }
 }

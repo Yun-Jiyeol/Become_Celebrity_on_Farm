@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 public class GoldManager : MonoBehaviour
@@ -7,7 +7,11 @@ public class GoldManager : MonoBehaviour
 
     private PlayerStats player;
 
-    public event Action<int> OnGoldChanged; //°ñµå°¡ º¯°æµÉ ¶§ uiµî¿¡ ¾Ë¸®´Â ÀÌº¥Æ®(¸Å°³º¯¼ö·Î ÇöÀç °ñµå °ª Àü´Ş)
+    public event Action<int> OnGoldChanged; //ê³¨ë“œê°€ ë³€ê²½ë  ë•Œ uië“±ì— ì•Œë¦¬ëŠ” ì´ë²¤íŠ¸(ë§¤ê°œë³€ìˆ˜ë¡œ í˜„ì¬ ê³¨ë“œ ê°’ ì „ë‹¬)
+
+    // í•˜ë£¨ ì •ì‚°ìš©. ì‚¬ìš©/ì†Œë¹„í•œ ê³¨ë“œ ì €ì¥
+    [HideInInspector] public int addAmount = 0;
+    [HideInInspector] public int spendAmount = 0;
 
     private void Awake()
     {
@@ -19,7 +23,6 @@ public class GoldManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -27,39 +30,49 @@ public class GoldManager : MonoBehaviour
         player = FindObjectOfType<PlayerStats>();
         if(player == null)
         {
-            Debug.LogError("[GoldManager] PlayerStats¸¦ Ã£Áö ¸øÇÔ.");
+            Debug.LogError("[GoldManager] PlayerStatsë¥¼ ì°¾ì§€ ëª»í•¨.");
             return;
         }
 
-        OnGoldChanged?.Invoke(player.GetGold()); //½ÃÀÛ½Ã ui¿¡ ÃÊ±â °ñµå°ª Àü´Ş
+        OnGoldChanged?.Invoke(player.GetGold()); //ì‹œì‘ì‹œ uiì— ì´ˆê¸° ê³¨ë“œê°’ ì „ë‹¬
+        TimeManager.Instance.OnDayChanged += ResetStoredGold;
     }
 
-    public int GetGold() //¿ÜºÎ¿¡¼­ ÇöÀç °ñµå °ªÀ» °¡Á®¿Ã¼ö ÀÖ°Ô ÇØÁÖ´Â ÇÔ¼ö
+    public int GetGold() //ì™¸ë¶€ì—ì„œ í˜„ì¬ ê³¨ë“œ ê°’ì„ ê°€ì ¸ì˜¬ìˆ˜ ìˆê²Œ í•´ì£¼ëŠ” í•¨ìˆ˜
     {
         return player != null ? player.GetGold() : 0;
     }
 
-    public void AddGold(int amount) //PlayerStatsÀÇ °ñµå¸¦ Áõ°¡½ÃÅ´.
+    public void AddGold(int amount) //PlayerStatsì˜ ê³¨ë“œë¥¼ ì¦ê°€ì‹œí‚´.
     {
         if (player == null) return;
 
         player.AddGold(amount);
+        addAmount += amount;
         OnGoldChanged?.Invoke(player.GetGold());
     }
 
-    public bool SpendGold(int amount) //ÃæºĞÇÑ °ñµå°¡ ÀÖ´Ù¸é °ñµå Â÷°¨.
+    public bool SpendGold(int amount) //ì¶©ë¶„í•œ ê³¨ë“œê°€ ìˆë‹¤ë©´ ê³¨ë“œ ì°¨ê°.
     {
         if (player == null) return false;
 
         bool result = player.SpendGold(amount);
         if (result)
         {
+            spendAmount += amount;
             OnGoldChanged?.Invoke(player.GetGold());
         }
         else
         {
-            Debug.Log("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù.");           
+            Debug.Log("ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");           
         }
         return result;
+    }
+
+
+    void ResetStoredGold()      // í•˜ë£¨ ì§€ë‚˜ë©´ ë¦¬ì…‹
+    {
+        addAmount = 0;
+        spendAmount = 0;
     }
 }

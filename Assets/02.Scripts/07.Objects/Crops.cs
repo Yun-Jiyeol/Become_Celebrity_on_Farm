@@ -57,7 +57,7 @@ public class Crops : SeedGrow
 
         foreach (Season.SeasonType cangrowseason in canGrowSeason)
         {
-            if (cangrowseason == TestManager.Instance.nowSeason)
+            if (cangrowseason == TimeManager.Instance.season.CurrentSeason)
             {
                 canGrow = true;
                 break;
@@ -93,7 +93,8 @@ public class Crops : SeedGrow
     {
         if (!isEndGrow) return;
 
-        if(SpawnItemAmount != 0)
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Grass"]);
+        if (SpawnItemAmount != 0)
         {
             //ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
             var harvestedItem = ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum];

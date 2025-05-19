@@ -36,8 +36,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        camera = Camera.main;
     }
 
     public static GameManager Instance
@@ -62,6 +60,11 @@ public class GameManager : MonoBehaviour
                 if(go.TryGetComponent<SeedGrow>(out SeedGrow SG))
                 {
                     SG.HandInteract();
+                    return;
+                }
+                else if(go.tag == "Interactable")
+                {
+                    go.GetComponent<IInteract>().Interact();
                     return;
                 }
             }
@@ -164,7 +167,10 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject go in OnActive)
         {
-            go.GetComponent<SaveOnGM>().OnCollider();
+            if(go.activeSelf == true)
+            {
+                go.GetComponent<SaveOnGM>().OnCollider();
+            }
         }
 
         if (colliderCoroutine != null) StopCoroutine(colliderCoroutine);
@@ -177,7 +183,10 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject go in OnActive)
         {
-            go.GetComponent<SaveOnGM>().OffCollider();
+            if (go.activeSelf == true)
+            {
+                go.GetComponent<SaveOnGM>().OffCollider();
+            }
         }
     }
 
@@ -190,6 +199,7 @@ public class GameManager : MonoBehaviour
 
     public void OneDayAfter()
     {
+        TurnOnAllColliders();
         List<GameObject> forActivefalse = new List<GameObject>();
         List<SeedGrow> forGrow = new List<SeedGrow>();
 

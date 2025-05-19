@@ -10,6 +10,7 @@ public class ItemManager : MonoBehaviour
     public SpawnItem spawnItem;
     public SpawnGround spawnGround;
     public ConnectItem connectItem;
+    public CraftManager craftManager;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class ItemManager : MonoBehaviour
         spawnItem = GetComponentInChildren<SpawnItem>();
         spawnGround = GetComponentInChildren<SpawnGround>();
         connectItem = GetComponentInChildren<ConnectItem>();
+        craftManager = GetComponentInChildren<CraftManager>();
     }
 
     public static ItemManager Instance

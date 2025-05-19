@@ -101,6 +101,52 @@ public class MobData : MonoBehaviour
                 stoneMobs = mobList.ToArray();
             }
         }
+
+        if ((copperMobs == null || copperMobs.Length == 0) ||
+           (copperMobs.Length > 0 && copperMobs[0] == null))
+        {
+            List<GameObject> mobList = new List<GameObject>();
+            string[] defaultMobNames = { "CloudC", "MobBatSmallB", "EarthSmallerB", "SlimeD" };
+            foreach (string mobName in defaultMobNames)
+            {
+                GameObject prefab = Resources.Load<GameObject>(mobName);
+                if (prefab != null)
+                {
+                    mobList.Add(prefab);
+                }
+                else
+                {
+                    Debug.LogWarning($"Resources에서 '{mobName}' 프리팹을 찾을 수 없습니다.");
+                }
+            }
+            if (mobList.Count > 0)
+            {
+                copperMobs = mobList.ToArray();
+            }
+        }
+
+        if ((ironMobs == null || ironMobs.Length == 0) ||
+           (ironMobs.Length > 0 && ironMobs[0] == null))
+        {
+            List<GameObject> mobList = new List<GameObject>();
+            string[] defaultMobNames = { "CloudC", "MobBatSmallB", "EarthSmallerB", "SlimeD" };
+            foreach (string mobName in defaultMobNames)
+            {
+                GameObject prefab = Resources.Load<GameObject>(mobName);
+                if (prefab != null)
+                {
+                    mobList.Add(prefab);
+                }
+                else
+                {
+                    Debug.LogWarning($"Resources에서 '{mobName}' 프리팹을 찾을 수 없습니다.");
+                }
+            }
+            if (mobList.Count > 0)
+            {
+                ironMobs = mobList.ToArray();
+            }
+        }
     }
 
     void Start()
@@ -108,12 +154,12 @@ public class MobData : MonoBehaviour
         if (stoneMobs != null && stoneMobs.Length > 0)
             SpawnMobs(stoneMineGround, stoneMobs, numberOfStoneMobs);
 
-        // 나중에 활성화
-        // if (copperMobs != null && copperMobs.Length > 0)
-        //     SpawnMobs(copperMineGround, copperMobs, numberOfCopperMobs);
+        // 후에 Mob 다양하게 재설정 해야함
+        if (copperMobs != null && copperMobs.Length > 0)
+            SpawnMobs(copperMineGround, copperMobs, numberOfCopperMobs);
 
-        // if (ironMobs != null && ironMobs.Length > 0)
-        //     SpawnMobs(ironMineGround, ironMobs, numberOfIronMobs);
+        if (ironMobs != null && ironMobs.Length > 0)
+            SpawnMobs(ironMineGround, ironMobs, numberOfIronMobs);
     }
 
     void SpawnMobs(Tilemap ground, GameObject[] mobs, int mobCount)

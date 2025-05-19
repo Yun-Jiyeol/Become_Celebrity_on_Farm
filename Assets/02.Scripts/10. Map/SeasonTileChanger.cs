@@ -4,68 +4,123 @@ using UnityEngine.Tilemaps;
 using static Season;
 
 
-[System.Serializable]
-public class SeasonTile
-{
-    public SeasonType type;
-    public TileBase tile;
-}
-
-[CreateAssetMenu(fileName = "SeasonTile", menuName = "Create SeasonTile")]
-public class SeasonTileList : ScriptableObject
-{
-    public List<SeasonTile> seasonTiles;
-
-#if UNITY_EDITOR
-    void OnEnable()
-    {
-        //if (seasonTiles == null || seasonTiles.Count == 0)
-        if (seasonTiles == null)
-        {
-            seasonTiles = new List<SeasonTile>();
-            foreach (SeasonType season in System.Enum.GetValues(typeof(SeasonType)))
-            {
-                seasonTiles.Add(new SeasonTile() { type = season, tile = null });
-            }
-        }
-    }
-#endif
-}
-
-
 /// <summary>
-/// 계절에 따라 달라질 타일
+/// 계절에 따라 타일 변경하는 클래스
 /// </summary>
-
 public class SeasonTileChanger : MonoBehaviour
 {
     [SerializeField] private List<Tilemap> tilemaps;
-    [SerializeField] private List<SeasonTileList> tileList;
+    public int tilenum;
+    readonly Dictionary<TileBase, SeasonTileList> tileDict = new();
+    readonly Dictionary<Tilemap, Dictionary<Vector3Int, SeasonTileList>> mapPosDict = new();
 
     Season season;
 
-    //void OnEnable()
-    //{
-    //    season.OnSeasonChanged += ChangeTiles;
-    //}
 
-    //void OnDisable()
-    //{
-    //    season.OnSeasonChanged -= ChangeTiles;
-    //}
+    void Start()
+    {
+        season = TimeManager.Instance.season;
 
-    ///// <summary>
-    ///// 계절이 바뀔 때 타일 교체
-    ///// </summary>
-    ///// <param name="season"></param>
-    //void ChangeTiles(SeasonType season)
-    //{
-    //    // 1. 현재 계절에 맞는 타일 찾기
+        if (ResourceManager.Instance != null) Debug.Log("[SeasonTileChanger] rm NOT NULL");
+        else Debug.Log("[SeasonTileChanger] rm NULL");
+
+        if (TimeManager.Instance.season != null) Debug.Log("[SeasonTileChanger] TimeManager.Instance.season NOT NULL");
+        else Debug.Log("[SeasonTileChanger] tm NULL");
+
+        TileSOMapping();
+        MapPosMapping();
 
 
+        if (season != null)
+        {
+            if (TimeManager.Instance != null) Debug.Log("[SeasonTileChanger] tm NOT NULL");
+            ChangeTiles(TimeManager.Instance.season.CurrentSeason);
+            season.OnSeasonChanged += ChangeTiles;
+        }
+        else Debug.Log("[SeasonTileChanger] TM NULL");
+    }
 
+    /// <summary>
+    /// 타일을 SO에 연결
+    /// </summary>
+    void TileSOMapping()
+    {
+        Debug.Log("[SeasonTileChanger] TileSOmapping start");
 
-       
+        List<SeasonTileList> tileList = new List<SeasonTileList>();
+        switch (tilenum)
+        {
+            case 0:
+                tileList = ResourceManager.Instance.FarmtileList;
+                break;
 
-    //}
+            case 1:
+                tileList = ResourceManager.Instance.RoadtileList;
+                break;
+
+            case 2:
+                tileList = ResourceManager.Instance.VillagetileList;
+                break;
+
+            case 3:
+                tileList = ResourceManager.Instance.BeachtileList;
+                break;
+        }
+
+        foreach (SeasonTileList so in tileList)
+        {
+            foreach (var st in so.seasonTiles)
+            {
+                if (st.tile == null) continue;
+                tileDict[st.tile] = so;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 타일맵 안의 각각의 칸과 SO 연결
+    /// </summary>
+    void MapPosMapping()
+    {
+        Debug.Log("[SeasonTileChanger] mapposmapping start");
+
+        foreach (Tilemap tilemap in tilemaps)
+        {
+            var posTile = new Dictionary<Vector3Int, SeasonTileList>();
+
+            tilemap.CompressBounds();
+            foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+            {
+                if (!tilemap.HasTile(pos)) continue;
+
+                TileBase tile = tilemap.GetTile(pos);
+                if (tileDict.TryGetValue(tile, out var so))
+                    posTile[pos] = so;
+            }
+
+            mapPosDict[tilemap] = posTile;
+        }
+    }
+
+    /// <summary>
+    /// 연결된 타일맵 위치, SO 기반으로 계절에 따라 타일 변경
+    /// </summary>
+    void ChangeTiles(SeasonType nextSeason)
+    {
+        Debug.Log("[SeasonTileChanger] changetiles start");
+
+        foreach (Tilemap tilemap in tilemaps)
+        {
+            if (!mapPosDict.TryGetValue(tilemap, out var posTile)) continue;
+
+            foreach (var kvp in posTile)
+            {
+                Vector3Int pos = kvp.Key;
+                SeasonTileList so = kvp.Value;
+
+                TileBase newTile = so.GetSeasonTile(nextSeason);
+                tilemap.SetTile(pos, newTile);
+            }
+        }
+    }
 }

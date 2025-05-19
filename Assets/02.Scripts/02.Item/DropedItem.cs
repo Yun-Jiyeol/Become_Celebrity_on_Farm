@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 using static ItemDataReader;
-using static UnityEditor.Progress;
 
 public class DropedItem : MonoBehaviour, IInteract
 {
@@ -30,7 +30,7 @@ public class DropedItem : MonoBehaviour, IInteract
         item = itemData;
         amount = _amount;
         startPosition = _position;
-        collider2D.enabled = false;
+        gameObject.tag = "Untagged";
         transform.position = _position;
         transform.localScale = new Vector3(0.5f, 0.5f, 1);
 
@@ -40,29 +40,43 @@ public class DropedItem : MonoBehaviour, IInteract
 
     IEnumerator DropItem()
     {
-        float Angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+        float Angle = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
         Vector2 dir = new Vector2(Mathf.Cos(Angle), Mathf.Sin(Angle));
         Vector2 force = dir * 5f; //¹æÇâ ¼³Á¤ ÈÄ ·£´ý Èû¸¸Å­ ½ð´Ù
 
         rig.AddForce(force,ForceMode2D.Impulse); //ÈûÀ» ÁØ´Ù
 
-        while (Vector2.Distance(startPosition,transform.position) < 2f)
+        collider2D.enabled = true;
+        collider2D.isTrigger = false;
+
+        float time = 0;
+
+        while (Vector2.Distance(startPosition,transform.position) < 2.5f)
         {
             sortingOrderGroup.UpdateSortingOrderGroup();
+            time += Time.deltaTime;
+            if(time > 2f)
+            {
+                break;
+            }
             yield return null;
         }
 
+        collider2D.enabled = false;
+        collider2D.isTrigger = true;
+        gameObject.tag = "DropedItem";
         spriteRenderer.sprite = item.Item_sprite;
         animator.SetBool("Idle", true);
         rig.gravityScale = 0;
         rig.velocity = Vector2.zero;
-        collider2D.enabled = true;
 
         while (transform.localScale.x <= 1f)
         {
             transform.localScale += new Vector3(1,1,0) * Time.deltaTime * 2f;
             yield return null;
         }
+
+        collider2D.enabled = true;
     }
 
     public void Interact()
@@ -72,6 +86,7 @@ public class DropedItem : MonoBehaviour, IInteract
             StopCoroutine(coroutine);
         }
 
+        gameObject.tag = "Untagged";
         animator.SetBool("Idle", false);
         collider2D.enabled = false;
 
@@ -100,6 +115,7 @@ public class DropedItem : MonoBehaviour, IInteract
 
 
         GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(item, amount);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
         offObject();
     }
 
@@ -107,6 +123,7 @@ public class DropedItem : MonoBehaviour, IInteract
     {
         collider2D.enabled = false;
         rig.velocity = Vector2.zero;
+        gameObject.tag = "Untagged";
         gameObject.SetActive(false);
     }
 }

@@ -12,7 +12,6 @@ public class InventoryUIManager : MonoBehaviour
     public Transform playerTransform;
 
     public InventorySlotUI[] slots;
-    public List<Inventory.Inven> warehouseInven = new List<Inventory.Inven>();
 
     public InventorySlotUI selectedSlot;
 
@@ -27,8 +26,8 @@ public class InventoryUIManager : MonoBehaviour
 
     private void Start()
     {
-        while (warehouseInven.Count < 18)
-            warehouseInven.Add(new Inventory.Inven());
+        while (playerInventory.PlayerHave.Count < 30)
+            playerInventory.PlayerHave.Add(new Inventory.Inven());
 
         RefreshUI();
     }
@@ -54,10 +53,7 @@ public class InventoryUIManager : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (i < 12)
-                slots[i].SetData(playerInventory.PlayerHave[i]);
-            else
-                slots[i].SetData(warehouseInven[i - 12]);
+            slots[i].SetData(playerInventory.PlayerHave[i]);
         }
 
         QuickSlotUIManager.Instance?.RefreshQuickSlot();
@@ -108,7 +104,6 @@ public class InventoryUIManager : MonoBehaviour
         }
         else
         {
-            // 스왑
             int tempNum = toData.ItemData_num;
             int tempAmount = toData.amount;
 
@@ -123,7 +118,6 @@ public class InventoryUIManager : MonoBehaviour
             }
             else
             {
-                // 분할 우클릭한 경우 원래 슬롯이 없음 → 스왑 불가
                 AddItemToInventoryFromMouse(tempNum, tempAmount);
             }
 
@@ -176,7 +170,7 @@ public class InventoryUIManager : MonoBehaviour
         data.amount -= half;
 
         SetHoldingItem(data.ItemData_num, half);
-        selectedSlot = null; // 오른쪽 클릭은 원래 슬롯 유지 안 함
+        selectedSlot = null;
         RefreshUI();
     }
 
@@ -193,7 +187,7 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    private void ClearHoldingItem()
+    public void ClearHoldingItem()
     {
         tempItemData_num = 0;
         tempItemAmount = 0;
@@ -201,18 +195,15 @@ public class InventoryUIManager : MonoBehaviour
         mouseFollowItemObj.SetActive(false);
     }
 
-    public bool HoldingItem() 
+    public bool HoldingItem()
     {
         return tempItemAmount > 0 && tempItemData_num != 0;
     }
 
-    public int AddItemToWarehouse(ItemsData getItem, int amount)
+    public int AddItemToInventory(ItemsData getItem, int amount)
     {
-        return AddItemToInventory(warehouseInven, getItem, amount);
-    }
+        var invenList = playerInventory.PlayerHave;
 
-    private int AddItemToInventory(List<Inventory.Inven> invenList, ItemsData getItem, int amount)
-    {
         for (int i = 0; i < invenList.Count; i++)
         {
             if (invenList[i].ItemData_num == getItem.Item_num || invenList[i].ItemData_num == 0)
@@ -228,6 +219,53 @@ public class InventoryUIManager : MonoBehaviour
                     return 0;
             }
         }
+
         return amount;
+    }
+
+    public void ForceReturnHoldingItem()
+    {
+        if (!HoldingItem()) return;
+
+        bool merged = false;
+
+        if (selectedSlot != null)
+        {
+            var backData = selectedSlot.GetData();
+
+            if (backData.ItemData_num == tempItemData_num)
+            {
+                backData.amount += tempItemAmount;
+                merged = true;
+            }
+            else if (backData.ItemData_num == 0)
+            {
+                backData.ItemData_num = tempItemData_num;
+                backData.amount = tempItemAmount;
+                merged = true;
+            }
+        }
+
+        if (!merged)
+        {
+            var invenList = playerInventory.PlayerHave;
+            for (int i = 0; i < invenList.Count; i++)
+            {
+                if (invenList[i].ItemData_num == tempItemData_num)
+                {
+                    invenList[i].amount += tempItemAmount;
+                    merged = true;
+                    break;
+                }
+            }
+        }
+
+        if (!merged)
+        {
+            AddItemToInventoryFromMouse(tempItemData_num, tempItemAmount);
+        }
+
+        ClearHoldingItem();
+        RefreshUI();
     }
 }

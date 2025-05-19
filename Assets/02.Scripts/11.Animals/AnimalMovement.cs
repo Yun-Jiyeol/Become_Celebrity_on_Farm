@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class AnimalMovement : MonoBehaviour
 {
     public float moveSpeed = 1f;
@@ -14,44 +15,61 @@ public class AnimalMovement : MonoBehaviour
 
     private Animator anim;
     private Food targetFood;
+    private SpriteRenderer sprite;
+    private Rigidbody2D rb;
 
-    void Start()
+    void Start() 
     {
         anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.gravityScale = 0;
+        rb.simulated = true;
+
         ChooseNextState();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        timer -= Time.deltaTime;
-
         if (targetFood == null)
             FindNearestFood();
+
+        Vector2 moveVector = Vector2.zero;
 
         if (targetFood != null)
         {
             Vector2 dir = (targetFood.transform.position - transform.position).normalized;
-            transform.Translate(dir * moveSpeed * Time.deltaTime);
+            moveVector = dir;
 
             if (Vector2.Distance(transform.position, targetFood.transform.position) < 0.3f)
             {
                 EatFood();
             }
         }
-        else
+        else if (isMoving)
         {
-            if (isMoving)
-            {
-                transform.Translate(moveDir * moveSpeed * Time.deltaTime);
-            }
+            moveVector = moveDir;
         }
+
+        rb.MovePosition(rb.position + moveVector * moveSpeed * Time.fixedDeltaTime);
+        UpdateAnimation(moveVector);
+    }
+
+    void Update()
+    {
+        timer -= Time.deltaTime;
 
         if (timer <= 0f)
-        {
             ChooseNextState();
-        }
+    
 
-        UpdateAnimation();
+        if (rb == null)
+        {
+            Debug.LogWarning($"[AnimalMovement] {gameObject.name}에 Rigidbody2D가 없습니다.");
+            return;
+        }
     }
 
     void FindNearestFood()
@@ -108,16 +126,18 @@ public class AnimalMovement : MonoBehaviour
         }
     }
 
-    void UpdateAnimation()
+    void UpdateAnimation(Vector2 dir)
     {
         if (anim != null)
         {
-            anim.SetBool("isWalking", isMoving);
-            if (isMoving)
-            {
-                anim.SetFloat("moveX", moveDir.x);
-                anim.SetFloat("moveY", moveDir.y);
-            }
+            anim.SetBool("isWalking", dir != Vector2.zero);
+            anim.SetFloat("moveX", dir.x);
+            anim.SetFloat("moveY", dir.y);
+
+            if (sprite != null)
+                sprite.flipX = dir.x > 0;
         }
     }
+
+
 }
