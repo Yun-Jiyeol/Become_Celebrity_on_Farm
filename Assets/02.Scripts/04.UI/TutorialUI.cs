@@ -51,11 +51,13 @@ public class TutorialUI : MonoBehaviour
     void OnClickLeftButton()
     {
         MovePreviousPage(curPage);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
     }
 
     void OnClickRightButton()
     {
         MoveNextPage(curPage);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
     }
 
     void OnClickCloseButton()
@@ -64,6 +66,7 @@ public class TutorialUI : MonoBehaviour
         firstPage.gameObject.SetActive(true);
         curPage = 0;
         tutorialUI.SetActive(false);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
     }
 
 
