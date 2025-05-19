@@ -233,8 +233,6 @@ public class ShopUI : MonoBehaviour
 
     void ChangePlayerGold(int Changes)
     {
-        PlayerStats playerstats = GameManager.Instance.player.GetComponent<Player>().stat;
-
         if(Changes >= 0)
         {
             GoldManager.Instance.AddGold(Changes);
@@ -244,7 +242,7 @@ public class ShopUI : MonoBehaviour
             GoldManager.Instance.SpendGold(-Changes);
         }
 
-        PlayerHaveGold.text = playerstats.GetGold().ToString();
+        PlayerHaveGold.text = GoldManager.Instance.GetGold().ToString();
     }
 
     public void OnClickDoneBtn()
