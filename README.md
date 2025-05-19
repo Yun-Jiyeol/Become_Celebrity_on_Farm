@@ -1,7 +1,12 @@
-# 팜플루언서
+# 팜플루언서(Farmfluencer)
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9462fdec-e280-4fc6-927c-d984a250fd8e" width="700" height="394" />
 </p>
+<br>
+
+즐겨보자 행복한 농경생활!
+방송하자 나의 일상!
+
 <br>
 
 ## 목차
