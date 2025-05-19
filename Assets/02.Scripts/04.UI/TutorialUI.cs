@@ -60,6 +60,9 @@ public class TutorialUI : MonoBehaviour
 
     void OnClickCloseButton()
     {
+        fifthPage.gameObject.SetActive(false);
+        firstPage.gameObject.SetActive(true);
+        curPage = 0;
         tutorialUI.SetActive(false);
     }
 
