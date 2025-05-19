@@ -4,55 +4,6 @@ using UnityEngine.Tilemaps;
 using static Season;
 
 
-[System.Serializable]
-public class SeasonTile
-{
-    public SeasonType type;
-    public TileBase tile;
-}
-
-[CreateAssetMenu(fileName = "SeasonTile", menuName = "Create SeasonTile")]
-public class SeasonTileList : ScriptableObject
-{
-    public List<SeasonTile> seasonTiles;
-    public Dictionary<SeasonType, TileBase> seasonTileDict = new();
-    
-
-#if UNITY_EDITOR
-    void OnEnable()
-    {
-        // SO 생성함과 동시에 계절만 채워넣을 용도
-        if (seasonTiles == null)
-        {
-            seasonTiles = new List<SeasonTile>();
-            foreach (SeasonType season in System.Enum.GetValues(typeof(SeasonType)))
-            {
-                seasonTiles.Add(new SeasonTile() { type = season, tile = null });
-            }
-        }
-    }
-#endif
-
-
-    void OnValidate()
-    {
-        foreach (SeasonTile so in seasonTiles)
-        {
-            seasonTileDict[so.type] = so.tile;
-        }
-    }
-
-    /// <summary>
-    /// SO에서 타일만 리턴
-    /// </summary>
-    public TileBase GetSeasonTile(SeasonType season)
-    {
-        seasonTileDict.TryGetValue(season, out TileBase tile);
-        return tile;
-    }
-}
-
-
 /// <summary>
 /// 계절에 따라 타일 변경하는 클래스
 /// </summary>
@@ -66,18 +17,27 @@ public class SeasonTileChanger : MonoBehaviour
     Season season;
 
 
-    void Awake()
-    {
-        TileSOMapping();
-        MapPosMapping();
-    }
-
     void Start()
     {
         season = TimeManager.Instance.season;
 
+        if (ResourceManager.Instance != null) Debug.Log("[SeasonTileChanger] rm NOT NULL");
+        else Debug.Log("[SeasonTileChanger] rm NULL");
+
+        if (TimeManager.Instance.season != null) Debug.Log("[SeasonTileChanger] TimeManager.Instance.season NOT NULL");
+        else Debug.Log("[SeasonTileChanger] tm NULL");
+
+        TileSOMapping();
+        MapPosMapping();
+
+
         if (season != null)
+        {
+            if (TimeManager.Instance != null) Debug.Log("[SeasonTileChanger] tm NOT NULL");
+            ChangeTiles(TimeManager.Instance.season.CurrentSeason);
             season.OnSeasonChanged += ChangeTiles;
+        }
+        else Debug.Log("[SeasonTileChanger] TM NULL");
     }
 
     /// <summary>
@@ -85,6 +45,8 @@ public class SeasonTileChanger : MonoBehaviour
     /// </summary>
     void TileSOMapping()
     {
+        Debug.Log("[SeasonTileChanger] TileSOmapping start");
+
         List<SeasonTileList> tileList = new List<SeasonTileList>();
         switch (tilenum)
         {
@@ -107,7 +69,7 @@ public class SeasonTileChanger : MonoBehaviour
 
         foreach (SeasonTileList so in tileList)
         {
-            foreach (SeasonTile st in so.seasonTiles)
+            foreach (var st in so.seasonTiles)
             {
                 if (st.tile == null) continue;
                 tileDict[st.tile] = so;
@@ -120,6 +82,8 @@ public class SeasonTileChanger : MonoBehaviour
     /// </summary>
     void MapPosMapping()
     {
+        Debug.Log("[SeasonTileChanger] mapposmapping start");
+
         foreach (Tilemap tilemap in tilemaps)
         {
             var posTile = new Dictionary<Vector3Int, SeasonTileList>();
@@ -127,7 +91,7 @@ public class SeasonTileChanger : MonoBehaviour
             tilemap.CompressBounds();
             foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
             {
-                if (!tilemap.HasTile(pos)) continue; 
+                if (!tilemap.HasTile(pos)) continue;
 
                 TileBase tile = tilemap.GetTile(pos);
                 if (tileDict.TryGetValue(tile, out var so))
@@ -143,6 +107,8 @@ public class SeasonTileChanger : MonoBehaviour
     /// </summary>
     void ChangeTiles(SeasonType nextSeason)
     {
+        Debug.Log("[SeasonTileChanger] changetiles start");
+
         foreach (Tilemap tilemap in tilemaps)
         {
             if (!mapPosDict.TryGetValue(tilemap, out var posTile)) continue;
@@ -158,5 +124,3 @@ public class SeasonTileChanger : MonoBehaviour
         }
     }
 }
-
-
