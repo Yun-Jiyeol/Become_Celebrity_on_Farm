@@ -174,7 +174,7 @@ public class PlayerController : BaseController
 
                     if (GameManager.Instance.TagIsInMouse(new string[] { "Farmable" }))
                     {
-                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow" }))
+                        if (GameManager.Instance.TagIsNotInMouse(new string[] { "Plow", "Tree", "Stone", "EndGrow", "Interactable" }))
                         {
                             CanSpawn = true;
                             Groundtype = ChangedGround.Plow;
@@ -535,7 +535,7 @@ public class PlayerController : BaseController
 
     void TryHandInteract()
     {
-        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow", "Interactable"}))
+        if (GameManager.Instance.TagIsInMouse(new string[] { "EndGrow", "Interactable", "Tree"}))
         {
             GameManager.Instance.TryHandInteract();
         }
