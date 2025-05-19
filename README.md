@@ -1,6 +1,6 @@
 # 팜플루언서
 <p align="center">
-  <img src="ChatGPT Image 2025년 5월 1일 오후 08_14_00 (1)](https://github.com/user-attachments/assets/124c4032-bd47-47f6-ac41-fd86572ba43a" width="700" height="394" />
+  <img src="https://github.com/user-attachments/assets/9462fdec-e280-4fc6-927c-d984a250fd8e" width="700" height="394" />
 </p>
 <br>
 
