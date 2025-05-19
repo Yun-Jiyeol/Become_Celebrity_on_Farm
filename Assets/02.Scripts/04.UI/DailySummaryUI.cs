@@ -16,6 +16,7 @@ public class DailySummaryUI : MonoBehaviour
     LoadingFader fader;
     Canvas endingCanvas;
 
+    NextDay nextDay;
 
     void Start()
     {
@@ -25,6 +26,8 @@ public class DailySummaryUI : MonoBehaviour
         summaryBg = GetComponent<Image>();
         summaryPanel = GetComponentInChildren<Image>();
         fader = MapManager.Instance.fader;
+
+        nextDay = FindObjectOfType<NextDay>();
     }
 
     void OnEnable()
@@ -42,9 +45,13 @@ public class DailySummaryUI : MonoBehaviour
             endingCanvas.gameObject.SetActive(false);
 
             MapManager.Instance.RefreshMap();
-            TimeManager.Instance.AdvanceDay();
+
+            if (!nextDay.isForced) TimeManager.Instance.AdvanceDay();
+            
             TimeManager.Instance.currentHour = 6;
             TimeManager.Instance.currentMinute = 0;
+
+            if (nextDay.isForced) nextDay.isForced = false;
             TimeManager.Instance.isSleeping = false;
         }));
     }
