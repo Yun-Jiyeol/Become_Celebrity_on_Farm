@@ -65,13 +65,13 @@
 - 튜토리얼 진행
   게임 최초 진행 시 게임 조작키와 기능들에 대해 소개해주는 튜토리얼이 준비되어 있습니다.
 
-![image](https://files.slack.com/files-pri/T06B9PCLY1E-F08SJ05SZM5/image.png)
+![image (7)](https://github.com/user-attachments/assets/f6333227-02ab-4407-891b-71643ab23973)
 
-![image](https://files.slack.com/files-pri/T06B9PCLY1E-F08TMA4D80G/image.png)
+![image (6)](https://github.com/user-attachments/assets/17b86591-6729-4e25-80be-cb6d58316f12)
 
-![image](https://files.slack.com/files-pri/T06B9PCLY1E-F08SW2UM39T/image.png)
+![image (5)](https://github.com/user-attachments/assets/bf5ae449-dea0-4acc-ab06-b5385f282894)
 
-![image](https://files.slack.com/files-pri/T06B9PCLY1E-F08SP645YE7/image.png)
+![image (4)](https://github.com/user-attachments/assets/8de13391-1408-4159-8408-ef5513dead52)
 
 
 - 제작
@@ -79,7 +79,8 @@
   계절이나 상황에 따라 필요한 물건을 직접 만들어 활용하는 재미를 느낄 수 있어요.
   농기구부터 낚시대, 화로 등 폭넓은 제작 시스템이 준비되어 있습니다.
 
-![image](https://files.slack.com/files-pri/T06B9PCLY1E-F08SR1P1Y9E/image.png)
+![image (8)](https://github.com/user-attachments/assets/8d8a1364-61e2-4234-9eec-b440e322bea5)
+
 
 - 농사
   약 40여종의 다채로운 작물과 과일들이 있습니다.
@@ -101,6 +102,7 @@
 
 ![image](https://github.com/user-attachments/assets/a9c987b1-b687-420c-bd7f-ffd33f7751cb)
 
+
 - 마을
   다양한 상점과 주민들이 살아가는 따뜻한 공간입니다.
   계절과 시간에 따라 마을 분위기가 바뀌며, 주민들과의 대화를 통해 생동감을 느낄 수 있어요.
@@ -109,6 +111,7 @@
 ![image](https://github.com/user-attachments/assets/ed1ed6b9-6bef-463f-bf5d-4272fcf54d43)
 
 ![image](https://github.com/user-attachments/assets/b622a066-799c-4c78-bb8d-3f415aabcaf6)
+
 
 - 퀘스트
   스트리머가 다양한 콘텐츠 미션을 수행하듯, 퀘스트를 받을 수 있습니다.
