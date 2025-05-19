@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2617275962179711186}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 352.8, y: -55.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -99,14 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151ccfbe1c92aec499475e2b865c411f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 30
+  _hp: 100
   Itemspritename: Copper_
   NowObjectname: SWM_2
   dropitems:
-  - SpawnItemNum: 25
-    SpawnItemAmount: 1
   - SpawnItemNum: 40
-    SpawnItemAmount: 1
+    SpawnItemAmount: 3
 --- !u!61 &3497110587969456744
 BoxCollider2D:
   m_ObjectHideFlags: 0

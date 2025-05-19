@@ -6,12 +6,12 @@ public class ComputerInteract : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-            Debug.Log(" C 키 눌림");
+        if (Input.GetKeyDown(KeyCode.Q))
+            Debug.Log(" Q 키 눌림");
 
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.C))
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log(" C 키 눌림 → 퀘스트 열기 실행");
+            Debug.Log(" Q 키 눌림 → 퀘스트 열기 실행");
             OnInteractWithComputer();
         }
     }

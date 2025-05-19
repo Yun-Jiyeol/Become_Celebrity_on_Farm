@@ -16,6 +16,7 @@ public enum NPCName
 {
     None,
     Blacksmith,
+    TreeNPC,
     // ... 다른 NPC 이름 추가 ...
 }
 
@@ -38,6 +39,7 @@ public class NPCTextSave
     public string DailyOrRefeat; // 일일 대사인지 반복 대사인지 구분하는 문자열
     public string[] Buttons; // 대화 선택지 버튼 텍스트 배열
     public bool canClick; // 버튼 클릭 가능 여부
+    public int AddLike;
     // 필요하다면 이 대사가 나타날 조건(퀘스트 완료 여부 등)을 추가할 수 있습니다.
 }
 
@@ -119,21 +121,6 @@ public class TextUIManager : MonoBehaviour // ItemDataReader를 상속하지 않으므로
             // TextAsset의 내용을 StringReader로 읽습니다.
             using (StringReader reader = new StringReader(csvAsset.text))
             {
-                // 첫 번째 줄(헤더) 읽고 건너뛰기 (CSV 파일에 헤더가 있다고 가정)
-                // 헤더가 없다면 이 부분을 제거하세요.
-                string headerLine = reader.ReadLine();
-                if (headerLine == null && csvAsset.text.Length > 0) // 파일에 내용이 있는데 헤더를 못 읽었을 경우
-                {
-                    Debug.LogWarning($"CSV 파일 '{npcEntry.ResourcesPath}'의 첫 줄(헤더)을 읽지 못했습니다.");
-                    // 첫 줄이 데이터 라인이라면 아래 루프에서 첫 줄부터 처리될 것입니다.
-                }
-                else if (csvAsset.text.Length == 0) // 파일 내용이 완전히 비어있는 경우
-                {
-                    Debug.LogWarning($"CSV 파일 '{npcEntry.ResourcesPath}'의 내용이 비어있습니다.");
-                    continue; // 다음 파일로 넘어갑니다.
-                }
-
-
                 string dataLine;
                 // 데이터 줄을 한 줄씩 읽습니다.
                 while ((dataLine = reader.ReadLine()) != null)
@@ -148,7 +135,7 @@ public class TextUIManager : MonoBehaviour // ItemDataReader를 상속하지 않으므로
                     string[] values = dataLine.Split(',');
 
                     // 예상되는 열 개수보다 적으면 해당 줄은 무시하고 경고를 출력합니다.
-                    const int expectedColumnCount = 7; // Text, spriteName, MinLike, MaxLike, DailyOrRefeat, Buttons, canClick
+                    const int expectedColumnCount = 8; // Text, spriteName, MinLike, MaxLike, DailyOrRefeat, Buttons, canClick
                     if (values.Length < expectedColumnCount)
                     {
                         Debug.LogWarning($"CSV 줄 파싱 오류: '{dataLine}' - 예상 열 개수 {expectedColumnCount}개 중 {values.Length}개 발견. 줄 건너뛰기. 파일: {npcEntry.ResourcesPath}");
@@ -205,6 +192,9 @@ public class TextUIManager : MonoBehaviour // ItemDataReader를 상속하지 않으므로
                         Debug.LogWarning($"CSV 파싱 오류: canClick '{values[6]}'를 bool으로 변환 실패. 파일: {npcEntry.ResourcesPath}, 줄: '{dataLine}'. 기본값 false 사용.");
                         npctext.canClick = false; // 파싱 실패 시 기본값 false 할당
                     }
+
+                    if (int.TryParse(values[3], out int addLike)) npctext.AddLike = addLike;
+                    else Debug.LogWarning($"CSV 파싱 오류: MaxLike '{values[7]}'를 int로 변환 실패. 파일");
 
 
                     // --- 파싱된 NPCTextSave를 해당 NPC의 리스트에 추가 ---

@@ -421,6 +421,7 @@ public class PlayerController : BaseController
         else
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 0);
+            yield return new WaitForSeconds(0.7f);
             EndAction();
         }
     }

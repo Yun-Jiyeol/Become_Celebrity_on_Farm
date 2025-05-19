@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum MapType
@@ -79,14 +80,15 @@ public class MapManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
     }
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameManager.Instance.player != null);
+
         camConfinerChange = FindObjectOfType<CamConfinerChange>();
 
         SetMap();

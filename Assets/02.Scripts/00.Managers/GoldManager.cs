@@ -23,7 +23,6 @@ public class GoldManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

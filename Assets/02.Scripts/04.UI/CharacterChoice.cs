@@ -19,13 +19,14 @@ public class CharacterChoice : UIBase
     {
         if (PlayerStats == null)
         {
-            PlayerStats = FindObjectOfType<PlayerStats>();
+            PlayerStats = SceneChangerManager.Instance.gameObject.GetComponent<PlayerStats>();
             if (PlayerStats == null)
             {
                 Debug.LogError("PlayerStats 컴포넌트를 찾을 수 없습니다.");
             }
         }
         Debug.Log("셋업!!!!"); //나중에 삭제
+        SelectedCharacter("Male");
         Setup();
     }
     public void Setup()
@@ -80,11 +81,12 @@ public class CharacterChoice : UIBase
         PlayerStats.SetCharacterInfo(selectedCharacter, nameInputField.text, farmnameInputField.text);
 
         //게임씬 이동 로직 추가하기.
+        SceneChangerManager.Instance.OnClick_LoadScene(SceneChangerManager.Instance.sceneNamesInBuild[2]);
     }
 
     public void OnBackBtn()
     {
         Debug.Log("Back 버튼 클릭됨.");
-        Hide();
+        SceneChangerManager.Instance.OnClick_LoadScene(SceneChangerManager.Instance.sceneNamesInBuild[0]);
     }
 }

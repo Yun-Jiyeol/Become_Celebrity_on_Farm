@@ -59,6 +59,8 @@ public class TalkNPC : NPCData, IInteract
             UIManager.Instance.shopUIManager.lastshopData = ShopData;
         }
 
+        LikeGauge += UIManager.Instance.textUIManager.calledNPCText[npcName][nowtalksave].AddLike;
+
         if (talkcoroutine != null) StopCoroutine(talkcoroutine);
         talkcoroutine = StartCoroutine(talkTextCoroutine());
     }
