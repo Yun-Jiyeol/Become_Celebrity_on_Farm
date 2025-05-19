@@ -21,6 +21,7 @@ public class CharacterChoice : UIBase
     private bool isCharacterSelected = false;
     private void Start()
     {
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.ReadyAudio["SelectBGM"]);
         if (PlayerStats == null)
         {
             PlayerStats = SceneChangerManager.Instance.gameObject.GetComponent<PlayerStats>();
@@ -32,8 +33,6 @@ public class CharacterChoice : UIBase
         Debug.Log("셋업!!!!"); //나중에 삭제
         SelectedCharacter("Male");
         Setup();
-
-        AudioManager.Instance.PlayBGM(AudioManager.Instance.ReadyAudio["SelectBGM"]);
     }
     public void Setup()
     {
