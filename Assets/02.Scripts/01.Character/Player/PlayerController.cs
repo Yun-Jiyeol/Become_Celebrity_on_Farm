@@ -139,6 +139,7 @@ public class PlayerController : BaseController
 
     void OnClick(InputValue inputValue)
     {
+        ChangeSlot(nownum);
         if (UIManager.Instance.InventoryIsOpen()) return;
         if (isAction) return;
         if (isNPCInteract) return;
