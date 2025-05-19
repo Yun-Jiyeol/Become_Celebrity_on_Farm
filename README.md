@@ -30,28 +30,29 @@
 
 ---
 
-## 팜플루언서
+### 팜플루언서
 
 ✨ **농사 + 방송, 이게 진짜 콘텐츠다!**
 
 농사와 광질, 낚시를 즐기며 동시에 방송까지-!<br>
 생생한 댓글로 정말 스트리머가 된 듯한 느낌까지 받을 수 있어요.<br>
 팜플루언서와 함께라면 나도 농사 유튜버!<br>
+<br>
 
 🎵**농사도 전략이다!**
 
 작물 심기, 가축 돌보기, 시장 판매까지!<br>
 시간과 체력을 고려해 하루를 계획하세요<br>
 하루하루 정산되는 방송 수익과 도감 수집률, 그리고 팬들의 댓글까지 확인 가능!<br>
-
+<br>
 
 👶 **누구나 쉽게, 하지만 깊이는 충분하게!**
 
 조작은 간단하지만,<br>
 하루를 어떻게 운영하느냐에 따라 완전히 다른 결과가 기다리고 있습니다.<br>
 초보자도 환영! 친절한 UI 시스템과 튜토리얼 덕분에 금방 익숙해질 수 있어요.<br>
-
-
+<br>
+<br>
 
 ## 게임 플레이 
 ---
@@ -80,6 +81,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/8de13391-1408-4159-8408-ef5513dead52" width="700" height="394" />
 </p>
+<br>
 
 - 제작<br>
   수집한 자원들을 활용해 다양한 도구, 가구, 재료 아이템을 제작할 수 있습니다.<br>
@@ -89,7 +91,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/8d8a1364-61e2-4234-9eec-b440e322bea5" width="700" height="394" />
 </p>
-
+<br>
 
 - 농사<br>
   약 40여종의 다채로운 작물과 과일들이 있습니다.<br>
@@ -98,7 +100,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/25e07c6b-3788-417a-97c3-b7d2009ca20d" width="700" height="394" />
 </p>
-
+<br>
 
 - 낚시<br>
   농장에 있는 작은 폭포에서도, 돌고래 해변이 있는 큰 바다에서도 언제든지 물이 있는 곳이라면 낚시를 할 수 있습니다.<br>
@@ -107,7 +109,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/61e93b0c-402f-413c-9fb5-a966c74b797d" width="700" height="394" />
 </p>
-
+<br>
 
 - 광산&전투<br>
   돌, 구리, 철 등 특화된 광물이 위치한 많은 광산들에서 광물을 캐보세요.<br>
@@ -120,7 +122,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a9c987b1-b687-420c-bd7f-ffd33f7751cb" width="700" height="394" />
 </p>
-
+<br>
 
 - 마을<br>
   다양한 상점과 주민들이 살아가는 따뜻한 공간입니다.<br>
@@ -134,7 +136,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b622a066-799c-4c78-bb8d-3f415aabcaf6" width="700" height="394" />
 </p>
-
+<br>
 
 - 퀘스트<br>
   스트리머가 다양한 콘텐츠 미션을 수행하듯, 퀘스트를 받을 수 있습니다.<br>
@@ -147,4 +149,4 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/bfc64ffe-c8ef-467a-8e61-27959820323e" width="700" height="394" />
 </p>
-
+<br>
