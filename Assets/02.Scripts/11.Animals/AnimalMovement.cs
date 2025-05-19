@@ -126,36 +126,18 @@ public class AnimalMovement : MonoBehaviour
         }
     }
 
-   //void UpdateAnimation()
-   //{
-        void UpdateAnimation(Vector2 dir)
+    void UpdateAnimation(Vector2 dir)
+    {
+        if (anim != null)
         {
-            if (anim != null)
-            {
-                anim.SetBool("isWalking", dir != Vector2.zero);
-                anim.SetFloat("moveX", dir.x);
-                anim.SetFloat("moveY", dir.y);
+            anim.SetBool("isWalking", dir != Vector2.zero);
+            anim.SetFloat("moveX", dir.x);
+            anim.SetFloat("moveY", dir.y);
 
-                if (sprite != null)
-                    sprite.flipX = dir.x > 0;
-            }
+            if (sprite != null)
+                sprite.flipX = dir.x > 0;
         }
-        //if (anim != null)
-        //{
-        //    anim.SetBool("isWalking", isMoving);
-        //
-        //    Vector2 dir = targetFood != null
-        //        ? (targetFood.transform.position - transform.position).normalized
-        //        : moveDir;
-        //
-        //    if (isMoving || targetFood != null)
-        //    {
-        //        anim.SetFloat("moveX", dir.x);
-        //        anim.SetFloat("moveY", dir.y);
-        //
-        //        if (sprite != null)
-        //            sprite.flipX = dir.x > 0; 
-        //    }
-        //}
-   // }
+    }
+
+
 }
