@@ -17,6 +17,7 @@ public enum NPCName
     None,
     Blacksmith,
     TreeNPC,
+    FishingGuide,
     // ... 다른 NPC 이름 추가 ...
 }
 
@@ -193,7 +194,7 @@ public class TextUIManager : MonoBehaviour // ItemDataReader를 상속하지 않으므로
                         npctext.canClick = false; // 파싱 실패 시 기본값 false 할당
                     }
 
-                    if (int.TryParse(values[3], out int addLike)) npctext.AddLike = addLike;
+                    if (int.TryParse(values[7], out int addLike)) npctext.AddLike = addLike;
                     else Debug.LogWarning($"CSV 파싱 오류: MaxLike '{values[7]}'를 int로 변환 실패. 파일");
 
 

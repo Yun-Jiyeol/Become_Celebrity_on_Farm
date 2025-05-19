@@ -474,7 +474,7 @@ public class PlayerController : BaseController
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 3);
-                    LastItemNum = GameManager.Instance.minigameManager.fishingMinigame.CheckHookedFish((int)((1- percentage) * 5));
+                    LastItemNum = GameManager.Instance.minigameManager.fishingMinigame.CheckHookedFish((int)((1- percentage) * 10));
                     GameManager.Instance.minigameManager.fishingMinigame.StartMinigame(ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum].Item_Price / 5 + 1);
                     break;
                 }

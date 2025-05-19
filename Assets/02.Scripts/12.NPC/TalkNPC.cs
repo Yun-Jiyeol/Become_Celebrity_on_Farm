@@ -17,6 +17,7 @@ public class TalkNPC : NPCData, IInteract
         textuimanager = UIManager.Instance.textUIManager;
         npctextsaves = textuimanager.calledNPCText[npcName];
         SettingOneDay();
+        TimeManager.Instance.OnDayChanged += SettingOneDay;
     }
 
     public void SettingOneDay()

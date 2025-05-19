@@ -6,22 +6,18 @@ public class NextDay : MonoBehaviour
     [SerializeField] private Canvas endingCanvas;
     [SerializeField] private LoadingFader fader;
 
+    public bool isForced = false;
+
     void Start()
     {
         endingCanvas.gameObject.SetActive(false);
 
-        TimeManager.Instance.OnTimeChanged += CheckMidnight;
+        TimeManager.Instance.OnDayChanged += StartForcedSleep;
     }
 
-    /// <summary>
-    /// 자정 확인용 함수
-    /// </summary>
-    void CheckMidnight()
+    void StartForcedSleep()
     {
-        int curHour = TimeManager.Instance.currentHour;
-
-        // 24시가 된다면 강제 취침
-        if (curHour == 24)
+        if (!TimeManager.Instance.isSleeping)
             StartCoroutine(ForcedSleep());
     }
 
@@ -32,6 +28,7 @@ public class NextDay : MonoBehaviour
     {
         StartCoroutine(fader.FadeOut(() =>
         {
+            TimeManager.Instance.isSleeping = true;
             endingCanvas.gameObject.SetActive(true);
         }));
     }
@@ -41,21 +38,18 @@ public class NextDay : MonoBehaviour
     /// </summary>
     IEnumerator ForcedSleep()
     {
-        if (!TimeManager.Instance.isSleeping)
-        {
-            TimeManager.Instance.isSleeping = true;
-            Sleep();
+        isForced = true;
+        Sleep();
 
-            yield return new WaitForSecondsRealtime(1.3f);
+        yield return new WaitForSecondsRealtime(1.3f);
 
-            MapManager.Instance.MoveMap(MapType.Home);
+        MapManager.Instance.MoveMap(MapType.Home);
 
-            yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
-            // 랜덤 골드 1000~2000(temp) 손해
-            int randomGold = Random.Range(10, 20) * 100;
-            GoldManager.Instance.SpendGold(randomGold);
-            GoldManager.Instance.AddGold(randomGold / 2);       // temp
-        }
+        // 랜덤 골드 1000~2000(temp) 손해
+        int randomGold = Random.Range(10, 20) * 100;
+        GoldManager.Instance.SpendGold(randomGold);
+        GoldManager.Instance.AddGold(randomGold / 2);       // temp
     }
 }

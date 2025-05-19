@@ -54,7 +54,7 @@ public class FishingMinigame : MonoBehaviour
             }
         }
 
-        int ChoosedNum = Random.Range(0, Sum);
+        int ChoosedNum = Random.Range(0, Sum+1);
 
         for (int i = 0; i < Persentage.Count; i++)
         {
