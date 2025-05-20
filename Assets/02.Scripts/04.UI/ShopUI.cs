@@ -257,7 +257,7 @@ public class ShopUI : MonoBehaviour
                 ClearBag(true);
                 break;
             case ShopUIState.Buy:
-                if(int.Parse(InBagHaveGold.text) <= GameManager.Instance.player.GetComponent<Player>().stat.GetGold())
+                if(int.Parse(InBagHaveGold.text) <= GoldManager.Instance.GetGold())
                 {
                     PlayerBuyBag();
                     ChangePlayerGold(-int.Parse(InBagHaveGold.text));
