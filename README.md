@@ -35,6 +35,7 @@
 | [블로그](https://velog.io/@yunssi/posts) | [블로그](https://sin-dev200.tistory.com/) | [블로그](https://fociend.tistory.com/) | [블로그](https://velog.io/@slj506/posts) | [블로그](https://velog.io/@yjyj713/posts) |
 | [깃](https://github.com/Yun-Jiyeol) | [깃](https://github.com/000SIN) | [깃](https://github.com/hyojeong0509) | [깃](https://github.com/S-SoHyun) | [깃](https://github.com/yjyj713) |
 - Git : https://github.com/Yun-Jiyeol/Become_Celebrity_on_Farm
+- itch.io : https://yunjiyeol.itch.io/farm
 
 ## 게임 소개
 
