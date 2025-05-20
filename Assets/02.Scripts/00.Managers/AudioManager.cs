@@ -23,6 +23,10 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (audioClips != null)
+        {
+            SettingDictionary();
+        }
     }
     public static AudioManager Instance
     {
@@ -33,14 +37,6 @@ public class AudioManager : MonoBehaviour
                 return null;
             }
             return instance;
-        }
-    }
-
-    private void Start()
-    {
-        if(audioClips != null)
-        {
-            SettingDictionary();
         }
     }
 
