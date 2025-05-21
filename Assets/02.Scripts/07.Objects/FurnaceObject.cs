@@ -42,8 +42,12 @@ public class FurnaceObject : InteractedObject, IInteractNum
 
         iswork = true;
 
-        nowTime = 0;
+        nowTime = CheckNowTime();
         targetTime = (int)cot.Time * 60 + nowTime;
+
+        Debug.Log(nowTime);
+        Debug.Log(targetTime);
+
 
         Furnace.GetComponent<Animator>().SetBool("Burning", true);
         gameObject.GetComponent<AudioSource>().Play();
@@ -52,7 +56,8 @@ public class FurnaceObject : InteractedObject, IInteractNum
 
     void checkTime()
     {
-        if(targetTime <= nowTime)
+        nowTime = CheckNowTime();
+        if (targetTime <= nowTime)
         {
             iswork = false;
             isend = true;
@@ -63,5 +68,12 @@ public class FurnaceObject : InteractedObject, IInteractNum
             cotAfteritem = cot.AfterItemNum;
             timeManager.OnTimeChanged -= checkTime;
         }
+    }
+
+    int CheckNowTime()
+    {
+        TimeManager time = TimeManager.Instance;
+        int _nowtime = time.currentMinute + 60 * (time.currentHour + 24*(time.currentDay + 7 * (time.currentMonth + 4 * (time.currentYear))));
+        return _nowtime;
     }
 }

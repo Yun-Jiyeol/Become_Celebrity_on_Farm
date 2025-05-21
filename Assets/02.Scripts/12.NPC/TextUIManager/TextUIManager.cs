@@ -18,6 +18,7 @@ public enum NPCName
     Blacksmith,
     TreeNPC,
     FishingGuide,
+    DemoGuide,
     // ... 다른 NPC 이름 추가 ...
 }
 

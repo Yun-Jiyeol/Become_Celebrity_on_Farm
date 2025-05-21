@@ -14,5 +14,6 @@ public class OnTutorialBtn : StartSceneBtn
     public override void OnPointerDown(PointerEventData eventData)
     {
         tutorialUI.gameObject.SetActive(true);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
     }
 }
