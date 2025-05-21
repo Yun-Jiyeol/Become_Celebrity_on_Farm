@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class QuickSlotUIManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class QuickSlotUIManager : MonoBehaviour
     [Header("ÇÏ´Ü Äü½½·Ô UI")]
     public InventorySlotUI[] quickSlots;
 
+    [Header("ÀÔ·Â")]
+    public InputActionReference scrollSlotAction;
+
     private int selectedIndex = -1;
 
     private void Awake()
@@ -17,13 +21,38 @@ public class QuickSlotUIManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
+    private void OnEnable()
+    {
+        scrollSlotAction.action.Enable();
+        scrollSlotAction.action.performed += OnScrollSlot;
+    }
 
+    private void OnDisable()
+    {
+        scrollSlotAction.action.performed -= OnScrollSlot;
+        scrollSlotAction.action.Disable();
+    }
     private void Start()
     {
         Invoke(nameof(RefreshQuickSlot), 0.1f);
         //RefreshQuickSlot(); // ½ÃÀÛ ½Ã ÃÊ±âÈ­
     }
+    private void OnScrollSlot(InputAction.CallbackContext context)
+    {
+        float scrollValue = context.ReadValue<Vector2>().y;
 
+        if (scrollValue == 0) return;
+
+        int direction = scrollValue > 0 ? -1 : 1;
+        int newIndex = selectedIndex + direction;
+
+        if (newIndex < 0)
+            newIndex = quickSlots.Length - 1;
+        else if (newIndex >= quickSlots.Length)
+            newIndex = 0;
+
+        SelectSlot(newIndex);
+    }
     public void RefreshQuickSlot()
     {
         if (playerInventory == null || playerInventory.PlayerHave == null)
@@ -50,6 +79,7 @@ public class QuickSlotUIManager : MonoBehaviour
         }
 
         selectedIndex = index;
+        Debug.Log($"[QuickSlotUIManager] Äü½½·Ô {index + 1}¹ø ¼±ÅÃµÊ");
     }
 }
 
