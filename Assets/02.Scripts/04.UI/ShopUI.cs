@@ -58,6 +58,8 @@ public class ShopUI : MonoBehaviour
     public void StartShopping(ShopData _shopData)
     {
         nowState = ShopUIState.Buy;
+        ShopExplain.GetComponent<ShopExplainPrice>().LeftBtnText.text = "하나 구매";
+        ShopExplain.GetComponent<ShopExplainPrice>().RightBtnText.text = "25개 구매";
 
         SettingShopHave(_shopData);
 
@@ -77,6 +79,8 @@ public class ShopUI : MonoBehaviour
     public void ShowShopping()
     {
         nowState = ShopUIState.Buy;
+        ShopExplain.GetComponent<ShopExplainPrice>().LeftBtnText.text = "하나 구매";
+        ShopExplain.GetComponent<ShopExplainPrice>().RightBtnText.text = "25개 구매";
 
         AllInclude.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 0), 0.5f);
         ShopExplainDir.anchoredPosition = new Vector2(-150, -100);
@@ -98,6 +102,8 @@ public class ShopUI : MonoBehaviour
     public void ShowInven()
     {
         nowState = ShopUIState.Sell;
+        ShopExplain.GetComponent<ShopExplainPrice>().LeftBtnText.text = "하나 판매";
+        ShopExplain.GetComponent<ShopExplainPrice>().RightBtnText.text = "전부 판매";
         SettingPlayerHave();
 
         AllInclude.GetComponent<RectTransform>().DOAnchorPos(new Vector2(960, 0), 0.5f);
