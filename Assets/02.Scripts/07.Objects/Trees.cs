@@ -161,6 +161,7 @@ public class Trees : SeedGrow
             ItemManager.Instance.spawnItem.DropItem(ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum], SpawnItemAmount, gameObject.transform.position);
             AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["WoodDamage"]);
             AdditionalGrow = 0;
+            HP = MaxHP;
             CheckGrow();
         }
     }
