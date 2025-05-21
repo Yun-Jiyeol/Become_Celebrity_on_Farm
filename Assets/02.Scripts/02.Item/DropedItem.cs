@@ -108,7 +108,7 @@ public class DropedItem : MonoBehaviour, IInteract
         while(Vector2.Distance(GameManager.Instance.player.transform.position, transform.position) > 0.1f)
         {
             Vector3 dir = GameManager.Instance.player.transform.position - transform.position;
-            transform.position += dir.normalized * 7f * Time.deltaTime;
+            transform.position += dir.normalized * 15f * Time.deltaTime;
             sortingOrderGroup.UpdateSortingOrderGroup();
             yield return null;
         }

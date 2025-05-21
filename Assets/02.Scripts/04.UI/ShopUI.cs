@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -58,6 +59,8 @@ public class ShopUI : MonoBehaviour
     public void StartShopping(ShopData _shopData)
     {
         nowState = ShopUIState.Buy;
+        ShopExplain.GetComponent<ShopExplainPrice>().LeftBtnText.text = "하나 구매";
+        ShopExplain.GetComponent<ShopExplainPrice>().RightBtnText.text = "25개 구매";
 
         SettingShopHave(_shopData);
 
@@ -77,6 +80,8 @@ public class ShopUI : MonoBehaviour
     public void ShowShopping()
     {
         nowState = ShopUIState.Buy;
+        ShopExplain.GetComponent<ShopExplainPrice>().LeftBtnText.text = "하나 구매";
+        ShopExplain.GetComponent<ShopExplainPrice>().RightBtnText.text = "25개 구매";
 
         AllInclude.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 0), 0.5f);
         ShopExplainDir.anchoredPosition = new Vector2(-150, -100);
@@ -98,6 +103,8 @@ public class ShopUI : MonoBehaviour
     public void ShowInven()
     {
         nowState = ShopUIState.Sell;
+        ShopExplain.GetComponent<ShopExplainPrice>().LeftBtnText.text = "하나 판매";
+        ShopExplain.GetComponent<ShopExplainPrice>().RightBtnText.text = "전부 판매";
         SettingPlayerHave();
 
         AllInclude.GetComponent<RectTransform>().DOAnchorPos(new Vector2(960, 0), 0.5f);
@@ -148,17 +155,48 @@ public class ShopUI : MonoBehaviour
 
     void SettingShopHave(ShopData _shopData)
     {
-        if(_shopData == null || _shopData.sellingCatalogs.Length == 0) return;
+        if(_shopData == null) return;
 
         int i = 0;
-        for(i = 0; i< _shopData.sellingCatalogs.Length; i++)
+        int j = 0;
+
+        if (_shopData.BaseCatalogs.Length != 0)
         {
-            GameObject go = Instantiate(slot, ShopItemSpawnPos.transform);
-            go.AddComponent<ShopHave>().Setting(this, _shopData.sellingCatalogs[i].ItemData_num, _shopData.sellingCatalogs[i].Price);
-            slotsinshop.Add(go);
+            for (i = 0; i < _shopData.BaseCatalogs.Length; i++)
+            {
+                GameObject go = Instantiate(slot, ShopItemSpawnPos.transform);
+                go.AddComponent<ShopHave>().Setting(this, _shopData.BaseCatalogs[i].ItemData_num, _shopData.BaseCatalogs[i].Price);
+                slotsinshop.Add(go);
+            }
         }
 
-        int length = (i % 5 == 0) ? i / 5 : i/ 5 + 1;
+        SellingCatalog[] seasonCatalog = new SellingCatalog[0];
+        switch (TimeManager.Instance.currentMonth)
+        {
+            case 0:
+                seasonCatalog = _shopData.SpringCatalogs;
+                break;
+            case 1:
+                seasonCatalog = _shopData.SummerCatalogs;
+                break;
+            case 2:
+                seasonCatalog = _shopData.FallCatalogs;
+                break;
+            case 3:
+                seasonCatalog = _shopData.WinterCatalogs;
+                break;
+        }
+        if(seasonCatalog.Length != 0)
+        {
+            for (j = 0; j < seasonCatalog.Length; j++)
+            {
+                GameObject go = Instantiate(slot, ShopItemSpawnPos.transform);
+                go.AddComponent<ShopHave>().Setting(this, seasonCatalog[j].ItemData_num, seasonCatalog[j].Price);
+                slotsinshop.Add(go);
+            }
+        }
+
+        int length = (i+j % 5 == 0) ? (i + j) / 5 : (i + j) / 5 + 1;
         ShopItemSpawnPos.GetComponent<RectTransform>().sizeDelta = new Vector2(0, length * 105);
     }
 

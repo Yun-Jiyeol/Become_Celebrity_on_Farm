@@ -25,7 +25,7 @@ public class ShopHave : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         _shopUI.ShopExplain.SetActive(true);
-        _shopUI.ShopExplain.GetComponent<ShopExplainPrice>().Setting(_price, _price * _amount);
+        _shopUI.ShopExplain.GetComponent<ShopExplainPrice>().Setting(ItemManager.Instance.itemDataReader.itemsDatas[_ItemData_Num].Item_name,_price, _price * _amount);
     }
 
     public void OnPointerExit(PointerEventData eventData)
