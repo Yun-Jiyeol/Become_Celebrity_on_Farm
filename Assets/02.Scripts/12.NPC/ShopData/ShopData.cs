@@ -12,5 +12,9 @@ public class SellingCatalog
 [CreateAssetMenu(fileName = "ShopData", menuName = "NPC/ShopData")]
 public class ShopData : ScriptableObject
 {
-    public SellingCatalog[] sellingCatalogs;
+    public SellingCatalog[] BaseCatalogs;
+    public SellingCatalog[] SpringCatalogs;
+    public SellingCatalog[] SummerCatalogs;
+    public SellingCatalog[] FallCatalogs;
+    public SellingCatalog[] WinterCatalogs;
 }
