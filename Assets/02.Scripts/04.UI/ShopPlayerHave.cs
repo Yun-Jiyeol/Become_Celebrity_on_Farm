@@ -45,7 +45,7 @@ public class ShopPlayerHave : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (!ItemIcon.isActiveAndEnabled) return;
         shopui.ShopExplain.SetActive(true);
-        shopui.ShopExplain.GetComponent<ShopExplainPrice>().Setting(_price, _price * _amount);
+        shopui.ShopExplain.GetComponent<ShopExplainPrice>().Setting(ItemManager.Instance.itemDataReader.itemsDatas[_ItemData_Num].Item_name, _price, _price * _amount);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -73,7 +73,7 @@ public class ShopPlayerHave : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             else
             {
                 Setting(_ItemData_Num, _amount, _price);
-                shopui.ShopExplain.GetComponent<ShopExplainPrice>().Setting(_price, _price * _amount);
+                shopui.ShopExplain.GetComponent<ShopExplainPrice>().Setting(ItemManager.Instance.itemDataReader.itemsDatas[_ItemData_Num].Item_name, _price, _price * _amount);
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)

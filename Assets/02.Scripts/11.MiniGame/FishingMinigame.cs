@@ -6,7 +6,7 @@ using UnityEngine;
 
 class MiniGameKeys 
 {
-    public KeyCode keycode;
+    public List<KeyCode> keycodes;
     public string shownkey;
 }
 
@@ -18,10 +18,10 @@ public class FishingMinigame : MonoBehaviour
 
     MiniGameKeys[] miniGameKeys = new MiniGameKeys[]
    {
-        new MiniGameKeys { keycode = KeyCode.UpArrow, shownkey = "↑" },    // 위 화살표
-        new MiniGameKeys { keycode = KeyCode.DownArrow, shownkey = "↓" },  // 아래 화살표
-        new MiniGameKeys { keycode = KeyCode.RightArrow, shownkey = "→" },// 오른쪽 화살표
-        new MiniGameKeys { keycode = KeyCode.LeftArrow, shownkey = "←" }   // 왼쪽 화살표
+        new MiniGameKeys { keycodes = new List<KeyCode>(){ KeyCode.UpArrow, KeyCode.W}, shownkey = "↑" },    // 위 화살표
+        new MiniGameKeys { keycodes = new List<KeyCode>(){ KeyCode.DownArrow, KeyCode.S }, shownkey = "↓" },  // 아래 화살표
+        new MiniGameKeys { keycodes = new List<KeyCode>(){ KeyCode.RightArrow, KeyCode.D }, shownkey = "→" },// 오른쪽 화살표
+        new MiniGameKeys { keycodes = new List<KeyCode>(){ KeyCode.LeftArrow, KeyCode.A }, shownkey = "←" }   // 왼쪽 화살표
    };
 
     public void OnAllFishingCollider()
@@ -92,7 +92,8 @@ public class FishingMinigame : MonoBehaviour
         for (int i =0; i< num; i++)
         {
             MiniGameKeys thisKey = miniGameKeys[Random.Range(0, miniGameKeys.Length)];
-            AnswerKeys.Add(thisKey.keycode);
+            AnswerKeys.Add(thisKey.keycodes[0]);
+            AnswerKeys.Add(thisKey.keycodes[1]);
             GameObject go = Instantiate(Key, this.transform);
             go.transform.position = new Vector3(CenterPosition.x - num + 2 * i + 1, CenterPosition.y + 4f,0);
             go.GetComponentInChildren<TextMeshPro>().text = thisKey.shownkey;
@@ -115,11 +116,11 @@ public class FishingMinigame : MonoBehaviour
 
             if (Input.anyKeyDown)
             {
-                if (Input.GetKeyDown(AnswerKeys[keynum]))
+                if (Input.GetKeyDown(AnswerKeys[keynum]) || Input.GetKeyDown(AnswerKeys[keynum+1]))
                 {
                     MakeSound(AnswerKeys[keynum]);
-                    SpawnedObject[keynum].SetActive(false);
-                    keynum++;
+                    SpawnedObject[keynum/2].SetActive(false);
+                    keynum += 2;
                     if (keynum >= AnswerKeys.Count)
                     {
                         isSuccess = true;
