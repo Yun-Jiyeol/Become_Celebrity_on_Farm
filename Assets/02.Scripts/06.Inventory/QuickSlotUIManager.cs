@@ -14,23 +14,36 @@ public class QuickSlotUIManager : MonoBehaviour
     [Header("ÀÔ·Â")]
     public InputActionReference scrollSlotAction;
 
+    [SerializeField] private PlayerController playerController;
+
     private int selectedIndex = -1;
+    private bool scrollRegistered = false;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        if (playerController == null)
+            playerController = FindObjectOfType<PlayerController>();
     }
     private void OnEnable()
     {
-        scrollSlotAction.action.Enable();
-        scrollSlotAction.action.performed += OnScrollSlot;
+        if (!scrollRegistered)
+        {
+            scrollSlotAction.action.Enable();
+            scrollSlotAction.action.performed += OnScrollSlot;
+            scrollRegistered = true;
+        }
     }
-
     private void OnDisable()
     {
-        scrollSlotAction.action.performed -= OnScrollSlot;
-        scrollSlotAction.action.Disable();
+        if (scrollRegistered)
+        {
+            scrollSlotAction.action.performed -= OnScrollSlot;
+            scrollSlotAction.action.Disable();
+            scrollRegistered = false;
+        }
     }
     private void Start()
     {
@@ -71,6 +84,8 @@ public class QuickSlotUIManager : MonoBehaviour
     }
     public void SelectSlot(int index)
     {
+        if (selectedIndex == index) return;
+
         if (index < 0 || index >= quickSlots.Length) return;
 
         for (int i = 0; i < quickSlots.Length; i++)
@@ -79,7 +94,14 @@ public class QuickSlotUIManager : MonoBehaviour
         }
 
         selectedIndex = index;
+#if UNITY_EDITOR
         Debug.Log($"[QuickSlotUIManager] Äü½½·Ô {index + 1}¹ø ¼±ÅÃµÊ");
+#endif
+
+        if (playerController != null)
+        {
+            playerController.ChangeSlot(selectedIndex + 1);
+        }
     }
 }
 
