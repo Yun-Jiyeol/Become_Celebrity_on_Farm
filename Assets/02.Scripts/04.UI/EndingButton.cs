@@ -15,6 +15,7 @@ public class EndingButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI farmNameText;
 
 
+
     void Start()
     {
         endButton.onClick.AddListener(OnClickEndButton);
@@ -49,6 +50,9 @@ public class EndingButton : MonoBehaviour
         StartCoroutine(FadeUI());
     }
 
+    /// <summary>
+    /// 정산 패널 활성화
+    /// </summary>
     IEnumerator FadeUI()
     {
         summaryBg.gameObject.SetActive(true);

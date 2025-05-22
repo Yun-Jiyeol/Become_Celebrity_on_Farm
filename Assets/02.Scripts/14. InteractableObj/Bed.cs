@@ -28,7 +28,7 @@ public class Bed : MonoBehaviour
     }
 
     /// <summary>
-    /// 침대 오른쪽 구석으로 충돌하면 선택 UI 활성화
+    /// 침대 오른쪽 구석으로 충돌하면 다음 날 선택 UI 활성화
     /// </summary>
     private void OnCollisionStay2D(Collision2D collision)
     {
