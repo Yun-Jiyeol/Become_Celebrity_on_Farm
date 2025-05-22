@@ -21,6 +21,7 @@ public class StartSceneBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Grass"]);
         MouseOn.SetActive(true);
         MouseOff.SetActive(false);
     }

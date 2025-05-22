@@ -38,12 +38,14 @@ public class Bed : MonoBehaviour
 
     void OnClickYesButton()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Button"]);
         endOfDaySelectUI.gameObject.SetActive(false);
         nextDay.Sleep();
     }
 
     void OnClickNoButton()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Button"]);
         endOfDaySelectUI.gameObject.SetActive(false);
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = true;
     }
