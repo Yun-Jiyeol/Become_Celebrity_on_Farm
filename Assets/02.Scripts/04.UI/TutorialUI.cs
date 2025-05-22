@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class TutorialUI : MonoBehaviour
 {
-    GameObject tutorialUI;
     [SerializeField] private GameObject firstPage;
     [SerializeField] private GameObject secondPage;
     [SerializeField] private GameObject thirdPage;
@@ -24,7 +23,6 @@ public class TutorialUI : MonoBehaviour
     void Start()
     {
         SetPage();
-        tutorialUI = this.gameObject;
 
         leftButton.onClick.AddListener(OnClickLeftButton);
         rightButton.onClick.AddListener(OnClickRightButton);
@@ -35,8 +33,6 @@ public class TutorialUI : MonoBehaviour
         thirdPage.SetActive(false);
         fourthPage.SetActive(false);
         fifthPage.SetActive(false);
-
-        //tutorialUI.SetActive(false);
     }
 
     void SetPage()
@@ -62,14 +58,10 @@ public class TutorialUI : MonoBehaviour
 
     void OnClickCloseButton()
     {
-        fifthPage.gameObject.SetActive(false);
-        firstPage.gameObject.SetActive(true);
-        curPage = 0;
-        pageText.text = "1/5";
-        tutorialUI.SetActive(false);
+        ResetPage();
+        this.gameObject.SetActive(false);
         AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
     }
-
 
     /// <summary>
     /// 다음 페이지로 넘기기
@@ -142,6 +134,22 @@ public class TutorialUI : MonoBehaviour
                 break;
             case 5:
                 break;
+        }
+    }
+
+    /// <summary>
+    /// 1페이지 고정
+    /// </summary>
+    void ResetPage()
+    {
+        curPage = 0;
+        pageText.text = "1/5";
+        firstPage.gameObject.SetActive(true);
+
+        for (int i = 1; i < pages.Count; i++)
+        {
+            if (pages.TryGetValue(i, out GameObject page))
+                page.SetActive(false);
         }
     }
 }
