@@ -31,12 +31,14 @@ public class EndingButton : MonoBehaviour
     {
         AudioManager.Instance.StopBGM();
         AudioManager.Instance.bgmSource.volume = 0.05f;
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Button"]);
         SceneChangerManager.Instance.OnClick_LoadScene(SceneChangerManager.Instance.sceneNamesInBuild[0]);
     }
 
     void OnNextDayButton()
     {
         AudioManager.Instance.StopBGM();
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Button"]);
         summaryPanel.gameObject.SetActive(false);
         StartCoroutine(FadeUI());
     }

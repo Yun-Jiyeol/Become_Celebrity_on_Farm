@@ -39,6 +39,7 @@ public class DailySummaryUI : MonoBehaviour
     void OnNextButtonClick()
     {
         AudioManager.Instance.StopBGM();
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Button"]);
         StartCoroutine(fader.Fade(() =>
         {
             summaryBg.DOFade(0f, 0f);
