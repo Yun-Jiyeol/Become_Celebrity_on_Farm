@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class MobBehavior : MonoBehaviour
 {
-    [Header("설정")]
+    [Header("스탯 설정")]
     public float maxHealth = 20f;
-    private float currentHealth;
+    [SerializeField] private float currentHealth; // 인스펙터에서 보기만 가능
     public float attackPower = 10f;
     public float moveSpeed = 2f;
     public float detectionRadius = 5f;
 
     [Header("영역 제한")]
-    [HideInInspector]
-    public BoxCollider2D allowedArea;
+    [HideInInspector] public BoxCollider2D allowedArea;
     public float maxChaseDistance = 10f;
 
     [Header("입구 상태 감지")]
