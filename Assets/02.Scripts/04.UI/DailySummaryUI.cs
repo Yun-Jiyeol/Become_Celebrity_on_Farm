@@ -32,11 +32,13 @@ public class DailySummaryUI : MonoBehaviour
 
     void OnEnable()
     {
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.ReadyAudio["EndingSound"]);
         SetText();
     }
 
     void OnNextButtonClick()
     {
+        AudioManager.Instance.StopBGM();
         StartCoroutine(fader.Fade(() =>
         {
             summaryBg.DOFade(0f, 0f);
@@ -54,6 +56,7 @@ public class DailySummaryUI : MonoBehaviour
             if (nextDay.isForced) nextDay.isForced = false;
             TimeManager.Instance.isSleeping = false;
         }));
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.ReadyAudio["MainBGM"]);
     }
 
     void SetText()
