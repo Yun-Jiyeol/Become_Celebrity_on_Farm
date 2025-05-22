@@ -174,4 +174,13 @@ public class MobBehavior : MonoBehaviour
             hasSeenPlayer = true;
         }
     }
+
+    // 추가된 부분: 마우스로 클릭 시 데미지 입힘
+    private void OnMouseDown()
+    {
+        float damage = Random.Range(3f, 11f);
+        TakeDamage(damage);
+        Debug.Log($"{gameObject.name}이 {damage}만큼 피해를 입음");
+    }
+
 }
