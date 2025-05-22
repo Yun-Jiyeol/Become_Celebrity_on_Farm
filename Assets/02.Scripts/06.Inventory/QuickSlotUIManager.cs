@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class QuickSlotUIManager : MonoBehaviour
 {
@@ -10,20 +11,61 @@ public class QuickSlotUIManager : MonoBehaviour
     [Header("«œ¥‹ ƒ¸ΩΩ∑‘ UI")]
     public InventorySlotUI[] quickSlots;
 
+    [Header("¿‘∑¬")]
+    public InputActionReference scrollSlotAction;
+
+    [SerializeField] private PlayerController playerController;
+
     private int selectedIndex = -1;
+    private bool scrollRegistered = false;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-    }
 
+        if (playerController == null)
+            playerController = FindObjectOfType<PlayerController>();
+    }
+    private void OnEnable()
+    {
+        if (!scrollRegistered)
+        {
+            scrollSlotAction.action.Enable();
+            scrollSlotAction.action.performed += OnScrollSlot;
+            scrollRegistered = true;
+        }
+    }
+    private void OnDisable()
+    {
+        if (scrollRegistered)
+        {
+            scrollSlotAction.action.performed -= OnScrollSlot;
+            scrollSlotAction.action.Disable();
+            scrollRegistered = false;
+        }
+    }
     private void Start()
     {
         Invoke(nameof(RefreshQuickSlot), 0.1f);
         //RefreshQuickSlot(); // Ω√¿€ Ω√ √ ±‚»≠
     }
+    private void OnScrollSlot(InputAction.CallbackContext context)
+    {
+        float scrollValue = context.ReadValue<Vector2>().y;
 
+        if (scrollValue == 0) return;
+
+        int direction = scrollValue > 0 ? -1 : 1;
+        int newIndex = selectedIndex + direction;
+
+        if (newIndex < 0)
+            newIndex = quickSlots.Length - 1;
+        else if (newIndex >= quickSlots.Length)
+            newIndex = 0;
+
+        SelectSlot(newIndex);
+    }
     public void RefreshQuickSlot()
     {
         if (playerInventory == null || playerInventory.PlayerHave == null)
@@ -42,6 +84,8 @@ public class QuickSlotUIManager : MonoBehaviour
     }
     public void SelectSlot(int index)
     {
+        if (selectedIndex == index) return;
+
         if (index < 0 || index >= quickSlots.Length) return;
 
         for (int i = 0; i < quickSlots.Length; i++)
@@ -50,6 +94,14 @@ public class QuickSlotUIManager : MonoBehaviour
         }
 
         selectedIndex = index;
+#if UNITY_EDITOR
+        Debug.Log($"[QuickSlotUIManager] ƒ¸ΩΩ∑‘ {index + 1}π¯ º±≈√µ ");
+#endif
+
+        if (playerController != null)
+        {
+            playerController.ChangeSlot(selectedIndex + 1);
+        }
     }
 }
 
