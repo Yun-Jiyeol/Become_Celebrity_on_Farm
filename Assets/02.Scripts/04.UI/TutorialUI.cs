@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class TutorialUI : MonoBehaviour
 {
@@ -33,6 +34,19 @@ public class TutorialUI : MonoBehaviour
         thirdPage.SetActive(false);
         fourthPage.SetActive(false);
         fifthPage.SetActive(false);
+    }
+
+    void OnEnable()
+    {
+        if (GameManager.Instance.player == null) return;
+        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = false;
+    }
+
+    void OnDisable()
+    {
+        if (GameManager.Instance.player == null) return;
+        if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = true;
+        input.actions["Click"].Enable();
     }
 
     void SetPage()
