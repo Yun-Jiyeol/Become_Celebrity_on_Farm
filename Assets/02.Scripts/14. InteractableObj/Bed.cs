@@ -17,7 +17,7 @@ public class Bed : MonoBehaviour
     [SerializeField] private Button yesButton;
     [SerializeField] private Button noButton;
 
-
+    bool isOpened = false;
 
     private void Start()
     {
@@ -28,12 +28,17 @@ public class Bed : MonoBehaviour
     }
 
     /// <summary>
-    /// 침대 오른쪽 구석으로 충돌하면 선택 UI 활성화
+    /// 침대 오른쪽 구석으로 충돌하면 다음 날 선택 UI 활성화
     /// </summary>
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = false;
-        endOfDaySelectUI.gameObject.SetActive(true);
+        
+        if (!isOpened)
+        {
+            endOfDaySelectUI.gameObject.SetActive(true);
+            isOpened = true;
+        }
     }
 
     void OnClickYesButton()
@@ -41,6 +46,7 @@ public class Bed : MonoBehaviour
         AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Button"]);
         endOfDaySelectUI.gameObject.SetActive(false);
         nextDay.Sleep();
+        Invoke(nameof(DelayBool), 2f);
     }
 
     void OnClickNoButton()
@@ -48,5 +54,11 @@ public class Bed : MonoBehaviour
         AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["Button"]);
         endOfDaySelectUI.gameObject.SetActive(false);
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = true;
+        isOpened = false;
+    }
+
+    void DelayBool()
+    {
+        isOpened = false;
     }
 }

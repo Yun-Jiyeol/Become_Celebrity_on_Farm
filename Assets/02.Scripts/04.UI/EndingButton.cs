@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,10 @@ public class EndingButton : MonoBehaviour
 
     [SerializeField] private Image summaryBg;
     [SerializeField] private Image summaryPanel;
-    
+
+    [SerializeField] private TextMeshProUGUI farmNameText;
+
+
 
     void Start()
     {
@@ -19,6 +23,9 @@ public class EndingButton : MonoBehaviour
 
         summaryBg.gameObject.SetActive(false);
         summaryPanel.gameObject.SetActive(false);
+
+        string farmName = GameManager.Instance.player.GetComponent<PlayerStats>().FarmName;
+        farmNameText.text = farmName;
     }
 
     private void OnEnable()
@@ -43,6 +50,9 @@ public class EndingButton : MonoBehaviour
         StartCoroutine(FadeUI());
     }
 
+    /// <summary>
+    /// 정산 패널 활성화
+    /// </summary>
     IEnumerator FadeUI()
     {
         summaryBg.gameObject.SetActive(true);
