@@ -1,12 +1,15 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewQuest", menuName = "Quest System/QuestData")]
+public enum SeasonType { Spring, Summer, Fall, Winter }
+
+[CreateAssetMenu(fileName = "NewQuest", menuName = "PopupQuest/QuestData")]
 public class QuestData : ScriptableObject
 {
     public string questTitle;           // 퀘스트 제목
     [TextArea]
     public string questDescription;     // 퀘스트 설명
     public string shortDescription;     // 퀘스트 짧은 설명
+    public SeasonType availableSeason;  // 등장 가능한 계절
 
     public int rewardGold;              // 보상 골드
     public int rewardExp;               // 보상 경험치
@@ -26,4 +29,5 @@ public class QuestData : ScriptableObject
         Social,
         Delivery
     }
+
 }

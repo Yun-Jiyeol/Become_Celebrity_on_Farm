@@ -140,10 +140,11 @@ public class QuestManager : MonoBehaviour
     private QuestData GetRandomQuest()
     {
         List<QuestData> available = new List<QuestData>();
+        SeasonType currentSeason = (SeasonType)TimeManager.Instance.currentMonth;
 
         foreach (var quest in allQuestPool)
         {
-            if (!receivedQuests.Contains(quest))
+            if (!receivedQuests.Contains(quest) && quest.availableSeason == currentSeason)
             {
                 available.Add(quest);
             }
