@@ -92,10 +92,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbef240601d76e4fbb8c64e5e4d2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 10
+  currentHealth: 0
   attackPower: 3
   moveSpeed: 3
   detectionRadius: 8
+  allowedArea: {fileID: 0}
+  maxChaseDistance: 10
+  mineEntranceObject: {fileID: 0}
 --- !u!212 &3799548399931479801
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -312,10 +316,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbef240601d76e4fbb8c64e5e4d2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 15
+  currentHealth: 0
   attackPower: 1
   moveSpeed: 4
   detectionRadius: 8
+  allowedArea: {fileID: 0}
+  maxChaseDistance: 10
+  mineEntranceObject: {fileID: 0}
 --- !u!212 &1445713734530924727
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1022,10 +1030,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbef240601d76e4fbb8c64e5e4d2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 15
+  currentHealth: 0
   attackPower: 7
   moveSpeed: 2
   detectionRadius: 8
+  allowedArea: {fileID: 0}
+  maxChaseDistance: 10
+  mineEntranceObject: {fileID: 0}
 --- !u!212 &5233282796428328848
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1243,9 +1255,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  currentHealth: 0
   attackPower: 5
   moveSpeed: 2
   detectionRadius: 8
+  allowedArea: {fileID: 0}
+  maxChaseDistance: 10
+  mineEntranceObject: {fileID: 0}
 --- !u!212 &8073790135802412712
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1385,7 +1401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1856489985108651796
 Transform:
   m_ObjectHideFlags: 0
@@ -1399,10 +1415,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2186200864509193931}
   - {fileID: 490625535756877403}
-  - {fileID: 2787313284280345716}
+  - {fileID: 2186200864509193931}
   - {fileID: 1361174680017724503}
+  - {fileID: 2787313284280345716}
   m_Father: {fileID: 1937700806087488802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8494145324760622266
@@ -1413,6 +1429,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1937700806087488802}
     m_Modifications:
+    - target: {fileID: 3142769645732305582, guid: c0838fde9703a9f41a684603d00b0dc1, type: 3}
+      propertyPath: maxHealth
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172009572478143194, guid: c0838fde9703a9f41a684603d00b0dc1, type: 3}
+      propertyPath: maxHealth
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4073324419388069566, guid: c0838fde9703a9f41a684603d00b0dc1, type: 3}
       propertyPath: m_Name
       value: StoneMob
@@ -1456,6 +1480,10 @@ PrefabInstance:
     - target: {fileID: 4081987851287646428, guid: c0838fde9703a9f41a684603d00b0dc1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5215223150542737389, guid: c0838fde9703a9f41a684603d00b0dc1, type: 3}
+      propertyPath: maxHealth
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

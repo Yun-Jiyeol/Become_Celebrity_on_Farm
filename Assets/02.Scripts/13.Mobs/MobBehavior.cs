@@ -150,11 +150,15 @@ public class MobBehavior : MonoBehaviour
     {
         if (spriteRenderer == null) yield break;
 
+        Color originalColor = spriteRenderer.color;
+        Color hitColor = Color.red;
+
         for (int i = 0; i < 3; i++)
         {
-            spriteRenderer.enabled = false;
+            spriteRenderer.color = hitColor;
             yield return new WaitForSeconds(0.1f);
-            spriteRenderer.enabled = true;
+
+            spriteRenderer.color = originalColor;
             yield return new WaitForSeconds(0.1f);
         }
     }
