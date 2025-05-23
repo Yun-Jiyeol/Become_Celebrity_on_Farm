@@ -24,6 +24,7 @@ public class PlayerController : BaseController
     public bool isNPCInteract = false;
 
     private int nownum;
+    private Player player;
     int DirectionSave = 0;
 
     [Header("Interact")]
@@ -55,8 +56,10 @@ public class PlayerController : BaseController
         public int _Dir;
         public bool _isAll;
     }
-
-
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+    }
     protected override void Start()
     {
         base.Start();
@@ -340,6 +343,21 @@ public class PlayerController : BaseController
                         _Tag = new string[] { "Stone" },
                         _Dir = DirectionSave,
                         _isAll = false
+                    };
+                    break;
+                case ItemType.Sword:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SwordStateParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Tag = new string[] { "Mob" },
+                        _Dir = DirectionSave,
+                        _isAll = true
                     };
                     break;
                 default:
@@ -664,25 +682,38 @@ public class PlayerController : BaseController
         ChangeSlot(12);
     }
 
-    void ChangeSlot(int num)
+    public void ChangeSlot(int num)
     {
         if (isAction) return;
 
         nownum = num;
-        QuickSlotUIManager.Instance.SelectSlot(nownum - 1);
 
-        if (gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num == 0)
+        int index = nownum - 1;
+        var items = player.inventory.PlayerHave;
+
+        if (index < 0 || index >= items.Count)
+        {
+            Debug.LogWarning($"[ChangeSlot] Àß¸øµÈ ½½·Ô ÀÎµ¦½º: {index}");
+            return;
+        }
+
+        var itemDataNum = items[index].ItemData_num;
+
+        if (itemDataNum == 0)
         {
             chooseItemType = ItemType.Except;
-            gameObject.GetComponent<Player>().stat.ActiveRange = 1;
+            player.stat.ActiveRange = 1;
             ItemDamage = 0;
         }
         else
         {
-            chooseItemType = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Item_Type;
-            gameObject.GetComponent<Player>().stat.ActiveRange = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Range;
-            ItemDamage = ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Damage;
+            var itemData = ItemManager.Instance.itemDataReader.itemsDatas[itemDataNum];
+            chooseItemType = itemData.Item_Type;
+            player.stat.ActiveRange = itemData.Range;
+            ItemDamage = itemData.Damage;
         }
+
+        QuickSlotUIManager.Instance.SelectSlot(index);
 
         switch (chooseItemType)
         {
@@ -698,13 +729,13 @@ public class PlayerController : BaseController
             case ItemType.Sickle:
             case ItemType.Axe:
             case ItemType.Pickaxe:
+            case ItemType.Sword:
                 TryChangeType(PlayerInteractType.Range);
                 break;
 
             case ItemType.FishingRod:
                 TryChangeType(PlayerInteractType.Charge);
                 break;
-
         }
     }
     void TryChangeType(PlayerInteractType type)

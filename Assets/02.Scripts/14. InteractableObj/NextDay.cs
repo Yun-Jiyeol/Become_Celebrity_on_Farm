@@ -8,17 +8,16 @@ public class NextDay : MonoBehaviour
 
     public bool isForced = false;
 
+
     void Start()
     {
         endingCanvas.gameObject.SetActive(false);
-
         TimeManager.Instance.OnDayChanged += StartForcedSleep;
     }
 
     void StartForcedSleep()
     {
-        if (!TimeManager.Instance.isSleeping)
-            StartCoroutine(ForcedSleep());
+        if (!TimeManager.Instance.isSleeping) ForcedSleep();
     }
 
     /// <summary>
@@ -36,19 +35,9 @@ public class NextDay : MonoBehaviour
     /// <summary>
     /// 자정이 될 때까지 안 자면 강제 취침
     /// </summary>
-    IEnumerator ForcedSleep()
+    void ForcedSleep()
     {
         isForced = true;
         Sleep();
-
-        yield return new WaitForSecondsRealtime(1.3f);
-
-        MapManager.Instance.MoveMap(MapType.Home);
-
-        yield return new WaitForSecondsRealtime(0.5f);
-
-        // 랜덤 골드 1000~2000(temp) 손해
-        int randomGold = Random.Range(10, 20) * 100;
-        GoldManager.Instance.SpendGold(randomGold);
     }
 }
