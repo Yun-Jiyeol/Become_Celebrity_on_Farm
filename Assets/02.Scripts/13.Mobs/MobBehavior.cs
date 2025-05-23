@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class MobBehavior : MonoBehaviour
 {
     [Header("스탯 설정")]
     public float maxHealth = 20f;
-    [SerializeField] private float currentHealth; // 인스펙터에서 보기만 가능
+    [SerializeField] private float currentHealth;
     public float attackPower = 10f;
     public float moveSpeed = 2f;
     public float detectionRadius = 5f;
@@ -14,11 +15,12 @@ public class MobBehavior : MonoBehaviour
     public float maxChaseDistance = 10f;
 
     [Header("입구 상태 감지")]
-    public GameObject mineEntranceObject; // 인스펙터에서 설정
+    public GameObject mineEntranceObject;
 
     private Vector3 spawnPoint;
     private Transform player;
     private Camera mainCamera;
+    private SpriteRenderer spriteRenderer;
 
     private bool hasSeenPlayer = false;
 
@@ -29,7 +31,6 @@ public class MobBehavior : MonoBehaviour
 
     void Start()
     {
-        // 입구 씬일 경우 몬스터 꺼버리기
         if (mineEntranceObject != null && mineEntranceObject.activeInHierarchy)
         {
             Debug.Log($"{gameObject.name}: MineEntrance가 활성화 상태이므로 Mob 비활성화됨");
@@ -39,9 +40,11 @@ public class MobBehavior : MonoBehaviour
 
         player = GameObject.FindWithTag("Player")?.transform;
         mainCamera = Camera.main;
-        if (mainCamera == null)
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
         {
-            Debug.LogWarning($"{gameObject.name}: Main Camera를 찾지 못했습니다.");
+            Debug.LogWarning($"{gameObject.name}: SpriteRenderer가 없습니다.");
         }
 
         currentHealth = maxHealth;
@@ -70,23 +73,14 @@ public class MobBehavior : MonoBehaviour
         if (allowedArea != null) return;
 
         GameObject[] areas = GameObject.FindGameObjectsWithTag("IndoorArea");
-        if (areas == null || areas.Length == 0)
-        {
-            Debug.LogWarning($"{gameObject.name}: 'IndoorArea' 태그를 가진 오브젝트를 찾지 못했습니다.");
-            return;
-        }
+        if (areas == null || areas.Length == 0) return;
 
         float minDist = Mathf.Infinity;
-
         foreach (GameObject area in areas)
         {
             if (area == null) continue;
             BoxCollider2D areaCollider = area.GetComponent<BoxCollider2D>();
-            if (areaCollider == null)
-            {
-                Debug.LogWarning($"{area.name}: BoxCollider2D가 없습니다.");
-                continue;
-            }
+            if (areaCollider == null) continue;
 
             float dist = Vector3.Distance(transform.position, areaCollider.bounds.center);
             if (dist < minDist)
@@ -94,11 +88,6 @@ public class MobBehavior : MonoBehaviour
                 minDist = dist;
                 allowedArea = areaCollider;
             }
-        }
-
-        if (allowedArea == null)
-        {
-            Debug.LogWarning($"{gameObject.name}: BoxCollider2D가 있는 IndoorArea를 찾지 못했습니다.");
         }
     }
 
@@ -146,14 +135,46 @@ public class MobBehavior : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
+
         if (currentHealth <= 0)
         {
-            Die();
+            StartCoroutine(DieWithFade());
+        }
+        else
+        {
+            StartCoroutine(BlinkEffect());
         }
     }
 
-    void Die()
+    IEnumerator BlinkEffect()
     {
+        if (spriteRenderer == null) yield break;
+
+        for (int i = 0; i < 3; i++)
+        {
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator DieWithFade()
+    {
+        if (spriteRenderer == null)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
+        Color color = spriteRenderer.color;
+        while (color.a > 0f)
+        {
+            color.a -= Time.deltaTime * 1.5f;
+            spriteRenderer.color = color;
+            yield return null;
+        }
+
         Destroy(gameObject);
     }
 
@@ -175,12 +196,10 @@ public class MobBehavior : MonoBehaviour
         }
     }
 
-    // 추가된 부분: 마우스로 클릭 시 데미지 입힘
     private void OnMouseDown()
     {
         float damage = Random.Range(3f, 11f);
         TakeDamage(damage);
         Debug.Log($"{gameObject.name}이 {damage}만큼 피해를 입음");
     }
-
 }
