@@ -345,6 +345,21 @@ public class PlayerController : BaseController
                         _isAll = false
                     };
                     break;
+                case ItemType.Sword:
+                    tartgetPosition = GameManager.Instance.camera.ScreenToWorldPoint(Input.mousePosition);
+                    CheckAngle();
+                    SaveDirextionInfo();
+                    isAction = true;
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetFloat(gameObject.GetComponent<Player>().playerAnimation.SpeedParameterHash,
+                        ItemManager.Instance.itemDataReader.itemsDatas[gameObject.GetComponent<Player>().inventory.PlayerHave[nownum - 1].ItemData_num].Speed);
+                    gameObject.GetComponent<Player>().playerAnimation.animator.SetTrigger(gameObject.GetComponent<Player>().playerAnimation.SwordStateParameterHash);
+                    readyRangeInteract = new RangeInteract()
+                    {
+                        _Tag = new string[] { "Mob" },
+                        _Dir = DirectionSave,
+                        _isAll = true
+                    };
+                    break;
                 default:
                     break;
             }
@@ -714,6 +729,7 @@ public class PlayerController : BaseController
             case ItemType.Sickle:
             case ItemType.Axe:
             case ItemType.Pickaxe:
+            case ItemType.Sword:
                 TryChangeType(PlayerInteractType.Range);
                 break;
 

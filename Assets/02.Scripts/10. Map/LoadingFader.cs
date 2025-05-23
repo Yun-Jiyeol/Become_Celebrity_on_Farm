@@ -16,7 +16,6 @@ public class LoadingFader : MonoBehaviour
     void Start()
     {
         DOTween.Init();
-
         fader = GetComponent<Image>();
         loadingCanvas = GetComponentInParent<Canvas>();
 
@@ -49,20 +48,13 @@ public class LoadingFader : MonoBehaviour
         // 3. Fade in 시작
         virtualCamera.enabled = true;
         
-        Debug.Log($"1. {input.enabled}");
-
         fader.DOFade(0f, 1f)
             .SetUpdate(true)
             .SetEase(Ease.Linear)
             .WaitForCompletion();
 
-        Debug.Log($"2. {input.enabled}");
         input.enabled = true;
         loadingCanvas.gameObject.SetActive(false);
-
-
-        // 4. 0.1초 기다리고 input enabled
-        //yield return new WaitForSecondsRealtime(0.1f);
     }
 
     /// <summary>

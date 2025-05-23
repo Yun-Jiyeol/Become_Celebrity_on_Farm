@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3098087561858401918}
-  - component: {fileID: 692576374730978378}
   - component: {fileID: 5042815867876115239}
   m_Layer: 2
   m_Name: MobManager
-  m_TagString: Untagged
+  m_TagString: Mob
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,25 +36,6 @@ RectTransform:
   m_AnchoredPosition: {x: 266.6667, y: 150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &692576374730978378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4280013838437941157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bbef240601d76e4fbb8c64e5e4d2893, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 20
-  attackPower: 10
-  moveSpeed: 2
-  detectionRadius: 5
-  allowedArea: {fileID: 0}
-  maxChaseDistance: 10
-  mineEntranceObject: {fileID: 0}
 --- !u!114 &5042815867876115239
 MonoBehaviour:
   m_ObjectHideFlags: 0

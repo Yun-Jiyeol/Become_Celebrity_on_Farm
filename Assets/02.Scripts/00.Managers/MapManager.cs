@@ -113,20 +113,6 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 다음 날로 넘어갈 때 사용
-    /// </summary>
-    public void RefreshMap()
-    {
-        UnloadMap(currentMap);
-        if (mapPair.TryGetValue(currentMap, out Map curMap))
-        {
-            curMap.place.SetActive(true);
-            SetPlayerPosition(curMap);
-            camConfinerChange.ChangeCameraBorder(curMap.cameraBorder);
-        }
-    }
-
-    /// <summary>
     /// 플레이어가 이동할 때 타겟 맵 활성화
     /// </summary>
     public void MoveMap(MapType targetType, GameObject entrance = null)
@@ -230,5 +216,10 @@ public class MapManager : MonoBehaviour
             default:
                 return 99;
         }
+    }
+
+    public MapType NowPlayerPosition()
+    {
+        return currentMap;
     }
 }
