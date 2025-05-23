@@ -10,7 +10,10 @@ using static Season;
 public class StuffSpawner : MonoBehaviour
 {
     [SerializeField] private Tilemap tilemap;
-    [SerializeField] private List<GameObject> stuffs;
+
+    [SerializeField] private List<GameObject> startStuffs;      // 첫 날 나올 프리팹 리스트
+    [SerializeField] private List<GameObject> nextDayStuffs;    // 하루 지난 후 반복해서 나올 프리팹 리스트
+
     [SerializeField] private Transform onActiveObjs;
 
     public int prefabCount;
@@ -18,6 +21,7 @@ public class StuffSpawner : MonoBehaviour
     readonly HashSet<Vector3Int> usedPositions = new();
 
     bool isSpawned = false;
+    bool isFirstDay = true;
 
     Season season;
 
@@ -53,12 +57,16 @@ public class StuffSpawner : MonoBehaviour
     /// </summary>
     void SpawnStuff(int count)
     {
+        var prefabList = isFirstDay || nextDayStuffs.Count == 0 ? startStuffs : nextDayStuffs;
+
         for (int i = 0; i < count; i++)
         {
             Vector3 position = SetRandomPosition();
-            GameObject prefab = SetStuff();
-            GameObject obj = Instantiate(prefab, position, Quaternion.identity, onActiveObjs);
+            GameObject prefab = SetStuff(prefabList);
+            Instantiate(prefab, position, Quaternion.identity, onActiveObjs);
         }
+
+        isFirstDay = false;
     }
 
     /// <summary>
@@ -94,24 +102,13 @@ public class StuffSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// 랜덤 프리팹 리턴
+    /// 리스트 받아서 랜덤 프리팹 리턴
     /// </summary>
-    GameObject SetStuff()
+    GameObject SetStuff(List<GameObject> stuffList)
     {
-        // 겨울일때 plant spawn 스킵
-
-
-
-        int num = Random.Range(0, stuffs.Count);
-        GameObject stuff = stuffs[num];
-        //if (stuff.TryGetComponent(out SeedGrow sg))
-        //{
-            //if (sg.canGrowSeason.Contains(season.CurrentSeason))
-            //{
-                return stuff;
-            //}
-        //}
-        //else return stuff;
+        int num = Random.Range(0, stuffList.Count);
+        GameObject stuff = stuffList[num];
+        return stuff;
     }
 
     /// <summary>
@@ -120,7 +117,6 @@ public class StuffSpawner : MonoBehaviour
     void ChangePrefabSeason(SeasonType newSeason)
     {
         GameManager.Instance.OneSeasonAfter();
-        Debug.Log($"[StuffSpawner] OneSeasonAfter 호출됨");
 
         foreach (var sg in onActiveObjs.GetComponentsInChildren<SeedGrow>())
         {
