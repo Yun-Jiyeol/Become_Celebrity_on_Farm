@@ -12,6 +12,7 @@ public class PlayerAnimation : BaseAnimation
     string AxeParameterName = "Axe";
     string FishingParameterName = "Fishing";
     string FishingStateParameterName = "FishingState";
+    string SwordStateParameterName = "Sword";
 
     public int SpeedParameterHash { get; private set; }
     public int HoeParameterHash { get; private set; }
@@ -21,6 +22,7 @@ public class PlayerAnimation : BaseAnimation
     public int AxeParameterHash { get; private set; }
     public int FishingParameterHash { get; private set; }
     public int FishingStateParameterHash { get; private set; }
+    public int SwordStateParameterHash { get; private set; }
 
     private void Start()
     {
@@ -42,6 +44,7 @@ public class PlayerAnimation : BaseAnimation
         AxeParameterHash = Animator.StringToHash(AxeParameterName);
         FishingParameterHash = Animator.StringToHash(FishingParameterName);
         FishingStateParameterHash = Animator.StringToHash(FishingStateParameterName);
+        SwordStateParameterHash = Animator.StringToHash(SwordStateParameterName);
     }
 
     private void FixedUpdate()
