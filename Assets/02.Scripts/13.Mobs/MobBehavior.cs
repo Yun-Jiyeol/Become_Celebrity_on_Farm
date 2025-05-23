@@ -202,8 +202,20 @@ public class MobBehavior : MonoBehaviour
 
     private void OnMouseDown()
     {
-        float damage = Random.Range(3f, 11f);
-        TakeDamage(damage);
-        Debug.Log($"{gameObject.name}이 {damage}만큼 피해를 입음");
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player == null) return;
+
+        float distance = Vector2.Distance(transform.position, player.transform.position);
+
+        if (distance <= 2.5f) // 원하는 거리만큼 조정 가능
+        {
+            int damage = Random.Range(3, 11);
+            TakeDamage(damage);
+            Debug.Log($"{gameObject.name}이 {damage} 데미지를 입음");
+        }
+        else
+        {
+            Debug.Log("몬스터가 너무 멀어서 공격할 수 없습니다");
+        }
     }
 }
