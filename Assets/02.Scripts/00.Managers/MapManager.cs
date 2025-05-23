@@ -217,4 +217,9 @@ public class MapManager : MonoBehaviour
                 return 99;
         }
     }
+
+    public MapType NowPlayerPosition()
+    {
+        return currentMap;
+    }
 }
