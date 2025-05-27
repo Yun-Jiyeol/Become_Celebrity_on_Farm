@@ -16,14 +16,18 @@ public class PlannerQuestManager : MonoBehaviour
     private bool isQuestAccepted = false;
     private bool isQuestCompleted = false;
 
-    private int copperCollected = 0;
-
 
     // 1일차 전용 조건들
     private bool didTill = false;
     private bool didPlant = false;
     private bool didWater = false;
     private bool didClean = false;
+
+    private int copperCollected = 0; // 4일차 구리 채집 퀘스트용
+    private bool didFish = false; // 5일차 낚시 퀘스트용
+    private bool didHarvest = false; // 6일차 농작물 수확 퀘스트용
+    private bool didTalk = false; // 7일차 NPC 대화 퀘스트용
+
 
     private void Awake()
     {
@@ -52,7 +56,7 @@ public class PlannerQuestManager : MonoBehaviour
         didWater = false;
         didClean = false;
 
-        todayQuest = GetQuestForDay(TimeManager.Instance.currentDay + 1);
+        todayQuest = GetQuestForDay(TimeManager.Instance.totalDaysPassed + 1);
 
         Debug.Log("[PlannerQuestManager] 하루 지나서 퀘스트 상태 초기화됨");
     }
@@ -61,7 +65,9 @@ public class PlannerQuestManager : MonoBehaviour
 
     public void TryShowTodayQuest()
     {
-        int today = TimeManager.Instance.currentDay + 1;
+        int today = TimeManager.Instance.totalDaysPassed  + 1;
+
+        todayQuest = GetQuestForDay(today);
 
         // 오늘 퀘스트가 이미 세팅된 상태면 다시 세팅하지 않음
         if (todayQuest == null || todayQuest.targetDay != today)
@@ -82,21 +88,19 @@ public class PlannerQuestManager : MonoBehaviour
         }
 
         // 수락했는지 여부는 날짜로 판단
-        bool isAccepted = (lastReceivedDay == TimeManager.Instance.currentDay);
+        bool isAccepted = (lastReceivedDay == TimeManager.Instance.totalDaysPassed);
         OpenQuestUI(todayQuest, isAccepted);
     }
 
     private PlannerQuestData GetQuestForDay(int day)
     {
-        int today = TimeManager.Instance.currentDay + 1; 
-
         foreach (var quest in quests)
         {
-            if (quest.targetDay == today)
+            if (quest.targetDay == day)
                 return quest;
         }
 
-        Debug.LogWarning($"[PlannerQuest] {today}일차에 해당하는 퀘스트 없음!");
+        Debug.LogWarning($"[PlannerQuest] {day}일차에 해당하는 퀘스트 없음!");
         return null;
 
     }
@@ -154,6 +158,19 @@ public class PlannerQuestManager : MonoBehaviour
 
                 break;
 
+            case "Talk":
+
+                if (todayQuest.targetDay == 7)
+                {
+                    didTalk = true;
+                    isQuestCompleted = true;
+                    Debug.Log("[PlannerQuest] 7일차 퀘스트 완료 (Talk)");
+
+                    GoldManager.Instance.AddGold(todayQuest.rewardGold);
+                    ExpManager.Instance.AddExp(todayQuest.rewardExp);
+                    ShowQuestRewardUI();
+                }
+                break;
         }
 
         // 세 조건 모두 완료했는지 체크
@@ -202,6 +219,43 @@ public class PlannerQuestManager : MonoBehaviour
     }
     /// </summary>
 
+    // 5일차 낚시 퀘스트
+    public void ReportFishing()
+    {
+        if (todayQuest != null && todayQuest.targetDay == 5 && !isQuestCompleted && isQuestAccepted)
+        {
+            if (!didFish)
+            {
+                didFish = true;
+                isQuestCompleted = true;
+
+                Debug.Log("5일차 퀘스트 완료 (낚시)");
+
+                GoldManager.Instance.AddGold(todayQuest.rewardGold);
+                ExpManager.Instance.AddExp(todayQuest.rewardExp);
+                ShowQuestRewardUI();
+            }
+        }
+    }
+
+    // 6일차 농작물 수확 퀘스트
+    public void ReportHarvest()
+    {
+        if (todayQuest != null && todayQuest.targetDay == 6 && !isQuestCompleted && isQuestAccepted)
+        {
+            if (!didHarvest)
+            {
+                didHarvest = true;
+                isQuestCompleted = true;
+                Debug.Log("6일차 퀘스트 완료 (수확)");
+
+                GoldManager.Instance.AddGold(todayQuest.rewardGold);
+                ExpManager.Instance.AddExp(todayQuest.rewardExp);
+                ShowQuestRewardUI();
+            }
+        }
+    }
+
     private void ShowQuestRewardUI()
     {
         Debug.Log("[PlannerQuestManager] ShowQuestRewardUI 호출됨");
@@ -211,7 +265,7 @@ public class PlannerQuestManager : MonoBehaviour
     }
     public void MarkQuestAsAccepted()
     {
-        lastReceivedDay = TimeManager.Instance.currentDay;
+        lastReceivedDay = TimeManager.Instance.totalDaysPassed;
         isQuestAccepted = true;
         isQuestCompleted = false;
 
