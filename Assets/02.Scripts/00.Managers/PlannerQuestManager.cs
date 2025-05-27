@@ -16,6 +16,9 @@ public class PlannerQuestManager : MonoBehaviour
     private bool isQuestAccepted = false;
     private bool isQuestCompleted = false;
 
+    private int copperCollected = 0;
+
+
     // 1일차 전용 조건들
     private bool didTill = false;
     private bool didPlant = false;
@@ -165,6 +168,39 @@ public class PlannerQuestManager : MonoBehaviour
         if (!isQuestAccepted || isQuestCompleted)
             return;   
     }
+    /// <summary>
+    /// 4일차 구리 채집 퀘스트
+    public void ReportCopperCollected(int amount)
+    {
+        if (todayQuest != null && todayQuest.targetDay == 4)
+        {
+            copperCollected += amount;
+            Debug.Log($"[일일퀘스트] 구리 채집: {copperCollected}/2");
+
+            if (copperCollected >= 2)
+            {
+                CheckQuestCompletion();
+            }
+        }
+    }
+    private void CheckQuestCompletion()
+    {
+        if (isQuestCompleted) return;
+
+        isQuestCompleted = true;
+
+        Debug.Log("일일 퀘스트 완료!");
+
+        // 보상 지급
+        if (todayQuest != null)
+        {
+            GoldManager.Instance.AddGold(todayQuest.rewardGold);
+            ExpManager.Instance.AddExp(todayQuest.rewardExp);
+        }
+
+        ShowQuestRewardUI();
+    }
+    /// </summary>
 
     private void ShowQuestRewardUI()
     {
