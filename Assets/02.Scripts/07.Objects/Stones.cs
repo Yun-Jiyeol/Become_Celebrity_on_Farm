@@ -58,8 +58,9 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
 
                     if (questTarget == itemName && !reported)
                     {
-                        QuestManager.Instance.ReportProgress(itemName, 1);
-                        Debug.Log($"[Stone] Äù½ºÆ® º¸°íµÊ: {itemName}");
+                        QuestManager.Instance.ReportProgress(itemName, dropitems[i].SpawnItemAmount);
+                        Debug.Log($"[Stone] Äù½ºÆ® º¸°íµÊ: {itemName}, ¼ö·®: {dropitems[i].SpawnItemAmount}");
+
                         reported = true;
                         break; // ÇÏ³ª¸¸ º¸°íÇÏ°í ³¡³¿
                     }
