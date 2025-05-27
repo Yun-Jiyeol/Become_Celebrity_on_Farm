@@ -42,6 +42,7 @@ public class SpawnGround : ObjectPolling
         if (Type == ChangedGround.Plow)
         {
             go.transform.tag = Plow._Tag;
+            go.GetComponent<GroundGetWater>().enabled = true;
             SpriteRenderer _sprite = go.GetComponent<SpriteRenderer>();
             _sprite.sprite = ResourceManager.Instance.splits[Plow._spriteOnResourceManager];
             _sprite.sortingOrder = Plow._spriteOrder;
@@ -49,6 +50,7 @@ public class SpawnGround : ObjectPolling
         else if(Type == ChangedGround.Watered)
         {
             go.transform.tag = Watered._Tag;
+            go.GetComponent<GroundGetWater>().enabled = false;
             SpriteRenderer _sprite = go.GetComponent<SpriteRenderer>();
             _sprite.sprite = ResourceManager.Instance.splits[Watered._spriteOnResourceManager];
             _sprite.sortingOrder = Watered._spriteOrder;
@@ -68,6 +70,7 @@ public class SpawnGround : ObjectPolling
             boxC.isTrigger = true;
             boxC.size = new Vector2(1,1);
             go.AddComponent<SaveOnGM>().OffThisCollider = true;
+            go.AddComponent<GroundGetWater>().enabled = false;
             Things.Add(go);
         }
 

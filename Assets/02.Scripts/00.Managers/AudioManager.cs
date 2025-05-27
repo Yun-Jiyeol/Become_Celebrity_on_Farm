@@ -1,10 +1,24 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager instance = null;
+
+    public GameObject MenuCanvas;
+
+    public AudioMixer mainAudioMixer;
+    string masterVolumeParameterName = "Master";
+    string bgmVolumeParameterName = "BGM";
+    string sfxVolumeParameterName = "SFX";
+
+    public float SaveVolumeMain = 0;
+    public float SaveVolumeBGM = 0;
+    public float SaveVolumeSFX = 0;
 
     public AudioSource bgmSource;
     public AudioSource sfxSource;
@@ -38,6 +52,13 @@ public class AudioManager : MonoBehaviour
             }
             return instance;
         }
+    }
+
+    private void Start()
+    {
+        SetMainVolume(1);
+        SetBGMVolume(0.5f);
+        SetSFXVolume(0.5f);
     }
 
     private void SettingDictionary()
@@ -84,5 +105,35 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning("재생하려는 SFX 클립이 null입니다.");
         }
+    }
+
+    public void SetMainVolume(float _input)
+    {
+        SaveVolumeMain = _input;
+        float dbVolume = (_input > 0) ? Mathf.Log10(_input) * 30 + 10 : -80;
+        mainAudioMixer.SetFloat(masterVolumeParameterName, dbVolume);
+    }
+
+    public void SetBGMVolume(float _input)
+    {
+        SaveVolumeBGM = _input;
+        float dbVolume = (_input > 0) ? Mathf.Log10(_input) * 30 + 10 : -80;
+        mainAudioMixer.SetFloat(bgmVolumeParameterName, dbVolume);
+    }
+
+    public void SetSFXVolume(float _input)
+    {
+        SaveVolumeSFX = _input;
+        float dbVolume = (_input > 0) ? Mathf.Log10(_input) * 30 + 10 : -80;
+        mainAudioMixer.SetFloat(sfxVolumeParameterName, dbVolume);
+    }
+
+    public void OnMenuBtn()
+    {
+        MenuCanvas.SetActive(true);
+    }
+    public void OffMenuBtn()
+    {
+        MenuCanvas.SetActive(false);
     }
 }
