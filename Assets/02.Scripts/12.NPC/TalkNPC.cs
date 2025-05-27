@@ -58,6 +58,7 @@ public class TalkNPC : NPCData, IInteract
         // 일퀘 7일차 인어 퀘스트 진행 보고용
         if (npcName == NPCName.FishingGuide)
         {
+            Debug.Log("[TalkNPC] 인어와 대화했음!");
             PlannerQuestManager.Instance?.ReportAction("Talk");
         }
 
