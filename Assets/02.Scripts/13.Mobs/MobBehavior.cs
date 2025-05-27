@@ -111,6 +111,12 @@ public class MobBehavior : MonoBehaviour
         if (Vector2.Distance(transform.position, player.position) <= 1f)
         {
             Debug.Log($"플레이어를 공격: {attackPower}");
+
+            PlayerBlinkEffect blinkEffect = player.GetComponent<PlayerBlinkEffect>();
+            if (blinkEffect != null)
+            {
+                blinkEffect.TriggerBlink();
+            }
         }
     }
 
