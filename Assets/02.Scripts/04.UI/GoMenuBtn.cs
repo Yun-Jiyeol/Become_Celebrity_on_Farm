@@ -12,6 +12,7 @@ public class GoMenuBtn : MonoBehaviour, IPointerEnterHandler, IPointerDownHandle
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        AudioManager.Instance.OffMenuBtn();
         SceneChangerManager.Instance.OnClick_LoadScene(SceneChangerManager.Instance.sceneNamesInBuild[0]);
     }
 }

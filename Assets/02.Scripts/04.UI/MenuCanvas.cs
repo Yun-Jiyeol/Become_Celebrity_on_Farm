@@ -22,6 +22,7 @@ public class MenuCanvas : MonoBehaviour
 
     private void OnEnable()
     {
+        if (audioManager == null) return;
         MasterSlider.value = audioManager.SaveVolumeMain;
         BGMSlider.value = audioManager.SaveVolumeBGM;
         SFXSlider.value = audioManager.SaveVolumeSFX;

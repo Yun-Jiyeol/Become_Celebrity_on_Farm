@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
@@ -143,6 +144,7 @@ public class PlayerController : BaseController
     void OnClick(InputValue inputValue)
     {
         ChangeSlot(nownum);
+        if(EventSystem.current.IsPointerOverGameObject()) return;
         if (UIManager.Instance.InventoryIsOpen()) return;
         if (isAction) return;
         if (isNPCInteract) return;
