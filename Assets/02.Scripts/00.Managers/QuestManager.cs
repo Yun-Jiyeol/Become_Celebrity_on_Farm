@@ -139,8 +139,9 @@ public class QuestManager : MonoBehaviour
 
     private QuestData GetRandomQuest()
     {
+        Season.SeasonType currentSeason = TimeManager.Instance.season.CurrentSeason;
+
         List<QuestData> available = new List<QuestData>();
-        SeasonType currentSeason = (SeasonType)TimeManager.Instance.currentMonth;
 
         foreach (var quest in allQuestPool)
         {
@@ -150,14 +151,7 @@ public class QuestManager : MonoBehaviour
             }
         }
 
-        if (available.Count == 0)
-        {
-            Debug.Log("[QuestManager] 현재 계절에 가능한 퀘스트 없음");
-            return null;
-        }
-
-        Debug.Log($"[QuestManager] 퀘스트 풀 개수: {allQuestPool.Count}");
-        return available[Random.Range(0, available.Count)];
+        return available.Count > 0 ? available[UnityEngine.Random.Range(0, available.Count)] : null;
     }
 
     public void ReportProgress(string targetName, int amount)
