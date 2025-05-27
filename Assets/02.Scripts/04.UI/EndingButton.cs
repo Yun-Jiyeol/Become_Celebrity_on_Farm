@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(100)]
 public class EndingButton : MonoBehaviour
 {
     [SerializeField] private Button endButton;
@@ -13,7 +14,7 @@ public class EndingButton : MonoBehaviour
     [SerializeField] private Image summaryPanel;
 
     [SerializeField] private TextMeshProUGUI farmNameText;
-
+    [SerializeField] private TextMeshProUGUI watchText;
 
 
     void Start()
@@ -28,10 +29,18 @@ public class EndingButton : MonoBehaviour
         farmNameText.text = farmName;
     }
 
+
     private void OnEnable()
     {
         AudioManager.Instance.StopBGM();
         AudioManager.Instance.PlayBGM(AudioManager.Instance.ReadyAudio["YouBGM"]);
+        InvokeRepeating(nameof(RandomViewer), 1f, 2f);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke(nameof(RandomViewer));
+        watchText.text = "0";
     }
 
     void OnClickEndButton()
@@ -60,5 +69,15 @@ public class EndingButton : MonoBehaviour
             .SetUpdate(true)
             .WaitForCompletion();
         summaryPanel.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 하루 지날 때마다 시청자 수 증가
+    /// </summary>
+    void RandomViewer()
+    {
+        int date = TimeManager.Instance.currentDay + 1;
+        string randomNum = Random.Range(date * 10, date * 15).ToString("N0");
+        watchText.text = randomNum;
     }
 }
