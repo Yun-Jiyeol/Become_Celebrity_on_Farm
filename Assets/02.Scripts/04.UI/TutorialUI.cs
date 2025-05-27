@@ -8,11 +8,14 @@ public class TutorialUI : MonoBehaviour
 {
     [SerializeField] private GameObject firstPage;
     [SerializeField] private GameObject secondPage;
-    [SerializeField] private GameObject thirdPage;
-    [SerializeField] private GameObject fourthPage;
+    public GameObject thirdPage;
+    public GameObject fourthPage;
     [SerializeField] private GameObject fifthPage;
+    public GameObject sixthPage;
+    public GameObject seventhPage;
+    [SerializeField] private GameObject eighthPage;
 
-    private Dictionary<int, GameObject> pages = new Dictionary<int, GameObject>();
+    readonly Dictionary<int, GameObject> pages = new();
 
     [SerializeField] private TextMeshProUGUI pageText;
     [SerializeField] private Button leftButton;
@@ -34,11 +37,14 @@ public class TutorialUI : MonoBehaviour
         thirdPage.SetActive(false);
         fourthPage.SetActive(false);
         fifthPage.SetActive(false);
+        sixthPage.SetActive(false);
+        seventhPage.SetActive(false);
+        eighthPage.SetActive(false);
     }
 
     void OnEnable()
     {
-        if (GameManager.Instance.player == null) return;
+        if (GameManager.Instance == null || GameManager.Instance.player == null)  return;
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = false;
     }
 
@@ -56,6 +62,9 @@ public class TutorialUI : MonoBehaviour
         pages[2] = thirdPage;
         pages[3] = fourthPage;
         pages[4] = fifthPage;
+        pages[5] = sixthPage;
+        pages[6] = seventhPage;
+        pages[7] = eighthPage;
     }
 
     void OnClickLeftButton()
@@ -87,28 +96,46 @@ public class TutorialUI : MonoBehaviour
             case 0: // 현재 페이지가 첫번째라면 두번째로
                 secondPage.SetActive(true);
                 firstPage.SetActive(false);
-                pageText.text = "2/5";
+                pageText.text = "2/8";
                 curPage++;
                 break;
             case 1: // 현재 페이지가 두번째라면 세번째로
                 thirdPage.SetActive(true);
                 secondPage.SetActive(false);
                 curPage++;
-                pageText.text = "3/5";
+                pageText.text = "3/8";
                 break;
             case 2: // 현재 페이지가 세번째라면 네번째로
                 fourthPage.SetActive(true);
                 thirdPage.SetActive(false);
                 curPage++;
-                pageText.text = "4/5";
+                pageText.text = "4/8";
                 break;
             case 3: // 현재 페이지가 네번째라면 다섯번째로
                 fifthPage.SetActive(true);
                 fourthPage.SetActive(false);
                 curPage++;
-                pageText.text = "5/5";
+                pageText.text = "5/8";
                 break;
-            case 4:
+            case 4: 
+                sixthPage.SetActive(true);
+                fifthPage.SetActive(false);
+                curPage++;
+                pageText.text = "6/8";
+                break;
+            case 5: 
+                seventhPage.SetActive(true);
+                sixthPage.SetActive(false);
+                curPage++;
+                pageText.text = "7/8";
+                break;
+            case 6: 
+                eighthPage.SetActive(true);
+                seventhPage.SetActive(false);
+                curPage++;
+                pageText.text = "8/8";
+                break;
+            case 7:
                 break;
         }
     }
@@ -126,27 +153,43 @@ public class TutorialUI : MonoBehaviour
                 firstPage.SetActive(true);
                 secondPage.SetActive(false);
                 curPage--;
-                pageText.text = "1/5";
+                pageText.text = "1/8";
                 break;
             case 2: // 현재 페이지가 세번째라면 두번째로
                 secondPage.SetActive(true);
                 thirdPage.SetActive(false);
                 curPage--;
-                pageText.text = "2/5";
+                pageText.text = "2/8";
                 break;
             case 3: // 현재 페이지가 네번째라면 세번째로
                 thirdPage.SetActive(true);
                 fourthPage.SetActive(false);
                 curPage--;
-                pageText.text = "3/5";
+                pageText.text = "3/8";
                 break;
             case 4: // 현재 페이지가 다섯번째라면 네번째로
                 fourthPage.SetActive(true);
                 fifthPage.SetActive(false);
                 curPage--;
-                pageText.text = "4/5";
+                pageText.text = "4/8";
                 break;
-            case 5:
+            case 5: // 현재 페이지가 다섯번째라면 네번째로
+                fifthPage.SetActive(true);
+                sixthPage.SetActive(false);
+                curPage--;
+                pageText.text = "5/8";
+                break;
+            case 6: // 현재 페이지가 다섯번째라면 네번째로
+                sixthPage.SetActive(true);
+                seventhPage.SetActive(false);
+                curPage--;
+                pageText.text = "6/8";
+                break;
+            case 7: // 현재 페이지가 다섯번째라면 네번째로
+                seventhPage.SetActive(true);
+                eighthPage.SetActive(false);
+                curPage--;
+                pageText.text = "7/8";
                 break;
         }
     }
@@ -157,7 +200,7 @@ public class TutorialUI : MonoBehaviour
     void ResetPage()
     {
         curPage = 0;
-        pageText.text = "1/5";
+        pageText.text = "1/8";
         firstPage.gameObject.SetActive(true);
 
         for (int i = 1; i < pages.Count; i++)
