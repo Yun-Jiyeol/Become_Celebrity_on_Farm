@@ -44,7 +44,7 @@ public class TutorialUI : MonoBehaviour
 
     void OnEnable()
     {
-        if (GameManager.Instance.player == null) return;
+        if (GameManager.Instance == null || GameManager.Instance.player == null)  return;
         if (GameManager.Instance.player.TryGetComponent(out PlayerInput input)) input.enabled = false;
     }
 
