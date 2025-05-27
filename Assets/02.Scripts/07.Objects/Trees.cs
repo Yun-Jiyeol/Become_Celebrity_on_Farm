@@ -140,7 +140,7 @@ public class Trees : SeedGrow
             }
             PlannerQuestManager.Instance.ReportAction("Clean");
 
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["CutWood"]);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["FallingTree"]);
             Destroy(gameObject);
         }
         else
