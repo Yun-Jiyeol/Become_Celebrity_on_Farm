@@ -83,6 +83,7 @@ public class TimeManager : MonoBehaviour
         totalMinutes += minutes;
         currentMinute += minutes;
 
+
         if (currentMinute >= 60)
         {
             int extraHours = currentMinute / 60;
@@ -115,6 +116,16 @@ public class TimeManager : MonoBehaviour
         currentDay++;
         totalDaysPassed++; // 퀘스트용
         Debug.Log($"TimeManager - 날짜 변경: {currentDay}");
+
+        totalMinutes += 1440; //하루치 시간 누적 (퀘스트용)
+
+        //팝업퀘스트 ui 갱신
+        QuestSlotUI[] allQuestUIs = FindObjectsOfType<QuestSlotUI>();
+        foreach (var ui in allQuestUIs)
+        {
+            ui.UpdateQuestUIManually(); // UI 강제 갱신
+        }
+
 
         // 퀘스트 초기화
         PlannerQuestManager.Instance?.MarkQuestAcceptedToday();

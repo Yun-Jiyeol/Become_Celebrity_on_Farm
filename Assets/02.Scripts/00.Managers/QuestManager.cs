@@ -5,13 +5,13 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
 
-    [SerializeField] private List<QuestData> allQuestPool = new List<QuestData>();// 퀘스트 풀
+    //[SerializeField] private QuestData[] allQuestPool; // 퀘스트 풀
     [SerializeField] private QuestPopupUI popupUI;
     [SerializeField] private QuestPhone phone;
     [SerializeField] private QuestSlotUI questSlot; // 최대 3개 슬롯
     [SerializeField] private QuestRewardPopupUI questRewardPopupUI;
 
-
+    private List<QuestData> allQuestPool = new List<QuestData>();
     private List<QuestData> receivedQuests = new List<QuestData>(); //이미 수락한 퀘스트 목록
     private List<QuestProgress> activeQuests = new List<QuestProgress>();
 
@@ -22,6 +22,8 @@ public class QuestManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+        LoadAllQuestsBySeason();
+
     }
     private void Update()
     {
@@ -35,6 +37,35 @@ public class QuestManager : MonoBehaviour
             TimeManager.Instance.OnTimeChanged -= OnGameTick;
     }
 
+    //퀘스트데이터 자동로드
+    private void LoadAllQuestsBySeason()
+    {
+        allQuestPool.Clear();
+
+        var all = Resources.LoadAll<QuestData>("Additional/QuestDatas/All");
+
+        var currentSeason = TimeManager.Instance.season.CurrentSeason;
+
+        switch (currentSeason)
+        {
+            case Season.SeasonType.Spring:
+                allQuestPool.AddRange(Resources.LoadAll<QuestData>("Additional/QuestDatas/Spring"));
+                break;
+            case Season.SeasonType.Summer:
+                allQuestPool.AddRange(Resources.LoadAll<QuestData>("Additional/QuestDatas/Summer"));
+                break;
+            case Season.SeasonType.Fall:
+                allQuestPool.AddRange(Resources.LoadAll<QuestData>("Additional/QuestDatas/Fall"));
+                break;
+            case Season.SeasonType.Winter:
+                allQuestPool.AddRange(Resources.LoadAll<QuestData>("Additional/QuestDatas/Winter"));
+                break;
+        }
+
+        allQuestPool.AddRange(all);
+
+        Debug.Log($"[PopupQuestManager] 계절 '{currentSeason}' 퀘스트 {allQuestPool.Count}개 로드됨 (All 포함)");
+    }
 
     private void GenerateQuestBasedOnInGameTime()
     {
@@ -132,21 +163,8 @@ public class QuestManager : MonoBehaviour
 
     private QuestData GetRandomQuest()
     {
-        Season.SeasonType currentSeason = TimeManager.Instance.season.CurrentSeason;
-
-        List<QuestData> available = new List<QuestData>();
-
-        foreach (var quest in allQuestPool)
-        {
-            bool isCorrectSeason = quest.availableAllSeasons || quest.availableSeason == currentSeason;
-
-            if (!receivedQuests.Contains(quest) && isCorrectSeason)
-            {
-                available.Add(quest);
-            }
-        }
-
-        return available.Count > 0 ? available[UnityEngine.Random.Range(0, available.Count)] : null;
+        if (allQuestPool.Count == 0) return null;
+        return allQuestPool[Random.Range(0, allQuestPool.Count)];
     }
 
     public void ReportProgress(string targetName, int amount)
