@@ -10,6 +10,8 @@ public class PlannerQuestManager : MonoBehaviour
     [SerializeField] private GameObject questRewardPopup;
     [SerializeField] private DailyQuestRewardPopupUI questRewardPopupUI;
 
+    [SerializeField] private GameObject questAlertIcon; //느낌표
+
     private int lastReceivedDay = -1; // 마지막으로 퀘스트 받은 날짜
     private PlannerQuestData todayQuest;
 
@@ -47,6 +49,8 @@ public class PlannerQuestManager : MonoBehaviour
 
     public void MarkQuestAcceptedToday()
     {
+        Debug.Log("[일퀘] 하루 시작됨! 알림 표시 예정");
+
         lastReceivedDay = -1;  
         isQuestAccepted = false;    
         isQuestCompleted = false;
@@ -57,6 +61,16 @@ public class PlannerQuestManager : MonoBehaviour
         didClean = false;
 
         todayQuest = GetQuestForDay(TimeManager.Instance.totalDaysPassed + 1);
+
+        if (questAlertIcon != null)
+        {
+            questAlertIcon.SetActive(true);
+            Debug.Log("[일퀘] 느낌표 활성화 됨!");
+        }
+        else
+        {
+            Debug.LogWarning("questAlertIcon 연결 안 됨!");
+        }
 
         Debug.Log("[PlannerQuestManager] 하루 지나서 퀘스트 상태 초기화됨");
     }
@@ -109,6 +123,9 @@ public class PlannerQuestManager : MonoBehaviour
     {
         dailyQuestUI.SetActive(true);
         dailyQuestUI.GetComponent<PlannerQuestUIController>().SetQuest(data, isAccepted);
+
+        if (questAlertIcon != null)
+            questAlertIcon.SetActive(false); // 알림 숨기기
     }
 
     public PlannerQuestData GetTodayQuestData()
