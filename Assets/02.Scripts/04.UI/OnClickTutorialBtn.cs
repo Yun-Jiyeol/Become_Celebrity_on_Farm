@@ -20,6 +20,7 @@ public class OnClickTutorialBtn : MonoBehaviour, IPointerEnterHandler, IPointerE
     void OnClickBtn()
     {
         tutorialUI.gameObject.SetActive(!tutorialUI.gameObject.activeSelf);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ReadyAudio["GetItem"]);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

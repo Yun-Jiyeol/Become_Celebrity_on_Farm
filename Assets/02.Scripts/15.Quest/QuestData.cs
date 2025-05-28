@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewQuest", menuName = "Quest System/QuestData")]
+[CreateAssetMenu(fileName = "NewQuest", menuName = "Popup Quest/QuestData")]
 public class QuestData : ScriptableObject
 {
     public string questTitle;           // 퀘스트 제목
@@ -16,7 +16,9 @@ public class QuestData : ScriptableObject
     public QuestType questType;
     public string objectiveTarget;      // 예: "닭 5마리 키우기", "브로콜리 수확"
     public int objectiveAmount;         // 목표 수치
-    //public GameObject targetObject;     // 예: 감자 프리팹 등
+    //public GameObject targetObject;   // 프리팹 등
+    public Season.SeasonType availableSeason; //등장 가능한 계절
+    public bool availableAllSeasons = false; //모든 계절 가능
 
     public enum QuestType
     {

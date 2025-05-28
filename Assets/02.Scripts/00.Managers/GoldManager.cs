@@ -27,7 +27,7 @@ public class GoldManager : MonoBehaviour
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerStats>();
+        player = GameManager.Instance.player.GetComponent<Player>().stat;
         if(player == null)
         {
             Debug.LogError("[GoldManager] PlayerStats를 찾지 못함.");

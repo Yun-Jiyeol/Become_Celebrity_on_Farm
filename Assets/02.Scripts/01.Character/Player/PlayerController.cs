@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
@@ -143,6 +144,7 @@ public class PlayerController : BaseController
     void OnClick(InputValue inputValue)
     {
         ChangeSlot(nownum);
+        if(EventSystem.current.IsPointerOverGameObject()) return;
         if (UIManager.Instance.InventoryIsOpen()) return;
         if (isAction) return;
         if (isNPCInteract) return;
@@ -507,7 +509,7 @@ public class PlayerController : BaseController
         {
             gameObject.GetComponent<Player>().playerAnimation.animator.SetInteger(gameObject.GetComponent<Player>().playerAnimation.FishingStateParameterHash, 4);
 
-            //³¬½Ã Äù½ºÆ® ÁøÇàµµ º¸°í
+            //³¬½Ã ÆË¾÷ Äù½ºÆ® ÁøÇàµµ º¸°í
             var fishItem = ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum];
             string fishName = fishItem.Item_name;
 
@@ -516,10 +518,13 @@ public class PlayerController : BaseController
                 if (quest == fishName)
                 {
                     QuestManager.Instance.ReportProgress(fishName, 1);
-                    Debug.Log($"[Fishing] Äù½ºÆ® º¸°íµÊ: {fishName}");
+                    Debug.Log($"[Fishing] ÆË¾÷ Äù½ºÆ® º¸°íµÊ: {fishName}");
                     break;
                 }
             }
+
+            //ÀÏÀÏ Äù½ºÆ® 5ÀÏÂ÷ ³¬½Ã º¸°í
+            PlannerQuestManager.Instance?.ReportFishing();
 
             GameManager.Instance.player.GetComponent<Player>().inventory.GetItem(ItemManager.Instance.itemDataReader.itemsDatas[LastItemNum], 1);
         }

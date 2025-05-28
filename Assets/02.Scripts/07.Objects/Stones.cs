@@ -44,14 +44,23 @@ public class Stones : MonoBehaviour, IHaveHP, IInteract
                 string itemName = itemData.Item_name;
                 Debug.Log($"[Stone] 드롭된 아이템 이름: {itemName}");
 
+                // 일일 퀘스트(4일차)용 구리 채집 체크
+                if (itemName == "구리 원석")
+                {
+                    PlannerQuestManager.Instance?.ReportCopperCollected(dropitems[i].SpawnItemAmount);
+                    Debug.Log("[Stone] PlannerQuestManager에 구리 채집 보고");
+                }
+
+                //  팝업 퀘스트 체크
                 foreach (var questTarget in QuestManager.Instance.GetActiveQuestTargets())
                 {
                     Debug.Log($"[Stone] 퀘스트 타겟: {questTarget}");
 
                     if (questTarget == itemName && !reported)
                     {
-                        QuestManager.Instance.ReportProgress(itemName, 1);
-                        Debug.Log($"[Stone] 퀘스트 보고됨: {itemName}");
+                        QuestManager.Instance.ReportProgress(itemName, dropitems[i].SpawnItemAmount);
+                        Debug.Log($"[Stone] 퀘스트 보고됨: {itemName}, 수량: {dropitems[i].SpawnItemAmount}");
+
                         reported = true;
                         break; // 하나만 보고하고 끝냄
                     }
