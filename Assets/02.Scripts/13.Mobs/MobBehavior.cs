@@ -24,6 +24,9 @@ public class MobBehavior : MonoBehaviour
 
     private bool hasSeenPlayer = false;
 
+    private float lastAttackTime = 0f;
+    private float attackCooldown = 2f; // 2초에 한 번 공격
+
     void OnEnable()
     {
         TryAssignIndoorArea();
@@ -108,6 +111,8 @@ public class MobBehavior : MonoBehaviour
 
     void AttackPlayer()
     {
+        if (Time.time - lastAttackTime < attackCooldown) return;
+
         if (Vector2.Distance(transform.position, player.position) <= 1f)
         {
             Debug.Log($"플레이어를 공격: {attackPower}");
@@ -117,6 +122,14 @@ public class MobBehavior : MonoBehaviour
             {
                 blinkEffect.TriggerBlink();
             }
+
+            PlayerStats stats = player.GetComponent<PlayerStats>();
+            if (stats != null)
+            {
+                stats.ChangeHp(-attackPower);
+            }
+
+            lastAttackTime = Time.time;
         }
     }
 
