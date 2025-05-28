@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class MobBehavior : MonoBehaviour
+public class MobBehavior : MonoBehaviour, IInteract
 {
     [Header("스탯 설정")]
     public float maxHealth = 20f;
@@ -219,22 +219,9 @@ public class MobBehavior : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public void Interact()
     {
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player == null) return;
-
-        float distance = Vector2.Distance(transform.position, player.transform.position);
-
-        if (distance <= 2.5f) // 원하는 거리만큼 조정 가능
-        {
-            int damage = Random.Range(3, 11);
-            TakeDamage(damage);
-            Debug.Log($"{gameObject.name}이 {damage} 데미지를 입음");
-        }
-        else
-        {
-            Debug.Log("몬스터가 너무 멀어서 공격할 수 없습니다");
-        }
+        int damage = (int)(GameManager.Instance.player.GetComponent<Player>().stat.Attack + GameManager.Instance.player.GetComponent<Player>().playerController.ItemDamage);
+        TakeDamage(damage);
     }
 }
