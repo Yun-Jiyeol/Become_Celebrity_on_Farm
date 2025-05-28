@@ -15,8 +15,8 @@ public class QuestProgress
 
         startTime = TimeManager.Instance.totalMinutes;
 
-        // 1일 = 144분 → totalMinutes는 10분 단위로 증가
-        durationMinutes = Mathf.RoundToInt(questData.duration * 144);
+        // duration은 인게임 분단위로 취급
+        durationMinutes = Mathf.RoundToInt(questData.duration);
         Debug.Log($"[QuestProgress] 생성됨 -> 시작 시각: {startTime} / 유효시간: {durationMinutes}분");
     }
 
@@ -35,9 +35,13 @@ public class QuestProgress
     {
         int minutes = RemainingMinutes;
 
-        int days = minutes / 144;
-        int hours = (minutes % 144) / 6; 
-        return $"{days}일 {hours}시간";
+        minutes = (minutes / 10) * 10; // 10분 단위 내림
+
+        int days = minutes / 1440; // 인게임 하루는 1440분
+        int hours = (minutes % 1440) / 60;
+        int mins = (minutes % 1440) % 60;
+
+        return $"{days}일 {hours}시간 {mins}분";
     }
 
     public bool IsExpired => RemainingMinutes <= 0;

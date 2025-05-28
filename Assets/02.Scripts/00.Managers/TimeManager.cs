@@ -18,6 +18,7 @@ public class TimeManager : MonoBehaviour
     public int currentDay;
     public int currentMonth; // 0~3 : 봄~겨울
     public int currentYear = 1;
+    public int totalDaysPassed; // 전체 날짜 카운트 (일일 퀘스트용)
 
     [Header("수면 여부")]
     public bool isSleeping = false;
@@ -82,6 +83,7 @@ public class TimeManager : MonoBehaviour
         totalMinutes += minutes;
         currentMinute += minutes;
 
+
         if (currentMinute >= 60)
         {
             int extraHours = currentMinute / 60;
@@ -112,7 +114,18 @@ public class TimeManager : MonoBehaviour
     {
         // 날짜가 바뀔 때
         currentDay++;
+        totalDaysPassed++; // 퀘스트용
         Debug.Log($"TimeManager - 날짜 변경: {currentDay}");
+
+        totalMinutes += 1440; //하루치 시간 누적 (퀘스트용)
+
+        //팝업퀘스트 ui 갱신
+        QuestSlotUI[] allQuestUIs = FindObjectsOfType<QuestSlotUI>();
+        foreach (var ui in allQuestUIs)
+        {
+            ui.UpdateQuestUIManually(); // UI 강제 갱신
+        }
+
 
         // 퀘스트 초기화
         PlannerQuestManager.Instance?.MarkQuestAcceptedToday();

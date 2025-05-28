@@ -100,8 +100,11 @@ public class Crops : SeedGrow
             var harvestedItem = ItemManager.Instance.itemDataReader.itemsDatas[SpawnItemNum];
             string harvestedName = harvestedItem.Item_name;
 
-            // 퀘스트 시스템에 보고
+            // 팝업 퀘스트 시스템에 보고
             QuestManager.Instance.ReportProgress(harvestedName, 1);
+
+            // 일일 퀘스트 6일차 수확 보고
+            PlannerQuestManager.Instance?.ReportHarvest();
 
             ItemManager.Instance.spawnItem.DropItem(harvestedItem, SpawnItemAmount, transform.position);
         }

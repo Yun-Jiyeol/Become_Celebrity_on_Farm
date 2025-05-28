@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.Instance.player = gameObject;
+
         playerController = GetComponent<PlayerController>();
         stat = GetComponent<PlayerStats>();
         checkFieldOnMouse = GetComponent<CheckFieldOnMouse>();
@@ -32,10 +34,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.player = gameObject;
         playerController.speed = stat.Speed;
 
-        Debug.Log("123");
         stat.Name = SceneChangerManager.Instance.GetComponent<PlayerStats>().Name;
         stat.FarmName = SceneChangerManager.Instance.GetComponent<PlayerStats>().FarmName;
         stat.CharacterType = SceneChangerManager.Instance.GetComponent<PlayerStats>().CharacterType;
